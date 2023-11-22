@@ -111,7 +111,7 @@ spec:
                   key: tunnel.noProxy
                   name: tunnel-operator-tunnel-config
                   optional: true
-          image: ghcr.io/khulnasoft/tunnel:0.35.0
+          image: ghcr.io/aquasecurity/trivy:0.35.0
           imagePullPolicy: IfNotPresent
           name: app
           terminationMessagePath: /dev/termination-log
@@ -159,7 +159,7 @@ spec:
                   key: tunnel.githubToken
                   name: tunnel-operator-tunnel-config
                   optional: true
-          image: "ghcr.io/khulnasoft/tunnel:0.35.0"
+          image: "ghcr.io/aquasecurity/trivy:0.35.0"
           imagePullPolicy: IfNotPresent
           name: <INIT-CONTAINER-NAME>
           terminationMessagePath: /dev/termination-log

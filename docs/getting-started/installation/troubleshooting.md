@@ -4,7 +4,7 @@ The Tunnel Operator installs several Kubernetes resources into your Kubernetes c
 
 Here are the common steps to check whether the operator is running correctly and to troubleshoot common issues.
 
-So in addition to this section, you might want to check [issues](https://github.com/khulnasoft/tunnel/issues), [discussion forum](https://github.com/khulnasoft/tunnel/discussions), or [Slack](https://slack.khulnasoft.com) to see if someone from the community had similar problems before.
+So in addition to this section, you might want to check [issues](https://github.com/aquasecurity/trivy/issues), [discussion forum](https://github.com/aquasecurity/trivy/discussions), or [Slack](https://slack.khulnasoft.com) to see if someone from the community had similar problems before.
 
 Also note that Tunnel Operator is based on existing Khulnasoft OSS project - [Starboard], and shares some of the design, principles and code with it. Existing content that relates to Starboard Operator might also be relevant for Tunnel Operator, and Starboard's [issues](https://github.com/khulnasoft/starboard/issues), [discussion forum](https://github.com/khulnasoft/starboard/discussions), or [Slack](https://slack.khulnasoft.com) might also be interesting to check.  
 In some cases you might want to refer to [Starboard's Design documents](https://khulnasoft.github.io/starboard/latest/design/)

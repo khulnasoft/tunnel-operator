@@ -98,7 +98,7 @@ Once the Tunnel Operator is installed inside the Kubernetes cluster, it will per
 
 
 [defsec]: https://github.com/aquasecurity/defsec/tree/master/rules/kubernetes/policies/cisbenchmarks
-[node-collector]: https://github.com/khulnasoft/k8s-node-collector
+[node-collector]: https://github.com/aquasecurity/k8s-node-collector
 
 [CPU not limited]: https://avd.khulnasoft.com/misconfig/kubernetes/ksv011/
 [CPU requests not specified]: https://avd.khulnasoft.com/misconfig/kubernetes/ksv015/

@@ -216,7 +216,7 @@ func TestGetServerFromImageRef(t *testing.T) {
 			expectedServer: "index.docker.io",
 		},
 		{
-			imageRef:       "khulnasoft/tunnel:0.10.0",
+			imageRef:       "aquasecurity/trivy:0.10.0",
 			expectedServer: "index.docker.io",
 		},
 		{

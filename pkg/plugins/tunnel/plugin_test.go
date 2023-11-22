@@ -68,7 +68,7 @@ func TestConfig_GetImageRef(t *testing.T) {
 			name: "Should return error",
 			configData: tunnel.Config{PluginConfig: tunneloperator.PluginConfig{
 				Data: map[string]string{
-					"tunnel.repository": "gcr.io/khulnasoft/tunnel",
+					"tunnel.repository": "gcr.io/aquasecurity/trivy",
 				},
 			}},
 			expectedError: "property tunnel.tag not set",
@@ -77,11 +77,11 @@ func TestConfig_GetImageRef(t *testing.T) {
 			name: "Should return image reference from config data",
 			configData: tunnel.Config{PluginConfig: tunneloperator.PluginConfig{
 				Data: map[string]string{
-					"tunnel.repository": "gcr.io/khulnasoft/tunnel",
+					"tunnel.repository": "gcr.io/aquasecurity/trivy",
 					"tunnel.tag":        "0.8.0",
 				},
 			}},
-			expectedImageRef: "gcr.io/khulnasoft/tunnel:0.8.0",
+			expectedImageRef: "gcr.io/aquasecurity/trivy:0.8.0",
 		},
 	}
 
@@ -783,7 +783,7 @@ func TestPlugin_Init(t *testing.T) {
 					ResourceVersion: "1",
 				},
 				Data: map[string]string{
-					"tunnel.repository": "gcr.io/khulnasoft/tunnel",
+					"tunnel.repository": "gcr.io/aquasecurity/trivy",
 					"tunnel.tag":        "0.35.0",
 					"tunnel.severity":   tunnel.DefaultSeverity,
 					"tunnel.mode":       string(tunnel.Standalone),
@@ -818,7 +818,7 @@ func TestPlugin_Init(t *testing.T) {
 				ResourceVersion: "1",
 			},
 			Data: map[string]string{
-				"tunnel.repository": "gcr.io/khulnasoft/tunnel",
+				"tunnel.repository": "gcr.io/aquasecurity/trivy",
 				"tunnel.tag":        "0.35.0",
 				"tunnel.severity":   tunnel.DefaultSeverity,
 				"tunnel.mode":       string(tunnel.Standalone),
@@ -876,7 +876,7 @@ func TestPlugin_GetScanJobSpec(t *testing.T) {
 				tunneloperator.KeyScanJobcompressLogs:          "true",
 			},
 			config: map[string]string{
-				"tunnel.repository":                "docker.io/khulnasoft/tunnel",
+				"tunnel.repository":                "docker.io/aquasecurity/trivy",
 				"tunnel.tag":                       "0.35.0",
 				"tunnel.mode":                      string(tunnel.Standalone),
 				"tunnel.dbRepository":              tunnel.DefaultDBRepository,
@@ -920,7 +920,7 @@ func TestPlugin_GetScanJobSpec(t *testing.T) {
 				InitContainers: []corev1.Container{
 					{
 						Name:                     "00000000-0000-0000-0000-000000000001",
-						Image:                    "docker.io/khulnasoft/tunnel:0.35.0",
+						Image:                    "docker.io/aquasecurity/trivy:0.35.0",
 						ImagePullPolicy:          corev1.PullIfNotPresent,
 						TerminationMessagePolicy: corev1.TerminationMessageFallbackToLogsOnError,
 						Env: []corev1.EnvVar{
@@ -1009,7 +1009,7 @@ func TestPlugin_GetScanJobSpec(t *testing.T) {
 				Containers: []corev1.Container{
 					{
 						Name:                     "nginx",
-						Image:                    "docker.io/khulnasoft/tunnel:0.35.0",
+						Image:                    "docker.io/aquasecurity/trivy:0.35.0",
 						ImagePullPolicy:          corev1.PullIfNotPresent,
 						TerminationMessagePolicy: corev1.TerminationMessageFallbackToLogsOnError,
 						Env: []corev1.EnvVar{
@@ -1164,7 +1164,7 @@ func TestPlugin_GetScanJobSpec(t *testing.T) {
 				tunneloperator.KeyScanJobcompressLogs:          "true",
 			},
 			config: map[string]string{
-				"tunnel.repository":                   "docker.io/khulnasoft/tunnel",
+				"tunnel.repository":                   "docker.io/aquasecurity/trivy",
 				"tunnel.tag":                          "0.35.0",
 				"tunnel.mode":                         string(tunnel.Standalone),
 				"tunnel.insecureRegistry.pocRegistry": "poc.myregistry.harbor.com.pl",
@@ -1205,7 +1205,7 @@ func TestPlugin_GetScanJobSpec(t *testing.T) {
 				InitContainers: []corev1.Container{
 					{
 						Name:                     "00000000-0000-0000-0000-000000000001",
-						Image:                    "docker.io/khulnasoft/tunnel:0.35.0",
+						Image:                    "docker.io/aquasecurity/trivy:0.35.0",
 						ImagePullPolicy:          corev1.PullIfNotPresent,
 						TerminationMessagePolicy: corev1.TerminationMessageFallbackToLogsOnError,
 						Env: []corev1.EnvVar{
@@ -1293,7 +1293,7 @@ func TestPlugin_GetScanJobSpec(t *testing.T) {
 				Containers: []corev1.Container{
 					{
 						Name:                     "nginx",
-						Image:                    "docker.io/khulnasoft/tunnel:0.35.0",
+						Image:                    "docker.io/aquasecurity/trivy:0.35.0",
 						ImagePullPolicy:          corev1.PullIfNotPresent,
 						TerminationMessagePolicy: corev1.TerminationMessageFallbackToLogsOnError,
 						Env: []corev1.EnvVar{
@@ -1452,7 +1452,7 @@ func TestPlugin_GetScanJobSpec(t *testing.T) {
 				tunneloperator.KeyScanJobcompressLogs:          "true",
 			},
 			config: map[string]string{
-				"tunnel.repository":                 "docker.io/khulnasoft/tunnel",
+				"tunnel.repository":                 "docker.io/aquasecurity/trivy",
 				"tunnel.tag":                        "0.35.0",
 				"tunnel.mode":                       string(tunnel.Standalone),
 				"tunnel.nonSslRegistry.pocRegistry": "poc.myregistry.harbor.com.pl",
@@ -1493,7 +1493,7 @@ func TestPlugin_GetScanJobSpec(t *testing.T) {
 				InitContainers: []corev1.Container{
 					{
 						Name:                     "00000000-0000-0000-0000-000000000001",
-						Image:                    "docker.io/khulnasoft/tunnel:0.35.0",
+						Image:                    "docker.io/aquasecurity/trivy:0.35.0",
 						ImagePullPolicy:          corev1.PullIfNotPresent,
 						TerminationMessagePolicy: corev1.TerminationMessageFallbackToLogsOnError,
 						Env: []corev1.EnvVar{
@@ -1581,7 +1581,7 @@ func TestPlugin_GetScanJobSpec(t *testing.T) {
 				Containers: []corev1.Container{
 					{
 						Name:                     "nginx",
-						Image:                    "docker.io/khulnasoft/tunnel:0.35.0",
+						Image:                    "docker.io/aquasecurity/trivy:0.35.0",
 						ImagePullPolicy:          corev1.PullIfNotPresent,
 						TerminationMessagePolicy: corev1.TerminationMessageFallbackToLogsOnError,
 						Env: []corev1.EnvVar{
@@ -1740,7 +1740,7 @@ func TestPlugin_GetScanJobSpec(t *testing.T) {
 				tunneloperator.KeyScanJobcompressLogs:          "true",
 			},
 			config: map[string]string{
-				"tunnel.repository": "docker.io/khulnasoft/tunnel",
+				"tunnel.repository": "docker.io/aquasecurity/trivy",
 				"tunnel.tag":        "0.35.0",
 				"tunnel.mode":       string(tunnel.Standalone),
 				"tunnel.ignoreFile": `# Accept the risk
@@ -1801,7 +1801,7 @@ CVE-2019-1543`,
 				InitContainers: []corev1.Container{
 					{
 						Name:                     "00000000-0000-0000-0000-000000000001",
-						Image:                    "docker.io/khulnasoft/tunnel:0.35.0",
+						Image:                    "docker.io/aquasecurity/trivy:0.35.0",
 						ImagePullPolicy:          corev1.PullIfNotPresent,
 						TerminationMessagePolicy: corev1.TerminationMessageFallbackToLogsOnError,
 						Env: []corev1.EnvVar{
@@ -1889,7 +1889,7 @@ CVE-2019-1543`,
 				Containers: []corev1.Container{
 					{
 						Name:                     "nginx",
-						Image:                    "docker.io/khulnasoft/tunnel:0.35.0",
+						Image:                    "docker.io/aquasecurity/trivy:0.35.0",
 						ImagePullPolicy:          corev1.PullIfNotPresent,
 						TerminationMessagePolicy: corev1.TerminationMessageFallbackToLogsOnError,
 						Env: []corev1.EnvVar{
@@ -2053,7 +2053,7 @@ CVE-2019-1543`,
 				tunneloperator.KeyScanJobcompressLogs:          "true",
 			},
 			config: map[string]string{
-				"tunnel.repository": "docker.io/khulnasoft/tunnel",
+				"tunnel.repository": "docker.io/aquasecurity/trivy",
 				"tunnel.tag":        "0.35.0",
 				"tunnel.mode":       string(tunnel.Standalone),
 				"tunnel.ignorePolicy": `package tunnel
@@ -2114,7 +2114,7 @@ default ignore = false`,
 				InitContainers: []corev1.Container{
 					{
 						Name:                     "00000000-0000-0000-0000-000000000001",
-						Image:                    "docker.io/khulnasoft/tunnel:0.35.0",
+						Image:                    "docker.io/aquasecurity/trivy:0.35.0",
 						ImagePullPolicy:          corev1.PullIfNotPresent,
 						TerminationMessagePolicy: corev1.TerminationMessageFallbackToLogsOnError,
 						Env: []corev1.EnvVar{
@@ -2202,7 +2202,7 @@ default ignore = false`,
 				Containers: []corev1.Container{
 					{
 						Name:                     "nginx",
-						Image:                    "docker.io/khulnasoft/tunnel:0.35.0",
+						Image:                    "docker.io/aquasecurity/trivy:0.35.0",
 						ImagePullPolicy:          corev1.PullIfNotPresent,
 						TerminationMessagePolicy: corev1.TerminationMessageFallbackToLogsOnError,
 						Env: []corev1.EnvVar{
@@ -2366,7 +2366,7 @@ default ignore = false`,
 				tunneloperator.KeyScanJobcompressLogs:          "true",
 			},
 			config: map[string]string{
-				"tunnel.repository": "docker.io/khulnasoft/tunnel",
+				"tunnel.repository": "docker.io/aquasecurity/trivy",
 				"tunnel.tag":        "0.35.0",
 				"tunnel.mode":       string(tunnel.Standalone),
 
@@ -2409,7 +2409,7 @@ default ignore = false`,
 				InitContainers: []corev1.Container{
 					{
 						Name:                     "00000000-0000-0000-0000-000000000001",
-						Image:                    "docker.io/khulnasoft/tunnel:0.35.0",
+						Image:                    "docker.io/aquasecurity/trivy:0.35.0",
 						ImagePullPolicy:          corev1.PullIfNotPresent,
 						TerminationMessagePolicy: corev1.TerminationMessageFallbackToLogsOnError,
 						Env: []corev1.EnvVar{
@@ -2498,7 +2498,7 @@ default ignore = false`,
 				Containers: []corev1.Container{
 					{
 						Name:                     "nginx",
-						Image:                    "docker.io/khulnasoft/tunnel:0.35.0",
+						Image:                    "docker.io/aquasecurity/trivy:0.35.0",
 						ImagePullPolicy:          corev1.PullIfNotPresent,
 						TerminationMessagePolicy: corev1.TerminationMessageFallbackToLogsOnError,
 						Env: []corev1.EnvVar{
@@ -2653,7 +2653,7 @@ default ignore = false`,
 				tunneloperator.KeyScanJobcompressLogs:          "true",
 			},
 			config: map[string]string{
-				"tunnel.repository":                "docker.io/khulnasoft/tunnel",
+				"tunnel.repository":                "docker.io/aquasecurity/trivy",
 				"tunnel.tag":                       "0.35.0",
 				"tunnel.mode":                      string(tunnel.Standalone),
 				"tunnel.dbRepository":              "custom-registry.com/mirror/tunnel-db",
@@ -2697,7 +2697,7 @@ default ignore = false`,
 				InitContainers: []corev1.Container{
 					{
 						Name:                     "00000000-0000-0000-0000-000000000001",
-						Image:                    "docker.io/khulnasoft/tunnel:0.35.0",
+						Image:                    "docker.io/aquasecurity/trivy:0.35.0",
 						ImagePullPolicy:          corev1.PullIfNotPresent,
 						TerminationMessagePolicy: corev1.TerminationMessageFallbackToLogsOnError,
 						Env: []corev1.EnvVar{
@@ -2786,7 +2786,7 @@ default ignore = false`,
 				Containers: []corev1.Container{
 					{
 						Name:                     "nginx",
-						Image:                    "docker.io/khulnasoft/tunnel:0.35.0",
+						Image:                    "docker.io/aquasecurity/trivy:0.35.0",
 						ImagePullPolicy:          corev1.PullIfNotPresent,
 						TerminationMessagePolicy: corev1.TerminationMessageFallbackToLogsOnError,
 						Env: []corev1.EnvVar{
@@ -2941,7 +2941,7 @@ default ignore = false`,
 				tunneloperator.KeyScanJobcompressLogs:          "true",
 			},
 			config: map[string]string{
-				"tunnel.repository":                "docker.io/khulnasoft/tunnel",
+				"tunnel.repository":                "docker.io/aquasecurity/trivy",
 				"tunnel.tag":                       "0.35.0",
 				"tunnel.mode":                      string(tunnel.ClientServer),
 				"tunnel.serverURL":                 "http://tunnel.tunnel:4954",
@@ -2982,7 +2982,7 @@ default ignore = false`,
 				Containers: []corev1.Container{
 					{
 						Name:                     "nginx",
-						Image:                    "docker.io/khulnasoft/tunnel:0.35.0",
+						Image:                    "docker.io/aquasecurity/trivy:0.35.0",
 						ImagePullPolicy:          corev1.PullIfNotPresent,
 						TerminationMessagePolicy: corev1.TerminationMessageFallbackToLogsOnError,
 						Env: []corev1.EnvVar{
@@ -3170,7 +3170,7 @@ default ignore = false`,
 				tunneloperator.KeyScanJobcompressLogs:          "true",
 			},
 			config: map[string]string{
-				"tunnel.repository":                "docker.io/khulnasoft/tunnel",
+				"tunnel.repository":                "docker.io/aquasecurity/trivy",
 				"tunnel.tag":                       "0.35.0",
 				"tunnel.mode":                      string(tunnel.ClientServer),
 				"tunnel.serverURL":                 "http://tunnel.tunnel:4954",
@@ -3211,7 +3211,7 @@ default ignore = false`,
 				Containers: []corev1.Container{
 					{
 						Name:                     "nginx",
-						Image:                    "docker.io/khulnasoft/tunnel:0.35.0",
+						Image:                    "docker.io/aquasecurity/trivy:0.35.0",
 						ImagePullPolicy:          corev1.PullIfNotPresent,
 						TerminationMessagePolicy: corev1.TerminationMessageFallbackToLogsOnError,
 						Env: []corev1.EnvVar{
@@ -3399,7 +3399,7 @@ default ignore = false`,
 				tunneloperator.KeyScanJobcompressLogs:          "true",
 			},
 			config: map[string]string{
-				"tunnel.repository":                "docker.io/khulnasoft/tunnel",
+				"tunnel.repository":                "docker.io/aquasecurity/trivy",
 				"tunnel.tag":                       "0.35.0",
 				"tunnel.mode":                      string(tunnel.ClientServer),
 				"tunnel.serverURL":                 "https://tunnel.tunnel:4954",
@@ -3441,7 +3441,7 @@ default ignore = false`,
 				Containers: []corev1.Container{
 					{
 						Name:                     "nginx",
-						Image:                    "docker.io/khulnasoft/tunnel:0.35.0",
+						Image:                    "docker.io/aquasecurity/trivy:0.35.0",
 						ImagePullPolicy:          corev1.PullIfNotPresent,
 						TerminationMessagePolicy: corev1.TerminationMessageFallbackToLogsOnError,
 						Env: []corev1.EnvVar{
@@ -3633,7 +3633,7 @@ default ignore = false`,
 				tunneloperator.KeyScanJobcompressLogs:          "true",
 			},
 			config: map[string]string{
-				"tunnel.repository":                 "docker.io/khulnasoft/tunnel",
+				"tunnel.repository":                 "docker.io/aquasecurity/trivy",
 				"tunnel.tag":                        "0.35.0",
 				"tunnel.mode":                       string(tunnel.ClientServer),
 				"tunnel.serverURL":                  "http://tunnel.tunnel:4954",
@@ -3675,7 +3675,7 @@ default ignore = false`,
 				Containers: []corev1.Container{
 					{
 						Name:                     "nginx",
-						Image:                    "docker.io/khulnasoft/tunnel:0.35.0",
+						Image:                    "docker.io/aquasecurity/trivy:0.35.0",
 						ImagePullPolicy:          corev1.PullIfNotPresent,
 						TerminationMessagePolicy: corev1.TerminationMessageFallbackToLogsOnError,
 						Env: []corev1.EnvVar{
@@ -3867,7 +3867,7 @@ default ignore = false`,
 				tunneloperator.KeyScanJobcompressLogs:          "true",
 			},
 			config: map[string]string{
-				"tunnel.repository": "docker.io/khulnasoft/tunnel",
+				"tunnel.repository": "docker.io/aquasecurity/trivy",
 				"tunnel.tag":        "0.35.0",
 				"tunnel.mode":       string(tunnel.ClientServer),
 				"tunnel.serverURL":  "http://tunnel.tunnel:4954",
@@ -3929,7 +3929,7 @@ CVE-2019-1543`,
 				Containers: []corev1.Container{
 					{
 						Name:                     "nginx",
-						Image:                    "docker.io/khulnasoft/tunnel:0.35.0",
+						Image:                    "docker.io/aquasecurity/trivy:0.35.0",
 						ImagePullPolicy:          corev1.PullIfNotPresent,
 						TerminationMessagePolicy: corev1.TerminationMessageFallbackToLogsOnError,
 						Env: []corev1.EnvVar{
@@ -4127,7 +4127,7 @@ CVE-2019-1543`,
 				tunneloperator.KeyScanJobcompressLogs:          "true",
 			},
 			config: map[string]string{
-				"tunnel.repository": "docker.io/khulnasoft/tunnel",
+				"tunnel.repository": "docker.io/aquasecurity/trivy",
 				"tunnel.tag":        "0.35.0",
 				"tunnel.mode":       string(tunnel.ClientServer),
 				"tunnel.serverURL":  "http://tunnel.tunnel:4954",
@@ -4189,7 +4189,7 @@ default ignore = false`,
 				Containers: []corev1.Container{
 					{
 						Name:                     "nginx",
-						Image:                    "docker.io/khulnasoft/tunnel:0.35.0",
+						Image:                    "docker.io/aquasecurity/trivy:0.35.0",
 						ImagePullPolicy:          corev1.PullIfNotPresent,
 						TerminationMessagePolicy: corev1.TerminationMessageFallbackToLogsOnError,
 						Env: []corev1.EnvVar{
@@ -4387,7 +4387,7 @@ default ignore = false`,
 				tunneloperator.KeyScanJobcompressLogs:          "true",
 			},
 			config: map[string]string{
-				"tunnel.repository":                "docker.io/khulnasoft/tunnel",
+				"tunnel.repository":                "docker.io/aquasecurity/trivy",
 				"tunnel.tag":                       "0.35.0",
 				"tunnel.mode":                      string(tunnel.ClientServer),
 				"tunnel.serverURL":                 "http://tunnel.tunnel:4954",
@@ -4428,7 +4428,7 @@ default ignore = false`,
 				Containers: []corev1.Container{
 					{
 						Name:                     "nginx",
-						Image:                    "docker.io/khulnasoft/tunnel:0.35.0",
+						Image:                    "docker.io/aquasecurity/trivy:0.35.0",
 						ImagePullPolicy:          corev1.PullIfNotPresent,
 						TerminationMessagePolicy: corev1.TerminationMessageFallbackToLogsOnError,
 						Env: []corev1.EnvVar{
@@ -4616,7 +4616,7 @@ default ignore = false`,
 				tunneloperator.KeyScanJobcompressLogs:          "true",
 			},
 			config: map[string]string{
-				"tunnel.repository":                "docker.io/khulnasoft/tunnel",
+				"tunnel.repository":                "docker.io/aquasecurity/trivy",
 				"tunnel.tag":                       "0.35.0",
 				"tunnel.mode":                      string(tunnel.Standalone),
 				"tunnel.command":                   string(tunnel.Filesystem),
@@ -4673,7 +4673,7 @@ default ignore = false`,
 				InitContainers: []corev1.Container{
 					{
 						Name:                     "00000000-0000-0000-0000-000000000001",
-						Image:                    "docker.io/khulnasoft/tunnel:0.35.0",
+						Image:                    "docker.io/aquasecurity/trivy:0.35.0",
 						ImagePullPolicy:          corev1.PullIfNotPresent,
 						TerminationMessagePolicy: corev1.TerminationMessageFallbackToLogsOnError,
 						Command: []string{
@@ -4715,7 +4715,7 @@ default ignore = false`,
 					},
 					{
 						Name:                     "00000000-0000-0000-0000-000000000002",
-						Image:                    "docker.io/khulnasoft/tunnel:0.35.0",
+						Image:                    "docker.io/aquasecurity/trivy:0.35.0",
 						ImagePullPolicy:          corev1.PullIfNotPresent,
 						TerminationMessagePolicy: corev1.TerminationMessageFallbackToLogsOnError,
 						Env: []corev1.EnvVar{
@@ -4964,7 +4964,7 @@ default ignore = false`,
 				tunneloperator.KeyScanJobcompressLogs:          "true",
 			},
 			config: map[string]string{
-				"tunnel.repository":                "docker.io/khulnasoft/tunnel",
+				"tunnel.repository":                "docker.io/aquasecurity/trivy",
 				"tunnel.tag":                       "0.35.0",
 				"tunnel.mode":                      string(tunnel.ClientServer),
 				"tunnel.serverURL":                 "http://tunnel.tunnel:4954",
@@ -5022,7 +5022,7 @@ default ignore = false`,
 				InitContainers: []corev1.Container{
 					{
 						Name:                     "00000000-0000-0000-0000-000000000001",
-						Image:                    "docker.io/khulnasoft/tunnel:0.35.0",
+						Image:                    "docker.io/aquasecurity/trivy:0.35.0",
 						ImagePullPolicy:          corev1.PullIfNotPresent,
 						TerminationMessagePolicy: corev1.TerminationMessageFallbackToLogsOnError,
 						Command: []string{
@@ -5254,7 +5254,7 @@ default ignore = false`,
 				tunneloperator.KeyScanJobcompressLogs:          "true",
 			},
 			config: map[string]string{
-				"tunnel.repository":                "docker.io/khulnasoft/tunnel",
+				"tunnel.repository":                "docker.io/aquasecurity/trivy",
 				"tunnel.tag":                       "0.35.0",
 				"tunnel.mode":                      string(tunnel.Standalone),
 				"tunnel.command":                   string(tunnel.Rootfs),
@@ -5311,7 +5311,7 @@ default ignore = false`,
 				InitContainers: []corev1.Container{
 					{
 						Name:                     "00000000-0000-0000-0000-000000000001",
-						Image:                    "docker.io/khulnasoft/tunnel:0.35.0",
+						Image:                    "docker.io/aquasecurity/trivy:0.35.0",
 						ImagePullPolicy:          corev1.PullIfNotPresent,
 						TerminationMessagePolicy: corev1.TerminationMessageFallbackToLogsOnError,
 						Command: []string{
@@ -5353,7 +5353,7 @@ default ignore = false`,
 					},
 					{
 						Name:                     "00000000-0000-0000-0000-000000000002",
-						Image:                    "docker.io/khulnasoft/tunnel:0.35.0",
+						Image:                    "docker.io/aquasecurity/trivy:0.35.0",
 						ImagePullPolicy:          corev1.PullIfNotPresent,
 						TerminationMessagePolicy: corev1.TerminationMessageFallbackToLogsOnError,
 						Env: []corev1.EnvVar{
@@ -5602,7 +5602,7 @@ default ignore = false`,
 				tunneloperator.KeyScanJobcompressLogs:          "true",
 			},
 			config: map[string]string{
-				"tunnel.repository":                "docker.io/khulnasoft/tunnel",
+				"tunnel.repository":                "docker.io/aquasecurity/trivy",
 				"tunnel.tag":                       "0.35.0",
 				"tunnel.mode":                      string(tunnel.ClientServer),
 				"tunnel.serverURL":                 "http://tunnel.tunnel:4954",
@@ -5660,7 +5660,7 @@ default ignore = false`,
 				InitContainers: []corev1.Container{
 					{
 						Name:                     "00000000-0000-0000-0000-000000000001",
-						Image:                    "docker.io/khulnasoft/tunnel:0.35.0",
+						Image:                    "docker.io/aquasecurity/trivy:0.35.0",
 						ImagePullPolicy:          corev1.PullIfNotPresent,
 						TerminationMessagePolicy: corev1.TerminationMessageFallbackToLogsOnError,
 						Command: []string{
@@ -5892,7 +5892,7 @@ default ignore = false`,
 				tunneloperator.KeyScanJobcompressLogs:          "true",
 			},
 			config: map[string]string{
-				"tunnel.repository": "docker.io/khulnasoft/tunnel",
+				"tunnel.repository": "docker.io/aquasecurity/trivy",
 				"tunnel.tag":        "0.35.0",
 				"tunnel.mode":       string(tunnel.Standalone),
 
@@ -5935,7 +5935,7 @@ default ignore = false`,
 				InitContainers: []corev1.Container{
 					{
 						Name:                     "00000000-0000-0000-0000-000000000001",
-						Image:                    "docker.io/khulnasoft/tunnel:0.35.0",
+						Image:                    "docker.io/aquasecurity/trivy:0.35.0",
 						ImagePullPolicy:          corev1.PullIfNotPresent,
 						TerminationMessagePolicy: corev1.TerminationMessageFallbackToLogsOnError,
 						Env: []corev1.EnvVar{
@@ -6024,7 +6024,7 @@ default ignore = false`,
 				Containers: []corev1.Container{
 					{
 						Name:                     "nginx",
-						Image:                    "docker.io/khulnasoft/tunnel:0.35.0",
+						Image:                    "docker.io/aquasecurity/trivy:0.35.0",
 						ImagePullPolicy:          corev1.PullIfNotPresent,
 						TerminationMessagePolicy: corev1.TerminationMessageFallbackToLogsOnError,
 						Env: []corev1.EnvVar{
@@ -6183,7 +6183,7 @@ default ignore = false`,
 				tunneloperator.KeyScanJobcompressLogs:          "true",
 			},
 			config: map[string]string{
-				"tunnel.repository": "docker.io/khulnasoft/tunnel",
+				"tunnel.repository": "docker.io/aquasecurity/trivy",
 				"tunnel.tag":        "0.35.0",
 				"tunnel.mode":       string(tunnel.Standalone),
 
@@ -6233,7 +6233,7 @@ default ignore = false`,
 				InitContainers: []corev1.Container{
 					{
 						Name:                     "00000000-0000-0000-0000-000000000001",
-						Image:                    "docker.io/khulnasoft/tunnel:0.35.0",
+						Image:                    "docker.io/aquasecurity/trivy:0.35.0",
 						ImagePullPolicy:          corev1.PullIfNotPresent,
 						TerminationMessagePolicy: corev1.TerminationMessageFallbackToLogsOnError,
 						Env: []corev1.EnvVar{
@@ -6321,7 +6321,7 @@ default ignore = false`,
 				Containers: []corev1.Container{
 					{
 						Name:                     "nginx",
-						Image:                    "docker.io/khulnasoft/tunnel:0.35.0",
+						Image:                    "docker.io/aquasecurity/trivy:0.35.0",
 						ImagePullPolicy:          corev1.PullIfNotPresent,
 						TerminationMessagePolicy: corev1.TerminationMessageFallbackToLogsOnError,
 						Env: []corev1.EnvVar{
@@ -6498,7 +6498,7 @@ default ignore = false`,
 				tunneloperator.KeyScanJobcompressLogs:          "true",
 			},
 			config: map[string]string{
-				"tunnel.repository": "docker.io/khulnasoft/tunnel",
+				"tunnel.repository": "docker.io/aquasecurity/trivy",
 				"tunnel.tag":        "0.35.0",
 				"tunnel.mode":       string(tunnel.Standalone),
 
@@ -6550,7 +6550,7 @@ default ignore = false`,
 				InitContainers: []corev1.Container{
 					{
 						Name:                     "00000000-0000-0000-0000-000000000001",
-						Image:                    "docker.io/khulnasoft/tunnel:0.35.0",
+						Image:                    "docker.io/aquasecurity/trivy:0.35.0",
 						ImagePullPolicy:          corev1.PullIfNotPresent,
 						TerminationMessagePolicy: corev1.TerminationMessageFallbackToLogsOnError,
 						Env: []corev1.EnvVar{
@@ -6638,7 +6638,7 @@ default ignore = false`,
 				Containers: []corev1.Container{
 					{
 						Name:                     "nginx",
-						Image:                    "docker.io/khulnasoft/tunnel:0.35.0",
+						Image:                    "docker.io/aquasecurity/trivy:0.35.0",
 						ImagePullPolicy:          corev1.PullIfNotPresent,
 						TerminationMessagePolicy: corev1.TerminationMessageFallbackToLogsOnError,
 						Env: []corev1.EnvVar{
@@ -6863,7 +6863,7 @@ default ignore = false`,
 			tunneloperator.KeyVulnerabilityScansInSameNamespace: "true",
 		},
 		config: map[string]string{
-			"tunnel.repository":                "docker.io/khulnasoft/tunnel",
+			"tunnel.repository":                "docker.io/aquasecurity/trivy",
 			"tunnel.tag":                       "0.35.0",
 			"tunnel.mode":                      string(tunnel.Standalone),
 			"tunnel.command":                   string(tunnel.Filesystem),
@@ -6921,7 +6921,7 @@ default ignore = false`,
 			InitContainers: []corev1.Container{
 				{
 					Name:                     "00000000-0000-0000-0000-000000000001",
-					Image:                    "docker.io/khulnasoft/tunnel:0.35.0",
+					Image:                    "docker.io/aquasecurity/trivy:0.35.0",
 					ImagePullPolicy:          corev1.PullIfNotPresent,
 					TerminationMessagePolicy: corev1.TerminationMessageFallbackToLogsOnError,
 					Command: []string{
@@ -6964,7 +6964,7 @@ default ignore = false`,
 				},
 				{
 					Name:                     "00000000-0000-0000-0000-000000000002",
-					Image:                    "docker.io/khulnasoft/tunnel:0.35.0",
+					Image:                    "docker.io/aquasecurity/trivy:0.35.0",
 					ImagePullPolicy:          corev1.PullIfNotPresent,
 					TerminationMessagePolicy: corev1.TerminationMessageFallbackToLogsOnError,
 					Env: []corev1.EnvVar{
@@ -7404,7 +7404,7 @@ func TestPlugin_ParseReportData(t *testing.T) {
 			Namespace: "tunneloperator-ns",
 		},
 		Data: map[string]string{
-			"tunnel.repository": "khulnasoft/tunnel",
+			"tunnel.repository": "aquasecurity/trivy",
 			"tunnel.tag":        "0.9.1",
 		},
 	}
@@ -7708,7 +7708,7 @@ func TestGetContainers(t *testing.T) {
 			configData: map[string]string{
 				"tunnel.dbRepository":     tunnel.DefaultDBRepository,
 				"tunnel.javaDbRepository": tunnel.DefaultJavaDBRepository,
-				"tunnel.repository":       "gcr.io/khulnasoft/tunnel",
+				"tunnel.repository":       "gcr.io/aquasecurity/trivy",
 				"tunnel.tag":              "0.35.0",
 				"tunnel.mode":             string(tunnel.Standalone),
 				"tunnel.command":          string(tunnel.Image),
@@ -7720,7 +7720,7 @@ func TestGetContainers(t *testing.T) {
 				"tunnel.serverURL":        "http://tunnel.tunnel:4954",
 				"tunnel.dbRepository":     tunnel.DefaultDBRepository,
 				"tunnel.javaDbRepository": tunnel.DefaultJavaDBRepository,
-				"tunnel.repository":       "gcr.io/khulnasoft/tunnel",
+				"tunnel.repository":       "gcr.io/aquasecurity/trivy",
 				"tunnel.tag":              "0.35.0",
 				"tunnel.mode":             string(tunnel.ClientServer),
 				"tunnel.command":          string(tunnel.Image),
@@ -7732,7 +7732,7 @@ func TestGetContainers(t *testing.T) {
 				"tunnel.serverURL":        "http://tunnel.tunnel:4954",
 				"tunnel.dbRepository":     tunnel.DefaultDBRepository,
 				"tunnel.javaDbRepository": tunnel.DefaultJavaDBRepository,
-				"tunnel.repository":       "docker.io/khulnasoft/tunnel",
+				"tunnel.repository":       "docker.io/aquasecurity/trivy",
 				"tunnel.tag":              "0.35.0",
 				"tunnel.mode":             string(tunnel.Standalone),
 				"tunnel.command":          string(tunnel.Filesystem),

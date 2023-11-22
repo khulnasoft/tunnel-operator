@@ -1,8 +1,8 @@
 package compliance
 
 import (
-	"github.com/khulnasoft/tunnel/pkg/compliance/report"
-	ttypes "github.com/khulnasoft/tunnel/pkg/types"
+	"github.com/aquasecurity/trivy/pkg/compliance/report"
+	ttypes "github.com/aquasecurity/trivy/pkg/types"
 
 	"context"
 	"fmt"

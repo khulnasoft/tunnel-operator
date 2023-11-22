@@ -15,9 +15,9 @@ import (
 	cdx "github.com/CycloneDX/cyclonedx-go"
 	"github.com/khulnasoft-lab/tunnel-db/pkg/types"
 	"github.com/khulnasoft/tunnel-operator/pkg/utils"
-	fg "github.com/khulnasoft/tunnel/pkg/flag"
-	tr "github.com/khulnasoft/tunnel/pkg/report"
-	ty "github.com/khulnasoft/tunnel/pkg/types"
+	fg "github.com/aquasecurity/trivy/pkg/flag"
+	tr "github.com/aquasecurity/trivy/pkg/report"
+	ty "github.com/aquasecurity/trivy/pkg/types"
 	containerimage "github.com/google/go-containerregistry/pkg/name"
 
 	"github.com/khulnasoft/tunnel-operator/pkg/configauditreport"
@@ -102,9 +102,9 @@ const (
 )
 
 const (
-	DefaultImageRepository  = "ghcr.io/khulnasoft/tunnel"
+	DefaultImageRepository  = "ghcr.io/aquasecurity/trivy"
 	DefaultDBRepository     = "ghcr.io/khulnasoft-lab/tunnel-db"
-	DefaultJavaDBRepository = "ghcr.io/khulnasoft/tunnel-java-db"
+	DefaultJavaDBRepository = "ghcr.io/aquasecurity/trivy-java-db"
 	DefaultSeverity         = "UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL"
 )
 

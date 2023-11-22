@@ -167,7 +167,7 @@ spec:
           emptyDir: { }
       initContainers:
         - name: tunnel-get-binary
-          image: khulnasoft/tunnel:0.19.2
+          image: aquasecurity/trivy:0.19.2
           command:
             - cp
             - -v
@@ -177,7 +177,7 @@ spec:
             - name: scan-volume
               mountPath: /var/tunnel-operator
         - name: tunnel-download-db
-          image: khulnasoft/tunnel:0.19.2
+          image: aquasecurity/trivy:0.19.2
           command:
             - /var/tunnel-operator/tunnel
             - --download-db-only

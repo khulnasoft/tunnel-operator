@@ -116,10 +116,10 @@ spec:
           emptyDir: { }
       initContainers:
         # The tunnel-get-binary init container is used to copy out the tunnel executable
-        # binary from the upstream Tunnel container image, i.e. khulnasoft/tunnel:0.19.2,
+        # binary from the upstream Tunnel container image, i.e. aquasecurity/trivy:0.19.2,
         # to a shared emptyDir volume.
         - name: tunnel-get-binary
-          image: khulnasoft/tunnel:0.19.2
+          image: aquasecurity/trivy:0.19.2
           command:
             - cp
             - -v
@@ -134,7 +134,7 @@ spec:
         # This won't be required once Tunnel supports ClientServer mode
         # for the fs subcommand.
         - name: tunnel-download-db
-          image: khulnasoft/tunnel:0.19.2
+          image: aquasecurity/trivy:0.19.2
           command:
             - /var/tunnel-operator/tunnel
             - --download-db-only

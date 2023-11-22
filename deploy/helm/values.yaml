@@ -255,7 +255,7 @@ tunnel:
     # -- registry of the Tunnel image
     registry: ghcr.io
     # -- repository of the Tunnel image
-    repository: khulnasoft/tunnel
+    repository: aquasecurity/trivy
     # -- tag version of the Tunnel image
     tag: 0.44.1
     # -- imagePullSecret is the secret name to be used when pulling tunnel image from private registries example : reg-secret
@@ -405,7 +405,7 @@ tunnel:
 
   # -- javaDbRegistry is the registry for the Java vulnerability database.
   javaDbRegistry: "ghcr.io"
-  javaDbRepository: "khulnasoft/tunnel-java-db"
+  javaDbRepository: "aquasecurity/trivy-java-db"
 
   # -- The Flag to enable insecure connection for downloading tunnel-db via proxy (air-gaped env)
   #

@@ -108,11 +108,11 @@ Keeps security report resources updated
 | tunnel.ignoreUnfixed | bool | `false` | ignoreUnfixed is the flag to show only fixed vulnerabilities in vulnerabilities reported by Tunnel. Set to true to enable it.  |
 | tunnel.image.imagePullSecret | string | `nil` | imagePullSecret is the secret name to be used when pulling tunnel image from private registries example : reg-secret It is the user responsibility to create the secret for the private registry in `tunnel-operator` namespace |
 | tunnel.image.registry | string | `"ghcr.io"` | registry of the Tunnel image |
-| tunnel.image.repository | string | `"khulnasoft/tunnel"` | repository of the Tunnel image |
+| tunnel.image.repository | string | `"aquasecurity/trivy"` | repository of the Tunnel image |
 | tunnel.image.tag | string | `"0.44.1"` | tag version of the Tunnel image |
 | tunnel.insecureRegistries | object | `{}` | The registry to which insecure connections are allowed. There can be multiple registries with different keys. |
 | tunnel.javaDbRegistry | string | `"ghcr.io"` | javaDbRegistry is the registry for the Java vulnerability database. |
-| tunnel.javaDbRepository | string | `"khulnasoft/tunnel-java-db"` |  |
+| tunnel.javaDbRepository | string | `"aquasecurity/trivy-java-db"` |  |
 | tunnel.mode | string | `"Standalone"` | mode is the Tunnel client mode. Either Standalone or ClientServer. Depending on the active mode other settings might be applicable or required. |
 | tunnel.noProxy | string | `nil` | noProxy is a comma separated list of IPs and domain names that are not subject to proxy settings. |
 | tunnel.nonSslRegistries | object | `{}` | Registries without SSL. There can be multiple registries with different keys. |

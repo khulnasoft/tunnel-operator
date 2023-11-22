@@ -2,8 +2,8 @@ package v1alpha1
 
 import (
 	defsecTypes "github.com/aquasecurity/defsec/pkg/types"
-	"github.com/khulnasoft/tunnel/pkg/compliance/report"
-	"github.com/khulnasoft/tunnel/pkg/compliance/spec"
+	"github.com/aquasecurity/trivy/pkg/compliance/report"
+	"github.com/aquasecurity/trivy/pkg/compliance/spec"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
