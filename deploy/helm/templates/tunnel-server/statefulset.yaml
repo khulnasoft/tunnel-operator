@@ -1,0 +1,128 @@
+{{- if .Values.operator.builtInTunnelServer }}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: tunnel-server
+  namespace: {{ include "tunnel-operator.namespace" . }}
+  labels:
+    app.kubernetes.io/name: tunnel-server
+    app.kubernetes.io/instance: tunnel-server
+spec:
+  podManagementPolicy: "Parallel"
+  serviceName: {{ .Values.tunnel.serverServiceName }}
+  replicas: {{ .Values.tunnel.server.replicas }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: tunnel-server
+      app.kubernetes.io/instance: tunnel-server
+  {{- if .Values.tunnel.storageClassEnabled }}
+  volumeClaimTemplates:
+    - apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
+        name: data
+      spec:
+        resources:
+          requests:
+            storage: 5Gi
+        accessModes:
+          - ReadWriteOnce
+        storageClassName: {{ .Values.tunnel.storageClassName }}
+  {{- end }}        
+  template:
+    metadata:
+      annotations:
+        checksum/config: 7fcc66ace3f98462349856795765021e7bf7a0106f28439a9f6dc74257404370
+      labels:
+        {{- with .Values.tunnel.podLabels }}
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
+        app.kubernetes.io/name: tunnel-server
+        app.kubernetes.io/instance: tunnel-server
+    spec:
+      {{- with .Values.tunnel.priorityClassName }}
+      priorityClassName: {{ . }}
+      {{- end }}
+      serviceAccountName: {{ include "tunnel-operator.serviceAccountName" . }}
+      automountServiceAccountToken: false
+      {{- with .Values.tunnel.server.podSecurityContext }}
+      securityContext: {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tunnel.image.imagePullSecret }}
+      imagePullSecrets:
+      - name:  {{ . }}
+      {{- end }}
+      containers:
+        - name: tunnel-server
+          image: "{{ include "global.imageRegistry" . | default .Values.tunnel.image.registry }}/{{ .Values.tunnel.image.repository }}:{{ .Values.tunnel.image.tag }}"
+          imagePullPolicy: "IfNotPresent"
+          {{- with .Values.tunnel.server.securityContext }}
+          securityContext: {{- toYaml . | nindent 12 }}
+          {{- end }}
+          args:
+            - server
+          {{- if or (or .Values.tunnel.httpProxy .Values.tunnel.httpsProxy) .Values.tunnel.noProxy }}
+          env:
+            {{- with .Values.tunnel.httpProxy | quote }}
+            - name: HTTP_PROXY
+              value: {{ . }}
+            {{- end }}
+            {{- with .Values.tunnel.httpsProxy | quote }}
+            - name: HTTPS_PROXY
+              value: {{ . }}
+            {{- end }}
+            {{- with .Values.tunnel.noProxy | quote }}
+            - name: NO_PROXY
+              value: {{ . }}
+            {{- end }}
+          {{- end }}
+          envFrom:
+            - configMapRef:
+                name: tunnel-operator-tunnel-config
+            - secretRef:
+                name: tunnel-operator-tunnel-config
+          ports:
+            - name: tunnel-http
+              containerPort: 4954
+          livenessProbe:
+            httpGet:
+              scheme: HTTP
+              path: /healthz
+              port: tunnel-http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 10
+          readinessProbe:
+            httpGet:
+              scheme: HTTP
+              path: /healthz
+              port: tunnel-http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+          volumeMounts:
+            - mountPath: /tmp
+              name: tmp-data
+              readOnly: false
+            - mountPath: /home/scanner/.cache
+              name: data
+              readOnly: false
+          {{- with .Values.tunnel.server.resources }}
+          resources: {{- toYaml . | nindent 12 }}
+          {{- end }}
+      volumes:
+        - name: tmp-data
+          emptyDir: {}
+        {{- if not .Values.tunnel.storageClassEnabled }}
+        - name: data
+          emptyDir: {}
+        {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations: {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector: {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}

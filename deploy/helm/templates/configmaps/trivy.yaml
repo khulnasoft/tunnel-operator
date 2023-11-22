@@ -1,0 +1,126 @@
+{{- if eq .Values.tunnelOperator.vulnerabilityReportsPlugin "Tunnel" }}
+{{- if .Values.tunnel.createConfig }}
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tunnel-operator-tunnel-config
+  namespace: {{ include "tunnel-operator.namespace" $ }}
+  labels: {{- include "tunnel-operator.labels" $ | nindent 4 }}
+data:
+  tunnel.repository: "{{ required ".Values.tunnel.image.registry is required" ( include "global.imageRegistry" . | default .Values.tunnel.image.registry ) }}/{{ required ".Values.tunnel.image.repository is required" .Values.tunnel.image.repository }}"
+  tunnel.tag: {{ required ".Values.tunnel.image.tag is required" .Values.tunnel.image.tag | quote }}
+  {{- with .Values.tunnel.image.imagePullSecret }}
+  tunnel.imagePullSecret: {{ . | quote }}
+  {{- end }}
+   {{- with .Values.tunnel.image.pullPolicy }}
+  tunnel.imagePullPolicy: {{ . | quote }}
+  {{- end }}
+  tunnel.additionalVulnerabilityReportFields: {{ .Values.tunnel.additionalVulnerabilityReportFields | quote}}
+  {{- with .Values.tunnel.httpProxy }}
+  tunnel.httpProxy: {{ . | quote }}
+  {{- end }}
+  {{- with .Values.tunnel.httpsProxy }}
+  tunnel.httpsProxy: {{ . | quote }}
+  {{- end }}
+  {{- with .Values.tunnel.serverInsecure }}
+  tunnel.serverInsecure: {{ . | quote }}
+  {{- end }}
+  {{- with .Values.tunnel.sslCertDir }}
+  tunnel.sslCertDir: {{ . | quote }}
+  {{- end }}
+  {{- with .Values.tunnel.noProxy }}
+  tunnel.noProxy: {{ . | quote }}
+  {{- end }}
+  {{- range $key, $registry := .Values.tunnel.nonSslRegistries }}
+  tunnel.nonSslRegistry.{{ $key }}: {{ $registry | quote }}
+  {{- end }}
+  {{- range $key, $registry := .Values.tunnel.insecureRegistries }}
+  tunnel.insecureRegistry.{{ $key }}: {{ $registry | quote }}
+  {{- end }}
+  {{- range $key, $registry := .Values.tunnel.registry.mirror }}
+  tunnel.registry.mirror.{{ $key }}: {{ $registry | quote }}
+  {{- end }}
+  tunnel.severity: {{ .Values.tunnel.severity | quote }}
+  tunnel.slow: {{ .Values.tunnel.slow | quote }}
+  tunnel.skipJavaDBUpdate: {{ .Values.tunnel.skipJavaDBUpdate | quote }}
+  tunnel.imageScanCacheDir: {{ .Values.tunnel.imageScanCacheDir | quote }}
+  tunnel.filesystemScanCacheDir: {{ .Values.tunnel.filesystemScanCacheDir | quote }}
+  tunnel.dbRepository: "{{ .Values.tunnel.dbRegistry }}/{{ .Values.tunnel.dbRepository }}"
+  tunnel.javaDbRepository: "{{ .Values.tunnel.javaDbRegistry }}/{{ .Values.tunnel.javaDbRepository }}"
+  tunnel.command: {{ .Values.tunnel.command | quote }}
+  {{- with .Values.tunnel.skipFiles }}
+  tunnel.skipFiles: {{ . | quote }}
+  {{- end }}
+  {{- with .Values.tunnel.skipDirs }}
+  tunnel.skipDirs: {{ . | quote }}
+  {{- end }}
+  {{- with .Values.tunnel.vulnType }}
+  tunnel.vulnType: {{ . | quote }}
+  {{- end }}
+  {{- with .Values.tunnel.dbRepositoryInsecure }}
+  tunnel.dbRepositoryInsecure: {{ . | quote }}
+  {{- end }}
+  {{- with .Values.tunnel.useBuiltinRegoPolicies }}
+  tunnel.useBuiltinRegoPolicies: {{ . | quote }}
+  {{- end }}
+  {{- with .Values.tunnel.offlineScan }}
+  tunnel.offlineScan: {{ . | quote }}
+  {{- end }}
+  tunnel.supportedConfigAuditKinds: {{ .Values.tunnel.supportedConfigAuditKinds | quote }}
+  {{- with .Values.tunnel.ignoreUnfixed }}
+  tunnel.ignoreUnfixed: {{ . | quote }}
+  {{- end }}
+  {{- with .Values.tunnel.timeout }}
+  tunnel.timeout: {{ . | quote }}
+  {{- end }}
+  {{- with .Values.tunnel.ignoreFile }}
+  tunnel.ignoreFile: |
+    {{- . | trim | nindent 4 }}
+  {{- end }}
+  {{- range $k, $v := .Values.tunnel }}
+  {{- if hasPrefix "ignorePolicy" $k }}
+  tunnel.{{- $k }}: |
+    {{- $v | trim | nindent 4 }}
+  {{- end }}
+  {{- end }}
+  {{- if .Values.operator.builtInTunnelServer }}
+  tunnel.serverURL: {{ printf "http://%s.%s:%s" .Values.tunnel.serverServiceName (include "tunnel-operator.namespace" .) "4954"  | quote }}
+  tunnel.mode: "ClientServer"
+  {{- else }}
+  tunnel.mode: {{ .Values.tunnel.mode | quote }}
+  {{- if eq .Values.tunnel.mode "ClientServer" }}
+  tunnel.serverURL: {{ required ".Values.tunnel.serverURL is required" .Values.tunnel.serverURL | quote }}
+  {{- with .Values.tunnel.clientServerSkipUpdate }}
+  tunnel.clientServerSkipUpdate: {{ . | quote }}
+  {{- end }}
+  {{- end }}
+  {{- end }}
+  {{- with dig "resources" "requests" "cpu" "" .Values.tunnel }}
+  tunnel.resources.requests.cpu: {{ . | quote }}
+  {{- end }}
+  {{- with dig "resources" "requests" "memory" "" .Values.tunnel }}
+  tunnel.resources.requests.memory: {{ . | quote }}
+  {{- end }}
+  {{- with dig "resources" "requests" "ephemeralStorage" "" .Values.tunnel }}
+  tunnel.resources.requests.ephemeral-storage: {{ . | quote }}
+  {{- end }}
+  {{- with dig "resources" "limits" "cpu" "" .Values.tunnel }}
+  tunnel.resources.limits.cpu: {{ . | quote }}
+  {{- end }}
+  {{- with dig "resources" "limits" "memory" "" .Values.tunnel }}
+  tunnel.resources.limits.memory: {{ . | quote }}
+  {{- end }}
+  {{- with dig "resources" "limits" "ephemeralStorage" "" .Values.tunnel }}
+  tunnel.resources.limits.ephemeral-storage: {{ . | quote }}
+  {{- end }}
+  {{- if .Values.operator.builtInTunnelServer }}
+  TUNNEL_LISTEN: "0.0.0.0:4954"
+  TUNNEL_CACHE_DIR: "/home/scanner/.cache/tunnel"
+  TUNNEL_DEBUG: {{ .Values.tunnel.debug | quote }}
+  TUNNEL_SKIP_DB_UPDATE: "false"
+  TUNNEL_DB_REPOSITORY: "{{ .Values.tunnel.dbRegistry }}/{{ .Values.tunnel.dbRepository }}"
+  {{- end }}
+{{- end }}
+{{- end }}

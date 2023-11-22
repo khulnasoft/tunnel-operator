@@ -1,0 +1,8 @@
+---
+# khulnasoft - Declarative CLI Version Manager
+# https://khulnasoft.github.io/
+registries:
+  - type: standard
+    ref: v3.157.0 # renovate: depName=khulnasoft/khulnasoft-registry
+packages:
+  - name: magefile/mage@v1.14.0

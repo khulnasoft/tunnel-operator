@@ -1,0 +1,8 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - tunnel-operator.yaml
+images:
+  - name: ghcr.io/khulnasoft/tunnel-operator
+    newName: khulnasoft/tunnel-operator
+    newTag: dev

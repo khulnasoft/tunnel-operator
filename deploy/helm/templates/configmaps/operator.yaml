@@ -1,0 +1,76 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tunnel-operator
+  namespace: {{ include "tunnel-operator.namespace" . }}
+  labels: {{- include "tunnel-operator.labels" . | nindent 4 }}
+data:
+  {{- with .Values.tunnelOperator.scanJobTolerations }}
+  scanJob.tolerations: {{ . | toJson | quote }}
+  {{- end }}
+  {{- with .Values.nodeCollector.volumes }}
+  nodeCollector.volumes: {{ . | toJson | quote }}
+  {{- end }}
+  {{- with .Values.nodeCollector.volumeMounts }}
+  nodeCollector.volumeMounts: {{ . | toJson | quote }}
+  {{- end }}
+  {{- with .Values.tunnelOperator.scanJobAnnotations }}
+  scanJob.annotations: {{ . | quote }}
+  {{- end }}
+  {{- with .Values.tunnelOperator.scanJobAutomountServiceAccountToken }}
+  scanJob.automountServiceAccountToken: {{ . | quote }}
+  {{- end }}
+  {{- with .Values.tunnelOperator.skipInitContainers }}
+  scanJob.skipInitContainers: {{ . | quote }}
+  {{- end }}
+  {{- with .Values.nodeCollector.excludeNodes }}
+  nodeCollector.excludeNodes: {{ . | quote }}
+  {{- end }}
+  {{- with .Values.tunnelOperator.scanJobPodTemplateLabels }}
+  scanJob.podTemplateLabels: {{ . | quote }}
+  {{- end }}
+  {{- with .Values.tunnelOperator.additionalReportLabels }}
+  report.additionalLabels: {{ . | quote }}
+  {{- end }}
+  {{- with .Values.tunnelOperator.scanJobNodeSelector }}
+  scanJob.nodeSelector: {{ . | toJson | quote }}
+  {{- end }}
+  {{- with .Values.tunnelOperator.scanJobPodTemplatePodSecurityContext }}
+  scanJob.podTemplatePodSecurityContext: {{ . | toJson | quote }}
+  {{- end }}
+  {{- with .Values.tunnelOperator.scanJobPodTemplateContainerSecurityContext }}
+  scanJob.podTemplateContainerSecurityContext: {{ . | toJson | quote }}
+  {{- end }}
+  {{- with .Values.tunnelOperator.scanJobPodPriorityClassName }}
+  scanJob.podPriorityClassName: {{ . | quote }}
+  {{- end }}
+  {{- with .Values.tunnelOperator.scanJobCompressLogs }}
+  scanJob.compressLogs: {{ . | toJson | quote }}
+  {{- end }}
+  {{- if or .Values.operator.vulnerabilityScannerEnabled .Values.operator.exposedSecretScannerEnabled .Values.operator.scannerReportTTL }}
+  vulnerabilityReports.scanner: {{ .Values.tunnelOperator.vulnerabilityReportsPlugin | quote }}
+  {{- end }}
+  {{- if .Values.operator.configAuditScannerEnabled }}
+  configAuditReports.scanner: {{ .Values.tunnelOperator.configAuditReportsPlugin | quote }}
+  {{- end }}
+  {{- if .Values.operator.clusterComplianceEnabled }}
+  compliance.failEntriesLimit: {{ required ".Values.compliance.failEntriesLimit is required" .Values.compliance.failEntriesLimit | quote }}
+  {{- end }}
+  {{- with .Values.tunnelOperator.reportResourceLabels }}
+  report.resourceLabels: {{ . | quote }}
+  metrics.resourceLabelsPrefix: {{ $.Values.tunnelOperator.metricsResourceLabelsPrefix | quote }}
+  {{- end }}
+  {{- with .Values.tunnelOperator.reportRecordFailedChecksOnly }}
+  report.recordFailedChecksOnly: {{ . | quote }}
+  {{- end }}
+  {{- with .Values.tunnelOperator.skipResourceByLabels }}
+  skipResourceByLabels: {{ . | quote }}
+  {{- end }}
+  {{- if .Values.operator.builtInTunnelServer }}
+  tunnel.serverURL: {{ printf "http://%s.%s:%s" .Values.tunnel.serverServiceName (include "tunnel-operator.namespace" .) "4954"  | quote }}
+  {{- end }}
+  node.collector.imageRef: "{{ include "global.imageRegistry" . | default .Values.nodeCollector.registry }}/{{ .Values.nodeCollector.repository }}:{{ .Values.nodeCollector.tag }}"
+  {{- with .Values.nodeCollector.imagePullSecret }}
+  node.collector.imagePullSecret: "{{ . }}"
+  {{- end }}

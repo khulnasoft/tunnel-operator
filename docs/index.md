@@ -1,20 +1,6 @@
-![Tunnel-operator logo](docs/images/tunnel-operator-logo.png)
+![Tunnel-operator logo](./images/tunnel-operator-logo.png)
 
-> Kubernetes-native security toolkit. ([Documentation](https://khulnasoft.github.io/tunnel-operator/latest))
-
-[![GitHub Release][release-img]][release]
-[![Build Action][action-build-img]][action-build]
-[![Release snapshot Action][action-release-snapshot-img]][action-release-snapshot]
-[![Go Report Card][report-card-img]][report-card]
-[![License][license-img]][license]
-[![GitHub All Releases][github-all-releases-img]][release]
-![Docker Pulls Tunnel-operator][docker-pulls-tunnel-operator]
-<a href="https://slack.khulnasoft.com/?_ga=2.51428586.2119512742.1655808394-1739877964.1641199050">
-<img src="https://img.shields.io/static/v1?label=Slack&message=Join+our+Community&color=4a154b&logo=slack">
-</a>
-[![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/tunnel-operator)](https://artifacthub.io/packages/helm/tunnel-operator/tunnel-operator)
-
-# Introduction
+# Tunnel Operator Overview
 
 The Tunnel Operator leverages [Tunnel](https://github.com/khulnasoft/tunnel) to continuously scan your Kubernetes cluster for security issues. The scans are summarised in security reports as Kubernetes [Custom Resource Definitions](crd), which become accessible through the Kubernetes API. The Operator does this by watching Kubernetes for state changes and automatically triggering security scans in response. For example, a vulnerability scan is initiated when a new Pod is created.
 This way, users can find and view the risks that relate to different resources in a `Kubernetes-native` way.
@@ -37,7 +23,7 @@ The Tunnel Operator automatically generates and updates security reports. These 
 - SBOM (Software Bill of Materials genertations) for Kubernetes workloads.
 
 <p align="center">
-<img src="docs/images/tunnel-operator-overview.png" alt="Tunnel-operator Overview"/>
+<img src="./images/tunnel-operator-overview.png" alt="Tunnel-operator Overview"/>
 </p>
 
 _Please [star ⭐](https://github.com/khulnasoft/tunnel-operator/stargazers) the repo if you want us to continue developing and improving tunnel-operator! 😀_
@@ -51,7 +37,7 @@ guide to see how vulnerability and configuration audit reports are generated aut
 
 ### Quick Start
 
-The Tunnel Operator can be installed easily through the [Helm Chart](https://khulnasoft.github.io/tunnel-operator/latest/getting-started/installation/helm/):
+The Tunnel Operator can be installed easily through the [Helm Chart](./getting-started/installation/helm.md):
 
 Add the Khulnasoft chart repository:
 
@@ -66,7 +52,7 @@ Install the Helm Chart:
    helm install tunnel-operator khulnasoft/tunnel-operator \
      --namespace tunnel-system \
      --create-namespace \
-     --version 0.18.4
+     --version {{ var.chart_version }}
 ```
 
 This will install the Tunnel Helm Chart into the `tunnel-system` namespace and start triggering the scans.
@@ -105,7 +91,7 @@ Join the community, and talk to us about any matter in [GitHub Discussions] or [
 [license]: https://github.com/khulnasoft/tunnel-operator/blob/main/LICENSE
 [github-all-releases-img]: https://img.shields.io/github/downloads/khulnasoft/tunnel-operator/total?logo=github
 [docker-pulls-tunnel-operator]: https://img.shields.io/docker/pulls/khulnasoft/tunnel-operator?logo=docker&label=docker%20pulls%20%2F%20tunnel%20operator
-[Contributing]: CONTRIBUTING.md
+[Contributing]: ../CONTRIBUTING.md
 [GitHub Discussions]: https://github.com/khulnasoft/tunnel-operator/discussions
 [Slack]: https://slack.khulnasoft.com/
 [Open Source Work and Portfolio]: https://www.khulnasoft.com/products/open-source-projects/

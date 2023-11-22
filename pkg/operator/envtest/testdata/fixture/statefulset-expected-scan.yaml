@@ -1,0 +1,181 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  annotations:
+    tunnel-operator.container-images: '{"nginx":"k8s.gcr.io/nginx-slim:0.8"}'
+  generation: 1
+  labels:
+    app.kubernetes.io/managed-by: tunnel-operator
+    resource-spec-hash: <HASH>
+    tunnel-operator.resource.kind: StatefulSet
+    tunnel-operator.resource.name: web
+    tunnel-operator.resource.namespace: default
+    vulnerabilityReport.scanner: Tunnel
+  name: scan-vulnerabilityreport-85bdb4586d
+spec:
+  backoffLimit: 0
+  completionMode: NonIndexed
+  completions: 1
+  parallelism: 1
+  selector:
+    matchLabels:
+      controller-uid: <CONTROLLER-UID>
+  suspend: false
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/managed-by: tunnel-operator
+        controller-uid: <CONTROLLER-UID>
+        job-name: scan-vulnerabilityreport-85bdb4586d
+        resource-spec-hash: <HASH>
+        tunnel-operator.resource.kind: StatefulSet
+        tunnel-operator.resource.name: web
+        tunnel-operator.resource.namespace: default
+        vulnerabilityReport.scanner: Tunnel
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/os
+                    operator: In
+                    values:
+                      - linux
+      automountServiceAccountToken: false
+      containers:
+        - args:
+            - -c
+            - tunnel image --slow 'k8s.gcr.io/nginx-slim:0.8' --security-checks vuln,secret --image-config-scanners secret   --skip-update  --cache-dir /tmp/tunnel/.cache --quiet  --format json > /tmp/scan/result_nginx.json &&  bzip2 -c /tmp/scan/result_nginx.json | base64
+          command:
+            - /bin/sh
+          env:
+            - name: TUNNEL_SEVERITY
+              valueFrom:
+                configMapKeyRef:
+                  key: tunnel.severity
+                  name: tunnel-operator-tunnel-config
+                  optional: true
+            - name: TUNNEL_IGNORE_UNFIXED
+              valueFrom:
+                configMapKeyRef:
+                  key: tunnel.ignoreUnfixed
+                  name: tunnel-operator-tunnel-config
+                  optional: true
+            - name: TUNNEL_OFFLINE_SCAN
+              valueFrom:
+                configMapKeyRef:
+                  key: tunnel.offlineScan
+                  name: tunnel-operator-tunnel-config
+                  optional: true
+            - name: TUNNEL_JAVA_DB_REPOSITORY
+              valueFrom:
+                configMapKeyRef:
+                  key: tunnel.javaDbRepository
+                  name: tunnel-operator-tunnel-config
+                  optional: true
+            - name: TUNNEL_TIMEOUT
+              valueFrom:
+                configMapKeyRef:
+                  key: tunnel.timeout
+                  name: tunnel-operator-tunnel-config
+                  optional: true
+            - name: TUNNEL_SKIP_FILES
+              valueFrom:
+                configMapKeyRef:
+                  key: tunnel.skipFiles
+                  name: tunnel-operator-tunnel-config
+                  optional: true
+            - name: TUNNEL_SKIP_DIRS
+              valueFrom:
+                configMapKeyRef:
+                  key: tunnel.skipDirs
+                  name: tunnel-operator-tunnel-config
+                  optional: true
+            - name: HTTP_PROXY
+              valueFrom:
+                configMapKeyRef:
+                  key: tunnel.httpProxy
+                  name: tunnel-operator-tunnel-config
+                  optional: true
+            - name: HTTPS_PROXY
+              valueFrom:
+                configMapKeyRef:
+                  key: tunnel.httpsProxy
+                  name: tunnel-operator-tunnel-config
+                  optional: true
+            - name: NO_PROXY
+              valueFrom:
+                configMapKeyRef:
+                  key: tunnel.noProxy
+                  name: tunnel-operator-tunnel-config
+                  optional: true
+          image: ghcr.io/khulnasoft/tunnel:0.35.0
+          imagePullPolicy: IfNotPresent
+          name: nginx
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: FallbackToLogsOnError
+          volumeMounts:
+            - mountPath: /tmp
+              name: tmp
+              readonly: false
+            - mountPath: /tmp/scan
+              name: scanresult
+              readonly: false
+      dnsPolicy: ClusterFirst
+      initContainers:
+        - args:
+            - --cache-dir
+            - /tmp/tunnel/.cache
+            - image
+            - --download-db-only
+            - --db-repository
+            - ghcr.io/khulnasoft-lab/tunnel-db
+          command:
+            - tunnel
+          env:
+            - name: HTTP_PROXY
+              valueFrom:
+                configMapKeyRef:
+                  key: tunnel.httpProxy
+                  name: tunnel-operator-tunnel-config
+                  optional: true
+            - name: HTTPS_PROXY
+              valueFrom:
+                configMapKeyRef:
+                  key: tunnel.httpsProxy
+                  name: tunnel-operator-tunnel-config
+                  optional: true
+            - name: NO_PROXY
+              valueFrom:
+                configMapKeyRef:
+                  key: tunnel.noProxy
+                  name: tunnel-operator-tunnel-config
+                  optional: true
+            - name: GITHUB_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  key: tunnel.githubToken
+                  name: tunnel-operator-tunnel-config
+                  optional: true
+          image: "ghcr.io/khulnasoft/tunnel:0.35.0"
+          imagePullPolicy: IfNotPresent
+          name: <INIT-CONTAINER-NAME>
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: FallbackToLogsOnError
+          volumeMounts:
+            - mountPath: /tmp
+              name: tmp
+              readonly: false
+      restartPolicy: Never
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - emptyDir:
+            medium: ""
+          name: tmp
+        - emptyDir:
+            medium: ""
+          name: scanresult
