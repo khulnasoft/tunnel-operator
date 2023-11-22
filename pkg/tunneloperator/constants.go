@@ -26,8 +26,6 @@ const (
 	LabelContainerName     = "tunnel-operator.container.name"
 	LabelResourceSpecHash  = "resource-spec-hash"
 	LabelPluginConfigHash  = "plugin-config-hash"
-	LabelResourceImageID   = "resource-image-id"
-	LabelReusedReport      = "reused-report"
 
 	LabelVulnerabilityReportScanner = "vulnerabilityReport.scanner"
 	LabelNodeInfoCollector          = "node-info.collector"

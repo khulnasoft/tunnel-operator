@@ -129,5 +129,5 @@ We can't use something like ownerReference since it would delete all vulnerabili
   a gate.
 * Both Tunnel-Operator CLI and Tunnel-Operator Operator can read and leverage ClusterVulnerabilityReports.
 
-[Standalone]: https://khulnasoft.github.io/tunnel-operator/v0.16.4/integrations/vulnerability-scanners/tunnel/#standalone
-[ClientServer]: https://khulnasoft.github.io/tunnel-operator/v0.16.4/integrations/vulnerability-scanners/tunnel/#clientserver
+[Standalone]: https://khulnasoft.github.io/tunnel-operator/v0.16.0/integrations/vulnerability-scanners/tunnel/#standalone
+[ClientServer]: https://khulnasoft.github.io/tunnel-operator/v0.16.0/integrations/vulnerability-scanners/tunnel/#clientserver

@@ -92,7 +92,7 @@ Next, we can install the operator with the following command:
 helm install tunnel-operator khulnasoft/tunnel-operator \
   --namespace tunnel-system \
   --create-namespace \
-  --version {{ var.chart_version }} \
+  --version 0.16.0 \
   --values tunnel-values.yaml
 ```
 

@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"io"
 
-	j "github.com/khulnasoft-lab/tunnel-kubernetes/pkg/jobs"
+	j "github.com/aquasecurity/trivy-kubernetes/pkg/jobs"
 	"github.com/khulnasoft/tunnel-operator/pkg/configauditreport"
 	"github.com/khulnasoft/tunnel-operator/pkg/infraassessment"
 	"github.com/khulnasoft/tunnel-operator/pkg/kube"

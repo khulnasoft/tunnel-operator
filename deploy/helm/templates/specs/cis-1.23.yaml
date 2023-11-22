@@ -5,7 +5,7 @@ metadata:
   labels:
     app.kubernetes.io/name: tunnel-operator
     app.kubernetes.io/instance: tunnel-operator
-    app.kubernetes.io/version: 0.16.4
+    app.kubernetes.io/version: 0.16.0
     app.kubernetes.io/managed-by: kubectl
 spec:
   cron: {{ .Values.compliance.cron | quote}}

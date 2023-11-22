@@ -21,7 +21,7 @@ import (
 	corev1 "k8s.io/api/core/v1"
 	rbacv1 "k8s.io/api/rbac/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/utils/ptr"
+	"k8s.io/utils/pointer"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -314,7 +314,7 @@ deny[res] {
 					Template: corev1.PodTemplateSpec{
 						Spec: corev1.PodSpec{
 							SecurityContext: &corev1.PodSecurityContext{
-								RunAsNonRoot: ptr.To[bool](true),
+								RunAsNonRoot: pointer.Bool(true),
 							},
 							Containers: []corev1.Container{
 								{
@@ -452,7 +452,7 @@ warn[res] {
 					Template: corev1.PodTemplateSpec{
 						Spec: corev1.PodSpec{
 							SecurityContext: &corev1.PodSecurityContext{
-								RunAsNonRoot: ptr.To[bool](true),
+								RunAsNonRoot: pointer.Bool(true),
 							},
 							Containers: []corev1.Container{
 								{
@@ -548,7 +548,7 @@ warn[res] {
 					Template: corev1.PodTemplateSpec{
 						Spec: corev1.PodSpec{
 							SecurityContext: &corev1.PodSecurityContext{
-								RunAsNonRoot: ptr.To[bool](true),
+								RunAsNonRoot: pointer.Bool(true),
 							},
 							Containers: []corev1.Container{
 								{

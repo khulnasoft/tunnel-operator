@@ -4,31 +4,25 @@ These guidelines will help you get started with the Tunnel-operator project.
 
 ## Table of Contents
 
-- [Contributing](#contributing)
-  - [Table of Contents](#table-of-contents)
-  - [Contribution Workflow](#contribution-workflow)
-    - [Issues and Discussions](#issues-and-discussions)
-    - [Pull Requests](#pull-requests)
-      - [Conventional Commits](#conventional-commits)
-  - [Set up your Development Environment](#set-up-your-development-environment)
-  - [Build Binaries](#build-binaries)
-  - [Testing](#testing)
-    - [Run unit Tests](#run-unit-tests)
-    - [Run Operator envtest](#run-operator-envtest)
-    - [Run Integration Tests](#run-integration-tests)
-    - [Run  End to End Tests](#run--end-to-end-tests)
-    - [Code Coverage](#code-coverage)
-  - [Custom Resource Definitions](#custom-resource-definitions)
-    - [Generating code and manifests](#generating-code-and-manifests)
-  - [Test Tunnel Operator](#test-tunnel-operator)
-    - [In cluster](#in-cluster)
-    - [Out of cluster](#out-of-cluster)
-  - [Update Static YAML Manifests](#update-static-yaml-manifests)
-  - [Update helm docs](#update-helm-docs)
-  - [Operator Lifecycle Manager (OLM)](#operator-lifecycle-manager-olm)
-    - [Install OLM](#install-olm)
-    - [Build the Catalog Image](#build-the-catalog-image)
-    - [Register the Catalog Image](#register-the-catalog-image)
+- [Contribution Workflow](#contribution-workflow)
+  - [Issues and Discussions](#issues-and-discussions)
+  - [Pull Requests](#pull-requests)
+- [Set up your Development Environment](#set-up-your-development-environment)
+- [Build Binaries](#build-binaries)
+- [Testing](#testing)
+  - [Run Tests](#run-tests)
+  - [Run Integration Tests](#run-integration-tests)
+  - [Cove Coverage](#code-coverage)
+- [Custom Resource Definitions](#custom-resource-definitions)
+  - [Generating code and manifests](#generating-code-and-manifests)
+- [Test Tunnel Operator](#test-tunnel-operator)
+  - [In Cluster](#in-cluster)
+  - [Out of Cluster](#out-of-cluster)
+- [Update Static YAML Manifests](#update-static-yaml-manifests)
+- [Operator Lifecycle Manager (OLM)](#operator-lifecycle-manager-olm)
+  - [Install OLM](#install-olm)
+  - [Build the Catalog Image](#build-the-catalog-image)
+  - [Register the Catalog Image](#register-the-catalog-image)
 
 ## Contribution Workflow
 
@@ -79,12 +73,11 @@ Each commit message doesn't have to follow conventions as long as it is clear an
 Note: Some of our tests performs integration testing by starting a local
 control plane using
 [envtest](https://pkg.go.dev/sigs.k8s.io/controller-runtime/pkg/envtest).
-If you only run test using the Magefile
-(`mage test:unit`), no additional installation is required. But if you want to
+If you only run test using the Makefile
+(`m̀ake test`), no additional installation is required. But if you want to
 run some of these integration tests using `go test` or from your IDE, you'll
 have to
 [install kubebuiler-tools](https://book.kubebuilder.io/reference/envtest.html#installation).
-[install magefile](https://magefile.org)  or use `go run mage.go <goal>` 
 
 ## Build Binaries
 
@@ -95,7 +88,7 @@ have to
 To build all Tunnel-operator binary, run:
 
 ```
-mage build:all
+make
 ```
 
 This uses the `go build` command and builds binaries in the `./bin` directory.
@@ -103,13 +96,13 @@ This uses the `go build` command and builds binaries in the `./bin` directory.
 To build all Tunnel-operator binary into Docker images, run:
 
 ```
-mage build:docker
+make docker-build
 ```
 
 To load Docker images into your KIND cluster, run:
 
 ```
-mage build:kindloadimages
+kind load docker-image khulnasoft/tunnel-operator:dev
 ```
 
 ## Testing
@@ -123,7 +116,7 @@ collaborators, more coarse grained integration tests might be required.
 To run all tests with code coverage enabled, run:
 
 ```
-mage test:unit
+make test
 ```
 
 To open the test coverage report in your web browser, run:
@@ -132,12 +125,12 @@ To open the test coverage report in your web browser, run:
 go tool cover -html=coverage.txt
 ```
 
-### Run Operator envtest
+### Run operator envtest
 
-The Operator envtest spin us partial k8s components (api-server, etcd) and test controllers for reousce, workload, ttl, rbac and more
+The operator envtest spin us partial k8s components (api-server, etcd) and test controllers for reousce, workload, ttl, rbac and more
 
 ```
-mage test:envtest
+make envtest
 ```
 
 ### Run Integration Tests
@@ -162,7 +155,7 @@ To run the integration tests for Tunnel-operator Operator and view the coverage 
 OPERATOR_NAMESPACE=tunnel-system \
   OPERATOR_TARGET_NAMESPACES=default \
   OPERATOR_LOG_DEV_MODE=true \
-  mage test:integration
+  make itests-tunnel-operator
 go tool cover -html=itest/tunnel-operator/coverage.txt
 ```
 
@@ -224,11 +217,11 @@ We currently generate:
 - Mandatory DeepCopy functions for a Go struct representing a CRD
 
 This means that you should not try to modify any of these files directly, but instead change
-the code and code markers. Our MageFile contains a target to ensure that all generated files
+the code and code markers. Our Makefile contains a target to ensure that all generated files
 are up-to-date: So after doing modifications in code, affecting CRDs/ClusterRole, you should
-run `mage generate:all` to regenerate everything.
+run `make generate-all` to regenerate everything.
 
-Our CI will verify that all generated is up-to-date by running `mage generate:verify`.
+Our CI will verify that all generated is up-to-date by running `make verify-generated`.
 
 Any change to the CRD structs, including nested structs, will probably modify the CRD.
 This is also true for Go docs, as field/type doc becomes descriptions in CRDs.
@@ -255,7 +248,7 @@ basic development workflow. For other install modes see [Operator Multitenancy w
 1. Build the operator binary into the Docker image and load it from your host into KIND cluster nodes:
 
    ```
-   mage build:docker && kind load docker-image khulnasoft/tunnel-operator:dev
+   make docker-build-tunnel-operator && kind load docker-image khulnasoft/tunnel-operator:dev
    ```
 
 2. Create the `tunnel-operator` Deployment in the `tunnel-system` namespace to run the operator's container:
@@ -325,7 +318,7 @@ To avoid maintaining resources in multiple places, we have a created a script
 to (re)generate the static resources from the Helm chart.
 
 So if modifying the operator resources, please do so by modifying the Helm
-chart, then run `mage generate:manifests` to ensure the static
+chart, then run `make manifests` to ensure the static
 resources are up-to-date.
 
 ## Update helm docs
@@ -335,7 +328,7 @@ Since some prefer to not use Helm, we also provide helm config documentation to
 install the operator.
 
 So if modifying the operator helm params, please do so by modifying the Helm
-chart, then run `mage generate:docs` to ensure the helm docs are up-to-date.
+chart, then run `make generate-helm-docs` to ensure the helm docs are up-to-date.
 
 ## Operator Lifecycle Manager (OLM)
 

@@ -1,4 +1,24 @@
 {{- if .Values.operator.builtInTunnelServer }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.tunnel.serverServiceName }}
+  namespace: {{ include "tunnel-operator.namespace" . }}
+  labels:
+    app.kubernetes.io/name: tunnel-server
+    app.kubernetes.io/instance: tunnel-server
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: tunnel-server
+    app.kubernetes.io/instance: tunnel-server
+  ports:
+    - name: tunnel-http
+      protocol: TCP
+      port: 4954
+      targetPort: 4954
+  sessionAffinity: ClientIP
+---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -54,7 +74,7 @@ spec:
       {{- end }}
       containers:
         - name: tunnel-server
-          image: "{{ include "global.imageRegistry" . | default .Values.tunnel.image.registry }}/{{ .Values.tunnel.image.repository }}:{{ .Values.tunnel.image.tag }}"
+          image: "{{ .Values.tunnel.image.registry }}/{{ .Values.tunnel.image.repository }}:{{ .Values.tunnel.image.tag }}"
           imagePullPolicy: "IfNotPresent"
           {{- with .Values.tunnel.server.securityContext }}
           securityContext: {{- toYaml . | nindent 12 }}
@@ -63,15 +83,15 @@ spec:
             - server
           {{- if or (or .Values.tunnel.httpProxy .Values.tunnel.httpsProxy) .Values.tunnel.noProxy }}
           env:
-            {{- with .Values.tunnel.httpProxy | quote }}
+            {{- with .Values.tunnel.httpProxy }}
             - name: HTTP_PROXY
               value: {{ . }}
             {{- end }}
-            {{- with .Values.tunnel.httpsProxy | quote }}
+            {{- with .Values.tunnel.httpsProxy }}
             - name: HTTPS_PROXY
               value: {{ . }}
             {{- end }}
-            {{- with .Values.tunnel.noProxy | quote }}
+            {{- with .Values.tunnel.noProxy }}
             - name: NO_PROXY
               value: {{ . }}
             {{- end }}

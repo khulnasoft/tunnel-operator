@@ -1,6 +1,7 @@
 # RbacAssessmentReport
 
-An instance of the RbacAssessmentReport represents checks performed by configuration auditing tools, such as [Tunnel](https://github.com/khulnasoft/tunnel), against a Kubernetes RBAC assessment. For example, check that a given Role does not expose permission to secrets for all groups.
+An instance of the RbacAssessmentReport represents checks performed by configuration auditing tools, such as [Tunnel],
+against a Kubernetes rbac assessment. For example, check that a given Role do not expose permission to secret for all groups
 
 Each report is owned by the underlying Kubernetes object and is stored in the same namespace, following the
 `<Role>-<role-name>` naming convention.
@@ -176,7 +177,7 @@ report:
   scanner:
     name: Tunnel
     vendor: Khulnasoft Security
-    version: '0.16.4'
+    version: '0.16.0'
   summary:
     criticalCount: 1
     highCount: 0

@@ -542,7 +542,7 @@ metadata:
   name: clustercompliancereports.khulnasoft.github.io
   labels:
     app.kubernetes.io/managed-by: tunnel-operator
-    app.kubernetes.io/version: "0.16.4"
+    app.kubernetes.io/version: "0.16.0"
 spec:
   group: khulnasoft.github.io
   scope: Cluster
@@ -678,7 +678,7 @@ metadata:
   name: clustercompliancedetailreports.khulnasoft.github.io
   labels:
     app.kubernetes.io/managed-by: tunnel-operator
-    app.kubernetes.io/version: "0.16.4"
+    app.kubernetes.io/version: "0.16.0"
 spec:
   group: khulnasoft.github.io
   versions:

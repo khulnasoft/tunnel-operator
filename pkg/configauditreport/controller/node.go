@@ -3,14 +3,13 @@ package controller
 import (
 	"time"
 
-	j "github.com/khulnasoft-lab/tunnel-kubernetes/pkg/jobs"
-	"github.com/khulnasoft-lab/tunnel-kubernetes/pkg/k8s"
+	j "github.com/aquasecurity/trivy-kubernetes/pkg/jobs"
+	"github.com/aquasecurity/trivy-kubernetes/pkg/k8s"
 	"github.com/khulnasoft/tunnel-operator/pkg/configauditreport"
 	"github.com/khulnasoft/tunnel-operator/pkg/infraassessment"
 	"github.com/khulnasoft/tunnel-operator/pkg/operator/jobs"
 	"github.com/khulnasoft/tunnel-operator/pkg/operator/predicate"
 	. "github.com/khulnasoft/tunnel-operator/pkg/operator/predicate"
-	"github.com/khulnasoft/tunnel-operator/pkg/plugins/tunnel"
 	"github.com/khulnasoft/tunnel-operator/pkg/tunneloperator"
 
 	"context"
@@ -145,21 +144,7 @@ func (r *NodeReconciler) reconcileNodes() reconcile.Func {
 		if err != nil {
 			return ctrl.Result{}, fmt.Errorf("getting scan job annotations: %w", err)
 		}
-		pConfig, err := r.PluginContext.GetConfig()
-		if err != nil {
-			return ctrl.Result{}, fmt.Errorf("getting getting config: %w", err)
-		}
-		tc := tunnel.Config{PluginConfig: pConfig}
 
-		requirements, err := tc.GetResourceRequirements()
-		if err != nil {
-			return ctrl.Result{}, fmt.Errorf("getting node-collector resource requierments: %w", err)
-		}
-
-		scanJobPodPriorityClassName, err := r.GetScanJobPodPriorityClassName()
-		if err != nil {
-			return ctrl.Result{}, fmt.Errorf("getting scan job priority class name: %w", err)
-		}
 		nodeCollectorImageRef := r.GetTunnelOperatorConfig().NodeCollectorImageRef()
 		coll := j.NewCollector(cluster,
 			j.WithJobTemplateName(j.NodeCollectorName),
@@ -173,9 +158,7 @@ func (r *NodeReconciler) reconcileNodes() reconcile.Func {
 			j.WithJobAnnotation(scanJobAnnotations),
 			j.WithImageRef(nodeCollectorImageRef),
 			j.WithVolumes(nodeCollectorVolumes),
-			j.WithPodPriorityClassName(scanJobPodPriorityClassName),
 			j.WithVolumesMount(nodeCollectorVolumeMounts),
-			j.WithContainerResourceRequirements(&requirements),
 			j.WithJobLabels(map[string]string{
 				tunneloperator.LabelNodeInfoCollector: "Tunnel",
 				tunneloperator.LabelK8SAppManagedBy:   tunneloperator.AppTunnelOperator,

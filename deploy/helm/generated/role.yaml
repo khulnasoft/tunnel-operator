@@ -187,18 +187,6 @@ rules:
 - apiGroups:
   - khulnasoft.github.io
   resources:
-  - clustersbomreports
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - patch
-  - update
-  - watch
-- apiGroups:
-  - khulnasoft.github.io
-  resources:
   - configauditreports
   verbs:
   - create

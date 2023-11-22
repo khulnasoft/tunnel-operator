@@ -162,7 +162,7 @@ report:
   scanner:
     name: Tunnel
     vendor: Khulnasoft Security
-    version: 0.47.0
+    version: 0.44.1
   summary:
     componentsCount: 5
     dependenciesCount: 5

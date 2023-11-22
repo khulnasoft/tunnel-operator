@@ -50,9 +50,8 @@ const (
 	secret_target   = "secret_target"
 	secret_title    = "secret_title"
 	//config audit
-	config_audit_id    = "config_audit_id"
-	config_audit_title = "config_audit_title"
-	////nolint:gosec
+	config_audit_id          = "config_audit_id"
+	config_audit_title       = "config_audit_title"
 	config_audit_description = "config_audit_description"
 	config_audit_category    = "config_audit_category"
 	config_audit_success     = "config_audit_success"
@@ -68,9 +67,6 @@ const (
 	infra_assessment_description = "infra_assessment_description"
 	infra_assessment_category    = "infra_assessment_category"
 	infra_assessment_success     = "infra_assessment_success"
-	//compliance
-	compliance_id   = "compliance_id"
-	compliance_name = "compliance_name"
 )
 
 type metricDescriptors struct {
@@ -94,7 +90,6 @@ type metricDescriptors struct {
 	infraAssessmentLabels     []string
 	infraAssessmentInfoLabels []string
 	complianceLabels          []string
-	complianceInfoLabels      []string
 
 	// Descriptors
 	imageVulnDesc             *prometheus.Desc
@@ -109,7 +104,6 @@ type metricDescriptors struct {
 	infraAssessmentDesc       *prometheus.Desc
 	infraAssessmentInfoDesc   *prometheus.Desc
 	complianceDesc            *prometheus.Desc
-	complianceInfoDesc        *prometheus.Desc
 }
 
 // ResourcesMetricsCollector is a custom Prometheus collector that produces
@@ -371,17 +365,6 @@ func buildMetricDescriptors(config tunneloperator.ConfigData) metricDescriptors 
 		status,
 	}
 	clusterComplianceLabels = append(clusterComplianceLabels, dynamicLabels...)
-
-	clusterComplianceInfoLabels := []string{
-		title,
-		description,
-		compliance_id,
-		compliance_name,
-		status,
-		severity,
-	}
-	clusterComplianceInfoLabels = append(clusterComplianceInfoLabels, dynamicLabels...)
-
 	imageVulnDesc := prometheus.NewDesc(
 		prometheus.BuildFQName("tunnel", "image", "vulnerabilities"),
 		"Number of container image vulnerabilities",
@@ -454,12 +437,6 @@ func buildMetricDescriptors(config tunneloperator.ConfigData) metricDescriptors 
 		clusterComplianceLabels,
 		nil,
 	)
-	complianceInfoDesc := prometheus.NewDesc(
-		prometheus.BuildFQName("tunnel", "compliance", "info"),
-		"cluster compliance report Info",
-		clusterComplianceInfoLabels,
-		nil,
-	)
 	return metricDescriptors{
 		imageVulnSeverities:       imageVulnSeverities,
 		exposedSecretSeverities:   exposedSecretSeverities,
@@ -479,7 +456,6 @@ func buildMetricDescriptors(config tunneloperator.ConfigData) metricDescriptors 
 		infraAssessmentLabels:     infraAssessmentLabels,
 		infraAssessmentInfoLabels: infraAssessmentInfoLabels,
 		complianceLabels:          clusterComplianceLabels,
-		complianceInfoLabels:      clusterComplianceInfoLabels,
 
 		imageVulnDesc:             imageVulnDesc,
 		vulnIdDesc:                vulnIdDesc,
@@ -493,7 +469,6 @@ func buildMetricDescriptors(config tunneloperator.ConfigData) metricDescriptors 
 		infraAssessmentDesc:       infraAssessmentDesc,
 		infraAssessmentInfoDesc:   infraAssessmentInfoDesc,
 		complianceDesc:            complianceDesc,
-		complianceInfoDesc:        complianceInfoDesc,
 	}
 }
 
@@ -539,9 +514,6 @@ func (c ResourcesMetricsCollector) Collect(metrics chan<- prometheus.Metric) {
 	}
 	c.collectClusterRbacAssessmentReports(ctx, metrics)
 	c.collectClusterComplianceReports(ctx, metrics)
-	if c.Config.MetricsClusterComplianceInfo {
-		c.collectClusterComplianceInfoReports(ctx, metrics)
-	}
 }
 
 func (c ResourcesMetricsCollector) collectVulnerabilityReports(ctx context.Context, metrics chan<- prometheus.Metric, targetNamespaces []string) {
@@ -912,44 +884,6 @@ func (c *ResourcesMetricsCollector) collectClusterComplianceReports(ctx context.
 	}
 }
 
-func (c *ResourcesMetricsCollector) collectClusterComplianceInfoReports(ctx context.Context, metrics chan<- prometheus.Metric) {
-	reports := &v1alpha1.ClusterComplianceReportList{}
-	labelValues := make([]string, len(c.complianceInfoLabels[0:]))
-	if err := c.List(ctx, reports); err != nil {
-		c.Logger.Error(err, "failed to list cluster compliance from API")
-		return
-	}
-	for _, r := range reports.Items {
-		if r.Spec.ReportFormat == "all" {
-			continue
-		}
-		if c.Config.MetricsClusterComplianceInfo {
-			labelValues[0] = r.Spec.Complaince.Title
-			labelValues[1] = r.Spec.Complaince.Description
-			for _, summary := range r.Status.SummaryReport.SummaryControls {
-				if summary.TotalFail == nil {
-					continue
-				}
-				status := PassStatus
-				metricCounter := 1
-				if *summary.TotalFail > 0 {
-					status = FailStatus
-					metricCounter = *summary.TotalFail
-				}
-				labelValues[2] = summary.ID
-				labelValues[3] = summary.Name
-				labelValues[4] = NewStatusLabel(Status(status)).Label
-				labelValues[5] = summary.Severity
-
-				for i, label := range c.GetReportResourceLabels() {
-					labelValues[i+6] = r.Labels[label]
-				}
-				metrics <- prometheus.MustNewConstMetric(c.complianceInfoDesc, prometheus.GaugeValue, float64(metricCounter), labelValues...)
-			}
-		}
-	}
-}
-
 func (c *ResourcesMetricsCollector) populateComplianceValues(labelValues []string, desc *prometheus.Desc, summary v1alpha1.ComplianceSummary, metrics chan<- prometheus.Metric, index int) {
 	for status, countFn := range c.complianceStatuses {
 		labelValues[index] = status
@@ -987,7 +921,6 @@ func (c ResourcesMetricsCollector) Describe(descs chan<- *prometheus.Desc) {
 	descs <- c.infraAssessmentInfoDesc
 	descs <- c.clusterRbacAssessmentDesc
 	descs <- c.complianceDesc
-	descs <- c.complianceInfoDesc
 }
 
 func (c ResourcesMetricsCollector) Start(ctx context.Context) error {

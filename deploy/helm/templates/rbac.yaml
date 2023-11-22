@@ -1,0 +1,149 @@
+{{- if .Values.serviceAccount.create }}
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ include "tunnel-operator.serviceAccountName" . }}
+  namespace: {{ include "tunnel-operator.namespace" . }}
+  labels: {{- include "tunnel-operator.labels" . | nindent 4 }}
+  {{- with .Values.serviceAccount.annotations }}
+  annotations: {{- toYaml . | nindent 4 }}
+  {{- end }}
+{{- end }}
+
+{{- if .Values.rbac.create }}
+{{ .Files.Get "generated/role.yaml" }}
+
+{{- if .Values.operator.accessGlobalSecretsAndServiceAccount -}}
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  verbs:
+  - create
+  - get
+  - update
+- apiGroups:
+  - ""
+  resources:
+  - serviceaccounts
+  verbs:
+  - get
+{{- end }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ include "tunnel-operator.fullname" . }}
+  labels: {{- include "tunnel-operator.labels" . | nindent 4 }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: tunnel-operator
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "tunnel-operator.serviceAccountName" . }}
+    namespace: {{ include "tunnel-operator.namespace" . }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ include "tunnel-operator.fullname" . }}
+  namespace: {{ include "tunnel-operator.namespace" . }}
+  labels: {{- include "tunnel-operator.labels" . | nindent 4 }}
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - configmaps
+    verbs:
+      - create
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - ""
+    resources:
+      - secrets
+    verbs:
+      - create
+      - get
+      - delete
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ include "tunnel-operator.fullname" . }}
+  namespace: {{ include "tunnel-operator.namespace" . }}
+  labels: {{- include "tunnel-operator.labels" . | nindent 4 }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: {{ include "tunnel-operator.fullname" . }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "tunnel-operator.serviceAccountName" . }}
+    namespace: {{ include "tunnel-operator.namespace" . }}
+{{- end }}
+---
+# permissions for end users to view configauditreports
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: aggregate-config-audit-reports-view
+  labels:
+    {{- include "tunnel-operator.labels" . | nindent 4 }}
+    rbac.authorization.k8s.io/aggregate-to-view: "true"
+    rbac.authorization.k8s.io/aggregate-to-edit: "true"
+    rbac.authorization.k8s.io/aggregate-to-admin: "true"
+    rbac.authorization.k8s.io/aggregate-to-cluster-reader: "true"
+rules:
+  - apiGroups:
+      - khulnasoft.github.io
+    resources:
+      - configauditreports
+    verbs:
+      - get
+      - list
+      - watch
+---
+# permissions for end users to view exposedsecretreports
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: aggregate-exposed-secret-reports-view
+  labels:
+    {{- include "tunnel-operator.labels" . | nindent 4 }}
+    rbac.authorization.k8s.io/aggregate-to-view: "true"
+    rbac.authorization.k8s.io/aggregate-to-edit: "true"
+    rbac.authorization.k8s.io/aggregate-to-admin: "true"
+    rbac.authorization.k8s.io/aggregate-to-cluster-reader: "true"
+rules:
+  - apiGroups:
+      - khulnasoft.github.io
+    resources:
+      - exposedsecretreports
+    verbs:
+      - get
+      - list
+      - watch
+---
+# permissions for end users to view vulnerabilityreports
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: aggregate-vulnerability-reports-view
+  labels:
+    {{- include "tunnel-operator.labels" . | nindent 4 }}
+    rbac.authorization.k8s.io/aggregate-to-view: "true"
+    rbac.authorization.k8s.io/aggregate-to-edit: "true"
+    rbac.authorization.k8s.io/aggregate-to-admin: "true"
+    rbac.authorization.k8s.io/aggregate-to-cluster-reader: "true"
+rules:
+  - apiGroups:
+      - khulnasoft.github.io
+    resources:
+      - vulnerabilityreports
+    verbs:
+      - get
+      - list
+      - watch

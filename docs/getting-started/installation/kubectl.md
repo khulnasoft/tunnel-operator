@@ -1,6 +1,6 @@
 # kubectl
 
-The Kubernetes Yaml Deployment files are available on GitHub in [https://github.com/khulnasoft/tunnel-operator](https://github.com/khulnasoft/tunnel-operator) under `/deploy/static`.
+Kubernetes Yaml deployment files are available on GitHub in [https://github.com/khulnasoft/tunnel-operator](https://github.com/khulnasoft/tunnel-operator) under `/deploy/static`.
 
 ## Example - Deploy from GitHub
 
@@ -10,7 +10,7 @@ This will install the operator in the `tunnel-system` namespace and configure it
 kubectl apply -f https://raw.githubusercontent.com/khulnasoft/tunnel-operator/{{ git.tag }}/deploy/static/tunnel-operator.yaml
 ```
 
-To confirm that the Operator is running, check that the `tunnel-operator` Deployment in the `tunnel-system`
+To confirm that the operator is running, check that the `tunnel-operator` Deployment in the `tunnel-system`
 namespace is available and all its containers are ready:
 
 ```bash
@@ -28,7 +28,7 @@ kubectl logs deployment/tunnel-operator -n tunnel-system
 ## Advanced Configuration
 
 You can configure Tunnel-Operator to control it's behavior and adapt it to your needs. Aspects of the operator machinery are configured using environment variables on the operator Pod, while aspects of the scanning behavior are controlled by ConfigMaps and Secrets.
-To learn more, please refer to the [Configuration](configuration) documentation.
+To learn more, please refer to the [Configuration](config) documentation.
 
 ## Uninstall
 

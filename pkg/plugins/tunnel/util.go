@@ -1,4 +1,4 @@
-package sbomreport
+package tunnel
 
 import (
 	"io"

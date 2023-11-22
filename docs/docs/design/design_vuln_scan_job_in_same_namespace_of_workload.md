@@ -219,6 +219,6 @@ With this approach tunnel operator will not have to worry about managing(create/
     - As we will run scan job with service account of workload and if there are some very strict PSP defined in the cluster
     then scan job will be blocked due to the PSP.
   
-[ECR registry configuration]: https://khulnasoft.github.io/tunnel-operator/v0.16.4/integrations/managed-registries/#amazon-elastic-container-registry-ecr
+[ECR registry configuration]: https://khulnasoft.github.io/tunnel-operator/v0.16.0/integrations/managed-registries/#amazon-elastic-container-registry-ecr
 [IAM role to service account]: https://docs.aws.amazon.com/eks/latest/userguide/specify-service-account-role.html
 [Tunnel fs command]: https://github.com/khulnasoft/tunnel-operator/blob/main/docs/design/design_tunnel_file_system_scanner.md
