@@ -4,8 +4,8 @@ import (
 	"context"
 	"strconv"
 
-	"github.com/aquasecurity/trivy-operator/pkg/kube"
-	"github.com/aquasecurity/trivy-operator/pkg/tunneloperator"
+	"github.com/khulnasoft/tunnel-operator/pkg/kube"
+	"github.com/khulnasoft/tunnel-operator/pkg/tunneloperator"
 	"github.com/go-logr/logr"
 	ctrl "sigs.k8s.io/controller-runtime"
 
@@ -14,8 +14,8 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/manager"
 	k8smetrics "sigs.k8s.io/controller-runtime/pkg/metrics"
 
-	"github.com/aquasecurity/trivy-operator/pkg/apis/khulnasoft/v1alpha1"
-	"github.com/aquasecurity/trivy-operator/pkg/operator/etc"
+	"github.com/khulnasoft/tunnel-operator/pkg/apis/khulnasoft/v1alpha1"
+	"github.com/khulnasoft/tunnel-operator/pkg/operator/etc"
 )
 
 const (

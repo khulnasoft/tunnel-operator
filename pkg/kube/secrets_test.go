@@ -6,7 +6,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/aquasecurity/trivy-operator/pkg/tunneloperator"
+	"github.com/khulnasoft/tunnel-operator/pkg/tunneloperator"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"sigs.k8s.io/controller-runtime/pkg/client/fake"
@@ -14,8 +14,8 @@ import (
 	. "github.com/onsi/gomega"
 	. "github.com/onsi/gomega/gstruct"
 
-	"github.com/aquasecurity/trivy-operator/pkg/docker"
-	"github.com/aquasecurity/trivy-operator/pkg/kube"
+	"github.com/khulnasoft/tunnel-operator/pkg/docker"
+	"github.com/khulnasoft/tunnel-operator/pkg/kube"
 	corev1 "k8s.io/api/core/v1"
 )
 

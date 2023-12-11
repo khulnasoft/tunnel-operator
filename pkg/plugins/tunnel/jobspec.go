@@ -8,9 +8,9 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/utils/ptr"
 
-	"github.com/aquasecurity/trivy-operator/pkg/apis/khulnasoft/v1alpha1"
-	"github.com/aquasecurity/trivy-operator/pkg/docker"
-	"github.com/aquasecurity/trivy-operator/pkg/tunneloperator"
+	"github.com/khulnasoft/tunnel-operator/pkg/apis/khulnasoft/v1alpha1"
+	"github.com/khulnasoft/tunnel-operator/pkg/docker"
+	"github.com/khulnasoft/tunnel-operator/pkg/tunneloperator"
 	containerimage "github.com/google/go-containerregistry/pkg/name"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )

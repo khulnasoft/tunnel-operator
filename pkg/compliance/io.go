@@ -6,8 +6,8 @@ import (
 
 	"context"
 	"fmt"
-	"github.com/aquasecurity/trivy-operator/pkg/apis/khulnasoft/v1alpha1"
-	"github.com/aquasecurity/trivy-operator/pkg/ext"
+	"github.com/khulnasoft/tunnel-operator/pkg/apis/khulnasoft/v1alpha1"
+	"github.com/khulnasoft/tunnel-operator/pkg/ext"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
 	"sigs.k8s.io/controller-runtime/pkg/client"

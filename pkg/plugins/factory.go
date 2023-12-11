@@ -1,12 +1,12 @@
 package plugins
 
 import (
-	"github.com/aquasecurity/trivy-operator/pkg/configauditreport"
-	"github.com/aquasecurity/trivy-operator/pkg/ext"
-	"github.com/aquasecurity/trivy-operator/pkg/kube"
-	"github.com/aquasecurity/trivy-operator/pkg/plugins/tunnel"
-	"github.com/aquasecurity/trivy-operator/pkg/tunneloperator"
-	"github.com/aquasecurity/trivy-operator/pkg/vulnerabilityreport"
+	"github.com/khulnasoft/tunnel-operator/pkg/configauditreport"
+	"github.com/khulnasoft/tunnel-operator/pkg/ext"
+	"github.com/khulnasoft/tunnel-operator/pkg/kube"
+	"github.com/khulnasoft/tunnel-operator/pkg/plugins/tunnel"
+	"github.com/khulnasoft/tunnel-operator/pkg/tunneloperator"
+	"github.com/khulnasoft/tunnel-operator/pkg/vulnerabilityreport"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 

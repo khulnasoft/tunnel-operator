@@ -5,9 +5,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/aquasecurity/trivy-operator/pkg/apis/khulnasoft/v1alpha1"
-	"github.com/aquasecurity/trivy-operator/pkg/kube"
-	"github.com/aquasecurity/trivy-operator/pkg/tunneloperator"
+	"github.com/khulnasoft/tunnel-operator/pkg/apis/khulnasoft/v1alpha1"
+	"github.com/khulnasoft/tunnel-operator/pkg/kube"
+	"github.com/khulnasoft/tunnel-operator/pkg/tunneloperator"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/labels"
 	"k8s.io/apimachinery/pkg/runtime"

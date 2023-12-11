@@ -26,7 +26,7 @@ The Trivy Operator automatically generates and updates security reports. These r
 <img src="./images/trivy-operator-overview.png" alt="Trivy-operator Overview"/>
 </p>
 
-_Please [star ⭐](https://github.com/aquasecurity/trivy-operator/stargazers) the repo if you want us to continue developing and improving trivy-operator! 😀_
+_Please [star ⭐](https://github.com/khulnasoft/tunnel-operator/stargazers) the repo if you want us to continue developing and improving trivy-operator! 😀_
 
 ## Usage
 
@@ -77,31 +77,31 @@ Trivy-Operator is an [Aqua Security](https://aquasec.com) open source project.
 Learn about our [Open Source Work and Portfolio].  
 Join the community, and talk to us about any matter in [GitHub Discussions] or [Slack].
 
-[release-img]: https://img.shields.io/github/release/aquasecurity/trivy-operator.svg?logo=github
-[release]: https://github.com/aquasecurity/trivy-operator/releases
-[action-build-img]: https://github.com/aquasecurity/trivy-operator/actions/workflows/build.yaml/badge.svg
-[action-build]: https://github.com/aquasecurity/trivy-operator/actions/workflows/build.yaml
-[action-release-snapshot-img]: https://github.com/aquasecurity/trivy-operator/actions/workflows/release-snapshot.yaml/badge.svg
-[action-release-snapshot]: https://github.com/aquasecurity/trivy-operator/actions/workflows/release-snapshot.yaml
-[cov-img]: https://codecov.io/github/aquasecurity/trivy-operator/branch/main/graph/badge.svg
-[cov]: https://codecov.io/github/aquasecurity/trivy-operator
-[report-card-img]: https://goreportcard.com/badge/github.com/aquasecurity/trivy-operator
-[report-card]: https://goreportcard.com/report/github.com/aquasecurity/trivy-operator
-[license-img]: https://img.shields.io/github/license/aquasecurity/trivy-operator.svg
-[license]: https://github.com/aquasecurity/trivy-operator/blob/main/LICENSE
-[github-all-releases-img]: https://img.shields.io/github/downloads/aquasecurity/trivy-operator/total?logo=github
+[release-img]: https://img.shields.io/github/release/khulnasoft/tunnel-operator.svg?logo=github
+[release]: https://github.com/khulnasoft/tunnel-operator/releases
+[action-build-img]: https://github.com/khulnasoft/tunnel-operator/actions/workflows/build.yaml/badge.svg
+[action-build]: https://github.com/khulnasoft/tunnel-operator/actions/workflows/build.yaml
+[action-release-snapshot-img]: https://github.com/khulnasoft/tunnel-operator/actions/workflows/release-snapshot.yaml/badge.svg
+[action-release-snapshot]: https://github.com/khulnasoft/tunnel-operator/actions/workflows/release-snapshot.yaml
+[cov-img]: https://codecov.io/github/khulnasoft/tunnel-operator/branch/main/graph/badge.svg
+[cov]: https://codecov.io/github/khulnasoft/tunnel-operator
+[report-card-img]: https://goreportcard.com/badge/github.com/khulnasoft/tunnel-operator
+[report-card]: https://goreportcard.com/report/github.com/khulnasoft/tunnel-operator
+[license-img]: https://img.shields.io/github/license/khulnasoft/tunnel-operator.svg
+[license]: https://github.com/khulnasoft/tunnel-operator/blob/main/LICENSE
+[github-all-releases-img]: https://img.shields.io/github/downloads/khulnasoft/tunnel-operator/total?logo=github
 [docker-pulls-trivy-operator]: https://img.shields.io/docker/pulls/khulnasoft/tunnel-operator?logo=docker&label=docker%20pulls%20%2F%20trivy%20operator
 [Contributing]: ../CONTRIBUTING.md
-[GitHub Discussions]: https://github.com/aquasecurity/trivy-operator/discussions
+[GitHub Discussions]: https://github.com/khulnasoft/tunnel-operator/discussions
 [Slack]: https://slack.aquasec.com/
 [Open Source Work and Portfolio]: https://www.aquasec.com/products/open-source-projects/
 
 [Custom Resource Definitions]: https://khulnasoft.github.io/trivy-operator/latest/docs/crds/
-[Go module]: https://pkg.go.dev/github.com/aquasecurity/trivy-operator/pkg
+[Go module]: https://pkg.go.dev/github.com/khulnasoft/tunnel-operator/pkg
 [Documentation]: https://khulnasoft.github.io/trivy-operator/latest
 [Static YAML Manifests]: https://khulnasoft.github.io/trivy-operator/latest/getting-started/installation/kubectl/
 [getting-started-operator]: https://khulnasoft.github.io/trivy-operator/latest/
 [Kubernetes operator]: https://khulnasoft.github.io/trivy-operator/latest
 
-[Lens Extension]: https://github.com/aquasecurity/trivy-operator-lens-extension
+[Lens Extension]: https://github.com/khulnasoft/tunnel-operator-lens-extension
 [kubectl]: https://kubernetes.io/docs/reference/kubectl

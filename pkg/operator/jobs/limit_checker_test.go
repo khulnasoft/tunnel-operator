@@ -6,9 +6,9 @@ import (
 
 	"context"
 
-	"github.com/aquasecurity/trivy-operator/pkg/operator/etc"
-	"github.com/aquasecurity/trivy-operator/pkg/operator/jobs"
-	"github.com/aquasecurity/trivy-operator/pkg/tunneloperator"
+	"github.com/khulnasoft/tunnel-operator/pkg/operator/etc"
+	"github.com/khulnasoft/tunnel-operator/pkg/operator/jobs"
+	"github.com/khulnasoft/tunnel-operator/pkg/tunneloperator"
 	batchv1 "k8s.io/api/batch/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client/fake"

@@ -3,10 +3,10 @@ package rbacassessment_test
 import (
 	"testing"
 
-	"github.com/aquasecurity/trivy-operator/pkg/apis/khulnasoft/v1alpha1"
-	"github.com/aquasecurity/trivy-operator/pkg/configauditreport"
-	"github.com/aquasecurity/trivy-operator/pkg/rbacassessment"
-	"github.com/aquasecurity/trivy-operator/pkg/tunneloperator"
+	"github.com/khulnasoft/tunnel-operator/pkg/apis/khulnasoft/v1alpha1"
+	"github.com/khulnasoft/tunnel-operator/pkg/configauditreport"
+	"github.com/khulnasoft/tunnel-operator/pkg/rbacassessment"
+	"github.com/khulnasoft/tunnel-operator/pkg/tunneloperator"
 	. "github.com/onsi/gomega"
 	rbacv1 "k8s.io/api/rbac/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"

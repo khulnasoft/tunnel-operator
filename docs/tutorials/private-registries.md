@@ -16,7 +16,7 @@ Note that we will be using a local Kubernetes KinD cluster and a private contain
 
 For this tutorial, we will use the [Operator Helm Chart.](https://khulnasoft.github.io/trivy-operator/latest/operator/installation/helm/)
 
-The configuration options for the Helm Chart can be found in the [values.yaml](https://github.com/aquasecurity/trivy-operator/blob/main/deploy/helm/values.yaml) manifest.
+The configuration options for the Helm Chart can be found in the [values.yaml](https://github.com/khulnasoft/tunnel-operator/blob/main/deploy/helm/values.yaml) manifest.
 Navigate to the section `Trivy.command`. The default will be:
 
 ```

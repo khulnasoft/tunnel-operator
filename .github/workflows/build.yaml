@@ -188,10 +188,10 @@ jobs:
           kubectl describe node
       - name: Load operator image to cluster
         run: >
-          docker tag ghcr.io/aquasecurity/trivy-operator:${{ github.sha }}-amd64
-          ghcr.io/aquasecurity/trivy-operator:e2e
+          docker tag ghcr.io/khulnasoft/tunnel-operator:${{ github.sha }}-amd64
+          ghcr.io/khulnasoft/tunnel-operator:e2e
 
-          docker save -o trivy-operator.tar ghcr.io/aquasecurity/trivy-operator:e2e
+          docker save -o trivy-operator.tar ghcr.io/khulnasoft/tunnel-operator:e2e
 
           kind load image-archive trivy-operator.tar
       - name: Init E2E tests (Install kuttl & helm)

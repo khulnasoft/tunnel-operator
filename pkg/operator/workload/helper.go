@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/aquasecurity/trivy-operator/pkg/apis/khulnasoft/v1alpha1"
-	"github.com/aquasecurity/trivy-operator/pkg/kube"
-	"github.com/aquasecurity/trivy-operator/pkg/tunneloperator"
+	"github.com/khulnasoft/tunnel-operator/pkg/apis/khulnasoft/v1alpha1"
+	"github.com/khulnasoft/tunnel-operator/pkg/kube"
+	"github.com/khulnasoft/tunnel-operator/pkg/tunneloperator"
 	"github.com/go-logr/logr"
 	"golang.org/x/exp/maps"
 	"golang.org/x/net/context"

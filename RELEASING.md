@@ -6,8 +6,8 @@
    $ git remote -v
    origin     git@github.com:<your account>/trivy-operator.git (fetch)
    origin     git@github.com:<your account>/trivy-operator.git (push)
-   upstream   git@github.com:aquasecurity/trivy-operator.git (fetch)
-   upstream   git@github.com:aquasecurity/trivy-operator.git (push)
+   upstream   git@github.com:khulnasoft/tunnel-operator.git (fetch)
+   upstream   git@github.com:khulnasoft/tunnel-operator.git (push)
    ```
 
    ```sh
@@ -54,9 +54,9 @@
    1. Trivy-operator container images published to DockerHub
        `docker.io/khulnasoft/tunnel-operator:0.17.0`
    2. Trivy-operator container images published to Amazon ECR Public Gallery
-       `public.ecr.aws/aquasecurity/trivy-operator:0.17.0`
+       `public.ecr.aws/khulnasoft/tunnel-operator:0.17.0`
    3. Trivy-operator container images published to GitHub Container Registry
-       `ghcr.io/aquasecurity/trivy-operator:0.17.0`
+       `ghcr.io/khulnasoft/tunnel-operator:0.17.0`
 
 7. Submit trivy-operator Operator to OperatorHub and ArtifactHUB by opening the PR to the <https://github.com/k8s-operatorhub/community-operators> repository.
 

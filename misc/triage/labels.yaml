@@ -1,5 +1,5 @@
 ---
-repo: aquasecurity/trivy-operator
+repo: khulnasoft/tunnel-operator
 labels:
   # kind
   - name: kind/breaking

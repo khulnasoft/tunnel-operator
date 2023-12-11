@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/aquasecurity/trivy-operator/pkg/tunneloperator"
+	"github.com/khulnasoft/tunnel-operator/pkg/tunneloperator"
 	ocpappsv1 "github.com/openshift/api/apps/v1"
 	appsv1 "k8s.io/api/apps/v1"
 	batchv1 "k8s.io/api/batch/v1"
@@ -629,7 +629,7 @@ func (o *ObjectResolver) GetNodeName(ctx context.Context, obj client.Object) (st
 }
 
 // TODO: Figure out if cluster-wide access to deployments can be avoided
-// See: https://github.com/aquasecurity/trivy-operator/issues/373 for background
+// See: https://github.com/khulnasoft/tunnel-operator/issues/373 for background
 // +kubebuilder:rbac:groups=apps,resources=deployments,verbs=get;list;watch
 
 func (o *ObjectResolver) IsActiveReplicaSet(ctx context.Context, workloadObj client.Object, controller *metav1.OwnerReference) (bool, error) {

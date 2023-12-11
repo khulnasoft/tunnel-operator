@@ -65,7 +65,7 @@ Each commit message doesn't have to follow conventions as long as it is clear an
 2. Get the source code:
 
    ```
-   git clone git@github.com:aquasecurity/trivy-operator.git
+   git clone git@github.com:khulnasoft/tunnel-operator.git
    cd trivy-operator
    ```
 
@@ -90,7 +90,7 @@ have to
 
 | Binary               | Image                                          | Description                                                   |
 |----------------------|------------------------------------------------|---------------------------------------------------------------|
-| `trivy-operator`     | `ghcr.io/aquasecurity/trivy-operator:dev`         | Trivy Operator                                                |
+| `trivy-operator`     | `ghcr.io/khulnasoft/tunnel-operator:dev`         | Trivy Operator                                                |
 
 To build all Trivy-operator binary, run:
 
@@ -255,7 +255,7 @@ basic development workflow. For other install modes see [Operator Multitenancy w
 1. Build the operator binary into the Docker image and load it from your host into KIND cluster nodes:
 
    ```
-   mage build:docker && kind load docker-image aquasecurity/trivy-operator:dev
+   mage build:docker && kind load docker-image khulnasoft/tunnel-operator:dev
    ```
 
 2. Create the `trivy-operator` Deployment in the `trivy-system` namespace to run the operator's container:
@@ -275,7 +275,7 @@ kubectl delete -k deploy/static
 1. Deploy the operator in cluster:
 
    ```
-   kubectl apply -f deploy/static/trivy-operator.yaml
+   kubectl apply -f deploy/static/tunnel-operator.yaml
    ```
 
 2. Scale the operator down to zero replicas:
@@ -312,7 +312,7 @@ kubectl delete -k deploy/static
 You can uninstall the operator with:
 
 ```
-kubectl delete -f deploy/static/trivy-operator.yaml
+kubectl delete -f deploy/static/tunnel-operator.yaml
 ```
 
 ## Update Static YAML Manifests

@@ -3,8 +3,8 @@ package trivy_test
 import (
 	"testing"
 
-	"github.com/aquasecurity/trivy-operator/pkg/plugins/tunnel"
-	"github.com/aquasecurity/trivy-operator/pkg/tunneloperator"
+	"github.com/khulnasoft/tunnel-operator/pkg/plugins/tunnel"
+	"github.com/khulnasoft/tunnel-operator/pkg/tunneloperator"
 	"github.com/stretchr/testify/assert"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"

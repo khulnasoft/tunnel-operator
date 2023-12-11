@@ -3,9 +3,9 @@ package sbomreport_test
 import (
 	"testing"
 
-	"github.com/aquasecurity/trivy-operator/pkg/apis/khulnasoft/v1alpha1"
-	"github.com/aquasecurity/trivy-operator/pkg/sbomreport"
-	"github.com/aquasecurity/trivy-operator/pkg/tunneloperator"
+	"github.com/khulnasoft/tunnel-operator/pkg/apis/khulnasoft/v1alpha1"
+	"github.com/khulnasoft/tunnel-operator/pkg/sbomreport"
+	"github.com/khulnasoft/tunnel-operator/pkg/tunneloperator"
 	"github.com/onsi/gomega"
 	"github.com/stretchr/testify/assert"
 	appsv1 "k8s.io/api/apps/v1"

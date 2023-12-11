@@ -6,14 +6,14 @@ import (
 
 	rbacv1 "k8s.io/api/rbac/v1"
 
-	"github.com/aquasecurity/trivy-operator/pkg/configauditreport"
+	"github.com/khulnasoft/tunnel-operator/pkg/configauditreport"
 
-	"github.com/aquasecurity/trivy-operator/pkg/apis/khulnasoft/v1alpha1"
-	"github.com/aquasecurity/trivy-operator/pkg/ext"
-	"github.com/aquasecurity/trivy-operator/pkg/kube"
-	"github.com/aquasecurity/trivy-operator/pkg/operator/etc"
-	"github.com/aquasecurity/trivy-operator/pkg/operator/predicate"
-	"github.com/aquasecurity/trivy-operator/pkg/tunneloperator"
+	"github.com/khulnasoft/tunnel-operator/pkg/apis/khulnasoft/v1alpha1"
+	"github.com/khulnasoft/tunnel-operator/pkg/ext"
+	"github.com/khulnasoft/tunnel-operator/pkg/kube"
+	"github.com/khulnasoft/tunnel-operator/pkg/operator/etc"
+	"github.com/khulnasoft/tunnel-operator/pkg/operator/predicate"
+	"github.com/khulnasoft/tunnel-operator/pkg/tunneloperator"
 	"github.com/go-logr/logr"
 	corev1 "k8s.io/api/core/v1"
 	networkingv1 "k8s.io/api/networking/v1"

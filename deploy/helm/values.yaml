@@ -152,7 +152,7 @@ operator:
 
 image:
   registry: "ghcr.io"
-  repository: "aquasecurity/trivy-operator"
+  repository: "khulnasoft/tunnel-operator"
   # -- tag is an override of the image tag, which is by default set by the
   # appVersion field in Chart.yaml.
   tag: ""
@@ -267,7 +267,7 @@ trivyOperator:
   additionalReportLabels: ""
 
   # -- policiesConfig Custom Rego Policies to be used by the config audit scanner
-  # See https://github.com/aquasecurity/trivy-operator/blob/main/docs/tutorials/writing-custom-configuration-audit-policies.md for more details.
+  # See https://github.com/khulnasoft/tunnel-operator/blob/main/docs/tutorials/writing-custom-configuration-audit-policies.md for more details.
   policiesConfig: ""
 
 trivy:

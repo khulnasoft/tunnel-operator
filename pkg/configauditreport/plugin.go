@@ -1,7 +1,7 @@
 package configauditreport
 
 import (
-	"github.com/aquasecurity/trivy-operator/pkg/tunneloperator"
+	"github.com/khulnasoft/tunnel-operator/pkg/tunneloperator"
 )
 
 // PluginInMemory defines the interface between trivy-operator and trivy configuration

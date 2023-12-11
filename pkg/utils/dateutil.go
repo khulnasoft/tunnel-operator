@@ -1,7 +1,7 @@
 package utils
 
 import (
-	"github.com/aquasecurity/trivy-operator/pkg/ext"
+	"github.com/khulnasoft/tunnel-operator/pkg/ext"
 	"github.com/gorhill/cronexpr"
 	"k8s.io/utils/ptr"
 	"time"
