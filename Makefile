@@ -71,7 +71,7 @@ itests-trivy-operator: check-kubeconfig get-ginkgo
 	github.com/aquasecurity/trivy-operator/pkg/plugin/trivy,\
 	github.com/aquasecurity/trivy-operator/pkg/configauditreport,\
 	github.com/aquasecurity/trivy-operator/pkg/vulnerabilityreport \
-	./itest/trivy-operator
+	./itest/tunnel-operator
 
 .PHONY: check-kubeconfig
 check-kubeconfig:

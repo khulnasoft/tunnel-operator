@@ -152,7 +152,7 @@ export KUBECONFIG=~/.kube/config
 To open the test coverage report in your web browser, run:
 
 ```shell
-go tool cover -html=itest/trivy-operator/coverage.txt
+go tool cover -html=itest/tunnel-operator/coverage.txt
 ```
 
 To run the integration tests for Trivy-operator Operator and view the coverage report, first do the
@@ -163,7 +163,7 @@ OPERATOR_NAMESPACE=trivy-system \
   OPERATOR_TARGET_NAMESPACES=default \
   OPERATOR_LOG_DEV_MODE=true \
   mage test:integration
-go tool cover -html=itest/trivy-operator/coverage.txt
+go tool cover -html=itest/tunnel-operator/coverage.txt
 ```
 
 ### Run  End to End Tests

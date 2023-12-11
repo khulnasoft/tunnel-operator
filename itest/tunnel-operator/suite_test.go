@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/aquasecurity/trivy-operator/itest/helper"
-	"github.com/aquasecurity/trivy-operator/itest/trivy-operator/behavior"
+	"github.com/aquasecurity/trivy-operator/itest/tunnel-operator/behavior"
 	"github.com/aquasecurity/trivy-operator/pkg/operator"
 	"github.com/aquasecurity/trivy-operator/pkg/operator/etc"
 	"github.com/aquasecurity/trivy-operator/pkg/tunneloperator"

@@ -140,7 +140,7 @@ jobs:
       - name: Upload code coverage
         uses: codecov/codecov-action@v3
         with:
-          files: ./itest/trivy-operator/coverage.txt
+          files: ./itest/tunnel-operator/coverage.txt
   e2e-testing:
     name: Run end to end testing
     needs:
