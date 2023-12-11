@@ -33,7 +33,7 @@ build: build-trivy-operator
 
 ## Builds the trivy-operator binary
 build-trivy-operator: $(SOURCES)
-	CGO_ENABLED=0 GOOS=linux go build -o ./bin/trivy-operator ./cmd/tunnel-operator/main.go
+	CGO_ENABLED=0 GOOS=linux go build -o ./bin/tunnel-operator ./cmd/tunnel-operator/main.go
 
 .PHONY: get-ginkgo
 ## Installs Ginkgo CLI

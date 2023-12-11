@@ -63,7 +63,7 @@ changelog:
       order: 9999
 dockers:
   - image_templates:
-      - "docker.io/aquasec/trivy-operator:{{ .Version }}-amd64"
+      - "docker.io/khulnasoft/tunnel-operator:{{ .Version }}-amd64"
       - "public.ecr.aws/aquasecurity/trivy-operator:{{ .Version }}-amd64"
       - "ghcr.io/aquasecurity/trivy-operator:{{ .Version }}-amd64"
     use: buildx
@@ -83,7 +83,7 @@ dockers:
       - "--label=org.opencontainers.image.documentation=https://khulnasoft.github.io/trivy-operator/v{{ .Version }}/"
       - "--platform=linux/amd64"
   - image_templates:
-      - "docker.io/aquasec/trivy-operator:{{ .Version }}-ubi8-amd64"
+      - "docker.io/khulnasoft/tunnel-operator:{{ .Version }}-ubi8-amd64"
       - "public.ecr.aws/aquasecurity/trivy-operator:{{ .Version }}-ubi8-amd64"
       - "ghcr.io/aquasecurity/trivy-operator:{{ .Version }}-ubi8-amd64"
     use: buildx
@@ -103,7 +103,7 @@ dockers:
       - "--label=org.opencontainers.image.documentation=https://khulnasoft.github.io/trivy-operator/v{{ .Version }}/"
       - "--platform=linux/amd64"
   - image_templates:
-      - "docker.io/aquasec/trivy-operator:{{ .Version }}-arm64"
+      - "docker.io/khulnasoft/tunnel-operator:{{ .Version }}-arm64"
       - "public.ecr.aws/aquasecurity/trivy-operator:{{ .Version }}-arm64"
       - "ghcr.io/aquasecurity/trivy-operator:{{ .Version }}-arm64"
     use: buildx
@@ -123,7 +123,7 @@ dockers:
       - "--label=org.opencontainers.image.documentation=https://khulnasoft.github.io/trivy-operator/v{{ .Version }}/"
       - "--platform=linux/arm64"
   - image_templates:
-      - "docker.io/aquasec/trivy-operator:{{ .Version }}-ubi8-arm64"
+      - "docker.io/khulnasoft/tunnel-operator:{{ .Version }}-ubi8-arm64"
       - "public.ecr.aws/aquasecurity/trivy-operator:{{ .Version }}-ubi8-arm64"
       - "ghcr.io/aquasecurity/trivy-operator:{{ .Version }}-ubi8-arm64"
     use: buildx
@@ -143,7 +143,7 @@ dockers:
       - "--label=org.opencontainers.image.documentation=https://khulnasoft.github.io/trivy-operator/v{{ .Version }}/"
       - "--platform=linux/arm64"
   - image_templates:
-      - "docker.io/aquasec/trivy-operator:{{ .Version }}-s390x"
+      - "docker.io/khulnasoft/tunnel-operator:{{ .Version }}-s390x"
       - "public.ecr.aws/aquasecurity/trivy-operator:{{ .Version }}-s390x"
       - "ghcr.io/aquasecurity/trivy-operator:{{ .Version }}-s390x"
     use: buildx
@@ -163,7 +163,7 @@ dockers:
       - "--label=org.opencontainers.image.documentation=https://khulnasoft.github.io/trivy-operator/v{{ .Version }}/"
       - "--platform=linux/s390x"
   - image_templates:
-      - "docker.io/aquasec/trivy-operator:{{ .Version }}-ppc64le"
+      - "docker.io/khulnasoft/tunnel-operator:{{ .Version }}-ppc64le"
       - "public.ecr.aws/aquasecurity/trivy-operator:{{ .Version }}-ppc64le"
       - "ghcr.io/aquasecurity/trivy-operator:{{ .Version }}-ppc64le"
     use: buildx
@@ -183,7 +183,7 @@ dockers:
       - "--label=org.opencontainers.image.documentation=https://khulnasoft.github.io/trivy-operator/v{{ .Version }}/"
       - "--platform=linux/ppc64le"
   - image_templates:
-      - "docker.io/aquasec/trivy-operator:{{ .Version }}-ubi8-s390x"
+      - "docker.io/khulnasoft/tunnel-operator:{{ .Version }}-ubi8-s390x"
       - "public.ecr.aws/aquasecurity/trivy-operator:{{ .Version }}-ubi8-s390x"
       - "ghcr.io/aquasecurity/trivy-operator:{{ .Version }}-ubi8-s390x"
     use: buildx
@@ -203,7 +203,7 @@ dockers:
       - "--label=org.opencontainers.image.documentation=https://khulnasoft.github.io/trivy-operator/v{{ .Version }}/"
       - "--platform=linux/s390x"
   - image_templates:
-      - "docker.io/aquasec/trivy-operator:{{ .Version }}-ubi8-ppc64le"
+      - "docker.io/khulnasoft/tunnel-operator:{{ .Version }}-ubi8-ppc64le"
       - "public.ecr.aws/aquasecurity/trivy-operator:{{ .Version }}-ubi8-ppc64le"
       - "ghcr.io/aquasecurity/trivy-operator:{{ .Version }}-ubi8-ppc64le"
     use: buildx
@@ -223,18 +223,18 @@ dockers:
       - "--label=org.opencontainers.image.documentation=https://khulnasoft.github.io/trivy-operator/v{{ .Version }}/"
       - "--platform=linux/ppc64le"
 docker_manifests:
-  - name_template: "aquasec/trivy-operator:{{ .Version }}"
+  - name_template: "khulnasoft/tunnel-operator:{{ .Version }}"
     image_templates:
-      - "aquasec/trivy-operator:{{ .Version }}-amd64"
-      - "aquasec/trivy-operator:{{ .Version }}-arm64"
-      - "aquasec/trivy-operator:{{ .Version }}-s390x"
-      - "aquasec/trivy-operator:{{ .Version }}-ppc64le"
-  - name_template: "aquasec/trivy-operator:{{ .Version }}-ubi8"
+      - "khulnasoft/tunnel-operator:{{ .Version }}-amd64"
+      - "khulnasoft/tunnel-operator:{{ .Version }}-arm64"
+      - "khulnasoft/tunnel-operator:{{ .Version }}-s390x"
+      - "khulnasoft/tunnel-operator:{{ .Version }}-ppc64le"
+  - name_template: "khulnasoft/tunnel-operator:{{ .Version }}-ubi8"
     image_templates:
-      - "aquasec/trivy-operator:{{ .Version }}-ubi8-amd64"
-      - "aquasec/trivy-operator:{{ .Version }}-ubi8-arm64"
-      - "aquasec/trivy-operator:{{ .Version }}-ubi8-s390x"
-      - "aquasec/trivy-operator:{{ .Version }}-ubi8-ppc64le"
+      - "khulnasoft/tunnel-operator:{{ .Version }}-ubi8-amd64"
+      - "khulnasoft/tunnel-operator:{{ .Version }}-ubi8-arm64"
+      - "khulnasoft/tunnel-operator:{{ .Version }}-ubi8-s390x"
+      - "khulnasoft/tunnel-operator:{{ .Version }}-ubi8-ppc64le"
   - name_template: "public.ecr.aws/aquasecurity/trivy-operator:{{ .Version }}"
     image_templates:
       - "public.ecr.aws/aquasecurity/trivy-operator:{{ .Version }}-amd64"

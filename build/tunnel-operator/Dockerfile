@@ -3,7 +3,7 @@ RUN apk update && apk add --upgrade libcrypto3 libssl3
 
 RUN adduser -u 10000 -D -g '' trivyoperator trivyoperator
 
-COPY trivy-operator /usr/local/bin/trivy-operator
+COPY trivy-operator /usr/loca./bin/tunnel-operator
 
 USER 10000
 

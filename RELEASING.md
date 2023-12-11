@@ -52,7 +52,7 @@
 
 6. Verify that the `release` workflow has built and published the following artifacts
    1. Trivy-operator container images published to DockerHub
-       `docker.io/aquasec/trivy-operator:0.17.0`
+       `docker.io/khulnasoft/tunnel-operator:0.17.0`
    2. Trivy-operator container images published to Amazon ECR Public Gallery
        `public.ecr.aws/aquasecurity/trivy-operator:0.17.0`
    3. Trivy-operator container images published to GitHub Container Registry

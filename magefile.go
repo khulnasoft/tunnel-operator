@@ -82,7 +82,7 @@ type Build mg.Namespace
 // Target for building trivy-operator binary.
 func (b Build) Binary() error {
 	fmt.Println("Building trivy-operator binary...")
-	return sh.RunWithV(LINUX_ENV, "go", "build", "-o", "./bin/trivy-operator", "./cmd/tunnel-operator/main.go")
+	return sh.RunWithV(LINUX_ENV, "go", "build", "-o", "./bin/tunnel-operator", "./cmd/tunnel-operator/main.go")
 }
 
 // Target for installing Ginkgo CLI.

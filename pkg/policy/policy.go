@@ -12,7 +12,7 @@ import (
 
 	"github.com/aquasecurity/defsec/pkg/severity"
 	"github.com/aquasecurity/trivy-operator/pkg/configauditreport"
-	"github.com/aquasecurity/trivy-operator/pkg/plugins/trivy"
+	"github.com/aquasecurity/trivy-operator/pkg/plugins/tunnel"
 	"github.com/aquasecurity/trivy/pkg/mapfs"
 
 	"github.com/go-logr/logr"

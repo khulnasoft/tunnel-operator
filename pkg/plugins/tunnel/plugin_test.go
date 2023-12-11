@@ -22,7 +22,7 @@ import (
 	"github.com/aquasecurity/trivy-operator/pkg/apis/khulnasoft/v1alpha1"
 	"github.com/aquasecurity/trivy-operator/pkg/ext"
 	"github.com/aquasecurity/trivy-operator/pkg/kube"
-	"github.com/aquasecurity/trivy-operator/pkg/plugins/trivy"
+	"github.com/aquasecurity/trivy-operator/pkg/plugins/tunnel"
 	"github.com/aquasecurity/trivy-operator/pkg/tunneloperator"
 	bz "github.com/dsnet/compress/bzip2"
 	"github.com/stretchr/testify/assert"
