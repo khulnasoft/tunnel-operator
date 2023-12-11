@@ -5,8 +5,8 @@ metadata:
   annotations: null
   generation: 1
   labels:
-    tunnel-operator.resource.name: proxy
-    tunnel-operator.resource.kind: Role
+    trivy-operator.resource.name: proxy
+    trivy-operator.resource.kind: Role
   name: role-proxy
   namespace: default
   ownerReferences:
@@ -43,8 +43,8 @@ report:
           spec.securityContext.fsGroup to integer greater than 0
       success: false
   scanner:
-    name: Tunnel
-    vendor: Khulnasoft Security
+    name: Trivy
+    vendor: Aqua Security
     version: version
   summary:
     criticalCount: 0

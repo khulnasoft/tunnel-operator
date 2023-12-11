@@ -9,8 +9,8 @@ import (
 	"path"
 	"time"
 
-	"github.com/khulnasoft/tunnel-operator/pkg/apis/khulnasoft/v1alpha1"
-	"github.com/khulnasoft/tunnel-operator/pkg/kube"
+	"github.com/aquasecurity/trivy-operator/pkg/apis/khulnasoft/v1alpha1"
+	"github.com/aquasecurity/trivy-operator/pkg/kube"
 	appsv1 "k8s.io/api/apps/v1"
 	batchv1 "k8s.io/api/batch/v1"
 	corev1 "k8s.io/api/core/v1"
@@ -120,7 +120,6 @@ var _ = Describe("Workload controller", func() {
 				return k8sClient.Get(ctx, caLookupKey, createdConfigAuditReport)
 			}, timeout, interval).Should(Succeed())
 			sort.Sort(ByCheckID(expectedConfigAuditReport.Report.Checks))
-
 			Expect(createdConfigAuditReport).Should(WithTransform(NormalizeUntestableConfigAuditReportFields, Equal(expectedConfigAuditReport)))
 		},
 		Entry("Should create a config audit report CronJob", "cronjob-configauditreport-expected.yaml"),
@@ -135,8 +134,8 @@ var _ = Describe("Workload controller", func() {
 		ca.Kind = "RbacAssessmentReport"
 		ca.UID = ""
 		ca.SetLabels(map[string]string{
-			"tunnel-operator.resource.kind": "Role",
-			"tunnel-operator.resource.name": "proxy",
+			"trivy-operator.resource.kind": "Role",
+			"trivy-operator.resource.name": "proxy",
 		})
 		ca.ResourceVersion = ""
 		ca.CreationTimestamp = metav1.Time{}
@@ -169,8 +168,8 @@ var _ = Describe("Workload controller", func() {
 		ca.Kind = "InfraAssessmentReport"
 		ca.UID = ""
 		ca.SetLabels(map[string]string{
-			"tunnel-operator.resource.kind":      "Pod",
-			"tunnel-operator.resource.namespace": "kube-system",
+			"trivy-operator.resource.kind":      "Pod",
+			"trivy-operator.resource.namespace": "kube-system",
 		})
 		ca.ResourceVersion = ""
 		ca.CreationTimestamp = metav1.Time{}

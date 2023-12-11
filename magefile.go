@@ -17,9 +17,9 @@ import (
 
 var (
 	// Default targets
-	Default = Build
-	ENV     = map[string]string{
+	ENV = map[string]string{
 		"CGO_ENABLED": "0",
+		"GOBIN":       LOCALBIN,
 	}
 	LINUX_ENV = map[string]string{
 		"CGO_ENABLED": "0",
@@ -35,21 +35,20 @@ var (
 	}
 
 	// Variables
-	DOCKER = "docker"
-	KIND   = "kind"
+	KIND = "kind"
 
 	KUBECONFIG = filepath.Join(os.Getenv("HOME"), ".kube", "config")
 
 	GO111MODULE = "on" // Active module mode, as we use Go modules to manage dependencies
 	GOPATH      = goEnv("GOPATH")
 	GOBIN       = filepath.Join(goEnv("GOPATH"), "bin")
-	GINKGO      = filepath.Join(goEnv("GOPATH"), "bin", "ginkgo")
+	GINKGO      = filepath.Join(PWD, "bin", "ginkgo")
 
 	IMAGE_TAG                 = "dev"
-	TUNNEL_OPERATOR_IMAGE      = "khulnasoft/tunnel-operator:" + IMAGE_TAG
-	TUNNEL_OPERATOR_IMAGE_UBI8 = "khulnasoft/tunnel-operator:" + IMAGE_TAG + "-ubi8"
+	TRIVY_OPERATOR_IMAGE      = "aquasecurity/trivy-operator:" + IMAGE_TAG
+	TRIVY_OPERATOR_IMAGE_UBI8 = "aquasecurity/trivy-operator:" + IMAGE_TAG + "-ubi8"
 
-	MKDOCS_IMAGE = "khulnasoft/mkdocs-material:tunnel-operator"
+	MKDOCS_IMAGE = "aquasec/mkdocs-material:trivy-operator"
 	MKDOCS_PORT  = 8000
 
 	// ENVTEST_K8S_VERSION refers to the version of kubebuilder assets to be downloaded by envtest binary.
@@ -78,65 +77,57 @@ func getWorkingDir() string {
 	return wd
 }
 
-// All is the default target for building and running tests.
-func All() {
-	mg.Deps(Build)
-}
+type Build mg.Namespace
 
-// Build is the target for building.
-func Build() {
-	mg.Deps(BuildTunnelOperator)
-}
-
-// Target for building tunnel-operator binary.
-func BuildTunnelOperator() error {
-	fmt.Println("Building tunnel-operator binary...")
-	return sh.RunWithV(LINUX_ENV, "go", "build", "-o", "./bin/tunnel-operator", "./cmd/tunnel-operator/main.go")
+// Target for building trivy-operator binary.
+func (b Build) Binary() error {
+	fmt.Println("Building trivy-operator binary...")
+	return sh.RunWithV(LINUX_ENV, "go", "build", "-o", "./bin/trivy-operator", "./cmd/tunnel-operator/main.go")
 }
 
 // Target for installing Ginkgo CLI.
-func GetGinkgo() error {
+func getGinkgo() error {
 	fmt.Println("Installing Ginkgo CLI...")
 	return sh.RunWithV(ENV, "go", "install", "github.com/onsi/ginkgo/v2/ginkgo")
 }
 
 // Target for installing quicktemplate compiler.
-func GetQTC() error {
+func getQTC() error {
 	fmt.Println("Installing quicktemplate compiler...")
 	return sh.RunWithV(ENV, "go", "install", "github.com/valyala/quicktemplate/qtc")
 }
 
 // Target for converting quicktemplate files (*.qtpl) into Go code.
-func CompileTemplates() error {
+func compileTemplates() error {
 	fmt.Println("Converting quicktemplate files to Go code...")
 	return sh.RunWithV(ENV, filepath.Join(GOBIN, "qtc"))
 }
 
 type Test mg.Namespace
 
-// Target for running tests.
+// Target for running unit tests.
 func (t Test) Unit() error {
 	fmt.Println("Running tests...")
 	return sh.RunWithV(ENV, "go", "test", "-v", "-short", "-timeout", "60s", "-coverprofile=coverage.txt", "./...")
 }
 
-// Target for running integration tests for Tunnel Operator.
+// Target for running integration tests for Trivy Operator.
 func (t Test) Integration() error {
-	fmt.Println("Running integration tests for Tunnel Operator...")
-	mg.Deps(CheckKubeconfig, GetGinkgo)
-	return sh.Run(GINKGO, "-coverprofile=coverage.txt",
-		"-coverpkg=github.com/khulnasoft/tunnel-operator/pkg/operator,"+
-			"github.com/khulnasoft/tunnel-operator/pkg/operator/predicate,"+
-			"github.com/khulnasoft/tunnel-operator/pkg/operator/controller,"+
-			"github.com/khulnasoft/tunnel-operator/pkg/plugin,"+
-			"github.com/khulnasoft/tunnel-operator/pkg/plugin/tunnel,"+
-			"github.com/khulnasoft/tunnel-operator/pkg/configauditreport,"+
-			"github.com/khulnasoft/tunnel-operator/pkg/vulnerabilityreport",
-		"./itest/tunnel-operator")
+	fmt.Println("Running integration tests for Trivy Operator...")
+	mg.Deps(checkKubeconfig, getGinkgo)
+	return sh.RunV(GINKGO, "-coverprofile=coverage.txt",
+		"-coverpkg=github.com/aquasecurity/trivy-operator/pkg/operator,"+
+			"github.com/aquasecurity/trivy-operator/pkg/operator/predicate,"+
+			"github.com/aquasecurity/trivy-operator/pkg/operator/controller,"+
+			"github.com/aquasecurity/trivy-operator/pkg/plugin,"+
+			"github.com/aquasecurity/trivy-operator/pkg/plugin/trivy,"+
+			"github.com/aquasecurity/trivy-operator/pkg/configauditreport,"+
+			"github.com/aquasecurity/trivy-operator/pkg/vulnerabilityreport",
+		"./itest/trivy-operator")
 }
 
 // Target for checking if KUBECONFIG environment variable is set.
-func CheckKubeconfig() error {
+func checkKubeconfig() error {
 	kubeconfig := os.Getenv("KUBECONFIG")
 	if kubeconfig == "" {
 		return fmt.Errorf("Environment variable KUBECONFIG is not set")
@@ -146,70 +137,72 @@ func CheckKubeconfig() error {
 }
 
 // Target for removing build artifacts
-func Clean() {
+func (t Tool) Clean() {
 	fmt.Println("Removing build artifacts...")
 	removeDir(filepath.Join(".", "bin"))
 	removeDir(filepath.Join(".", "dist"))
 }
 
 // Target for building Docker images for all binaries
-func DockerBuild() {
+func (b Build) DockerAll() {
 	fmt.Println("Building Docker images for all binaries...")
-	DockerBuildTunnelOperator()
-	DockerBuildTunnelOperatorUbi8()
+	b.Docker()
+	b.DockerUbi8()
 }
 
-// Target for building Docker image for tunnel-operator
-func DockerBuildTunnelOperator() error {
-	fmt.Println("Building Docker image for tunnel-operator...")
-	return sh.Run("docker", "build", "--no-cache", "-t", TUNNEL_OPERATOR_IMAGE, "-f", "build/tunnel-operator/Dockerfile", "bin")
+// Target for building Docker image for trivy-operator
+func (b Build) Docker() error {
+	fmt.Println("Building Docker image for trivy-operator...")
+	return sh.RunV("docker", "build", "--no-cache", "-t", TRIVY_OPERATOR_IMAGE, "-f", "build/tunnel-operator/Dockerfile", "bin")
 }
 
-// Target for building Docker image for tunnel-operator ubi8
-func DockerBuildTunnelOperatorUbi8() error {
-	fmt.Println("Building Docker image for tunnel-operator ubi8...")
-	return sh.Run("docker", "build", "--no-cache", "-f", "build/tunnel-operator/Dockerfile.ubi8", "-t", TUNNEL_OPERATOR_IMAGE_UBI8, "bin")
+// Target for building Docker image for trivy-operator ubi8
+func (b Build) DockerUbi8() error {
+	fmt.Println("Building Docker image for trivy-operator ubi8...")
+	return sh.RunV("docker", "build", "--no-cache", "-f", "build/tunnel-operator/Dockerfile.ubi8", "-t", TRIVY_OPERATOR_IMAGE_UBI8, "bin")
 }
 
 // Target for loading Docker images into the KIND cluster
-func KindLoadImages() error {
+func (b Build) KindLoadImages() error {
 	fmt.Println("Loading Docker images into the KIND cluster...")
-	mg.Deps(DockerBuildTunnelOperator, DockerBuildTunnelOperatorUbi8)
-	return sh.Run(KIND, "load", "docker-image", TUNNEL_OPERATOR_IMAGE, TUNNEL_OPERATOR_IMAGE_UBI8)
+	mg.Deps(b.Docker, b.DockerUbi8)
+	return sh.RunV(KIND, "load", "docker-image", TRIVY_OPERATOR_IMAGE, TRIVY_OPERATOR_IMAGE_UBI8)
 }
 
-// Target for running MkDocs development server to preview the documentation page
-func MkDocsServe() error {
+type Docs mg.Namespace
+
+// Target for running MkDocs development server to preview the operator documentation page
+func (d Docs) Serve() error {
 	fmt.Println("Running MkDocs development server...")
-	err := sh.Run("docker", "build", "-t", MKDOCS_IMAGE, "-f", "build/mkdocs-material/Dockerfile", "build/tunnel-operator")
+	err := sh.RunV("docker", "build", "-t", MKDOCS_IMAGE, "-f", "build/mkdocs-material/Dockerfile", "build/tunnel-operator")
 	if err != nil {
 		return err
 	}
-	return sh.Run("docker", "run", "--name", "mkdocs-serve", "--rm", "-v", fmt.Sprintf("%s:/docs", PWD), "-p", fmt.Sprintf("%d:8000", MKDOCS_PORT), MKDOCS_IMAGE)
+	return sh.RunV("docker", "run", "--name", "mkdocs-serve", "--rm", "-v", fmt.Sprintf("%s:/docs", PWD), "-p", fmt.Sprintf("%d:8000", MKDOCS_PORT), MKDOCS_IMAGE)
 }
 
 // Target for installing the labeler tool
-func InstallLabeler() error {
+func installLabeler() error {
 	fmt.Println("Installing the labeler tool...")
 	return sh.RunWithV(GOBINENV, "go", "install", "github.com/knqyf263/labeler@latest")
 }
 
 // Target for creating the LOCALBIN directory
-func LocalBin() error {
+func localBin() error {
 	fmt.Println("Creating LOCALBIN directory...")
 	return os.MkdirAll(LOCALBIN, os.ModePerm)
 }
 
 // Target for downloading controller-gen locally if necessary
-func ControllerGen() error {
-	mg.Deps(LocalBin)
+func controllerGen() error {
+	mg.Deps(localBin)
 	fmt.Println("Downloading controller-gen...")
 	return sh.RunWithV(GOLOCALBINENV, "go", "install", "sigs.k8s.io/controller-tools/cmd/controller-gen@"+CONTROLLER_TOOLS_VERSION)
 }
 
 // Target for downloading envtest-setup locally if necessary
-func (t Test) Envtest() error {
-	mg.Deps(LocalBin)
+func (t Test) envTestBin() error {
+	mg.Deps(localBin)
 	fmt.Println("Downloading envtest-setup...")
 	return sh.RunWithV(GOLOCALBINENV, "go", "install", "sigs.k8s.io/controller-runtime/tools/setup-envtest@latest")
 }
@@ -217,28 +210,32 @@ func (t Test) Envtest() error {
 type Generate mg.Namespace
 
 // Target for verifying generated artifacts
-func (g Generate) Verify() error {
+func (g Generate) Verify() {
 	fmt.Println("Verifying generated artifacts...")
-	mg.Deps(g.All)
-	return sh.Run("./hack/verify-generated.sh")
+	mg.Deps(g.All, g.verifyFilesDiff)
+}
+
+func (g Generate) verifyFilesDiff() error {
+	command := "./hack/verify-generated.sh"
+	return sh.RunV("bash", "-c", command)
 }
 
 // Target for generating code and manifests
 func (g Generate) Code() error {
 	fmt.Println("Generating code and manifests...")
-	mg.Deps(ControllerGen)
-	return sh.Run(CONTROLLER_GEN, "object:headerFile=hack/boilerplate.go.txt", "paths=./pkg/...", "+rbac:roleName=tunnel-operator", "output:rbac:artifacts:config=deploy/helm/generated")
+	mg.Deps(controllerGen)
+	return sh.RunV(CONTROLLER_GEN, "object:headerFile=hack/boilerplate.go.txt", "paths=./pkg/...", "+rbac:roleName=trivy-operator", "output:rbac:artifacts:config=deploy/helm/generated")
 }
 
 // Target for generating CRDs and updating static YAML
 func (g Generate) Manifests() error {
 	fmt.Println("Generating CRDs and updating static YAML...")
-	mg.Deps(ControllerGen)
-	err := sh.Run(CONTROLLER_GEN, "crd:allowDangerousTypes=true", "paths=./pkg/apis/...", "output:crd:artifacts:config=deploy/helm/crds")
+	mg.Deps(controllerGen)
+	err := sh.RunV(CONTROLLER_GEN, "crd:allowDangerousTypes=true", "paths=./pkg/apis/...", "output:crd:artifacts:config=deploy/helm/crds")
 	if err != nil {
 		return err
 	}
-	return sh.Run("./hack/update-static.yaml.sh")
+	return sh.RunV("./hack/update-static.yaml.sh")
 }
 
 // Target for generating all artifacts
@@ -248,20 +245,20 @@ func (g Generate) All() {
 }
 
 // Target for generating Helm documentation
-func (g Generate) HelmDocs() error {
+func (g Generate) Docs() error {
 	fmt.Println("Generating Helm documentation...")
-	err := sh.Run("go", "install", "github.com/norwoodj/helm-docs/cmd/helm-docs@latest")
+	err := sh.RunWithV(GOLOCALBINENV, "go", "install", "github.com/norwoodj/helm-docs/cmd/helm-docs@latest")
 	if err != nil {
 		return err
 	}
-	return sh.Run(HELM_DOCS_GEN, "./deploy")
+	return sh.RunV(HELM_DOCS_GEN, "./deploy")
 }
 
 // Target for verifying generated Helm documentation
-func (g Generate) VerifyHelmDocs() error {
+func (g Generate) VerifyDocs() error {
 	fmt.Println("Verifying generated Helm documentation...")
-	mg.Deps(g.HelmDocs)
-	return sh.Run("./hack/verify-generated.sh")
+	mg.Deps(g.Docs)
+	return g.verifyFilesDiff()
 }
 
 // GoEnv returns the value of a Go environment variable.
@@ -275,18 +272,32 @@ func goEnv(envVar string) string {
 	return string(output)
 }
 
-// getEnvtestKubeAssets returns the path to kubebuilder assets for envtest.
-func getEnvtestKubeAssets() string {
-	cmd := exec.Command("envtest", "use", ENVTEST_K8S_VERSION, "-p", "path")
-	output, err := cmd.Output()
+// Target for running kubernetes envtests.
+func (t Test) Envtest() error {
+	mg.Deps(t.envTestBin)
+	output, err := sh.Output(filepath.Join(PWD, "bin", "setup-envtest"), "use", ENVTEST_K8S_VERSION, "-p", "path")
 	if err != nil {
-		fmt.Println("Error getting envtest kube assets:", err)
-		os.Exit(1)
+		return err
 	}
-	return string(output)
+	mg.Deps(t.envTestBin)
+	return sh.RunWithV(map[string]string{"KUBEBUILDER_ASSETS": output}, "go", "test", "-v", "-timeout", "60s", "-coverprofile=coverage.txt", "./pkg/operator/envtest/...")
 }
 
 // removeDir removes the directory at the given path.
 func removeDir(path string) error {
-	return sh.Run("rm", "-r", path)
+	return sh.RunV("rm", "-r", path)
+}
+
+type Tool mg.Namespace
+
+// Target install Aqua tools if not installed
+func (Tool) Aqua() error {
+	if exists(filepath.Join(GOBIN, "aqua")) {
+		return nil
+	}
+	return sh.Run("go", "install", "github.com/aquaproj/aqua/v2/cmd/aqua@v2.2.1")
+}
+func exists(filename string) bool {
+	_, err := os.Stat(filename)
+	return err == nil
 }

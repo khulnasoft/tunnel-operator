@@ -155,7 +155,7 @@ type ComplianceCheck struct {
 	Success bool `json:"success"`
 }
 
-// ToComplainceSpec map data from crd compliance spec to tunnel compliance spec
+// ToComplainceSpec map data from crd compliance spec to trivy compliance spec
 func ToComplainceSpec(cSpec Complaince) spec.ComplianceSpec {
 	specControls := make([]defsecTypes.Control, 0)
 	for _, control := range cSpec.Controls {
@@ -183,7 +183,7 @@ func ToComplainceSpec(cSpec Complaince) spec.ComplianceSpec {
 	return spec.ComplianceSpec{Spec: compSpec}
 }
 
-// FromSummaryReport map data from tunnel summary report to crd summary report
+// FromSummaryReport map data from trivy summary report to crd summary report
 func FromSummaryReport(sr *report.SummaryReport) *SummaryReport {
 	summaryControls := make([]ControlCheckSummary, 0)
 	for _, sr := range sr.SummaryControls {
@@ -201,7 +201,7 @@ func FromSummaryReport(sr *report.SummaryReport) *SummaryReport {
 	}
 }
 
-// FromDetailReport map data from tunnel summary report to crd summary report
+// FromDetailReport map data from trivy summary report to crd summary report
 func FromDetailReport(sr *report.ComplianceReport) *ComplianceReport {
 	controlResults := make([]*ControlCheckResult, 0)
 	for _, sr := range sr.Results {

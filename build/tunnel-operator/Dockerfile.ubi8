@@ -1,10 +1,10 @@
 FROM registry.access.redhat.com/ubi8/ubi-minimal:8.5
 
 RUN microdnf install shadow-utils
-RUN useradd -u 10000 tunneloperator
+RUN useradd -u 10000 trivyoperator
 WORKDIR /opt/bin/
-COPY tunnel-operator /usr/local/bin/tunnel-operator
+COPY trivy-operator /usr/local/bin/trivy-operator
 
-USER tunneloperator
+USER trivyoperator
 
-ENTRYPOINT ["tunnel-operator"]
+ENTRYPOINT ["trivy-operator"]

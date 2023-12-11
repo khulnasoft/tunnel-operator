@@ -6,9 +6,9 @@ import (
 
 	"context"
 
-	"github.com/khulnasoft/tunnel-operator/pkg/operator/etc"
-	"github.com/khulnasoft/tunnel-operator/pkg/operator/jobs"
-	"github.com/khulnasoft/tunnel-operator/pkg/tunneloperator"
+	"github.com/aquasecurity/trivy-operator/pkg/operator/etc"
+	"github.com/aquasecurity/trivy-operator/pkg/operator/jobs"
+	"github.com/aquasecurity/trivy-operator/pkg/tunneloperator"
 	batchv1 "k8s.io/api/batch/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client/fake"
@@ -17,48 +17,48 @@ import (
 var _ = Describe("LimitChecker", func() {
 
 	config := etc.Config{
-		Namespace:                    "tunnel-operator",
+		Namespace:                    "trivy-operator",
 		ConcurrentScanJobsLimit:      2,
 		ConcurrentNodeCollectorLimit: 1,
 	}
-	defaultTunnelOperatorConfig := tunneloperator.GetDefaultConfig()
+	defaultTrivyOperatorConfig := trivyoperator.GetDefaultConfig()
 
 	Context("When there are more jobs than limit", func() {
 
 		It("Should return true", func() {
 
-			client := fake.NewClientBuilder().WithScheme(tunneloperator.NewScheme()).WithObjects(
+			client := fake.NewClientBuilder().WithScheme(trivyoperator.NewScheme()).WithObjects(
 				&batchv1.Job{ObjectMeta: metav1.ObjectMeta{
 					Name:      "logs-exporter",
-					Namespace: "tunnel-operator",
+					Namespace: "trivy-operator",
 				}},
 				&batchv1.Job{ObjectMeta: metav1.ObjectMeta{
 					Name:      "scan-vulnerabilityreport-hash1",
-					Namespace: "tunnel-operator",
+					Namespace: "trivy-operator",
 					Labels: map[string]string{
-						tunneloperator.LabelK8SAppManagedBy:            tunneloperator.AppTunnelOperator,
-						tunneloperator.LabelVulnerabilityReportScanner: "Tunnel",
+						trivyoperator.LabelK8SAppManagedBy:            trivyoperator.AppTrivyOperator,
+						trivyoperator.LabelVulnerabilityReportScanner: "Trivy",
 					},
 				}},
 				&batchv1.Job{ObjectMeta: metav1.ObjectMeta{
 					Name:      "scan-vulnerabilityreport-hash2",
-					Namespace: "tunnel-operator",
+					Namespace: "trivy-operator",
 					Labels: map[string]string{
-						tunneloperator.LabelK8SAppManagedBy:            tunneloperator.AppTunnelOperator,
-						tunneloperator.LabelVulnerabilityReportScanner: "Tunnel",
+						trivyoperator.LabelK8SAppManagedBy:            trivyoperator.AppTrivyOperator,
+						trivyoperator.LabelVulnerabilityReportScanner: "Trivy",
 					},
 				}},
 				&batchv1.Job{ObjectMeta: metav1.ObjectMeta{
 					Name:      "scan-configauditreport-hash2",
-					Namespace: "tunnel-operator",
+					Namespace: "trivy-operator",
 					Labels: map[string]string{
-						tunneloperator.LabelK8SAppManagedBy:            tunneloperator.AppTunnelOperator,
-						tunneloperator.LabelVulnerabilityReportScanner: "Tunnel",
+						trivyoperator.LabelK8SAppManagedBy:            trivyoperator.AppTrivyOperator,
+						trivyoperator.LabelVulnerabilityReportScanner: "Trivy",
 					},
 				}},
 			).Build()
 
-			instance := jobs.NewLimitChecker(config, client, defaultTunnelOperatorConfig)
+			instance := jobs.NewLimitChecker(config, client, defaultTrivyOperatorConfig)
 			limitExceeded, jobsCount, err := instance.Check(context.TODO())
 			Expect(err).ToNot(HaveOccurred())
 			Expect(limitExceeded).To(BeTrue())
@@ -70,22 +70,22 @@ var _ = Describe("LimitChecker", func() {
 	Context("When there are less jobs than limit", func() {
 
 		It("Should return false", func() {
-			client := fake.NewClientBuilder().WithScheme(tunneloperator.NewScheme()).WithObjects(
+			client := fake.NewClientBuilder().WithScheme(trivyoperator.NewScheme()).WithObjects(
 				&batchv1.Job{ObjectMeta: metav1.ObjectMeta{
 					Name:      "logs-exporter",
-					Namespace: "tunnel-operator",
+					Namespace: "trivy-operator",
 				}},
 				&batchv1.Job{ObjectMeta: metav1.ObjectMeta{
 					Name:      "scan-vulnerabilityreport-hash1",
-					Namespace: "tunnel-operator",
+					Namespace: "trivy-operator",
 					Labels: map[string]string{
-						tunneloperator.LabelK8SAppManagedBy:            tunneloperator.AppTunnelOperator,
-						tunneloperator.LabelVulnerabilityReportScanner: "Tunnel",
+						trivyoperator.LabelK8SAppManagedBy:            trivyoperator.AppTrivyOperator,
+						trivyoperator.LabelVulnerabilityReportScanner: "Trivy",
 					},
 				}},
 			).Build()
 
-			instance := jobs.NewLimitChecker(config, client, defaultTunnelOperatorConfig)
+			instance := jobs.NewLimitChecker(config, client, defaultTrivyOperatorConfig)
 			limitExceeded, jobsCount, err := instance.Check(context.TODO())
 			Expect(err).ToNot(HaveOccurred())
 			Expect(limitExceeded).To(BeFalse())
@@ -97,39 +97,39 @@ var _ = Describe("LimitChecker", func() {
 	Context("When there are more jobs than limit running in different namespace", func() {
 
 		It("Should return true", func() {
-			client := fake.NewClientBuilder().WithScheme(tunneloperator.NewScheme()).WithObjects(
+			client := fake.NewClientBuilder().WithScheme(trivyoperator.NewScheme()).WithObjects(
 				&batchv1.Job{ObjectMeta: metav1.ObjectMeta{
 					Name:      "logs-exporter",
-					Namespace: "tunnel-operator",
+					Namespace: "trivy-operator",
 				}},
 				&batchv1.Job{ObjectMeta: metav1.ObjectMeta{
 					Name:      "scan-vulnerabilityreport-hash1",
 					Namespace: "default",
 					Labels: map[string]string{
-						tunneloperator.LabelK8SAppManagedBy:            tunneloperator.AppTunnelOperator,
-						tunneloperator.LabelVulnerabilityReportScanner: "Tunnel",
+						trivyoperator.LabelK8SAppManagedBy:            trivyoperator.AppTrivyOperator,
+						trivyoperator.LabelVulnerabilityReportScanner: "Trivy",
 					},
 				}},
 				&batchv1.Job{ObjectMeta: metav1.ObjectMeta{
 					Name:      "scan-vulnerabilityreport-hash2",
 					Namespace: "prod",
 					Labels: map[string]string{
-						tunneloperator.LabelK8SAppManagedBy:            tunneloperator.AppTunnelOperator,
-						tunneloperator.LabelVulnerabilityReportScanner: "Tunnel",
+						trivyoperator.LabelK8SAppManagedBy:            trivyoperator.AppTrivyOperator,
+						trivyoperator.LabelVulnerabilityReportScanner: "Trivy",
 					},
 				}},
 				&batchv1.Job{ObjectMeta: metav1.ObjectMeta{
 					Name:      "scan-configauditreport-hash3",
 					Namespace: "stage",
 					Labels: map[string]string{
-						tunneloperator.LabelK8SAppManagedBy:            tunneloperator.AppTunnelOperator,
-						tunneloperator.LabelVulnerabilityReportScanner: "Tunnel",
+						trivyoperator.LabelK8SAppManagedBy:            trivyoperator.AppTrivyOperator,
+						trivyoperator.LabelVulnerabilityReportScanner: "Trivy",
 					},
 				}},
 			).Build()
-			tunnelOperatorConfig := defaultTunnelOperatorConfig
-			tunnelOperatorConfig[tunneloperator.KeyVulnerabilityScansInSameNamespace] = "true"
-			instance := jobs.NewLimitChecker(config, client, tunnelOperatorConfig)
+			trivyOperatorConfig := defaultTrivyOperatorConfig
+			trivyOperatorConfig[trivyoperator.KeyVulnerabilityScansInSameNamespace] = "true"
+			instance := jobs.NewLimitChecker(config, client, trivyOperatorConfig)
 			limitExceeded, jobsCount, err := instance.Check(context.TODO())
 			Expect(err).ToNot(HaveOccurred())
 			Expect(limitExceeded).To(BeTrue())
@@ -142,38 +142,38 @@ var _ = Describe("LimitChecker", func() {
 
 		It("Should return true", func() {
 
-			client := fake.NewClientBuilder().WithScheme(tunneloperator.NewScheme()).WithObjects(
+			client := fake.NewClientBuilder().WithScheme(trivyoperator.NewScheme()).WithObjects(
 				&batchv1.Job{ObjectMeta: metav1.ObjectMeta{
 					Name:      "logs-exporter",
-					Namespace: "tunnel-operator",
+					Namespace: "trivy-operator",
 				}},
 				&batchv1.Job{ObjectMeta: metav1.ObjectMeta{
 					Name:      "node-collector-hash1",
-					Namespace: "tunnel-operator",
+					Namespace: "trivy-operator",
 					Labels: map[string]string{
-						tunneloperator.LabelK8SAppManagedBy:   tunneloperator.AppTunnelOperator,
-						tunneloperator.LabelNodeInfoCollector: "Tunnel",
+						trivyoperator.LabelK8SAppManagedBy:   trivyoperator.AppTrivyOperator,
+						trivyoperator.LabelNodeInfoCollector: "Trivy",
 					},
 				}},
 				&batchv1.Job{ObjectMeta: metav1.ObjectMeta{
 					Name:      "node-collector-hash2",
-					Namespace: "tunnel-operator",
+					Namespace: "trivy-operator",
 					Labels: map[string]string{
-						tunneloperator.LabelK8SAppManagedBy:   tunneloperator.AppTunnelOperator,
-						tunneloperator.LabelNodeInfoCollector: "Tunnel",
+						trivyoperator.LabelK8SAppManagedBy:   trivyoperator.AppTrivyOperator,
+						trivyoperator.LabelNodeInfoCollector: "Trivy",
 					},
 				}},
 				&batchv1.Job{ObjectMeta: metav1.ObjectMeta{
 					Name:      "node-collector-hash3",
-					Namespace: "tunnel-operator",
+					Namespace: "trivy-operator",
 					Labels: map[string]string{
-						tunneloperator.LabelK8SAppManagedBy:   tunneloperator.AppTunnelOperator,
-						tunneloperator.LabelNodeInfoCollector: "Tunnel",
+						trivyoperator.LabelK8SAppManagedBy:   trivyoperator.AppTrivyOperator,
+						trivyoperator.LabelNodeInfoCollector: "Trivy",
 					},
 				}},
 			).Build()
 
-			instance := jobs.NewLimitChecker(config, client, defaultTunnelOperatorConfig)
+			instance := jobs.NewLimitChecker(config, client, defaultTrivyOperatorConfig)
 			limitExceeded, jobsCount, err := instance.CheckNodes(context.TODO())
 			Expect(err).ToNot(HaveOccurred())
 			Expect(limitExceeded).To(BeTrue())
@@ -185,9 +185,9 @@ var _ = Describe("LimitChecker", func() {
 	Context("When there are less node collector jobs than limit", func() {
 
 		It("Should return false", func() {
-			client := fake.NewClientBuilder().WithScheme(tunneloperator.NewScheme()).WithObjects().Build()
+			client := fake.NewClientBuilder().WithScheme(trivyoperator.NewScheme()).WithObjects().Build()
 
-			instance := jobs.NewLimitChecker(config, client, defaultTunnelOperatorConfig)
+			instance := jobs.NewLimitChecker(config, client, defaultTrivyOperatorConfig)
 			limitExceeded, jobsCount, err := instance.CheckNodes(context.TODO())
 			Expect(err).ToNot(HaveOccurred())
 			Expect(limitExceeded).To(BeFalse())

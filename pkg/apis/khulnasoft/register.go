@@ -1,4 +1,4 @@
-package khulnasoft
+package aquasecurity
 
 // GroupName is the group name used in this package.
 const (

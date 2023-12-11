@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/khulnasoft/tunnel-operator/pkg/tunneloperator"
+	"github.com/aquasecurity/trivy-operator/pkg/tunneloperator"
 	ocpappsv1 "github.com/openshift/api/apps/v1"
 	appsv1 "k8s.io/api/apps/v1"
 	batchv1 "k8s.io/api/batch/v1"
@@ -112,18 +112,18 @@ func IsClusterScopedKind(kind string) bool {
 // ObjectRefToLabels encodes the specified ObjectRef as a set of labels.
 //
 // If Object's name cannot be used as the value of the
-// tunnel-operator.LabelResourceName label, as a fallback, this method will calculate
+// trivy-operator.LabelResourceName label, as a fallback, this method will calculate
 // a hash of the Object's name and use it as the value of the
-// tunnel-operator.LabelResourceNameHash label.
+// trivy-operator.LabelResourceNameHash label.
 func ObjectRefToLabels(obj ObjectRef) map[string]string {
 	labels := map[string]string{
-		tunneloperator.LabelResourceKind:      string(obj.Kind),
-		tunneloperator.LabelResourceNamespace: obj.Namespace,
+		trivyoperator.LabelResourceKind:      string(obj.Kind),
+		trivyoperator.LabelResourceNamespace: obj.Namespace,
 	}
 	if len(validation.IsValidLabelValue(obj.Name)) == 0 {
-		labels[tunneloperator.LabelResourceName] = obj.Name
+		labels[trivyoperator.LabelResourceName] = obj.Name
 	} else {
-		labels[tunneloperator.LabelResourceNameHash] = ComputeHash(obj.Name)
+		labels[trivyoperator.LabelResourceNameHash] = ComputeHash(obj.Name)
 	}
 	return labels
 }
@@ -134,38 +134,38 @@ func ObjectToObjectMeta(obj client.Object, objectMeta *metav1.ObjectMeta) error 
 	if objectMeta.Labels == nil {
 		objectMeta.Labels = make(map[string]string)
 	}
-	objectMeta.Labels[tunneloperator.LabelResourceKind] = obj.GetObjectKind().GroupVersionKind().Kind
-	objectMeta.Labels[tunneloperator.LabelResourceNamespace] = obj.GetNamespace()
+	objectMeta.Labels[trivyoperator.LabelResourceKind] = obj.GetObjectKind().GroupVersionKind().Kind
+	objectMeta.Labels[trivyoperator.LabelResourceNamespace] = obj.GetNamespace()
 	if len(validation.IsValidLabelValue(obj.GetName())) == 0 {
-		objectMeta.Labels[tunneloperator.LabelResourceName] = obj.GetName()
+		objectMeta.Labels[trivyoperator.LabelResourceName] = obj.GetName()
 	} else {
-		objectMeta.Labels[tunneloperator.LabelResourceNameHash] = ComputeHash(obj.GetName())
+		objectMeta.Labels[trivyoperator.LabelResourceNameHash] = ComputeHash(obj.GetName())
 		if objectMeta.Annotations == nil {
 			objectMeta.Annotations = make(map[string]string)
 		}
-		objectMeta.Annotations[tunneloperator.LabelResourceName] = obj.GetName()
+		objectMeta.Annotations[trivyoperator.LabelResourceName] = obj.GetName()
 	}
 	return nil
 }
 
 func ObjectRefFromObjectMeta(objectMeta metav1.ObjectMeta) (ObjectRef, error) {
-	if _, found := objectMeta.Labels[tunneloperator.LabelResourceKind]; !found {
-		return ObjectRef{}, fmt.Errorf("required label does not exist: %s", tunneloperator.LabelResourceKind)
+	if _, found := objectMeta.Labels[trivyoperator.LabelResourceKind]; !found {
+		return ObjectRef{}, fmt.Errorf("required label does not exist: %s", trivyoperator.LabelResourceKind)
 	}
 	var objname string
-	if _, found := objectMeta.Labels[tunneloperator.LabelResourceName]; !found {
-		if _, found := objectMeta.Annotations[tunneloperator.LabelResourceName]; found {
-			objname = objectMeta.Annotations[tunneloperator.LabelResourceName]
+	if _, found := objectMeta.Labels[trivyoperator.LabelResourceName]; !found {
+		if _, found := objectMeta.Annotations[trivyoperator.LabelResourceName]; found {
+			objname = objectMeta.Annotations[trivyoperator.LabelResourceName]
 		} else {
-			return ObjectRef{}, fmt.Errorf("required label does not exist: %s", tunneloperator.LabelResourceName)
+			return ObjectRef{}, fmt.Errorf("required label does not exist: %s", trivyoperator.LabelResourceName)
 		}
 	} else {
-		objname = objectMeta.Labels[tunneloperator.LabelResourceName]
+		objname = objectMeta.Labels[trivyoperator.LabelResourceName]
 	}
 	return ObjectRef{
-		Kind:      Kind(objectMeta.Labels[tunneloperator.LabelResourceKind]),
+		Kind:      Kind(objectMeta.Labels[trivyoperator.LabelResourceKind]),
 		Name:      objname,
-		Namespace: objectMeta.Labels[tunneloperator.LabelResourceNamespace],
+		Namespace: objectMeta.Labels[trivyoperator.LabelResourceNamespace],
 	}, nil
 }
 
@@ -195,7 +195,7 @@ func ObjectRefFromKindAndObjectKey(kind Kind, name client.ObjectKey) ObjectRef {
 
 // ComputeSpecHash computes hash of the specified K8s client.Object. The hash is
 // used to indicate whether the client.Object should be rescanned or not by
-// adding it as the tunnel-operator.LabelResourceSpecHash label to an instance of a
+// adding it as the trivy-operator.LabelResourceSpecHash label to an instance of a
 // security report.
 func ComputeSpecHash(obj client.Object) (string, error) {
 	switch t := obj.(type) {
@@ -629,7 +629,7 @@ func (o *ObjectResolver) GetNodeName(ctx context.Context, obj client.Object) (st
 }
 
 // TODO: Figure out if cluster-wide access to deployments can be avoided
-// See: https://github.com/khulnasoft/tunnel-operator/issues/373 for background
+// See: https://github.com/aquasecurity/trivy-operator/issues/373 for background
 // +kubebuilder:rbac:groups=apps,resources=deployments,verbs=get;list;watch
 
 func (o *ObjectResolver) IsActiveReplicaSet(ctx context.Context, workloadObj client.Object, controller *metav1.OwnerReference) (bool, error) {

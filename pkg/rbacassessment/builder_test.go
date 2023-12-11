@@ -3,16 +3,16 @@ package rbacassessment_test
 import (
 	"testing"
 
-	"github.com/khulnasoft/tunnel-operator/pkg/apis/khulnasoft/v1alpha1"
-	"github.com/khulnasoft/tunnel-operator/pkg/configauditreport"
-	"github.com/khulnasoft/tunnel-operator/pkg/rbacassessment"
-	"github.com/khulnasoft/tunnel-operator/pkg/tunneloperator"
+	"github.com/aquasecurity/trivy-operator/pkg/apis/khulnasoft/v1alpha1"
+	"github.com/aquasecurity/trivy-operator/pkg/configauditreport"
+	"github.com/aquasecurity/trivy-operator/pkg/rbacassessment"
+	"github.com/aquasecurity/trivy-operator/pkg/tunneloperator"
 	. "github.com/onsi/gomega"
 	rbacv1 "k8s.io/api/rbac/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/labels"
 	"k8s.io/client-go/kubernetes/scheme"
-	"k8s.io/utils/pointer"
+	"k8s.io/utils/ptr"
 )
 
 func TestReportBuilder(t *testing.T) {
@@ -74,16 +74,16 @@ func TestReportBuilder(t *testing.T) {
 						APIVersion:         "rbac.authorization.k8s.io/v1",
 						Kind:               "Role",
 						Name:               "some-Owner",
-						Controller:         pointer.Bool(true),
-						BlockOwnerDeletion: pointer.Bool(false),
+						Controller:         ptr.To[bool](true),
+						BlockOwnerDeletion: ptr.To[bool](false),
 					},
 				},
 				Labels: map[string]string{
-					tunneloperator.LabelResourceKind:      "Role",
-					tunneloperator.LabelResourceName:      "some-Owner",
-					tunneloperator.LabelResourceNamespace: "qa",
-					tunneloperator.LabelResourceSpecHash:  "xyz",
-					tunneloperator.LabelPluginConfigHash:  "nop",
+					trivyoperator.LabelResourceKind:      "Role",
+					trivyoperator.LabelResourceName:      "some-Owner",
+					trivyoperator.LabelResourceNamespace: "qa",
+					trivyoperator.LabelResourceSpecHash:  "xyz",
+					trivyoperator.LabelPluginConfigHash:  "nop",
 					"tier":                               "tier-1",
 				},
 			},
@@ -121,20 +121,20 @@ func TestReportBuilder(t *testing.T) {
 						APIVersion:         "rbac.authorization.k8s.io/v1",
 						Kind:               "ClusterRole",
 						Name:               "system:controller:node-controller",
-						Controller:         pointer.Bool(true),
-						BlockOwnerDeletion: pointer.Bool(false),
+						Controller:         ptr.To[bool](true),
+						BlockOwnerDeletion: ptr.To[bool](false),
 					},
 				},
 				Labels: map[string]string{
-					tunneloperator.LabelResourceKind:      "ClusterRole",
-					tunneloperator.LabelResourceNameHash:  "6f69bb5b79",
-					tunneloperator.LabelResourceNamespace: "",
-					tunneloperator.LabelResourceSpecHash:  "xyz",
-					tunneloperator.LabelPluginConfigHash:  "nop",
+					trivyoperator.LabelResourceKind:      "ClusterRole",
+					trivyoperator.LabelResourceNameHash:  "6f69bb5b79",
+					trivyoperator.LabelResourceNamespace: "",
+					trivyoperator.LabelResourceSpecHash:  "xyz",
+					trivyoperator.LabelPluginConfigHash:  "nop",
 					"tier":                               "tier-1",
 				},
 				Annotations: map[string]string{
-					tunneloperator.LabelResourceName: "system:controller:node-controller",
+					trivyoperator.LabelResourceName: "system:controller:node-controller",
 				},
 			},
 			Report: v1alpha1.ConfigAuditReportData{},
@@ -152,16 +152,16 @@ func rbacReport() v1alpha1.RbacAssessmentReport {
 					APIVersion:         "rbac.authorization.k8s.io/v1",
 					Kind:               "Role",
 					Name:               "some-owner",
-					Controller:         pointer.Bool(true),
-					BlockOwnerDeletion: pointer.Bool(false),
+					Controller:         ptr.To[bool](true),
+					BlockOwnerDeletion: ptr.To[bool](false),
 				},
 			},
 			Labels: map[string]string{
-				tunneloperator.LabelResourceKind:      "Role",
-				tunneloperator.LabelResourceName:      "some-owner",
-				tunneloperator.LabelResourceNamespace: "qa",
-				tunneloperator.LabelResourceSpecHash:  "xyz",
-				tunneloperator.LabelPluginConfigHash:  "nop",
+				trivyoperator.LabelResourceKind:      "Role",
+				trivyoperator.LabelResourceName:      "some-owner",
+				trivyoperator.LabelResourceNamespace: "qa",
+				trivyoperator.LabelResourceSpecHash:  "xyz",
+				trivyoperator.LabelPluginConfigHash:  "nop",
 				"tier":                               "tier-1",
 			},
 		},

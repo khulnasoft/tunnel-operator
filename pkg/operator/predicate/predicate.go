@@ -4,9 +4,9 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/khulnasoft/tunnel-operator/pkg/ext"
-	"github.com/khulnasoft/tunnel-operator/pkg/operator/etc"
-	"github.com/khulnasoft/tunnel-operator/pkg/tunneloperator"
+	"github.com/aquasecurity/trivy-operator/pkg/ext"
+	"github.com/aquasecurity/trivy-operator/pkg/operator/etc"
+	"github.com/aquasecurity/trivy-operator/pkg/tunneloperator"
 	batchv1 "k8s.io/api/batch/v1"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/client-go/tools/leaderelection/resourcelock"
@@ -46,17 +46,15 @@ var InstallModePredicate = func(config etc.Config) (predicate.Predicate, error) 
 		if mode == etc.AllNamespaces && strings.TrimSpace(config.ExcludeNamespaces) != "" {
 			namespaces := strings.Split(config.ExcludeNamespaces, ",")
 			for _, namespace := range namespaces {
-				matches, err := filepath.Match(strings.TrimSpace(namespace), obj.GetNamespace())
+				matched, err := filepath.Match(strings.TrimSpace(namespace), obj.GetNamespace())
 				if err != nil {
-					// In case of error we'd assume the resource should be scanned
 					return true
 				}
-				if matches {
+				if matched {
 					return false
 				}
 			}
 		}
-
 		return true
 	}), nil
 }
@@ -77,14 +75,14 @@ var InNamespace = func(namespace string) predicate.Predicate {
 	})
 }
 
-// ManagedByTunnelOperator is a predicate.Predicate that returns true if the
-// specified client.Object is managed by Tunnel-Operator.
+// ManagedByTrivyOperator is a predicate.Predicate that returns true if the
+// specified client.Object is managed by Trivy-Operator.
 //
-// For example, pods controlled by jobs scheduled by Tunnel-Operator Operator are
-// labeled with `app.kubernetes.io/managed-by=tunneloperator`.
-var ManagedByTunnelOperator = predicate.NewPredicateFuncs(func(obj client.Object) bool {
-	if managedBy, ok := obj.GetLabels()[tunneloperator.LabelK8SAppManagedBy]; ok {
-		return managedBy == tunneloperator.AppTunnelOperator
+// For example, pods controlled by jobs scheduled by Trivy-Operator Operator are
+// labeled with `app.kubernetes.io/managed-by=trivyoperator`.
+var ManagedByTrivyOperator = predicate.NewPredicateFuncs(func(obj client.Object) bool {
+	if managedBy, ok := obj.GetLabels()[trivyoperator.LabelK8SAppManagedBy]; ok {
+		return managedBy == trivyoperator.AppTrivyOperator
 	}
 	return false
 })
@@ -105,14 +103,14 @@ var JobHasAnyCondition = predicate.NewPredicateFuncs(func(obj client.Object) boo
 })
 
 var IsVulnerabilityReportScan = predicate.NewPredicateFuncs(func(obj client.Object) bool {
-	if _, ok := obj.GetLabels()[tunneloperator.LabelVulnerabilityReportScanner]; ok {
+	if _, ok := obj.GetLabels()[trivyoperator.LabelVulnerabilityReportScanner]; ok {
 		return true
 	}
 	return false
 })
 
 var IsNodeInfoCollector = predicate.NewPredicateFuncs(func(obj client.Object) bool {
-	if _, ok := obj.GetLabels()[tunneloperator.LabelNodeInfoCollector]; ok {
+	if _, ok := obj.GetLabels()[trivyoperator.LabelNodeInfoCollector]; ok {
 		return true
 	}
 	return false
@@ -125,7 +123,7 @@ var IsLinuxNode = predicate.NewPredicateFuncs(func(obj client.Object) bool {
 	return false
 })
 
-var ExcludeNode = func(config tunneloperator.ConfigData) (predicate.Predicate, error) {
+var ExcludeNode = func(config trivyoperator.ConfigData) (predicate.Predicate, error) {
 	excludeNodes, err := config.GetNodeCollectorExcludeNodes()
 	if err != nil {
 		return nil, err

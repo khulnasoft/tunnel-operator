@@ -5,16 +5,16 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/khulnasoft/tunnel-operator/pkg/configauditreport"
-	control "github.com/khulnasoft/tunnel-operator/pkg/configauditreport/controller"
-	"github.com/khulnasoft/tunnel-operator/pkg/ext"
-	"github.com/khulnasoft/tunnel-operator/pkg/kube"
-	"github.com/khulnasoft/tunnel-operator/pkg/tunneloperator"
-	"github.com/khulnasoft/tunnel-operator/pkg/utils"
+	"github.com/aquasecurity/trivy-operator/pkg/configauditreport"
+	control "github.com/aquasecurity/trivy-operator/pkg/configauditreport/controller"
+	"github.com/aquasecurity/trivy-operator/pkg/ext"
+	"github.com/aquasecurity/trivy-operator/pkg/kube"
+	"github.com/aquasecurity/trivy-operator/pkg/tunneloperator"
+	"github.com/aquasecurity/trivy-operator/pkg/utils"
 
-	"github.com/khulnasoft/tunnel-operator/pkg/apis/khulnasoft/v1alpha1"
-	"github.com/khulnasoft/tunnel-operator/pkg/operator/etc"
-	"github.com/khulnasoft/tunnel-operator/pkg/operator/predicate"
+	"github.com/aquasecurity/trivy-operator/pkg/apis/khulnasoft/v1alpha1"
+	"github.com/aquasecurity/trivy-operator/pkg/operator/etc"
+	"github.com/aquasecurity/trivy-operator/pkg/operator/predicate"
 	"github.com/go-logr/logr"
 	"k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/types"
@@ -27,7 +27,7 @@ import (
 type TTLReportReconciler struct {
 	logr.Logger
 	etc.Config
-	tunneloperator.PluginContext
+	trivyoperator.PluginContext
 	client.Client
 	configauditreport.PluginInMemory
 	ext.Clock
@@ -50,6 +50,9 @@ func (r *TTLReportReconciler) SetupWithManager(mgr ctrl.Manager) error {
 	}
 	if r.Config.InfraAssessmentScannerEnabled {
 		ttlResources = append(ttlResources, kube.Resource{ForObject: &v1alpha1.InfraAssessmentReport{}})
+	}
+	if r.Config.SbomGenerationEnable {
+		ttlResources = append(ttlResources, kube.Resource{ForObject: &v1alpha1.ClusterSbomReport{}})
 	}
 	installModePredicate, err := predicate.InstallModePredicate(r.Config)
 	if err != nil {
@@ -114,7 +117,7 @@ func (r *TTLReportReconciler) DeleteReportIfExpired(ctx context.Context, namespa
 
 func (r *TTLReportReconciler) applicableForDeletion(report client.Object, ttlReportAnnotationStr string) bool {
 	reportKind := report.GetObjectKind().GroupVersionKind().Kind
-	if reportKind == "VulnerabilityReport" || reportKind == "ExposedSecretReport" {
+	if reportKind == "VulnerabilityReport" || reportKind == "ExposedSecretReport" || reportKind == "ClusterSbomReport" {
 		return true
 	}
 	if ttlReportAnnotationStr == time.Duration(0).String() { // check if it marked as historical report
@@ -123,11 +126,11 @@ func (r *TTLReportReconciler) applicableForDeletion(report client.Object, ttlRep
 	if !r.Config.ConfigAuditScannerEnabled {
 		return false
 	}
-	resourceKind, ok := report.GetLabels()[tunneloperator.LabelResourceKind]
+	resourceKind, ok := report.GetLabels()[trivyoperator.LabelResourceKind]
 	if !ok {
 		return false
 	}
-	policiesHash, ok := report.GetLabels()[tunneloperator.LabelPluginConfigHash]
+	policiesHash, ok := report.GetLabels()[trivyoperator.LabelPluginConfigHash]
 	if !ok {
 		return false
 	}

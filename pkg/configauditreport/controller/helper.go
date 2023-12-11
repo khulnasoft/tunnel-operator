@@ -6,14 +6,14 @@ import (
 	"strings"
 
 	"github.com/aquasecurity/defsec/pkg/scan"
-	"github.com/khulnasoft/tunnel-operator/pkg/apis/khulnasoft/v1alpha1"
-	"github.com/khulnasoft/tunnel-operator/pkg/configauditreport"
-	"github.com/khulnasoft/tunnel-operator/pkg/ext"
-	"github.com/khulnasoft/tunnel-operator/pkg/infraassessment"
-	"github.com/khulnasoft/tunnel-operator/pkg/kube"
-	"github.com/khulnasoft/tunnel-operator/pkg/operator/etc"
-	"github.com/khulnasoft/tunnel-operator/pkg/policy"
-	"github.com/khulnasoft/tunnel-operator/pkg/tunneloperator"
+	"github.com/aquasecurity/trivy-operator/pkg/apis/khulnasoft/v1alpha1"
+	"github.com/aquasecurity/trivy-operator/pkg/configauditreport"
+	"github.com/aquasecurity/trivy-operator/pkg/ext"
+	"github.com/aquasecurity/trivy-operator/pkg/infraassessment"
+	"github.com/aquasecurity/trivy-operator/pkg/kube"
+	"github.com/aquasecurity/trivy-operator/pkg/operator/etc"
+	"github.com/aquasecurity/trivy-operator/pkg/policy"
+	"github.com/aquasecurity/trivy-operator/pkg/tunneloperator"
 	"github.com/go-logr/logr"
 	corev1 "k8s.io/api/core/v1"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
@@ -26,11 +26,11 @@ func Policies(ctx context.Context, config etc.Config, c client.Client, cac confi
 
 	err := c.Get(ctx, client.ObjectKey{
 		Namespace: config.Namespace,
-		Name:      tunneloperator.PoliciesConfigMapName,
+		Name:      trivyoperator.PoliciesConfigMapName,
 	}, cm)
 	if err != nil {
 		if !apierrors.IsNotFound(err) {
-			return nil, fmt.Errorf("failed getting policies from configmap: %s/%s: %w", config.Namespace, tunneloperator.PoliciesConfigMapName, err)
+			return nil, fmt.Errorf("failed getting policies from configmap: %s/%s: %w", config.Namespace, trivyoperator.PoliciesConfigMapName, err)
 		}
 	}
 	var version string
@@ -40,7 +40,7 @@ func Policies(ctx context.Context, config etc.Config, c client.Client, cac confi
 	return policy.NewPolicies(cm.Data, cac, log, version), nil
 }
 
-func evaluate(ctx context.Context, policies *policy.Policies, resource client.Object, bi tunneloperator.BuildInfo, cd tunneloperator.ConfigData, c etc.Config, inputs ...[]byte) (Misconfiguration, error) {
+func evaluate(ctx context.Context, policies *policy.Policies, resource client.Object, bi trivyoperator.BuildInfo, cd trivyoperator.ConfigData, c etc.Config, inputs ...[]byte) (Misconfiguration, error) {
 	misconfiguration := Misconfiguration{}
 	results, err := policies.Eval(ctx, resource, inputs...)
 	if err != nil {
@@ -95,10 +95,10 @@ func evaluate(ctx context.Context, policies *policy.Policies, resource client.Ob
 	return misconfiguration, nil
 }
 
-func scanner(bi tunneloperator.BuildInfo) v1alpha1.Scanner {
+func scanner(bi trivyoperator.BuildInfo) v1alpha1.Scanner {
 	return v1alpha1.Scanner{
-		Name:    v1alpha1.ScannerNameTunnel,
-		Vendor:  "Khulnasoft Security",
+		Name:    v1alpha1.ScannerNameTrivy,
+		Vendor:  "Aqua Security",
 		Version: bi.Version,
 	}
 }

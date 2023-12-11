@@ -1,7 +1,6 @@
 # RbacAssessmentReport
 
-An instance of the RbacAssessmentReport represents checks performed by configuration auditing tools, such as [Tunnel],
-against a Kubernetes rbac assessment. For example, check that a given Role do not expose permission to secret for all groups
+An instance of the RbacAssessmentReport represents checks performed by configuration auditing tools, such as [Trivy](https://github.com/aquasecurity/trivy), against a Kubernetes RBAC assessment. For example, check that a given Role does not expose permission to secrets for all groups.
 
 Each report is owned by the underlying Kubernetes object and is stored in the same namespace, following the
 `<Role>-<role-name>` naming convention.
@@ -14,15 +13,15 @@ apiVersion: khulnasoft.github.io/v1alpha1
 kind: RbacAssessmentReport
 metadata:
   annotations:
-    tunnel-operator.resource.name: system:controller:token-cleaner
+    trivy-operator.resource.name: system:controller:token-cleaner
   creationTimestamp: "2022-07-04T07:23:07Z"
   generation: 1
   labels:
     plugin-config-hash: 659b7b9c46
     resource-spec-hash: 59b6bf95c6
-    tunnel-operator.resource.kind: Role
-    tunnel-operator.resource.name-hash: 868458b9d6
-    tunnel-operator.resource.namespace: default
+    trivy-operator.resource.kind: Role
+    trivy-operator.resource.name-hash: 868458b9d6
+    trivy-operator.resource.namespace: default
   name: role-868458b9d6
   namespace: kube-system
   ownerReferences:
@@ -175,9 +174,9 @@ report:
       success: true
       title: Do not allow update/create of a malicious pod
   scanner:
-    name: Tunnel
-    vendor: Khulnasoft Security
-    version: '0.16.0'
+    name: Trivy
+    vendor: Aqua Security
+    version: '0.17.0'
   summary:
     criticalCount: 1
     highCount: 0

@@ -1,11 +1,11 @@
-package tunneloperator_test
+package trivyoperator_test
 
 import (
 	"context"
 	"testing"
 
-	"github.com/khulnasoft/tunnel-operator/pkg/apis/khulnasoft/v1alpha1"
-	"github.com/khulnasoft/tunnel-operator/pkg/tunneloperator"
+	"github.com/aquasecurity/trivy-operator/pkg/apis/khulnasoft/v1alpha1"
+	"github.com/aquasecurity/trivy-operator/pkg/tunneloperator"
 	"github.com/onsi/gomega"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -19,20 +19,20 @@ import (
 func TestConfigData_GetVulnerabilityReportsScanner(t *testing.T) {
 	testCases := []struct {
 		name            string
-		configData      tunneloperator.ConfigData
+		configData      trivyoperator.ConfigData
 		expectedError   string
-		expectedScanner tunneloperator.Scanner
+		expectedScanner trivyoperator.Scanner
 	}{
 		{
-			name: "Should return Tunnel",
-			configData: tunneloperator.ConfigData{
-				"vulnerabilityReports.scanner": "Tunnel",
+			name: "Should return Trivy",
+			configData: trivyoperator.ConfigData{
+				"vulnerabilityReports.scanner": "Trivy",
 			},
-			expectedScanner: v1alpha1.ScannerNameTunnel,
+			expectedScanner: v1alpha1.ScannerNameTrivy,
 		},
 		{
 			name:          "Should return error when value is not set",
-			configData:    tunneloperator.ConfigData{},
+			configData:    trivyoperator.ConfigData{},
 			expectedError: "property vulnerabilityReports.scanner not set",
 		},
 	}
@@ -52,20 +52,20 @@ func TestConfigData_GetVulnerabilityReportsScanner(t *testing.T) {
 func TestConfigData_GetConfigAuditReportsScanner(t *testing.T) {
 	testCases := []struct {
 		name            string
-		configData      tunneloperator.ConfigData
+		configData      trivyoperator.ConfigData
 		expectedError   string
-		expectedScanner tunneloperator.Scanner
+		expectedScanner trivyoperator.Scanner
 	}{
 		{
-			name: "Should return Tunnel",
-			configData: tunneloperator.ConfigData{
-				"configAuditReports.scanner": "Tunnel",
+			name: "Should return Trivy",
+			configData: trivyoperator.ConfigData{
+				"configAuditReports.scanner": "Trivy",
 			},
-			expectedScanner: v1alpha1.ScannerNameTunnel,
+			expectedScanner: v1alpha1.ScannerNameTrivy,
 		},
 		{
 			name:          "Should return error when value is not set",
-			configData:    tunneloperator.ConfigData{},
+			configData:    trivyoperator.ConfigData{},
 			expectedError: "property configAuditReports.scanner not set",
 		},
 	}
@@ -85,29 +85,29 @@ func TestConfigData_GetConfigAuditReportsScanner(t *testing.T) {
 func TestConfigData_GetScanJobTolerations(t *testing.T) {
 	testCases := []struct {
 		name        string
-		config      tunneloperator.ConfigData
+		config      trivyoperator.ConfigData
 		expected    []corev1.Toleration
 		expectError string
 	}{
 		{
 			name:     "no scanJob.tolerations in ConfigData",
-			config:   tunneloperator.ConfigData{},
+			config:   trivyoperator.ConfigData{},
 			expected: []corev1.Toleration(nil),
 		},
 		{
 			name:        "scanJob.tolerations value is not json",
-			config:      tunneloperator.ConfigData{"scanJob.tolerations": `lolwut`},
+			config:      trivyoperator.ConfigData{"scanJob.tolerations": `lolwut`},
 			expected:    []corev1.Toleration(nil),
 			expectError: "invalid character 'l' looking for beginning of value",
 		},
 		{
 			name:     "empty JSON array",
-			config:   tunneloperator.ConfigData{"scanJob.tolerations": `[]`},
+			config:   trivyoperator.ConfigData{"scanJob.tolerations": `[]`},
 			expected: []corev1.Toleration{},
 		},
 		{
 			name: "one valid toleration",
-			config: tunneloperator.ConfigData{
+			config: trivyoperator.ConfigData{
 				"scanJob.tolerations": `[{"key":"key1","operator":"Equal","value":"value1","effect":"NoSchedule"}]`},
 			expected: []corev1.Toleration{{
 				Key:      "key1",
@@ -118,7 +118,7 @@ func TestConfigData_GetScanJobTolerations(t *testing.T) {
 		},
 		{
 			name: "multiple valid tolerations",
-			config: tunneloperator.ConfigData{
+			config: trivyoperator.ConfigData{
 				"scanJob.tolerations": `[{"key":"key1","operator":"Equal","value":"value1","effect":"NoSchedule"},
 					  {"key":"key2","operator":"Equal","value":"value2","effect":"NoSchedule"}]`},
 			expected: []corev1.Toleration{
@@ -154,18 +154,18 @@ func TestConfigData_GetScanJobTolerations(t *testing.T) {
 func TestConfigData_GetImagePullSecret(t *testing.T) {
 	testCases := []struct {
 		name        string
-		config      tunneloperator.ConfigData
+		config      trivyoperator.ConfigData
 		expected    []corev1.LocalObjectReference
 		expectError string
 	}{
 		{
 			name:     "no image pull secrets in ConfigData",
-			config:   tunneloperator.ConfigData{},
+			config:   trivyoperator.ConfigData{},
 			expected: []corev1.LocalObjectReference{},
 		},
 		{
 			name: "one valid imagePullSecret",
-			config: tunneloperator.ConfigData{
+			config: trivyoperator.ConfigData{
 				"node.collector.imagePullSecret": `mysecret`},
 			expected: []corev1.LocalObjectReference{{
 				Name: "mysecret",
@@ -183,27 +183,27 @@ func TestConfigData_GetImagePullSecret(t *testing.T) {
 func TestConfigData_GetScanJobPodPriorityClassName(t *testing.T) {
 	testCases := []struct {
 		name     string
-		config   tunneloperator.ConfigData
+		config   trivyoperator.ConfigData
 		expected string
 	}{
 		{
 			name:     "no scanJob.podPriorityClassName in ConfigData",
-			config:   tunneloperator.ConfigData{},
+			config:   trivyoperator.ConfigData{},
 			expected: "",
 		},
 		{
 			name:     "scanJob.podPriorityClassName value is not string",
-			config:   tunneloperator.ConfigData{"scanJob.podPriorityClassName": "2"},
+			config:   trivyoperator.ConfigData{"scanJob.podPriorityClassName": "2"},
 			expected: "2",
 		},
 		{
 			name:     "empty string value",
-			config:   tunneloperator.ConfigData{"scanJob.podPriorityClassName": ""},
+			config:   trivyoperator.ConfigData{"scanJob.podPriorityClassName": ""},
 			expected: "",
 		},
 		{
 			name:     "one valid string",
-			config:   tunneloperator.ConfigData{"scanJob.podPriorityClassName": "testing"},
+			config:   trivyoperator.ConfigData{"scanJob.podPriorityClassName": "testing"},
 			expected: "testing",
 		},
 	}
@@ -219,29 +219,29 @@ func TestConfigData_GetScanJobPodPriorityClassName(t *testing.T) {
 func TestConfigData_TestConfigData_GetNodeCollectorVolumes(t *testing.T) {
 	testCases := []struct {
 		name        string
-		config      tunneloperator.ConfigData
+		config      trivyoperator.ConfigData
 		expected    []corev1.Volume
 		expectError string
 	}{
 		{
 			name:     "no node-collector volumes in ConfigData",
-			config:   tunneloperator.ConfigData{},
+			config:   trivyoperator.ConfigData{},
 			expected: []corev1.Volume(nil),
 		},
 		{
 			name:        "no node-collector volumes value is not json",
-			config:      tunneloperator.ConfigData{"nodeCollector.volumes": `lolwut`},
+			config:      trivyoperator.ConfigData{"nodeCollector.volumes": `lolwut`},
 			expected:    []corev1.Volume(nil),
 			expectError: "invalid character 'l' looking for beginning of value",
 		},
 		{
 			name:     "empty JSON array",
-			config:   tunneloperator.ConfigData{"nodeCollector.volumes": `[]`},
+			config:   trivyoperator.ConfigData{"nodeCollector.volumes": `[]`},
 			expected: []corev1.Volume{},
 		},
 		{
 			name:   " JSON with valid data",
-			config: tunneloperator.ConfigData{"nodeCollector.volumes": `[{"hostPath":{"path":"/var/lib/etcd"},"name":"var-lib-etcd"}]`},
+			config: trivyoperator.ConfigData{"nodeCollector.volumes": `[{"hostPath":{"path":"/var/lib/etcd"},"name":"var-lib-etcd"}]`},
 			expected: []corev1.Volume{
 				{
 					Name: "var-lib-etcd",
@@ -271,29 +271,29 @@ func TestConfigData_TestConfigData_GetNodeCollectorVolumes(t *testing.T) {
 func TestConfigData_TestConfigData_GetNodeCollectorVolumeMounts(t *testing.T) {
 	testCases := []struct {
 		name        string
-		config      tunneloperator.ConfigData
+		config      trivyoperator.ConfigData
 		expected    []corev1.VolumeMount
 		expectError string
 	}{
 		{
 			name:     "no node-collector volume mounts in ConfigData",
-			config:   tunneloperator.ConfigData{},
+			config:   trivyoperator.ConfigData{},
 			expected: []corev1.VolumeMount(nil),
 		},
 		{
 			name:        "no node-collector volume mounts value is not json",
-			config:      tunneloperator.ConfigData{"nodeCollector.volumeMounts": `lolwut`},
+			config:      trivyoperator.ConfigData{"nodeCollector.volumeMounts": `lolwut`},
 			expected:    []corev1.VolumeMount(nil),
 			expectError: "invalid character 'l' looking for beginning of value",
 		},
 		{
 			name:     "empty JSON array",
-			config:   tunneloperator.ConfigData{"nodeCollector.volumeMounts": `[]`},
+			config:   trivyoperator.ConfigData{"nodeCollector.volumeMounts": `[]`},
 			expected: []corev1.VolumeMount{},
 		},
 		{
 			name:   " JSON with valid data",
-			config: tunneloperator.ConfigData{"nodeCollector.volumeMounts": `[{"mountPath":"/var/lib/etcd","name":"var-lib-etcd","readOnly":true}]`},
+			config: trivyoperator.ConfigData{"nodeCollector.volumeMounts": `[{"mountPath":"/var/lib/etcd","name":"var-lib-etcd","readOnly":true}]`},
 			expected: []corev1.VolumeMount{
 				{
 					Name:      "var-lib-etcd",
@@ -320,22 +320,22 @@ func TestConfigData_TestConfigData_GetNodeCollectorVolumeMounts(t *testing.T) {
 func TestAutomountServiceAccountToken(t *testing.T) {
 	testCases := []struct {
 		name     string
-		config   tunneloperator.ConfigData
+		config   trivyoperator.ConfigData
 		expected bool
 	}{
 		{
 			name:     "no scanJob.automountServiceAccountToken in ConfigData",
-			config:   tunneloperator.ConfigData{},
+			config:   trivyoperator.ConfigData{},
 			expected: false,
 		},
 		{
 			name:     "scanJob.automountServiceAccountToken false",
-			config:   tunneloperator.ConfigData{"scanJob.automountServiceAccountToken": `false`},
+			config:   trivyoperator.ConfigData{"scanJob.automountServiceAccountToken": `false`},
 			expected: false,
 		},
 		{
 			name:     "scanJob.automountServiceAccountToken true",
-			config:   tunneloperator.ConfigData{"scanJob.automountServiceAccountToken": `true`},
+			config:   trivyoperator.ConfigData{"scanJob.automountServiceAccountToken": `true`},
 			expected: true,
 		},
 	}
@@ -350,13 +350,13 @@ func TestAutomountServiceAccountToken(t *testing.T) {
 func TestConfigData_GetScanJobAnnotations(t *testing.T) {
 	testCases := []struct {
 		name        string
-		config      tunneloperator.ConfigData
+		config      trivyoperator.ConfigData
 		expected    map[string]string
 		expectError string
 	}{
 		{
 			name: "scan job annotations can be fetched successfully",
-			config: tunneloperator.ConfigData{
+			config: trivyoperator.ConfigData{
 				"scanJob.annotations": "a.b=c.d/e,foo=bar",
 			},
 			expected: map[string]string{
@@ -366,12 +366,12 @@ func TestConfigData_GetScanJobAnnotations(t *testing.T) {
 		},
 		{
 			name:     "gracefully deal with unprovided annotations",
-			config:   tunneloperator.ConfigData{},
+			config:   trivyoperator.ConfigData{},
 			expected: map[string]string{},
 		},
 		{
 			name: "raise an error on being provided with annotations in wrong format",
-			config: tunneloperator.ConfigData{
+			config: trivyoperator.ConfigData{
 				"scanJob.annotations": "foo",
 			},
 			expected:    map[string]string{},
@@ -379,7 +379,7 @@ func TestConfigData_GetScanJobAnnotations(t *testing.T) {
 		},
 		{
 			name: "raise an error on being provided with annotations in wrong format",
-			config: tunneloperator.ConfigData{
+			config: trivyoperator.ConfigData{
 				"scanJob.annotations": "foo=bar,a=b=c",
 			},
 			expected:    map[string]string{},
@@ -403,13 +403,13 @@ func TestConfigData_GetScanJobAnnotations(t *testing.T) {
 func TestConfigData_GetScanJobNodeSelector(t *testing.T) {
 	testCases := []struct {
 		name        string
-		config      tunneloperator.ConfigData
+		config      trivyoperator.ConfigData
 		expected    map[string]string
 		expectError string
 	}{
 		{
 			name: "scan job template nodeSelector can be fetched successfully",
-			config: tunneloperator.ConfigData{
+			config: trivyoperator.ConfigData{
 				"scanJob.nodeSelector": "{\"nodeType\":\"worker\", \"testLabel2\":\"testVal1\"}",
 			},
 			expected: map[string]string{
@@ -419,19 +419,19 @@ func TestConfigData_GetScanJobNodeSelector(t *testing.T) {
 		},
 		{
 			name:     "gracefully deal with unprovided nodeSelector",
-			config:   tunneloperator.ConfigData{},
+			config:   trivyoperator.ConfigData{},
 			expected: map[string]string{},
 		},
 		{
 			name: "raise an error on being provided with empty nodeSelector",
-			config: tunneloperator.ConfigData{
+			config: trivyoperator.ConfigData{
 				"scanJob.nodeSelector": "{}",
 			},
 			expected: map[string]string{},
 		},
 		{
 			name: "raise an error on being provided with template nodeSelector in wrong format",
-			config: tunneloperator.ConfigData{
+			config: trivyoperator.ConfigData{
 				"scanJob.nodeSelector": "{dlzm",
 			},
 			expected:    map[string]string{},
@@ -455,13 +455,13 @@ func TestConfigData_GetScanJobNodeSelector(t *testing.T) {
 func TestConfigData_GetScanJobPodTemplateLabels(t *testing.T) {
 	testCases := []struct {
 		name        string
-		config      tunneloperator.ConfigData
+		config      trivyoperator.ConfigData
 		expected    labels.Set
 		expectError string
 	}{
 		{
 			name: "scan job template labels with additional comma at the end can be fetched successfully",
-			config: tunneloperator.ConfigData{
+			config: trivyoperator.ConfigData{
 				"scanJob.podTemplateLabels": "a.b=c.d/e,foo=bar,",
 			},
 			expected: labels.Set{
@@ -471,7 +471,7 @@ func TestConfigData_GetScanJobPodTemplateLabels(t *testing.T) {
 		},
 		{
 			name: "scan job template labels can be fetched successfully",
-			config: tunneloperator.ConfigData{
+			config: trivyoperator.ConfigData{
 				"scanJob.podTemplateLabels": "a.b=c.d/e,foo=bar",
 			},
 			expected: labels.Set{
@@ -481,12 +481,12 @@ func TestConfigData_GetScanJobPodTemplateLabels(t *testing.T) {
 		},
 		{
 			name:     "gracefully deal with unprovided labels",
-			config:   tunneloperator.ConfigData{},
+			config:   trivyoperator.ConfigData{},
 			expected: labels.Set{},
 		},
 		{
 			name: "raise an error on being provided with labels in wrong format",
-			config: tunneloperator.ConfigData{
+			config: trivyoperator.ConfigData{
 				"scanJob.podTemplateLabels": "foo",
 			},
 			expected:    labels.Set{},
@@ -494,7 +494,7 @@ func TestConfigData_GetScanJobPodTemplateLabels(t *testing.T) {
 		},
 		{
 			name: "raise an error on being provided with template labels in wrong format",
-			config: tunneloperator.ConfigData{
+			config: trivyoperator.ConfigData{
 				"scanJob.podTemplateLabels": "foo=bar,a=b=c",
 			},
 			expected:    labels.Set{},
@@ -525,13 +525,13 @@ func TestConfigData_GetScanContainerSecurityContext(t *testing.T) {
 
 	testCases := []struct {
 		name        string
-		config      tunneloperator.ConfigData
+		config      trivyoperator.ConfigData
 		expected    *corev1.SecurityContext
 		expectError string
 	}{
 		{
 			name: "scan job template [container] SecurityContext can be fetched successfully",
-			config: tunneloperator.ConfigData{
+			config: trivyoperator.ConfigData{
 				"scanJob.podTemplateContainerSecurityContext": "{\"allowPrivilegeEscalation\":false,\"capabilities\":{\"drop\":[\"all\"]},\"privileged\":false,\"readOnlyRootFilesystem\":true}",
 			},
 			expected: &corev1.SecurityContext{
@@ -543,12 +543,12 @@ func TestConfigData_GetScanContainerSecurityContext(t *testing.T) {
 		},
 		{
 			name:     "gracefully deal with unprovided securityContext",
-			config:   tunneloperator.ConfigData{},
+			config:   trivyoperator.ConfigData{},
 			expected: nil,
 		},
 		{
 			name: "raise an error on being provided with securityContext in wrong format",
-			config: tunneloperator.ConfigData{
+			config: trivyoperator.ConfigData{
 				"scanJob.podTemplateContainerSecurityContext": "foo",
 			},
 			expected:    nil,
@@ -576,13 +576,13 @@ func TestConfigData_GetScanJobPodSecurityContext(t *testing.T) {
 
 	testCases := []struct {
 		name        string
-		config      tunneloperator.ConfigData
+		config      trivyoperator.ConfigData
 		expected    *corev1.PodSecurityContext
 		expectError string
 	}{
 		{
 			name: "scan job template podSecurityContext can be fetched successfully",
-			config: tunneloperator.ConfigData{
+			config: trivyoperator.ConfigData{
 				"scanJob.podTemplatePodSecurityContext": "{\"RunAsUser\": 1258, \"RunAsGroup\": 55589, \"RunAsNonRoot\": true}",
 			},
 			expected: &corev1.PodSecurityContext{
@@ -593,12 +593,12 @@ func TestConfigData_GetScanJobPodSecurityContext(t *testing.T) {
 		},
 		{
 			name:     "gracefully deal with unprovided securityContext",
-			config:   tunneloperator.ConfigData{},
+			config:   trivyoperator.ConfigData{},
 			expected: nil,
 		},
 		{
 			name: "raise an error on being provided with securityContext in wrong format",
-			config: tunneloperator.ConfigData{
+			config: trivyoperator.ConfigData{
 				"scanJob.podTemplatePodSecurityContext": "foo",
 			},
 			expected:    nil,
@@ -622,17 +622,17 @@ func TestConfigData_GetScanJobPodSecurityContext(t *testing.T) {
 func TestConfigData_GetComplianceFailEntriesLimit(t *testing.T) {
 	testCases := []struct {
 		name       string
-		configData tunneloperator.ConfigData
+		configData trivyoperator.ConfigData
 		want       int
 	}{
 		{
 			name:       "Should return compliance fail entries limit default value",
-			configData: tunneloperator.ConfigData{},
+			configData: trivyoperator.ConfigData{},
 			want:       10,
 		},
 		{
 			name: "Should return compliance fail entries limit from config data",
-			configData: tunneloperator.ConfigData{
+			configData: trivyoperator.ConfigData{
 				"compliance.failEntriesLimit": "15",
 			},
 			want: 15,
@@ -649,24 +649,24 @@ func TestConfigData_GetComplianceFailEntriesLimit(t *testing.T) {
 func TestGetScanJobCompressLogs(t *testing.T) {
 	testCases := []struct {
 		name       string
-		configData tunneloperator.ConfigData
+		configData trivyoperator.ConfigData
 		want       bool
 	}{
 		{
 			name:       "should return Scan Job compress logs  default value",
-			configData: tunneloperator.ConfigData{},
+			configData: trivyoperator.ConfigData{},
 			want:       false,
 		},
 		{
 			name: "Should return scan job compress logs true",
-			configData: tunneloperator.ConfigData{
+			configData: trivyoperator.ConfigData{
 				"scanJob.compressLogs": "true",
 			},
 			want: true,
 		},
 		{
 			name: "Should return scan job compress logs false",
-			configData: tunneloperator.ConfigData{
+			configData: trivyoperator.ConfigData{
 				"scanJob.compressLogs": "false",
 			},
 			want: false,
@@ -686,30 +686,30 @@ func TestGetVersionFromImageRef(t *testing.T) {
 		expectedVersion string
 	}{
 		{
-			imageRef:        "docker.io/aquasecurity/trivy:0.9.1",
+			imageRef:        "docker.io/aquasec/trivy:0.9.1",
 			expectedVersion: "0.9.1",
 		},
 		{
-			imageRef:        "docker.io/aquasecurity/trivy@sha256:5020dac24a63ef4f24452a0c63ebbfe93a5309e40f6353d1ee8221d2184ee954",
+			imageRef:        "docker.io/aquasec/trivy@sha256:5020dac24a63ef4f24452a0c63ebbfe93a5309e40f6353d1ee8221d2184ee954",
 			expectedVersion: "sha256:5020dac24a63ef4f24452a0c63ebbfe93a5309e40f6353d1ee8221d2184ee954",
 		},
 		{
-			imageRef:        "aquasecurity/trivy:0.9.1",
+			imageRef:        "aquasec/trivy:0.9.1",
 			expectedVersion: "0.9.1",
 		},
 		{
-			imageRef:        "aquasecurity/trivy:latest",
+			imageRef:        "aquasec/trivy:latest",
 			expectedVersion: "latest",
 		},
 		{
-			imageRef:        "aquasecurity/trivy",
+			imageRef:        "aquasec/trivy",
 			expectedVersion: "latest",
 		},
 	}
 
 	for _, tc := range testCases {
 		t.Run(tc.imageRef, func(t *testing.T) {
-			version, _ := tunneloperator.GetVersionFromImageRef(tc.imageRef)
+			version, _ := trivyoperator.GetVersionFromImageRef(tc.imageRef)
 			assert.Equal(t, tc.expectedVersion, version)
 		})
 	}
@@ -719,8 +719,8 @@ func TestConfigManager_Read(t *testing.T) {
 	clientset := fake.NewSimpleClientset(
 		&corev1.ConfigMap{
 			ObjectMeta: metav1.ObjectMeta{
-				Namespace: tunneloperator.NamespaceName,
-				Name:      tunneloperator.ConfigMapName,
+				Namespace: trivyoperator.NamespaceName,
+				Name:      trivyoperator.ConfigMapName,
 			},
 			Data: map[string]string{
 				"foo": "bar",
@@ -728,8 +728,8 @@ func TestConfigManager_Read(t *testing.T) {
 		},
 		&corev1.Secret{
 			ObjectMeta: metav1.ObjectMeta{
-				Namespace: tunneloperator.NamespaceName,
-				Name:      tunneloperator.SecretName,
+				Namespace: trivyoperator.NamespaceName,
+				Name:      trivyoperator.SecretName,
 			},
 			Data: map[string][]byte{
 				"baz": []byte("s3cret"),
@@ -737,11 +737,11 @@ func TestConfigManager_Read(t *testing.T) {
 		},
 	)
 
-	data, err := tunneloperator.NewConfigManager(clientset, tunneloperator.NamespaceName).
+	data, err := trivyoperator.NewConfigManager(clientset, trivyoperator.NamespaceName).
 		Read(context.TODO())
 
 	require.NoError(t, err)
-	assert.Equal(t, tunneloperator.ConfigData{
+	assert.Equal(t, trivyoperator.ConfigData{
 		"foo": "bar",
 		"baz": "s3cret",
 	}, data)
@@ -752,41 +752,41 @@ func TestConfigManager_EnsureDefault(t *testing.T) {
 	t.Run("Should create ConfigMaps and Secret", func(t *testing.T) {
 		g := gomega.NewGomegaWithT(t)
 
-		namespace := "tunneloperator-ns"
+		namespace := "trivyoperator-ns"
 		clientset := fake.NewSimpleClientset()
 
-		err := tunneloperator.NewConfigManager(clientset, namespace).EnsureDefault(context.TODO())
+		err := trivyoperator.NewConfigManager(clientset, namespace).EnsureDefault(context.TODO())
 		g.Expect(err).ToNot(gomega.HaveOccurred())
 
 		cm, err := clientset.CoreV1().ConfigMaps(namespace).
-			Get(context.TODO(), tunneloperator.ConfigMapName, metav1.GetOptions{})
+			Get(context.TODO(), trivyoperator.ConfigMapName, metav1.GetOptions{})
 		g.Expect(err).ToNot(gomega.HaveOccurred())
-		g.Expect(cm.Data).To(gomega.BeEquivalentTo(tunneloperator.GetDefaultConfig()))
+		g.Expect(cm.Data).To(gomega.BeEquivalentTo(trivyoperator.GetDefaultConfig()))
 
 		secret, err := clientset.CoreV1().Secrets(namespace).
-			Get(context.TODO(), tunneloperator.SecretName, metav1.GetOptions{})
+			Get(context.TODO(), trivyoperator.SecretName, metav1.GetOptions{})
 		g.Expect(err).ToNot(gomega.HaveOccurred())
 		g.Expect(secret.Data).To(gomega.BeEmpty())
 	})
 
 	t.Run("Should not modify ConfigMaps nor Secret", func(t *testing.T) {
 		g := gomega.NewGomegaWithT(t)
-		namespace := "tunneloperator-ns"
+		namespace := "trivyoperator-ns"
 		clientset := fake.NewSimpleClientset(
 			&corev1.ConfigMap{
 				ObjectMeta: metav1.ObjectMeta{
 					Namespace: namespace,
-					Name:      tunneloperator.ConfigMapName,
+					Name:      trivyoperator.ConfigMapName,
 				},
 				Data: map[string]string{
 					"foo":                        "bar",
-					"configAuditReports.scanner": "Tunnel",
+					"configAuditReports.scanner": "Trivy",
 				},
 			},
 			&corev1.Secret{
 				ObjectMeta: metav1.ObjectMeta{
 					Namespace: namespace,
-					Name:      tunneloperator.SecretName,
+					Name:      trivyoperator.SecretName,
 				},
 				Data: map[string][]byte{
 					"baz": []byte("s3cret"),
@@ -795,37 +795,37 @@ func TestConfigManager_EnsureDefault(t *testing.T) {
 			&corev1.ConfigMap{
 				ObjectMeta: metav1.ObjectMeta{
 					Namespace: namespace,
-					Name:      tunneloperator.GetPluginConfigMapName("Tunnel"),
+					Name:      trivyoperator.GetPluginConfigMapName("Trivy"),
 				},
 				Data: map[string]string{
-					"tunnel.policy.my-check.rego": "<REGO>",
+					"trivy.policy.my-check.rego": "<REGO>",
 				},
 			},
 		)
 
-		err := tunneloperator.NewConfigManager(clientset, namespace).EnsureDefault(context.TODO())
+		err := trivyoperator.NewConfigManager(clientset, namespace).EnsureDefault(context.TODO())
 		g.Expect(err).ToNot(gomega.HaveOccurred())
 
 		cm, err := clientset.CoreV1().ConfigMaps(namespace).
-			Get(context.TODO(), tunneloperator.ConfigMapName, metav1.GetOptions{})
+			Get(context.TODO(), trivyoperator.ConfigMapName, metav1.GetOptions{})
 		g.Expect(err).ToNot(gomega.HaveOccurred())
 		g.Expect(cm.Data).To(gomega.Equal(map[string]string{
 			"foo":                        "bar",
-			"configAuditReports.scanner": "Tunnel",
+			"configAuditReports.scanner": "Trivy",
 		}))
 
 		secret, err := clientset.CoreV1().Secrets(namespace).
-			Get(context.TODO(), tunneloperator.SecretName, metav1.GetOptions{})
+			Get(context.TODO(), trivyoperator.SecretName, metav1.GetOptions{})
 		g.Expect(err).ToNot(gomega.HaveOccurred())
 		g.Expect(secret.Data).To(gomega.Equal(map[string][]byte{
 			"baz": []byte("s3cret"),
 		}))
 
 		pluginConfig, err := clientset.CoreV1().ConfigMaps(namespace).
-			Get(context.TODO(), tunneloperator.GetPluginConfigMapName("Tunnel"), metav1.GetOptions{})
+			Get(context.TODO(), trivyoperator.GetPluginConfigMapName("Trivy"), metav1.GetOptions{})
 		g.Expect(err).ToNot(gomega.HaveOccurred())
 		g.Expect(pluginConfig.Data).To(gomega.Equal(map[string]string{
-			"tunnel.policy.my-check.rego": "<REGO>",
+			"trivy.policy.my-check.rego": "<REGO>",
 		}))
 	})
 
@@ -834,7 +834,7 @@ func TestConfigManager_EnsureDefault(t *testing.T) {
 func TestConfigManager_Delete(t *testing.T) {
 	t.Run("Should not return error when ConfigMap and secret do not exist", func(t *testing.T) {
 		clientset := fake.NewSimpleClientset()
-		err := tunneloperator.NewConfigManager(clientset, tunneloperator.NamespaceName).Delete(context.TODO())
+		err := trivyoperator.NewConfigManager(clientset, trivyoperator.NamespaceName).Delete(context.TODO())
 		require.NoError(t, err)
 	})
 
@@ -842,8 +842,8 @@ func TestConfigManager_Delete(t *testing.T) {
 		clientset := fake.NewSimpleClientset(
 			&corev1.ConfigMap{
 				ObjectMeta: metav1.ObjectMeta{
-					Namespace: tunneloperator.NamespaceName,
-					Name:      tunneloperator.ConfigMapName,
+					Namespace: trivyoperator.NamespaceName,
+					Name:      trivyoperator.ConfigMapName,
 				},
 				Data: map[string]string{
 					"foo": "bar",
@@ -851,8 +851,8 @@ func TestConfigManager_Delete(t *testing.T) {
 			},
 			&corev1.Secret{
 				ObjectMeta: metav1.ObjectMeta{
-					Namespace: tunneloperator.NamespaceName,
-					Name:      tunneloperator.SecretName,
+					Namespace: trivyoperator.NamespaceName,
+					Name:      trivyoperator.SecretName,
 				},
 				Data: map[string][]byte{
 					"baz": []byte("s3cret"),
@@ -860,15 +860,15 @@ func TestConfigManager_Delete(t *testing.T) {
 			},
 		)
 
-		err := tunneloperator.NewConfigManager(clientset, tunneloperator.NamespaceName).Delete(context.TODO())
+		err := trivyoperator.NewConfigManager(clientset, trivyoperator.NamespaceName).Delete(context.TODO())
 		require.NoError(t, err)
 
-		_, err = clientset.CoreV1().ConfigMaps(tunneloperator.NamespaceName).
-			Get(context.TODO(), tunneloperator.ConfigMapName, metav1.GetOptions{})
+		_, err = clientset.CoreV1().ConfigMaps(trivyoperator.NamespaceName).
+			Get(context.TODO(), trivyoperator.ConfigMapName, metav1.GetOptions{})
 		assert.True(t, errors.IsNotFound(err))
 
-		_, err = clientset.CoreV1().Secrets(tunneloperator.NamespaceName).
-			Get(context.TODO(), tunneloperator.SecretName, metav1.GetOptions{})
+		_, err = clientset.CoreV1().Secrets(trivyoperator.NamespaceName).
+			Get(context.TODO(), trivyoperator.SecretName, metav1.GetOptions{})
 		assert.True(t, errors.IsNotFound(err))
 	})
 }
@@ -888,19 +888,19 @@ func TestConfigData_VulnerabilityScannerEnabled(t *testing.T) {
 		},
 		{
 			name:     "Should return false when key is set 'false'",
-			key:      tunneloperator.KeyVulnerabilityScannerEnabled,
+			key:      trivyoperator.KeyVulnerabilityScannerEnabled,
 			value:    "false",
 			expected: false,
 		},
 		{
 			name:     "Should return true when key is set 'true'",
-			key:      tunneloperator.KeyVulnerabilityScannerEnabled,
+			key:      trivyoperator.KeyVulnerabilityScannerEnabled,
 			value:    "true",
 			expected: true,
 		},
 	}
 	for _, tc := range testCases {
-		configData := tunneloperator.ConfigData{}
+		configData := trivyoperator.ConfigData{}
 		t.Run(tc.name, func(t *testing.T) {
 			configData.Set(tc.key, tc.value)
 			got := configData.VulnerabilityScannerEnabled()
@@ -924,19 +924,19 @@ func TestConfigData_ExposedSecretsScannerEnabled(t *testing.T) {
 		},
 		{
 			name:     "Should return false when key is set 'false'",
-			key:      tunneloperator.KeyExposedSecretsScannerEnabled,
+			key:      trivyoperator.KeyExposedSecretsScannerEnabled,
 			value:    "false",
 			expected: false,
 		},
 		{
 			name:     "Should return true when key is set 'true'",
-			key:      tunneloperator.KeyExposedSecretsScannerEnabled,
+			key:      trivyoperator.KeyExposedSecretsScannerEnabled,
 			value:    "true",
 			expected: true,
 		},
 	}
 	for _, tc := range testCases {
-		configData := tunneloperator.ConfigData{}
+		configData := trivyoperator.ConfigData{}
 		t.Run(tc.name, func(t *testing.T) {
 			configData.Set(tc.key, tc.value)
 			got := configData.ExposedSecretsScannerEnabled()

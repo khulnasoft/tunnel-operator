@@ -6,8 +6,8 @@ import (
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 
-	"github.com/khulnasoft/tunnel-operator/pkg/operator/etc"
-	"github.com/khulnasoft/tunnel-operator/pkg/operator/predicate"
+	"github.com/aquasecurity/trivy-operator/pkg/operator/etc"
+	"github.com/aquasecurity/trivy-operator/pkg/operator/predicate"
 	batchv1 "k8s.io/api/batch/v1"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -22,12 +22,12 @@ var _ = Describe("Predicate", func() {
 			When("and object is in operator namespace", func() {
 				It("Should return false", func() {
 					config := etc.Config{
-						Namespace:        "tunnel-operator",
+						Namespace:        "trivy-operator",
 						TargetNamespaces: "default",
 					}
 					obj := &corev1.Pod{
 						ObjectMeta: metav1.ObjectMeta{
-							Namespace: "tunnel-operator",
+							Namespace: "trivy-operator",
 						},
 					}
 					instance, err := predicate.InstallModePredicate(config)
@@ -43,7 +43,7 @@ var _ = Describe("Predicate", func() {
 			When("and object is in target namespace", func() {
 				It("Should return true", func() {
 					config := etc.Config{
-						Namespace:        "tunnel-operator",
+						Namespace:        "trivy-operator",
 						TargetNamespaces: "foo",
 					}
 					obj := &corev1.Pod{
@@ -66,12 +66,12 @@ var _ = Describe("Predicate", func() {
 			When("and object is in target namespace", func() {
 				It("Should return true", func() {
 					config := etc.Config{
-						Namespace:        "tunnel-operator",
-						TargetNamespaces: "foo,tunnel-operator",
+						Namespace:        "trivy-operator",
+						TargetNamespaces: "foo,trivy-operator",
 					}
 					obj := &corev1.Pod{
 						ObjectMeta: metav1.ObjectMeta{
-							Namespace: "tunnel-operator",
+							Namespace: "trivy-operator",
 						},
 					}
 					instance, err := predicate.InstallModePredicate(config)
@@ -87,12 +87,12 @@ var _ = Describe("Predicate", func() {
 			When("and object is not in target namespace", func() {
 				It("Should return false", func() {
 					config := etc.Config{
-						Namespace:        "tunnel-operator",
+						Namespace:        "trivy-operator",
 						TargetNamespaces: "foo,bar",
 					}
 					obj := &corev1.Pod{
 						ObjectMeta: metav1.ObjectMeta{
-							Namespace: "tunnel-operator",
+							Namespace: "trivy-operator",
 						},
 					}
 					instance, err := predicate.InstallModePredicate(config)
@@ -110,7 +110,7 @@ var _ = Describe("Predicate", func() {
 			When("and object is not excluded", func() {
 				It("Should return true", func() {
 					config := etc.Config{
-						Namespace:         "tunnel-operator",
+						Namespace:         "trivy-operator",
 						TargetNamespaces:  "",
 						ExcludeNamespaces: "kube-system",
 					}
@@ -132,9 +132,9 @@ var _ = Describe("Predicate", func() {
 			When("and object is excluded", func() {
 				It("Should return false", func() {
 					config := etc.Config{
-						Namespace:         "tunnel-operator",
+						Namespace:         "trivy-operator",
 						TargetNamespaces:  "",
-						ExcludeNamespaces: "kube-system,tunneloperator-system",
+						ExcludeNamespaces: "kube-system,trivyoperator-system",
 					}
 					obj := &corev1.Pod{
 						ObjectMeta: metav1.ObjectMeta{
@@ -154,9 +154,9 @@ var _ = Describe("Predicate", func() {
 			When("and object is excluded with glob pattern", func() {
 				It("Should return false", func() {
 					config := etc.Config{
-						Namespace:         "tunnel-operator",
+						Namespace:         "trivy-operator",
 						TargetNamespaces:  "",
-						ExcludeNamespaces: "kube-*,tunneloperator-system",
+						ExcludeNamespaces: "kube-*,trivyoperator-system",
 					}
 					obj := &corev1.Pod{
 						ObjectMeta: metav1.ObjectMeta{
@@ -178,10 +178,10 @@ var _ = Describe("Predicate", func() {
 	Describe("When checking a HasName predicate", func() {
 		Context("When object has desired name", func() {
 			It("Should return true", func() {
-				instance := predicate.HasName("tunneloperator-tunnel-config")
+				instance := predicate.HasName("trivyoperator-trivy-config")
 				obj := &corev1.Pod{
 					ObjectMeta: metav1.ObjectMeta{
-						Name: "tunneloperator-tunnel-config",
+						Name: "trivyoperator-trivy-config",
 					},
 				}
 
@@ -194,10 +194,10 @@ var _ = Describe("Predicate", func() {
 
 		Context("When object does not have desired name", func() {
 			It("Should return false", func() {
-				instance := predicate.HasName("tunneloperator-tunnel-config")
+				instance := predicate.HasName("trivyoperator-trivy-config")
 				obj := &corev1.Pod{
 					ObjectMeta: metav1.ObjectMeta{
-						Name: "tunneloperator",
+						Name: "trivyoperator",
 					},
 				}
 
@@ -212,10 +212,10 @@ var _ = Describe("Predicate", func() {
 	Describe("When checking a InNamespace predicate", func() {
 		Context("When object is in desired namespace", func() {
 			It("Should return true", func() {
-				instance := predicate.InNamespace("tunnel-operator")
+				instance := predicate.InNamespace("trivy-operator")
 				obj := &corev1.Pod{
 					ObjectMeta: metav1.ObjectMeta{
-						Namespace: "tunnel-operator",
+						Namespace: "trivy-operator",
 					},
 				}
 
@@ -228,7 +228,7 @@ var _ = Describe("Predicate", func() {
 
 		Context("When object is not in desired namespace", func() {
 			It("Should return false", func() {
-				instance := predicate.InNamespace("tunnel-operator")
+				instance := predicate.InNamespace("trivy-operator")
 				obj := &corev1.Pod{
 					ObjectMeta: metav1.ObjectMeta{
 						Namespace: corev1.NamespaceDefault,
@@ -243,15 +243,15 @@ var _ = Describe("Predicate", func() {
 		})
 	})
 
-	Describe("When checking a ManagedByTunnelOperator predicate", func() {
-		instance := predicate.ManagedByTunnelOperator
+	Describe("When checking a ManagedByTrivyOperator predicate", func() {
+		instance := predicate.ManagedByTrivyOperator
 
-		Context("Where object is managed by Tunnel-Operator operator", func() {
+		Context("Where object is managed by Trivy-Operator operator", func() {
 			It("Should return true", func() {
 				obj := &corev1.Pod{
 					ObjectMeta: metav1.ObjectMeta{
 						Labels: map[string]string{
-							"app.kubernetes.io/managed-by": "tunnel-operator",
+							"app.kubernetes.io/managed-by": "trivy-operator",
 						},
 					},
 				}

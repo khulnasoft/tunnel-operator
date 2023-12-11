@@ -5,19 +5,20 @@ import (
 
 	j "github.com/aquasecurity/trivy-kubernetes/pkg/jobs"
 	"github.com/aquasecurity/trivy-kubernetes/pkg/k8s"
-	"github.com/khulnasoft/tunnel-operator/pkg/configauditreport"
-	"github.com/khulnasoft/tunnel-operator/pkg/infraassessment"
-	"github.com/khulnasoft/tunnel-operator/pkg/operator/jobs"
-	"github.com/khulnasoft/tunnel-operator/pkg/operator/predicate"
-	. "github.com/khulnasoft/tunnel-operator/pkg/operator/predicate"
-	"github.com/khulnasoft/tunnel-operator/pkg/tunneloperator"
+	"github.com/aquasecurity/trivy-operator/pkg/configauditreport"
+	"github.com/aquasecurity/trivy-operator/pkg/infraassessment"
+	"github.com/aquasecurity/trivy-operator/pkg/operator/jobs"
+	"github.com/aquasecurity/trivy-operator/pkg/operator/predicate"
+	. "github.com/aquasecurity/trivy-operator/pkg/operator/predicate"
+	"github.com/aquasecurity/trivy-operator/pkg/plugins/trivy"
+	"github.com/aquasecurity/trivy-operator/pkg/tunneloperator"
 
 	"context"
 	"fmt"
 
-	"github.com/khulnasoft/tunnel-operator/pkg/apis/khulnasoft/v1alpha1"
-	"github.com/khulnasoft/tunnel-operator/pkg/kube"
-	"github.com/khulnasoft/tunnel-operator/pkg/operator/etc"
+	"github.com/aquasecurity/trivy-operator/pkg/apis/khulnasoft/v1alpha1"
+	"github.com/aquasecurity/trivy-operator/pkg/kube"
+	"github.com/aquasecurity/trivy-operator/pkg/operator/etc"
 
 	"github.com/go-logr/logr"
 	batchv1 "k8s.io/api/batch/v1"
@@ -37,14 +38,14 @@ import (
 type NodeReconciler struct {
 	logr.Logger
 	etc.Config
-	tunneloperator.ConfigData
+	trivyoperator.ConfigData
 	kube.ObjectResolver
-	tunneloperator.PluginContext
+	trivyoperator.PluginContext
 	configauditreport.PluginInMemory
 	jobs.LimitChecker
 	InfraReadWriter  infraassessment.ReadWriter
 	CacheSyncTimeout time.Duration
-	tunneloperator.BuildInfo
+	trivyoperator.BuildInfo
 }
 
 // +kubebuilder:rbac:groups="",resources=nodes,verbs=get;list;watch
@@ -144,8 +145,22 @@ func (r *NodeReconciler) reconcileNodes() reconcile.Func {
 		if err != nil {
 			return ctrl.Result{}, fmt.Errorf("getting scan job annotations: %w", err)
 		}
+		pConfig, err := r.PluginContext.GetConfig()
+		if err != nil {
+			return ctrl.Result{}, fmt.Errorf("getting getting config: %w", err)
+		}
+		tc := trivy.Config{PluginConfig: pConfig}
 
-		nodeCollectorImageRef := r.GetTunnelOperatorConfig().NodeCollectorImageRef()
+		requirements, err := tc.GetResourceRequirements()
+		if err != nil {
+			return ctrl.Result{}, fmt.Errorf("getting node-collector resource requierments: %w", err)
+		}
+
+		scanJobPodPriorityClassName, err := r.GetScanJobPodPriorityClassName()
+		if err != nil {
+			return ctrl.Result{}, fmt.Errorf("getting scan job priority class name: %w", err)
+		}
+		nodeCollectorImageRef := r.GetTrivyOperatorConfig().NodeCollectorImageRef()
 		coll := j.NewCollector(cluster,
 			j.WithJobTemplateName(j.NodeCollectorName),
 			j.WithName(r.getNodeCollectorName(node)),
@@ -158,12 +173,14 @@ func (r *NodeReconciler) reconcileNodes() reconcile.Func {
 			j.WithJobAnnotation(scanJobAnnotations),
 			j.WithImageRef(nodeCollectorImageRef),
 			j.WithVolumes(nodeCollectorVolumes),
+			j.WithPodPriorityClassName(scanJobPodPriorityClassName),
 			j.WithVolumesMount(nodeCollectorVolumeMounts),
+			j.WithContainerResourceRequirements(&requirements),
 			j.WithJobLabels(map[string]string{
-				tunneloperator.LabelNodeInfoCollector: "Tunnel",
-				tunneloperator.LabelK8SAppManagedBy:   tunneloperator.AppTunnelOperator,
-				tunneloperator.LabelResourceKind:      node.Kind,
-				tunneloperator.LabelResourceName:      node.Name,
+				trivyoperator.LabelNodeInfoCollector: "Trivy",
+				trivyoperator.LabelK8SAppManagedBy:   trivyoperator.AppTrivyOperator,
+				trivyoperator.LabelResourceKind:      node.Kind,
+				trivyoperator.LabelResourceName:      node.Name,
 			}))
 
 		log.V(1).Info("Scheduling Node collector job")

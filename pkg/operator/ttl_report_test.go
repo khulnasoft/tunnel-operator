@@ -12,11 +12,11 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client/fake"
 	"sigs.k8s.io/controller-runtime/pkg/log"
 
-	"github.com/khulnasoft/tunnel-operator/pkg/apis/khulnasoft/v1alpha1"
-	"github.com/khulnasoft/tunnel-operator/pkg/ext"
-	"github.com/khulnasoft/tunnel-operator/pkg/operator"
-	"github.com/khulnasoft/tunnel-operator/pkg/operator/etc"
-	"github.com/khulnasoft/tunnel-operator/pkg/tunneloperator"
+	"github.com/aquasecurity/trivy-operator/pkg/apis/khulnasoft/v1alpha1"
+	"github.com/aquasecurity/trivy-operator/pkg/ext"
+	"github.com/aquasecurity/trivy-operator/pkg/operator"
+	"github.com/aquasecurity/trivy-operator/pkg/operator/etc"
+	"github.com/aquasecurity/trivy-operator/pkg/tunneloperator"
 )
 
 const (
@@ -29,7 +29,7 @@ func TestRegenerateReportIfExpired(t *testing.T) {
 	clock := ext.NewSystemClock()
 
 	// scheme
-	scheme := tunneloperator.NewScheme()
+	scheme := trivyoperator.NewScheme()
 
 	// set the ScannerReportTTL
 	config, err := etc.GetOperatorConfig()
@@ -98,7 +98,7 @@ func TestRegenerateReportIfExpired(t *testing.T) {
 				vulnReport.Name = ""
 			}
 			vulnReport.Annotations = map[string]string{
-				"tunnel-operator.khulnasoft.github.io/report-ttl": tt.ttlStr,
+				"trivy-operator.khulnasoft.github.io/report-ttl": tt.ttlStr,
 			}
 			vulnReport.CreationTimestamp.Time = clock.Now().Add(tt.reportUpdateTimestamp)
 

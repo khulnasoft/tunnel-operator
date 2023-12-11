@@ -1,4 +1,4 @@
-package tunneloperator
+package trivyoperator
 
 import (
 	"context"
@@ -28,7 +28,7 @@ func (c PluginConfig) GetRequiredData(key string) (string, error) {
 	return value, nil
 }
 
-// PluginContext is plugin's execution context within the Tunnel-operator toolkit.
+// PluginContext is plugin's execution context within the Trivy-operator toolkit.
 // The context is used to grant access to other methods so that this plugin
 // can interact with the toolkit.
 type PluginContext interface {
@@ -38,21 +38,21 @@ type PluginContext interface {
 	GetConfig() (PluginConfig, error)
 	// EnsureConfig ensures the PluginConfig, typically when a plugin is initialized.
 	EnsureConfig(config PluginConfig) error
-	// GetNamespace return the name of the K8s Namespace where Tunnel-operator creates Jobs
+	// GetNamespace return the name of the K8s Namespace where Trivy-operator creates Jobs
 	// and other helper objects.
 	GetNamespace() string
 	// GetServiceAccountName return the name of the K8s Service Account used to run workloads
-	// created by Tunnel-operator.
+	// created by Trivy-operator.
 	GetServiceAccountName() string
-	// GetTunnelOperatorConfig returns tunneloperator configuration.
-	GetTunnelOperatorConfig() ConfigData
+	// GetTrivyOperatorConfig returns trivyoperator configuration.
+	GetTrivyOperatorConfig() ConfigData
 }
 
 // GetPluginConfigMapName returns the name of a ConfigMap used to configure a plugin
 // with the given name.
 // TODO Rename to GetPluginConfigObjectName as this method is used to determine the name of ConfigMaps and Secrets.
 func GetPluginConfigMapName(pluginName string) string {
-	return "tunnel-operator-" + strings.ToLower(pluginName) + "-config"
+	return "trivy-operator-" + strings.ToLower(pluginName) + "-config"
 }
 
 type pluginContext struct {
@@ -60,7 +60,7 @@ type pluginContext struct {
 	client              client.Client
 	namespace           string
 	serviceAccountName  string
-	tunnelOperatorConfig ConfigData
+	trivyOperatorConfig ConfigData
 }
 
 func (p *pluginContext) GetName() string {
@@ -73,7 +73,7 @@ func (p *pluginContext) EnsureConfig(config PluginConfig) error {
 			Namespace: p.namespace,
 			Name:      GetPluginConfigMapName(p.name),
 			Labels: labels.Set{
-				LabelK8SAppManagedBy: "tunneloperator",
+				LabelK8SAppManagedBy: "trivyoperator",
 			},
 		},
 		Data: config.Data,
@@ -124,8 +124,8 @@ func (p *pluginContext) GetServiceAccountName() string {
 	return p.serviceAccountName
 }
 
-func (p *pluginContext) GetTunnelOperatorConfig() ConfigData {
-	return p.tunnelOperatorConfig
+func (p *pluginContext) GetTrivyOperatorConfig() ConfigData {
+	return p.trivyOperatorConfig
 }
 
 type PluginContextBuilder struct {
@@ -158,8 +158,8 @@ func (b *PluginContextBuilder) WithServiceAccountName(name string) *PluginContex
 	return b
 }
 
-func (b *PluginContextBuilder) WithTunnelOperatorConfig(config ConfigData) *PluginContextBuilder {
-	b.ctx.tunnelOperatorConfig = config
+func (b *PluginContextBuilder) WithTrivyOperatorConfig(config ConfigData) *PluginContextBuilder {
+	b.ctx.trivyOperatorConfig = config
 	return b
 }
 

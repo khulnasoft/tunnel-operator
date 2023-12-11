@@ -4,10 +4,10 @@ import (
 	"context"
 	"testing"
 
-	"github.com/khulnasoft/tunnel-operator/pkg/apis/khulnasoft/v1alpha1"
-	"github.com/khulnasoft/tunnel-operator/pkg/kube"
-	"github.com/khulnasoft/tunnel-operator/pkg/sbomreport"
-	"github.com/khulnasoft/tunnel-operator/pkg/tunneloperator"
+	"github.com/aquasecurity/trivy-operator/pkg/apis/khulnasoft/v1alpha1"
+	"github.com/aquasecurity/trivy-operator/pkg/kube"
+	"github.com/aquasecurity/trivy-operator/pkg/sbomreport"
+	"github.com/aquasecurity/trivy-operator/pkg/tunneloperator"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -17,7 +17,7 @@ import (
 
 func TestNewReadWriter(t *testing.T) {
 
-	kubernetesScheme := tunneloperator.NewScheme()
+	kubernetesScheme := trivyoperator.NewScheme()
 
 	t.Run("Should create SbomReports", func(t *testing.T) {
 		testClient := fake.NewClientBuilder().WithScheme(kubernetesScheme).Build()
@@ -29,11 +29,11 @@ func TestNewReadWriter(t *testing.T) {
 					Name:      "deployment-app1-container1",
 					Namespace: "qa",
 					Labels: map[string]string{
-						tunneloperator.LabelResourceKind:      "Deployment",
-						tunneloperator.LabelResourceName:      "app1",
-						tunneloperator.LabelResourceNamespace: "qa",
-						tunneloperator.LabelContainerName:     "container1",
-						tunneloperator.LabelResourceSpecHash:  "h1",
+						trivyoperator.LabelResourceKind:      "Deployment",
+						trivyoperator.LabelResourceName:      "app1",
+						trivyoperator.LabelResourceNamespace: "qa",
+						trivyoperator.LabelContainerName:     "container1",
+						trivyoperator.LabelResourceSpecHash:  "h1",
 					},
 				},
 			},
@@ -42,11 +42,11 @@ func TestNewReadWriter(t *testing.T) {
 					Name:      "deployment-app1-container2",
 					Namespace: "qa",
 					Labels: map[string]string{
-						tunneloperator.LabelResourceKind:      "Deployment",
-						tunneloperator.LabelResourceName:      "app1",
-						tunneloperator.LabelResourceNamespace: "qa",
-						tunneloperator.LabelContainerName:     "container2",
-						tunneloperator.LabelResourceSpecHash:  "h1",
+						trivyoperator.LabelResourceKind:      "Deployment",
+						trivyoperator.LabelResourceName:      "app1",
+						trivyoperator.LabelResourceNamespace: "qa",
+						trivyoperator.LabelContainerName:     "container2",
+						trivyoperator.LabelResourceSpecHash:  "h1",
 					},
 				},
 			},
@@ -65,11 +65,11 @@ func TestNewReadWriter(t *testing.T) {
 					Namespace: "qa",
 					Name:      "deployment-app1-container1",
 					Labels: map[string]string{
-						tunneloperator.LabelResourceKind:      "Deployment",
-						tunneloperator.LabelResourceName:      "app1",
-						tunneloperator.LabelResourceNamespace: "qa",
-						tunneloperator.LabelContainerName:     "container1",
-						tunneloperator.LabelResourceSpecHash:  "h1",
+						trivyoperator.LabelResourceKind:      "Deployment",
+						trivyoperator.LabelResourceName:      "app1",
+						trivyoperator.LabelResourceNamespace: "qa",
+						trivyoperator.LabelContainerName:     "container1",
+						trivyoperator.LabelResourceSpecHash:  "h1",
 					},
 					ResourceVersion: "1",
 				},
@@ -79,11 +79,11 @@ func TestNewReadWriter(t *testing.T) {
 					Namespace: "qa",
 					Name:      "deployment-app1-container2",
 					Labels: map[string]string{
-						tunneloperator.LabelResourceKind:      "Deployment",
-						tunneloperator.LabelResourceName:      "app1",
-						tunneloperator.LabelResourceNamespace: "qa",
-						tunneloperator.LabelContainerName:     "container2",
-						tunneloperator.LabelResourceSpecHash:  "h1",
+						trivyoperator.LabelResourceKind:      "Deployment",
+						trivyoperator.LabelResourceName:      "app1",
+						trivyoperator.LabelResourceNamespace: "qa",
+						trivyoperator.LabelContainerName:     "container2",
+						trivyoperator.LabelResourceSpecHash:  "h1",
 					},
 					ResourceVersion: "1",
 				},
@@ -99,11 +99,11 @@ func TestNewReadWriter(t *testing.T) {
 					Namespace:       "qa",
 					ResourceVersion: "0",
 					Labels: map[string]string{
-						tunneloperator.LabelResourceKind:      "Deployment",
-						tunneloperator.LabelResourceName:      "app1",
-						tunneloperator.LabelResourceNamespace: "qa",
-						tunneloperator.LabelContainerName:     "container1",
-						tunneloperator.LabelResourceSpecHash:  "h1",
+						trivyoperator.LabelResourceKind:      "Deployment",
+						trivyoperator.LabelResourceName:      "app1",
+						trivyoperator.LabelResourceNamespace: "qa",
+						trivyoperator.LabelContainerName:     "container1",
+						trivyoperator.LabelResourceSpecHash:  "h1",
 					},
 				},
 			},
@@ -113,11 +113,11 @@ func TestNewReadWriter(t *testing.T) {
 					Namespace:       "qa",
 					ResourceVersion: "0",
 					Labels: map[string]string{
-						tunneloperator.LabelResourceKind:      "Deployment",
-						tunneloperator.LabelResourceName:      "app1",
-						tunneloperator.LabelResourceNamespace: "qa",
-						tunneloperator.LabelContainerName:     "container2",
-						tunneloperator.LabelResourceSpecHash:  "h2",
+						trivyoperator.LabelResourceKind:      "Deployment",
+						trivyoperator.LabelResourceName:      "app1",
+						trivyoperator.LabelResourceNamespace: "qa",
+						trivyoperator.LabelContainerName:     "container2",
+						trivyoperator.LabelResourceSpecHash:  "h2",
 					},
 				},
 			}).Build()
@@ -129,11 +129,11 @@ func TestNewReadWriter(t *testing.T) {
 					Name:      "deployment-app1-container1",
 					Namespace: "qa",
 					Labels: map[string]string{
-						tunneloperator.LabelResourceKind:      "Deployment",
-						tunneloperator.LabelResourceName:      "app1",
-						tunneloperator.LabelResourceNamespace: "qa",
-						tunneloperator.LabelContainerName:     "container1",
-						tunneloperator.LabelResourceSpecHash:  "h2",
+						trivyoperator.LabelResourceKind:      "Deployment",
+						trivyoperator.LabelResourceName:      "app1",
+						trivyoperator.LabelResourceNamespace: "qa",
+						trivyoperator.LabelContainerName:     "container1",
+						trivyoperator.LabelResourceSpecHash:  "h2",
 					},
 				},
 			},
@@ -142,11 +142,11 @@ func TestNewReadWriter(t *testing.T) {
 					Name:      "deployment-app1-container2",
 					Namespace: "qa",
 					Labels: map[string]string{
-						tunneloperator.LabelResourceKind:      "Deployment",
-						tunneloperator.LabelResourceName:      "app1",
-						tunneloperator.LabelResourceNamespace: "qa",
-						tunneloperator.LabelContainerName:     "container2",
-						tunneloperator.LabelResourceSpecHash:  "h2",
+						trivyoperator.LabelResourceKind:      "Deployment",
+						trivyoperator.LabelResourceName:      "app1",
+						trivyoperator.LabelResourceNamespace: "qa",
+						trivyoperator.LabelContainerName:     "container2",
+						trivyoperator.LabelResourceSpecHash:  "h2",
 					},
 				},
 			},
@@ -169,11 +169,11 @@ func TestNewReadWriter(t *testing.T) {
 				Name:            "deployment-app1-container1",
 				Namespace:       "qa",
 				Labels: map[string]string{
-					tunneloperator.LabelResourceKind:      "Deployment",
-					tunneloperator.LabelResourceName:      "app1",
-					tunneloperator.LabelResourceNamespace: "qa",
-					tunneloperator.LabelContainerName:     "container1",
-					tunneloperator.LabelResourceSpecHash:  "h2",
+					trivyoperator.LabelResourceKind:      "Deployment",
+					trivyoperator.LabelResourceName:      "app1",
+					trivyoperator.LabelResourceNamespace: "qa",
+					trivyoperator.LabelContainerName:     "container1",
+					trivyoperator.LabelResourceSpecHash:  "h2",
 				},
 			},
 		}, found)
@@ -193,11 +193,11 @@ func TestNewReadWriter(t *testing.T) {
 				Name:            "deployment-app1-container2",
 				Namespace:       "qa",
 				Labels: map[string]string{
-					tunneloperator.LabelResourceKind:      "Deployment",
-					tunneloperator.LabelResourceName:      "app1",
-					tunneloperator.LabelResourceNamespace: "qa",
-					tunneloperator.LabelContainerName:     "container2",
-					tunneloperator.LabelResourceSpecHash:  "h2",
+					trivyoperator.LabelResourceKind:      "Deployment",
+					trivyoperator.LabelResourceName:      "app1",
+					trivyoperator.LabelResourceNamespace: "qa",
+					trivyoperator.LabelContainerName:     "container2",
+					trivyoperator.LabelResourceSpecHash:  "h2",
 				},
 			},
 		}, found)
@@ -209,10 +209,10 @@ func TestNewReadWriter(t *testing.T) {
 				Namespace: "my-namespace",
 				Name:      "deployment-my-deploy-my-container-01",
 				Labels: map[string]string{
-					tunneloperator.LabelResourceKind:      string(kube.KindDeployment),
-					tunneloperator.LabelResourceName:      "my-deploy",
-					tunneloperator.LabelResourceNamespace: "my-namespace",
-					tunneloperator.LabelContainerName:     "my-container-01",
+					trivyoperator.LabelResourceKind:      string(kube.KindDeployment),
+					trivyoperator.LabelResourceName:      "my-deploy",
+					trivyoperator.LabelResourceNamespace: "my-namespace",
+					trivyoperator.LabelContainerName:     "my-container-01",
 				},
 			},
 			Report: v1alpha1.SbomReportData{},
@@ -221,10 +221,10 @@ func TestNewReadWriter(t *testing.T) {
 				Namespace: "my-namespace",
 				Name:      "deployment-my-deploy-my-container-02",
 				Labels: map[string]string{
-					tunneloperator.LabelResourceKind:      string(kube.KindDeployment),
-					tunneloperator.LabelResourceName:      "my-deploy",
-					tunneloperator.LabelResourceNamespace: "my-namespace",
-					tunneloperator.LabelContainerName:     "my-container-02",
+					trivyoperator.LabelResourceKind:      string(kube.KindDeployment),
+					trivyoperator.LabelResourceName:      "my-deploy",
+					trivyoperator.LabelResourceNamespace: "my-namespace",
+					trivyoperator.LabelContainerName:     "my-container-02",
 				},
 			},
 			Report: v1alpha1.SbomReportData{},
@@ -233,10 +233,10 @@ func TestNewReadWriter(t *testing.T) {
 				Namespace: "my-namespace",
 				Name:      "my-sts",
 				Labels: map[string]string{
-					tunneloperator.LabelResourceKind:      string(kube.KindStatefulSet),
-					tunneloperator.LabelResourceName:      "my-sts",
-					tunneloperator.LabelResourceNamespace: "my-namespace",
-					tunneloperator.LabelContainerName:     "my-sts-container",
+					trivyoperator.LabelResourceKind:      string(kube.KindStatefulSet),
+					trivyoperator.LabelResourceName:      "my-sts",
+					trivyoperator.LabelResourceNamespace: "my-namespace",
+					trivyoperator.LabelContainerName:     "my-sts-container",
 				},
 			},
 			Report: v1alpha1.SbomReportData{},
@@ -258,4 +258,46 @@ func TestNewReadWriter(t *testing.T) {
 			"deployment-my-deploy-my-container-02": true,
 		}, reports)
 	})
+}
+
+func TestImageRef(t *testing.T) {
+	testCases := []struct {
+		name    string
+		imageID string
+		want    string
+	}{
+		{
+			name:    "get image ref with libary",
+			imageID: "index.docker.io/library/alpine:3.12.0",
+
+			want: "56bcdb7c95",
+		},
+		{
+			name:    "get image ref without libary",
+			imageID: "index.docker.io/alpine:3.12.0",
+
+			want: "56bcdb7c95",
+		},
+		{
+			name:    "get image ref without index",
+			imageID: "docker.io/rancher/local-path-provisioner:v0.0.14",
+
+			want: "79b568748c",
+		},
+		{
+			name:    "get image ref non docker registry",
+			imageID: "k8s.gcr.io/kube-apiserver:v1.21.1",
+
+			want: "6857f776bb",
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			ref, err := sbomreport.ImageRef(tc.imageID)
+			assert.NoError(t, err)
+			assert.Equal(t, ref, tc.want)
+		})
+
+	}
 }

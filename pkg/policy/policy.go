@@ -11,8 +11,8 @@ import (
 	"strings"
 
 	"github.com/aquasecurity/defsec/pkg/severity"
-	"github.com/khulnasoft/tunnel-operator/pkg/configauditreport"
-	"github.com/khulnasoft/tunnel-operator/pkg/plugins/tunnel"
+	"github.com/aquasecurity/trivy-operator/pkg/configauditreport"
+	"github.com/aquasecurity/trivy-operator/pkg/plugins/trivy"
 	"github.com/aquasecurity/trivy/pkg/mapfs"
 
 	"github.com/go-logr/logr"
@@ -22,7 +22,7 @@ import (
 	"github.com/aquasecurity/defsec/pkg/scanners/kubernetes"
 	"github.com/aquasecurity/defsec/pkg/scanners/options"
 
-	"github.com/khulnasoft/tunnel-operator/pkg/kube"
+	"github.com/aquasecurity/trivy-operator/pkg/kube"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
@@ -42,7 +42,7 @@ const (
 	policiesFolder            = "externalPolicies"
 	regoExt                   = "rego"
 	yamlExt                   = "yaml"
-	externalPoliciesNamespace = "tunneloperator"
+	externalPoliciesNamespace = "trivyoperator"
 )
 
 type Policies struct {
@@ -258,7 +258,7 @@ func (r *Policies) GetResultID(result scan.Result) string {
 func (r *Policies) HasSeverity(resultSeverity severity.Severity) bool {
 	defaultSeverity := r.cac.GetSeverity()
 	if defaultSeverity == "" {
-		defaultSeverity = tunnel.DefaultSeverity
+		defaultSeverity = trivy.DefaultSeverity
 	}
 	return strings.Contains(defaultSeverity, string(resultSeverity))
 }

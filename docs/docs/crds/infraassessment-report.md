@@ -1,9 +1,9 @@
 # Kubernetes InfraAssessmentReport
 
-An instance of the InfraAssessmentReport represents checks performed by [Tunnel], 
-against a Kubernetes infra core components (etcd,apiserver,scheduler,controller-manager and etc) setting and configuration.
+An instance of the InfraAssessmentReport represents checks performed by [Trivy](https://github.com/aquasecurity/trivy), 
+against a Kubernetes infra core components (etcd, apiserver, scheduler, controller-manager and etc) setting and configuration.
 
-The performed checks are based on the k8s [cis-benchmarks](https://www.cisecurity.org/benchmark/kubernetes) controls and more.
+The performed checks are based on the K8s [CIS-Benchmarks](https://www.cisecurity.org/benchmark/kubernetes) controls and more.
 
 For example, check that api-server `Ensure that the --authorization-mode argument is not set to AlwaysAllow`.
 
@@ -18,15 +18,15 @@ apiVersion: khulnasoft.github.io/v1alpha1
 kind: InfraAssessmentReport
 metadata:
   annotations:
-    tunnel-operator.khulnasoft.github.io/report-ttl: 24h0m0s
+    trivy-operator.khulnasoft.github.io/report-ttl: 24h0m0s
   creationTimestamp: "2022-11-08T16:27:08Z"
   generation: 1
   labels:
     plugin-config-hash: 659b7b9c46
     resource-spec-hash: 56fd79dd67
-    tunnel-operator.resource.kind: Pod
-    tunnel-operator.resource.name: kube-apiserver-minikube
-    tunnel-operator.resource.namespace: kube-system
+    trivy-operator.resource.kind: Pod
+    trivy-operator.resource.name: kube-apiserver-minikube
+    trivy-operator.resource.namespace: kube-system
   name: pod-kube-apiserver-minikube
   namespace: kube-system
   ownerReferences:
@@ -402,8 +402,8 @@ report:
     success: true
     title: Ensure that the --root-ca-file argument is set as appropriate
   scanner:
-    name: Tunnel
-    vendor: Khulnasoft Security
+    name: Trivy
+    vendor: Aqua Security
     version: dev
   summary:
     criticalCount: 0

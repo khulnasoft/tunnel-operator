@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "tunnel-operator.fullname" . }}
-  namespace: {{ include "tunnel-operator.namespace" . }}
-  labels: {{- include "tunnel-operator.labels" . | nindent 4 }}
+  name: {{ include "trivy-operator.fullname" . }}
+  namespace: {{ include "trivy-operator.namespace" . }}
+  labels: {{- include "trivy-operator.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.operator.replicas }}
   {{- with .Values.operator.revisionHistoryLimit }}
@@ -12,29 +12,29 @@ spec:
   strategy:
     type: Recreate
   selector:
-    matchLabels: {{- include "tunnel-operator.selectorLabels" . | nindent 6 }}
+    matchLabels: {{- include "trivy-operator.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
       annotations: {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "tunnel-operator.selectorLabels" . | nindent 8 }}
+        {{- include "trivy-operator.selectorLabels" . | nindent 8 }}
         {{- with .Values.operator.podLabels }}
           {{- toYaml . | nindent 8 }}
         {{- end }}
     spec:
-      serviceAccountName: {{ include "tunnel-operator.serviceAccountName" . }}
+      serviceAccountName: {{ include "trivy-operator.serviceAccountName" . }}
       automountServiceAccountToken: {{ .Values.automountServiceAccountToken }}
       containers:
         - name: {{ .Chart.Name | quote }}
-          image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          image: "{{ include "global.imageRegistry" . | default .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           {{- with .Values.image.pullPolicy }}
           imagePullPolicy: {{ . }}
           {{- end }}
           env:
             - name: OPERATOR_NAMESPACE
-              value: {{ include "tunnel-operator.namespace" . }}
+              value: {{ include "trivy-operator.namespace" . }}
             - name: OPERATOR_TARGET_NAMESPACES
               value: {{ .Values.targetNamespaces | quote }}
             - name: OPERATOR_EXCLUDE_NAMESPACES
@@ -42,7 +42,7 @@ spec:
             - name: OPERATOR_TARGET_WORKLOADS
               value: {{ tpl .Values.targetWorkloads . | quote }}
             - name: OPERATOR_SERVICE_ACCOUNT
-              value: {{ include "tunnel-operator.serviceAccountName" . | quote }}
+              value: {{ include "trivy-operator.serviceAccountName" . | quote }}
             - name: OPERATOR_LOG_DEV_MODE
               value: {{ .Values.operator.logDevMode | quote }}
             - name: OPERATOR_SCAN_JOB_TTL
@@ -75,6 +75,8 @@ spec:
               value: {{ .Values.operator.vulnerabilityScannerScanOnlyCurrentRevisions | quote }}
             - name: OPERATOR_SCANNER_REPORT_TTL
               value: {{ .Values.operator.scannerReportTTL | quote }}
+            - name: OPERATOR_CACHE_REPORT_TTL
+              value: {{ .Values.operator.cacheReportTTL | quote }}
             - name: CONTROLLER_CACHE_SYNC_TIMEOUT
               value: {{ .Values.operator.controllerCacheSyncTimeout | quote }}
             - name: OPERATOR_CONFIG_AUDIT_SCANNER_ENABLED
@@ -94,7 +96,11 @@ spec:
             - name: OPERATOR_METRICS_RBAC_ASSESSMENT_INFO_ENABLED
               value: {{ .Values.operator.metricsRbacAssessmentInfo | quote }}
             - name: OPERATOR_METRICS_INFRA_ASSESSMENT_INFO_ENABLED
-              value: {{ .Values.operator.metricsInfraAssessmentInfo | quote }}   
+              value: {{ .Values.operator.metricsInfraAssessmentInfo | quote }}
+            - name: OPERATOR_METRICS_IMAGE_INFO_ENABLED
+              value: {{ .Values.operator.metricsImageInfo | quote }}  
+            - name: OPERATOR_METRICS_CLUSTER_COMPLIANCE_INFO_ENABLED
+              value: {{ .Values.operator.metricsClusterComplianceInfo | quote }}  
             - name: OPERATOR_WEBHOOK_BROADCAST_URL
               value: {{ .Values.operator.webhookBroadcastURL | quote }}
             - name: OPERATOR_WEBHOOK_BROADCAST_TIMEOUT
@@ -105,10 +111,10 @@ spec:
               value: {{ .Values.operator.privateRegistryScanSecretsNames | toJson | quote }}
             - name: OPERATOR_ACCESS_GLOBAL_SECRETS_SERVICE_ACCOUNTS
               value: {{ .Values.operator.accessGlobalSecretsAndServiceAccount | quote }}
-            - name: OPERATOR_BUILT_IN_TUNNEL_SERVER
-              value: {{ .Values.operator.builtInTunnelServer | quote }}
-            - name: TUNNEL_SERVER_HEALTH_CHECK_CACHE_EXPIRATION
-              value: {{ .Values.operator.tunnelServerHealthCheckCacheExpiration | quote }}
+            - name: OPERATOR_BUILT_IN_TRIVY_SERVER
+              value: {{ .Values.operator.builtInTrivyServer | quote }}
+            - name: TRIVY_SERVER_HEALTH_CHECK_CACHE_EXPIRATION
+              value: {{ .Values.operator.trivyServerHealthCheckCacheExpiration | quote }}
             - name: OPERATOR_MERGE_RBAC_FINDING_WITH_CONFIG_AUDIT
               value: {{ .Values.operator.mergeRbacFindingWithConfigAudit | quote }}
             - name: OPERATOR_CLUSTER_COMPLIANCE_ENABLED

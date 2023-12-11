@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/khulnasoft/tunnel-operator/pkg/kube"
-	"github.com/khulnasoft/tunnel-operator/pkg/tunneloperator"
+	"github.com/aquasecurity/trivy-operator/pkg/kube"
+	"github.com/aquasecurity/trivy-operator/pkg/tunneloperator"
 	ocpappsv1 "github.com/openshift/api/apps/v1"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -15,7 +15,7 @@ import (
 	batchv1beta1 "k8s.io/api/batch/v1beta1"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/utils/pointer"
+	"k8s.io/utils/ptr"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/client/fake"
 )
@@ -162,9 +162,9 @@ func TestObjectRefToLabels(t *testing.T) {
 				Namespace: "production",
 			},
 			labels: map[string]string{
-				tunneloperator.LabelResourceKind:      "Pod",
-				tunneloperator.LabelResourceNamespace: "production",
-				tunneloperator.LabelResourceName:      "my-pod",
+				trivyoperator.LabelResourceKind:      "Pod",
+				trivyoperator.LabelResourceNamespace: "production",
+				trivyoperator.LabelResourceName:      "my-pod",
 			},
 		},
 		{
@@ -174,9 +174,9 @@ func TestObjectRefToLabels(t *testing.T) {
 				Name: "system:controller:namespace-controller",
 			},
 			labels: map[string]string{
-				tunneloperator.LabelResourceKind:      "ClusterRole",
-				tunneloperator.LabelResourceNameHash:  kube.ComputeHash("system:controller:namespace-controller"),
-				tunneloperator.LabelResourceNamespace: "",
+				trivyoperator.LabelResourceKind:      "ClusterRole",
+				trivyoperator.LabelResourceNameHash:  kube.ComputeHash("system:controller:namespace-controller"),
+				trivyoperator.LabelResourceNamespace: "",
 			},
 		},
 	}
@@ -209,9 +209,9 @@ func TestObjectToObjectMeta(t *testing.T) {
 			},
 			expected: metav1.ObjectMeta{
 				Labels: map[string]string{
-					tunneloperator.LabelResourceKind:      "Pod",
-					tunneloperator.LabelResourceName:      "my-pod",
-					tunneloperator.LabelResourceNamespace: "production",
+					trivyoperator.LabelResourceKind:      "Pod",
+					trivyoperator.LabelResourceName:      "my-pod",
+					trivyoperator.LabelResourceNamespace: "production",
 				},
 			},
 		},
@@ -229,12 +229,12 @@ func TestObjectToObjectMeta(t *testing.T) {
 			},
 			expected: metav1.ObjectMeta{
 				Labels: map[string]string{
-					tunneloperator.LabelResourceKind:      "ClusterRole",
-					tunneloperator.LabelResourceNameHash:  kube.ComputeHash("system:controller:node-controller"),
-					tunneloperator.LabelResourceNamespace: "",
+					trivyoperator.LabelResourceKind:      "ClusterRole",
+					trivyoperator.LabelResourceNameHash:  kube.ComputeHash("system:controller:node-controller"),
+					trivyoperator.LabelResourceNamespace: "",
 				},
 				Annotations: map[string]string{
-					tunneloperator.LabelResourceName: "system:controller:node-controller",
+					trivyoperator.LabelResourceName: "system:controller:node-controller",
 				},
 			},
 		},
@@ -261,20 +261,21 @@ func TestObjectToObjectMeta(t *testing.T) {
 				Labels: map[string]string{
 					"foo": "bar",
 
-					tunneloperator.LabelResourceKind:      "ClusterRole",
-					tunneloperator.LabelResourceNameHash:  kube.ComputeHash("system:controller:node-controller"),
-					tunneloperator.LabelResourceNamespace: "",
+					trivyoperator.LabelResourceKind:      "ClusterRole",
+					trivyoperator.LabelResourceNameHash:  kube.ComputeHash("system:controller:node-controller"),
+					trivyoperator.LabelResourceNamespace: "",
 				},
 				Annotations: map[string]string{
 					"kee": "pass",
 
-					tunneloperator.LabelResourceName: "system:controller:node-controller",
+					trivyoperator.LabelResourceName: "system:controller:node-controller",
 				},
 			},
 		},
 	}
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
+			//nolint:gosec
 			err := kube.ObjectToObjectMeta(tc.object, &tc.meta)
 			require.NoError(t, err)
 			assert.Equal(t, tc.expected, tc.meta)
@@ -566,7 +567,7 @@ func TestGetPodSpec(t *testing.T) {
 }
 
 func TestObjectResolver_RelatedReplicaSetName(t *testing.T) {
-	kubClient := fake.NewClientBuilder().WithScheme(tunneloperator.NewScheme()).WithObjects(
+	kubClient := fake.NewClientBuilder().WithScheme(trivyoperator.NewScheme()).WithObjects(
 		&appsv1.Deployment{
 			ObjectMeta: metav1.ObjectMeta{
 				Name:      "nginx",
@@ -641,8 +642,8 @@ func TestObjectResolver_RelatedReplicaSetName(t *testing.T) {
 						APIVersion:         "apps/v1",
 						Kind:               "ReplicaSet",
 						Name:               "nginx-549f5fcb58",
-						Controller:         pointer.Bool(true),
-						BlockOwnerDeletion: pointer.Bool(true),
+						Controller:         ptr.To[bool](true),
+						BlockOwnerDeletion: ptr.To[bool](true),
 					},
 				},
 			},
@@ -692,12 +693,12 @@ func TestObjectRefFromObjectMeta(t *testing.T) {
 			name: "Test Role",
 			object: metav1.ObjectMeta{
 				Labels: map[string]string{
-					tunneloperator.LabelResourceKind:      "Role",
-					tunneloperator.LabelResourceNamespace: "kube-system",
-					tunneloperator.LabelResourceNameHash:  kube.ComputeHash("system:admin"),
+					trivyoperator.LabelResourceKind:      "Role",
+					trivyoperator.LabelResourceNamespace: "kube-system",
+					trivyoperator.LabelResourceNameHash:  kube.ComputeHash("system:admin"),
 				},
 				Annotations: map[string]string{
-					tunneloperator.LabelResourceName: "system:admin",
+					trivyoperator.LabelResourceName: "system:admin",
 				},
 			},
 			expected: kube.ObjectRef{Kind: kube.KindRole, Name: "system:admin", Namespace: "kube-system"},
@@ -706,12 +707,12 @@ func TestObjectRefFromObjectMeta(t *testing.T) {
 			name: "Test RoleBinding",
 			object: metav1.ObjectMeta{
 				Labels: map[string]string{
-					tunneloperator.LabelResourceKind:      "RoleBinding",
-					tunneloperator.LabelResourceNamespace: "kube-system",
-					tunneloperator.LabelResourceNameHash:  kube.ComputeHash("system:admin:binding"),
+					trivyoperator.LabelResourceKind:      "RoleBinding",
+					trivyoperator.LabelResourceNamespace: "kube-system",
+					trivyoperator.LabelResourceNameHash:  kube.ComputeHash("system:admin:binding"),
 				},
 				Annotations: map[string]string{
-					tunneloperator.LabelResourceName: "system:admin:binding",
+					trivyoperator.LabelResourceName: "system:admin:binding",
 				},
 			},
 			expected: kube.ObjectRef{Kind: kube.KindRoleBinding, Name: "system:admin:binding", Namespace: "kube-system"},
@@ -720,12 +721,12 @@ func TestObjectRefFromObjectMeta(t *testing.T) {
 			name: "Kind ClusterRole",
 			object: metav1.ObjectMeta{
 				Labels: map[string]string{
-					tunneloperator.LabelResourceKind:      "ClusterRole",
-					tunneloperator.LabelResourceNamespace: "",
-					tunneloperator.LabelResourceNameHash:  kube.ComputeHash("system:netnode"),
+					trivyoperator.LabelResourceKind:      "ClusterRole",
+					trivyoperator.LabelResourceNamespace: "",
+					trivyoperator.LabelResourceNameHash:  kube.ComputeHash("system:netnode"),
 				},
 				Annotations: map[string]string{
-					tunneloperator.LabelResourceName: "system:netnode",
+					trivyoperator.LabelResourceName: "system:netnode",
 				},
 			},
 			expected: kube.ObjectRef{Kind: kube.KindClusterRole, Name: "system:netnode"},
@@ -734,12 +735,12 @@ func TestObjectRefFromObjectMeta(t *testing.T) {
 			name: "Kind ClusterRoleBinding",
 			object: metav1.ObjectMeta{
 				Labels: map[string]string{
-					tunneloperator.LabelResourceKind:      "ClusterRoleBinding",
-					tunneloperator.LabelResourceNamespace: "",
-					tunneloperator.LabelResourceNameHash:  kube.ComputeHash("system:netnode:binding"),
+					trivyoperator.LabelResourceKind:      "ClusterRoleBinding",
+					trivyoperator.LabelResourceNamespace: "",
+					trivyoperator.LabelResourceNameHash:  kube.ComputeHash("system:netnode:binding"),
 				},
 				Annotations: map[string]string{
-					tunneloperator.LabelResourceName: "system:netnode:binding",
+					trivyoperator.LabelResourceName: "system:netnode:binding",
 				},
 			},
 			expected: kube.ObjectRef{Kind: kube.KindClusterRoleBindings, Name: "system:netnode:binding"},
@@ -748,9 +749,9 @@ func TestObjectRefFromObjectMeta(t *testing.T) {
 			name: "Kind Pod",
 			object: metav1.ObjectMeta{
 				Labels: map[string]string{
-					tunneloperator.LabelResourceKind:      "Pod",
-					tunneloperator.LabelResourceNamespace: "default",
-					tunneloperator.LabelResourceName:      "nginx-pod",
+					trivyoperator.LabelResourceKind:      "Pod",
+					trivyoperator.LabelResourceNamespace: "default",
+					trivyoperator.LabelResourceName:      "nginx-pod",
 				},
 			},
 			expected: kube.ObjectRef{Kind: kube.KindPod, Name: "nginx-pod", Namespace: "default"},
@@ -759,9 +760,9 @@ func TestObjectRefFromObjectMeta(t *testing.T) {
 			name: "Kind Deployment",
 			object: metav1.ObjectMeta{
 				Labels: map[string]string{
-					tunneloperator.LabelResourceKind:      "Deployment",
-					tunneloperator.LabelResourceNamespace: "default",
-					tunneloperator.LabelResourceName:      "nginx-deployment",
+					trivyoperator.LabelResourceKind:      "Deployment",
+					trivyoperator.LabelResourceNamespace: "default",
+					trivyoperator.LabelResourceName:      "nginx-deployment",
 				},
 			},
 			expected: kube.ObjectRef{Kind: kube.KindDeployment, Name: "nginx-deployment", Namespace: "default"},
@@ -770,22 +771,22 @@ func TestObjectRefFromObjectMeta(t *testing.T) {
 			name: "Kind DaemonSet",
 			object: metav1.ObjectMeta{
 				Labels: map[string]string{
-					tunneloperator.LabelResourceKind:      "DaemonSet",
-					tunneloperator.LabelResourceNamespace: "default",
-					tunneloperator.LabelResourceName:      "nginx-ds",
+					trivyoperator.LabelResourceKind:      "DaemonSet",
+					trivyoperator.LabelResourceNamespace: "default",
+					trivyoperator.LabelResourceName:      "nginx-ds",
 				},
 			},
 			expected: kube.ObjectRef{Kind: kube.KindDaemonSet, Name: "nginx-ds", Namespace: "default"},
 		},
 		{
-			name: fmt.Sprintf("Should return error when %s label is missing", tunneloperator.LabelResourceKind),
+			name: fmt.Sprintf("Should return error when %s label is missing", trivyoperator.LabelResourceKind),
 			object: metav1.ObjectMeta{
 				Labels: map[string]string{
-					tunneloperator.LabelResourceName:      "nginx",
-					tunneloperator.LabelResourceNamespace: "default",
+					trivyoperator.LabelResourceName:      "nginx",
+					trivyoperator.LabelResourceNamespace: "default",
 				},
 			},
-			expectedError: "required label does not exist: tunnel-operator.resource.kind",
+			expectedError: "required label does not exist: trivy-operator.resource.kind",
 		},
 	}
 
@@ -828,13 +829,13 @@ func TestGetActivePodsMatchingLabels(t *testing.T) {
 					Kind:               "Deployment",
 					Name:               "nginx",
 					UID:                "734c1370-2281-4946-9b5f-940b33f3e4b8",
-					Controller:         pointer.Bool(true),
-					BlockOwnerDeletion: pointer.Bool(true),
+					Controller:         ptr.To[bool](true),
+					BlockOwnerDeletion: ptr.To[bool](true),
 				},
 			},
 		},
 		Spec: appsv1.ReplicaSetSpec{
-			Replicas: pointer.Int32(1),
+			Replicas: ptr.To[int32](1),
 			Selector: &metav1.LabelSelector{
 				MatchLabels: map[string]string{
 					"app":               "nginx",
@@ -862,14 +863,14 @@ func TestGetActivePodsMatchingLabels(t *testing.T) {
 					Kind:               "ReplicaSet",
 					Name:               "nginx-6d4cf56db6",
 					UID:                "ecfff877-784c-4f05-8b70-abe441ca1976",
-					Controller:         pointer.Bool(true),
-					BlockOwnerDeletion: pointer.Bool(true),
+					Controller:         ptr.To[bool](true),
+					BlockOwnerDeletion: ptr.To[bool](true),
 				},
 			},
 		},
 	}
 
-	testClient := fake.NewClientBuilder().WithScheme(tunneloperator.NewScheme()).WithObjects(
+	testClient := fake.NewClientBuilder().WithScheme(trivyoperator.NewScheme()).WithObjects(
 		nginxReplicaSet,
 		nginxPod,
 	).Build()
@@ -910,7 +911,7 @@ func TestObjectResolver_ReportOwner(t *testing.T) {
 			UID: "734c1370-2281-4946-9b5f-940b33f3e4b8",
 		},
 		Spec: appsv1.DeploymentSpec{
-			Replicas: pointer.Int32(1),
+			Replicas: ptr.To[int32](1),
 			Selector: &metav1.LabelSelector{
 				MatchLabels: map[string]string{
 					"app": "nginx",
@@ -954,13 +955,13 @@ func TestObjectResolver_ReportOwner(t *testing.T) {
 					Kind:               "Deployment",
 					Name:               "nginx",
 					UID:                "734c1370-2281-4946-9b5f-940b33f3e4b8",
-					Controller:         pointer.Bool(true),
-					BlockOwnerDeletion: pointer.Bool(true),
+					Controller:         ptr.To[bool](true),
+					BlockOwnerDeletion: ptr.To[bool](true),
 				},
 			},
 		},
 		Spec: appsv1.ReplicaSetSpec{
-			Replicas: pointer.Int32(1),
+			Replicas: ptr.To[int32](1),
 			Selector: &metav1.LabelSelector{
 				MatchLabels: map[string]string{
 					"app":               "nginx",
@@ -988,8 +989,8 @@ func TestObjectResolver_ReportOwner(t *testing.T) {
 					Kind:               "ReplicaSet",
 					Name:               "nginx-6d4cf56db6",
 					UID:                "ecfff877-784c-4f05-8b70-abe441ca1976",
-					Controller:         pointer.Bool(true),
-					BlockOwnerDeletion: pointer.Bool(true),
+					Controller:         ptr.To[bool](true),
+					BlockOwnerDeletion: ptr.To[bool](true),
 				},
 			},
 		},
@@ -1051,8 +1052,8 @@ func TestObjectResolver_ReportOwner(t *testing.T) {
 					Kind:               "Job",
 					Name:               "pi",
 					UID:                "ef340242-b677-485e-b506-2ac1dde48bca",
-					Controller:         pointer.Bool(true),
-					BlockOwnerDeletion: pointer.Bool(true),
+					Controller:         ptr.To[bool](true),
+					BlockOwnerDeletion: ptr.To[bool](true),
 				},
 			},
 		},
@@ -1068,7 +1069,7 @@ func TestObjectResolver_ReportOwner(t *testing.T) {
 		},
 	}
 
-	testClient := fake.NewClientBuilder().WithScheme(tunneloperator.NewScheme()).WithObjects(
+	testClient := fake.NewClientBuilder().WithScheme(trivyoperator.NewScheme()).WithObjects(
 		nginxDeploy,
 		nginxReplicaSet,
 		nginxPod,
@@ -1148,7 +1149,7 @@ func TestObjectResolver_IsActiveReplicaSet(t *testing.T) {
 			UID: "734c1370-2281-4946-9b5f-940b33f3e4b8",
 		},
 		Spec: appsv1.DeploymentSpec{
-			Replicas: pointer.Int32(1),
+			Replicas: ptr.To[int32](1),
 			Selector: &metav1.LabelSelector{
 				MatchLabels: map[string]string{
 					"app": "nginx",
@@ -1192,13 +1193,13 @@ func TestObjectResolver_IsActiveReplicaSet(t *testing.T) {
 					Kind:               "Deployment",
 					Name:               "nginx",
 					UID:                "734c1370-2281-4946-9b5f-940b33f3e4b8",
-					Controller:         pointer.Bool(true),
-					BlockOwnerDeletion: pointer.Bool(true),
+					Controller:         ptr.To[bool](true),
+					BlockOwnerDeletion: ptr.To[bool](true),
 				},
 			},
 		},
 		Spec: appsv1.ReplicaSetSpec{
-			Replicas: pointer.Int32(1),
+			Replicas: ptr.To[int32](1),
 			Selector: &metav1.LabelSelector{
 				MatchLabels: map[string]string{
 					"app":               "nginx",
@@ -1231,13 +1232,13 @@ func TestObjectResolver_IsActiveReplicaSet(t *testing.T) {
 					Kind:               "Deployment",
 					Name:               "nginx",
 					UID:                "734c1370-2281-4946-9b5f-940b33f3e4b8",
-					Controller:         pointer.Bool(true),
-					BlockOwnerDeletion: pointer.Bool(true),
+					Controller:         ptr.To[bool](true),
+					BlockOwnerDeletion: ptr.To[bool](true),
 				},
 			},
 		},
 		Spec: appsv1.ReplicaSetSpec{
-			Replicas: pointer.Int32(1),
+			Replicas: ptr.To[int32](1),
 			Selector: &metav1.LabelSelector{
 				MatchLabels: map[string]string{
 					"app":               "nginx",
@@ -1265,7 +1266,7 @@ func TestObjectResolver_IsActiveReplicaSet(t *testing.T) {
 			UID: "0eed5ccf-4518-4ae7-933e-cafded6cf356",
 		},
 		Spec: appsv1.ReplicaSetSpec{
-			Replicas: pointer.Int32(1),
+			Replicas: ptr.To[int32](1),
 			Selector: &metav1.LabelSelector{
 				MatchLabels: map[string]string{
 					"app":               "nginx",
@@ -1274,7 +1275,7 @@ func TestObjectResolver_IsActiveReplicaSet(t *testing.T) {
 			},
 		},
 	}
-	testClient := fake.NewClientBuilder().WithScheme(tunneloperator.NewScheme()).WithObjects(
+	testClient := fake.NewClientBuilder().WithScheme(trivyoperator.NewScheme()).WithObjects(
 		nginxDeploy,
 		nginxReplicaSet,
 		notActiveNginxReplicaSet,
@@ -1385,12 +1386,12 @@ func TestObjectResolver_IsActiveReplicationController(t *testing.T) {
 				Kind:               "DeploymentConfig",
 				Name:               "busybox",
 				UID:                "3767b9a7-c2ad-4a3e-a115-b72edda9084b",
-				Controller:         pointer.Bool(true),
-				BlockOwnerDeletion: pointer.Bool(true)},
+				Controller:         ptr.To[bool](true),
+				BlockOwnerDeletion: ptr.To[bool](true)},
 			},
 		},
 		Spec: corev1.ReplicationControllerSpec{
-			Replicas: pointer.Int32(1),
+			Replicas: ptr.To[int32](1),
 			Selector: map[string]string{
 				"deployment":       "busybox-3",
 				"deploymentconfig": "busybox",
@@ -1438,12 +1439,12 @@ func TestObjectResolver_IsActiveReplicationController(t *testing.T) {
 				Kind:               "DeploymentConfig",
 				Name:               "busybox",
 				UID:                "3767b9a7-c2ad-4a3e-a115-b72edda9084b",
-				Controller:         pointer.Bool(true),
-				BlockOwnerDeletion: pointer.Bool(true)},
+				Controller:         ptr.To[bool](true),
+				BlockOwnerDeletion: ptr.To[bool](true)},
 			},
 		},
 		Spec: corev1.ReplicationControllerSpec{
-			Replicas: pointer.Int32(1),
+			Replicas: ptr.To[int32](1),
 			Selector: map[string]string{
 				"deployment":       "busybox-2",
 				"deploymentconfig": "busybox",
@@ -1478,7 +1479,7 @@ func TestObjectResolver_IsActiveReplicationController(t *testing.T) {
 			Labels:          map[string]string{"openshift.io/deployment-config.name": "busybox"},
 		},
 		Spec: corev1.ReplicationControllerSpec{
-			Replicas: pointer.Int32(1),
+			Replicas: ptr.To[int32](1),
 			Selector: map[string]string{
 				"deployment":       "busybox-3",
 				"deploymentconfig": "busybox",
@@ -1498,7 +1499,7 @@ func TestObjectResolver_IsActiveReplicationController(t *testing.T) {
 		},
 		Status: corev1.ReplicationControllerStatus{},
 	}
-	testClient := fake.NewClientBuilder().WithScheme(tunneloperator.NewScheme()).WithObjects(
+	testClient := fake.NewClientBuilder().WithScheme(trivyoperator.NewScheme()).WithObjects(
 		busyboxDeploymentConfig,
 		busyboxReplicaController,
 		notActivebusyboxReplicaController,

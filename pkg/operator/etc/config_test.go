@@ -3,7 +3,7 @@ package etc_test
 import (
 	"testing"
 
-	"github.com/khulnasoft/tunnel-operator/pkg/operator/etc"
+	"github.com/aquasecurity/trivy-operator/pkg/operator/etc"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

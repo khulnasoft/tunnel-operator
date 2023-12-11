@@ -4,8 +4,8 @@ kind: InfraAssessmentReport
 metadata:
   generation: 1
   labels:
-    tunnel-operator.resource.kind: Pod
-    tunnel-operator.resource.namespace: kube-system
+    trivy-operator.resource.kind: Pod
+    trivy-operator.resource.namespace: kube-system
   name: pod-my-pod-kube-apiserver
   namespace: kube-system
   ownerReferences:
@@ -104,8 +104,8 @@ report:
       title: Ensure that the admission control plugin SecurityContextDeny is set if
         PodSecurityPolicy is not used
   scanner:
-    name: Tunnel
-    vendor: Khulnasoft Security
+    name: Trivy
+    vendor: Aqua Security
     version: version
   summary:
     criticalCount: 0

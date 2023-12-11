@@ -1,5 +1,5 @@
 ---
-repo: khulnasoft/tunnel-operator
+repo: aquasecurity/trivy-operator
 labels:
   # kind
   - name: kind/breaking
@@ -114,4 +114,4 @@ labels:
     description: Denotes an issue that needs help from a contributor. Must meet "help wanted" guidelines.
   - name: vulnerability
     color: e11d21
-    description: Categorizes issue or PR as related to Tunnel's own vulnerabilities.
+    description: Categorizes issue or PR as related to Trivy's own vulnerabilities.

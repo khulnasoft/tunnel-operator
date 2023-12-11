@@ -1,10 +1,16 @@
-# Default values for the tunnel-operator Helm chart, these are used to render
+# Default values for the trivy-operator Helm chart, these are used to render
 # the templates into valid k8s Resources.
+
+# -- global values provide a centralized configuration for 'image.registry', reducing the potential for errors.
+# If left blank, the chart will default to the individually set 'image.registry' values
+global:
+  image:
+    registry: ""
 
 # -- managedBy is similar to .Release.Service but allows to overwrite the value
 managedBy: Helm
 
-# -- targetNamespace defines where you want tunnel-operator to operate. By
+# -- targetNamespace defines where you want trivy-operator to operate. By
 # default, it's a blank string to select all namespaces, but you can specify
 # another namespace, or a comma separated list of namespaces.
 targetNamespaces: ""
@@ -39,7 +45,7 @@ operator:
 
   # -- leaderElectionId determines the name of the resource that leader election
   # will use for holding the leader lock.
-  leaderElectionId: "tunneloperator-lock"
+  leaderElectionId: "trivyoperator-lock"
 
   # -- logDevMode the flag to enable development mode (more human-readable output, extra stack traces and logging information, etc)
   logDevMode: false
@@ -65,6 +71,8 @@ operator:
   sbomGenerationEnabled: true
   # -- scannerReportTTL the flag to set how long a report should exist. "" means that the ScannerReportTTL feature is disabled
   scannerReportTTL: "24h"
+  # -- cacheReportTTL the flag to set how long a cluster sbom report should exist. "" means that the cacheReportTTL feature is disabled
+  cacheReportTTL: "120h"
   # -- configAuditScannerEnabled the flag to enable configuration audit scanner
   configAuditScannerEnabled: true
   # -- rbacAssessmentScannerEnabled the flag to enable rbac assessment scanner
@@ -83,14 +91,14 @@ operator:
   batchDeleteDelay: 10s
   # -- accessGlobalSecretsAndServiceAccount The flag to enable access to global secrets/service accounts to allow `vulnerability scan job` to pull images from private registries
   accessGlobalSecretsAndServiceAccount: true
-  # -- builtInTunnelServer The flag enable the usage of built-in tunnel server in cluster ,its also override the following tunnel params with built-in values
-  # tunnel.mode = ClientServer and serverURL = http://<serverServiceName>.<tunnel operator namespace>:4975
-  builtInTunnelServer: false
+  # -- builtInTrivyServer The flag enable the usage of built-in trivy server in cluster ,its also override the following trivy params with built-in values
+  # trivy.mode = ClientServer and serverURL = http://<serverServiceName>.<trivy operator namespace>:4975
+  builtInTrivyServer: false
   # -- controllerCacheSyncTimeout the duration to wait for controller resources cache sync (default: 5m).
   controllerCacheSyncTimeout: "5m"
 
-  # -- tunnelServerHealthCheckCacheExpiration The flag to set the interval for tunnel server health cache before it invalidate
-  tunnelServerHealthCheckCacheExpiration: 10h
+  # -- trivyServerHealthCheckCacheExpiration The flag to set the interval for trivy server health cache before it invalidate
+  trivyServerHealthCheckCacheExpiration: 10h
 
   # -- metricsFindingsEnabled the flag to enable metrics for findings
   metricsFindingsEnabled: true
@@ -114,9 +122,18 @@ operator:
   # be aware of metrics cardinality is significantly increased with this feature enabled.
   metricsRbacAssessmentInfo: false
 
-    # -- MetricsInfraAssessmentInfo the flag to enable metrics about Infra Assessment
+  # -- MetricsInfraAssessmentInfo the flag to enable metrics about Infra Assessment
   # be aware of metrics cardinality is significantly increased with this feature enabled.
   metricsInfraAssessmentInfo: false
+
+  # -- MetricsImageInfo the flag to enable metrics about Image Information of scanned images
+  # This information has image os information including os family, name/version, and if end of service life has been reached
+  # be aware of metrics cardinality is significantly increased with this feature enabled.
+  metricsImageInfo: false
+
+  # -- MetricsClusterComplianceInfo the flag to enable metrics about Cluster Compliance
+  # be aware of metrics cardinality is significantly increased with this feature enabled.
+  metricsClusterComplianceInfo: false
 
   # -- webhookBroadcastURL the flag to set reports should be sent to a webhook endpoint. "" means that the webhookBroadcastURL feature is disabled
   webhookBroadcastURL: ""
@@ -135,7 +152,7 @@ operator:
 
 image:
   registry: "ghcr.io"
-  repository: "khulnasoft/tunnel-operator"
+  repository: "aquasecurity/trivy-operator"
   # -- tag is an override of the image tag, which is by default set by the
   # appVersion field in Chart.yaml.
   tag: ""
@@ -145,13 +162,14 @@ image:
   pullSecrets: []
 
 # -- service only expose a metrics endpoint for prometheus to scrape,
-# tunnel-operator does not have a user interface.
+# trivy-operator does not have a user interface.
 service:
+  headless: true
   metricsPort: 80
   # -- annotations added to the operator's service
   annotations: {}
 
-# -- Prometheus ServiceMonitor configuration -- to install the tunnel operator with the ServiceMonitor
+# -- Prometheus ServiceMonitor configuration -- to install the trivy operator with the ServiceMonitor
 # you must have Prometheus already installed and running. If you do not have Prometheus installed, enabling this will
 # have no effect.
 serviceMonitor:
@@ -170,11 +188,11 @@ serviceMonitor:
   # -- EndpointAdditionalProperties allows setting additional properties on the endpoint such as relabelings, metricRelabelings etc.
   endpointAdditionalProperties: {}
 
-tunnelOperator:
-  # -- vulnerabilityReportsPlugin the name of the plugin that generates vulnerability reports `Tunnel`
-  vulnerabilityReportsPlugin: "Tunnel"
+trivyOperator:
+  # -- vulnerabilityReportsPlugin the name of the plugin that generates vulnerability reports `Trivy`
+  vulnerabilityReportsPlugin: "Trivy"
   # -- configAuditReportsPlugin the name of the plugin that generates config audit reports.
-  configAuditReportsPlugin: "Tunnel"
+  configAuditReportsPlugin: "Trivy"
   # -- scanJobCompressLogs control whether scanjob output should be compressed or plain
   scanJobCompressLogs: true
   # -- scanJobTolerations tolerations to be applied to the scanner pods and node-collector so that they can run on nodes with matching taints
@@ -224,10 +242,10 @@ tunnelOperator:
         - ALL
     privileged: false
     readOnlyRootFilesystem: true
-    # -- For filesystem scanning, Tunnel needs to run as the root user
+    # -- For filesystem scanning, Trivy needs to run as the root user
     # runAsUser: 0
 
-  # -- scanJobPodPriorityClassName Priority class name to be set on the pods created by tunnel operator jobs. This accepts a string value
+  # -- scanJobPodPriorityClassName Priority class name to be set on the pods created by trivy operator jobs. This accepts a string value
   scanJobPodPriorityClassName: ""
 
   # -- reportResourceLabels comma-separated scanned resource labels which the user wants to include in the Prometheus
@@ -237,7 +255,7 @@ tunnelOperator:
   # -- reportRecordFailedChecksOnly flag is to record only failed checks on misconfiguration reports (config-audit and rbac assessment)
   reportRecordFailedChecksOnly: true
 
-  # -- skipResourceByLabels comma-separated labels keys which tunnel-operator will skip scanning on resources with matching labels
+  # -- skipResourceByLabels comma-separated labels keys which trivy-operator will skip scanning on resources with matching labels
   skipResourceByLabels: ""
 
   # -- metricsResourceLabelsPrefix Prefix that will be prepended to the labels names indicated in `reportResourceLabels`
@@ -248,44 +266,51 @@ tunnelOperator:
   # labeled with. Example: `foo=bar,env=stage` will labeled the reports with the labels `foo: bar` and `env: stage`
   additionalReportLabels: ""
 
-tunnel:
+  # -- policiesConfig Custom Rego Policies to be used by the config audit scanner
+  # See https://github.com/aquasecurity/trivy-operator/blob/main/docs/tutorials/writing-custom-configuration-audit-policies.md for more details.
+  policiesConfig: ""
+
+trivy:
   # -- createConfig indicates whether to create config objects
   createConfig: true
   image:
-    # -- registry of the Tunnel image
+    # -- registry of the Trivy image
     registry: ghcr.io
-    # -- repository of the Tunnel image
+    # -- repository of the Trivy image
     repository: aquasecurity/trivy
-    # -- tag version of the Tunnel image
-    tag: 0.44.1
-    # -- imagePullSecret is the secret name to be used when pulling tunnel image from private registries example : reg-secret
-    # It is the user responsibility to create the secret for the private registry in `tunnel-operator` namespace
+    # -- tag version of the Trivy image
+    tag: 0.47.0
+    # -- imagePullSecret is the secret name to be used when pulling trivy image from private registries example : reg-secret
+    # It is the user responsibility to create the secret for the private registry in `trivy-operator` namespace
     imagePullSecret: ~
 
-  # -- mode is the Tunnel client mode. Either Standalone or ClientServer. Depending
+    # -- pullPolicy is the imge pull policy used for trivy image , valid values are (Always, Never, IfNotPresent)
+    pullPolicy: IfNotPresent
+
+  # -- mode is the Trivy client mode. Either Standalone or ClientServer. Depending
   # on the active mode other settings might be applicable or required.
   mode: Standalone
 
-  # -- whether to use a storage class for tunnel server or emptydir (one mey want to use ephemeral storage)
+  # -- whether to use a storage class for trivy server or emptydir (one mey want to use ephemeral storage)
   storageClassEnabled: true
 
-  # -- storageClassName is the name of the storage class to be used for tunnel server PVC. If empty, tries to find default storage class
+  # -- storageClassName is the name of the storage class to be used for trivy server PVC. If empty, tries to find default storage class
   storageClassName: ""
 
-  # -- podLabels is the extra pod labels to be used for tunnel server
+  # -- podLabels is the extra pod labels to be used for trivy server
   podLabels:
 
-  # -- priorityClassName is the name of the priority class used for tunnel server
+  # -- priorityClassName is the name of the priority class used for trivy server
   priorityClassName: ""
 
   # -- additionalVulnerabilityReportFields is a comma separated list of additional fields which
   # can be added to the VulnerabilityReport. Supported parameters: Description, Links, CVSS, Target, Class, PackagePath and PackageType
   additionalVulnerabilityReportFields: ""
 
-  # -- httpProxy is the HTTP proxy used by Tunnel to download the vulnerabilities database from GitHub.
+  # -- httpProxy is the HTTP proxy used by Trivy to download the vulnerabilities database from GitHub.
   httpProxy: ~
 
-  # -- httpsProxy is the HTTPS proxy used by Tunnel to download the vulnerabilities database from GitHub.
+  # -- httpsProxy is the HTTPS proxy used by Trivy to download the vulnerabilities database from GitHub.
   httpsProxy: ~
 
   # -- noProxy is a comma separated list of IPs and domain names that are not subject to proxy settings.
@@ -294,7 +319,7 @@ tunnel:
   # -- Registries without SSL. There can be multiple registries with different keys.
   nonSslRegistries: {}
   #  pocRegistry: poc.myregistry.harbor.com.pl
-  #  qaRegistry: qa.registry.khulnasoft.com
+  #  qaRegistry: qa.registry.aquasec.com
   #  internalRegistry: registry.registry.svc:5000
 
   # -- sslCertDir can be used to override the system default locations for SSL certificate files directory, example: /ssl/certs
@@ -303,7 +328,7 @@ tunnel:
   # -- The registry to which insecure connections are allowed. There can be multiple registries with different keys.
   insecureRegistries: {}
   #  pocRegistry: poc.myregistry.harbor.com.pl
-  #  qaRegistry: qa.registry.khulnasoft.com
+  #  qaRegistry: qa.registry.aquasec.com
   #  internalRegistry: registry.registry.svc:5000
 
   # -- Mirrored registries. There can be multiple registries with different keys.
@@ -312,34 +337,36 @@ tunnel:
     mirror: {}
     # "docker.io": docker-mirror.example.com
 
-  # -- severity is a comma separated list of severity levels reported by Tunnel.
+  # -- severity is a comma separated list of severity levels reported by Trivy.
   severity: UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL
 
   # -- slow this flag is to use less CPU/memory for scanning though it takes more time than normal scanning. It fits small-footprint
   slow: true
   # -- ignoreUnfixed is the flag to show only fixed vulnerabilities in
-  # vulnerabilities reported by Tunnel. Set to true to enable it.
+  # vulnerabilities reported by Trivy. Set to true to enable it.
   #
   ignoreUnfixed: false
-  # -- a comma separated list of directories for Tunnel to skip
+  # -- a comma separated list of file paths for Trivy to skip
+  skipFiles:
+  # -- a comma separated list of directories for Trivy to skip
   skipDirs:
 
-  # -- offlineScan is the flag to enable the offline scan functionality in Tunnel
+  # -- offlineScan is the flag to enable the offline scan functionality in Trivy
   # This will prevent outgoing HTTP requests, e.g. to search.maven.org
   offlineScan: false
 
   # -- timeout is the duration to wait for scan completion.
   timeout: "5m0s"
 
-  # -- ignoreFile can be used to tell Tunnel to ignore vulnerabilities by ID (one per line)
+  # -- ignoreFile can be used to tell Trivy to ignore vulnerabilities by ID (one per line)
   ignoreFile: ~
   # ignoreFile: |
   #   CVE-1970-0001
   #   CVE-1970-0002
 
-  # -- ignorePolicy can be used to tell Tunnel to ignore vulnerabilities by a policy
+  # -- ignorePolicy can be used to tell Trivy to ignore vulnerabilities by a policy
   # If multiple policies would match, then the most specific one has precedence over the others.
-  # See https://khulnasoft.github.io/tunnel/latest/docs/configuration/filtering/#by-open-policy-agent for more details.
+  # See https://khulnasoft.github.io/trivy/latest/docs/configuration/filtering/#by-open-policy-agent for more details.
   #
   # ignorePolicy.application.my-app-.: |
   #   # applies to all workloads in namespace "application" with the name pattern "my-app-*"
@@ -348,10 +375,10 @@ tunnel:
   # ignorePolicy: |
   #   # applies to all other workloads
 
-  # -- vulnType can be used to tell Tunnel to filter vulnerabilities by a pkg-type (library, os)
+  # -- vulnType can be used to tell Trivy to filter vulnerabilities by a pkg-type (library, os)
   vulnType: ~
 
-  # -- resources resource requests and limits
+  # -- resources resource requests and limits for scan job containers
   resources:
     requests:
       cpu: 100m
@@ -362,52 +389,52 @@ tunnel:
       memory: 500M
       # ephemeralStorage: "2Gi"
 
-  # -- githubToken is the GitHub access token used by Tunnel to download the vulnerabilities
+  # -- githubToken is the GitHub access token used by Trivy to download the vulnerabilities
   # database from GitHub. Only applicable in Standalone mode.
   githubToken: ~
 
-  # -- serverURL is the endpoint URL of the Tunnel server. Required in ClientServer mode.
+  # -- serverURL is the endpoint URL of the Trivy server. Required in ClientServer mode.
   #
-  # serverURL: "https://tunnel.tunnel:4975"
+  # serverURL: "https://trivy.trivy:4975"
 
-  # -- clientServerSkipUpdate is the flag to enable skip databases update for Tunnel client.
+  # -- clientServerSkipUpdate is the flag to enable skip databases update for Trivy client.
   # Only applicable in ClientServer mode.
   clientServerSkipUpdate: false
 
-  # -- skipJavaDBUpdate is the flag to enable skip Java index databases update for Tunnel client.
+  # -- skipJavaDBUpdate is the flag to enable skip Java index databases update for Trivy client.
   skipJavaDBUpdate: false
 
-  # -- serverInsecure is the flag to enable insecure connection to the Tunnel server.
+  # -- serverInsecure is the flag to enable insecure connection to the Trivy server.
   serverInsecure: false
 
-  # -- serverToken is the token to authenticate Tunnel client with Tunnel server. Only
+  # -- serverToken is the token to authenticate Trivy client with Trivy server. Only
   # applicable in ClientServer mode.
   serverToken: ~
 
   # -- existingSecret if a secret containing gitHubToken, serverToken or serverCustomHeaders has been created outside the chart (e.g external-secrets, sops, etc...).
-  # Keys must be at least one of the following: tunnel.githubToken, tunnel.serverToken, tunnel.serverCustomHeaders
-  # Overrides tunnel.gitHubToken, tunnel.serverToken, tunnel.serverCustomHeaders values.
-  # Note: The secret has to be named "tunnel-operator-tunnel-config".
+  # Keys must be at least one of the following: trivy.githubToken, trivy.serverToken, trivy.serverCustomHeaders
+  # Overrides trivy.gitHubToken, trivy.serverToken, trivy.serverCustomHeaders values.
+  # Note: The secret has to be named "trivy-operator-trivy-config".
   # existingSecret: true
 
   # -- serverTokenHeader is the name of the HTTP header used to send the authentication
-  # token to Tunnel server. Only application in ClientServer mode when
-  # tunnel.serverToken is specified.
-  serverTokenHeader: "Tunnel-Token"
+  # token to Trivy server. Only application in ClientServer mode when
+  # trivy.serverToken is specified.
+  serverTokenHeader: "Trivy-Token"
 
   # -- serverCustomHeaders is a comma separated list of custom HTTP headers sent by
-  # Tunnel client to Tunnel server. Only applicable in ClientServer mode.
+  # Trivy client to Trivy server. Only applicable in ClientServer mode.
   serverCustomHeaders: ~
   # serverCustomHeaders: "foo=bar"
 
   dbRegistry: "ghcr.io"
-  dbRepository: "khulnasoft-lab/tunnel-db"
+  dbRepository: "aquasecurity/trivy-db"
 
   # -- javaDbRegistry is the registry for the Java vulnerability database.
   javaDbRegistry: "ghcr.io"
   javaDbRepository: "aquasecurity/trivy-java-db"
 
-  # -- The Flag to enable insecure connection for downloading tunnel-db via proxy (air-gaped env)
+  # -- The Flag to enable insecure connection for downloading trivy-db via proxy (air-gaped env)
   #
   dbRepositoryInsecure: "false"
 
@@ -420,20 +447,26 @@ tunnel:
   supportedConfigAuditKinds: "Workload,Service,Role,ClusterRole,NetworkPolicy,Ingress,LimitRange,ResourceQuota"
 
   # -- command. One of `image`, `filesystem` or `rootfs` scanning, depending on the target type required for the scan.
-  # For 'filesystem' and `rootfs` scanning, ensure that the `tunnelOperator.scanJobPodTemplateContainerSecurityContext` is configured
+  # For 'filesystem' and `rootfs` scanning, ensure that the `trivyOperator.scanJobPodTemplateContainerSecurityContext` is configured
   # to run as the root user (runAsUser = 0).
   command: image
+  # -- imageScanCacheDir the flag to set custom path for trivy image scan `cache-dir` parameter.
+  # Only applicable in image scan mode.
+  imageScanCacheDir: "/tmp/trivy/.cache"
+  # -- filesystemScanCacheDir the flag to set custom path for trivy filesystem scan `cache-dir` parameter.
+  # Only applicable in filesystem scan mode.
+  filesystemScanCacheDir: "/var/trivyoperator/trivy-db"
   # -- serverUser this param is the server user to be used to download db from private registry
   serverUser: ""
   # -- serverPassword this param is the server user to be used to download db from private registry
   serverPassword: ""
   # -- serverServiceName this param is the server service name to be used in cluster
-  serverServiceName: "tunnel-service"
+  serverServiceName: "trivy-service"
   # -- debug One of `true` or `false`. Enables debug mode.
   debug: false
 
   server:
-    # -- resources set tunnel-server resource
+    # -- resources set trivy-server resource
     resources:
       requests:
         cpu: 200m
@@ -444,18 +477,18 @@ tunnel:
         memory: 1Gi
         # ephemeral-storage: "2Gi"
 
-    # -- podSecurityContext set tunnel-server podSecurityContext
+    # -- podSecurityContext set trivy-server podSecurityContext
     podSecurityContext:
       runAsUser: 65534
       runAsNonRoot: true
       fsGroup: 65534
 
-    # -- securityContext set tunnel-server securityContext
+    # -- securityContext set trivy-server securityContext
     securityContext:
       privileged: false
       readOnlyRootFilesystem: true
 
-    # -- the number of replicas of the tunnel-server
+    # -- the number of replicas of the trivy-server
     replicas: 1
 
 compliance:
@@ -532,15 +565,15 @@ nodeCollector:
   # -- registry of the node-collector image
   registry: ghcr.io
   # -- repository of the node-collector image
-  repository: khulnasoft/node-collector
+  repository: aquasecurity/node-collector
   # -- tag version of the node-collector image
-  tag: 0.0.6
+  tag: 0.0.9
   # -- imagePullSecret is the secret name to be used when pulling node-collector image from private registries example : reg-secret
-  # It is the user responsibility to create the secret for the private registry in `tunnel-operator` namespace
+  # It is the user responsibility to create the secret for the private registry in `trivy-operator` namespace
   imagePullSecret: ~
   # -- excludeNodes comma-separated node labels that the node-collector job should exclude from scanning (example kubernetes.io/arch=arm64,team=dev)
   excludeNodes:
-  # -- node-collector pod volumeMounts definition for collecting config files information
+  # -- node-collector pod volume mounts definition for collecting config files information
   volumeMounts:
     - name: var-lib-etcd
       mountPath: /var/lib/etcd

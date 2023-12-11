@@ -1,9 +1,7 @@
 # ConfigAuditReport
 
-An instance of the ConfigAuditReport represents checks performed by configuration auditing tools, such as [Tunnel],
-against a Kubernetes object's configuration. For example, check that a given container image runs as
-non-root user or that a container has resource requests and limits set. Checks might relate to Kubernetes workloads
-and other namespaced Kubernetes objects such as Services, ConfigMaps, Roles, and RoleBindings.
+An instance of the ConfigAuditReport represents the checks performed by configuration auditing tools, such as [Trivy](https://github.com/aquasecurity/trivy),
+against the configuration of a Kubernetes object. Example of checks are that a given container image is configured to run as non-root user or that a container has resource requests and limits set. Checks might relate to Kubernetes workloads and other namespaced Kubernetes objects such as Services, ConfigMaps, Roles, and RoleBindings.
 
 Each report is owned by the underlying Kubernetes object and is stored in the same namespace, following the
 `<workload-kind>-<workload-name>` naming convention.
@@ -18,9 +16,9 @@ metadata:
   name: replicaset-nginx-6d4cf56db6
   namespace: default
   labels:
-    tunnel-operator.resource.kind: ReplicaSet
-    tunnel-operator.resource.name: nginx-6d4cf56db6
-    tunnel-operator.resource.namespace: default
+    trivy-operator.resource.kind: ReplicaSet
+    trivy-operator.resource.name: nginx-6d4cf56db6
+    trivy-operator.resource.namespace: default
     plugin-config-hash: 7f65d98b75
     resource-spec-hash: 7cb64cb677
   uid: d5cf8847-c96d-4534-beb9-514a34230302
@@ -34,9 +32,9 @@ metadata:
 report:
   updateTimestamp: '2021-05-20T12:38:10Z'
   scanner:
-    name: Tunnel 
-    vendor: Khulnasoft Security
-    version: '0.16.0'
+    name: Trivy 
+    vendor: Aqua Security
+    version: '0.17.0'
   summary:
     criticalCount: 2
     highCount: 0
@@ -82,7 +80,7 @@ report:
 ```
 
 Third party Kubernetes configuration checkers, linters, and sanitizers that are compliant with the ConfigAuditReport
-schema can be integrated with tunnel-operator.
+schema can be integrated with trivy-operator.
 
 !!! note
     The challenge with onboarding third party configuration checkers is that they tend to have different interfaces

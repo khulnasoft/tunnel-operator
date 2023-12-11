@@ -1,14 +1,14 @@
 package v1alpha1
 
 import (
-	"github.com/khulnasoft/tunnel-operator/pkg/apis/khulnasoft"
+	"github.com/aquasecurity/trivy-operator/pkg/apis/khulnasoft"
 	meta "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 
 // SchemeGroupVersion is group version used to register these objects
-var SchemeGroupVersion = schema.GroupVersion{Group: khulnasoft.GroupName, Version: "v1alpha1"}
+var SchemeGroupVersion = schema.GroupVersion{Group: aquasecurity.GroupName, Version: "v1alpha1"}
 
 var (
 	// SchemeBuilder initializes a scheme builder
@@ -40,6 +40,8 @@ func addKnownTypes(scheme *runtime.Scheme) error {
 		&ClusterInfraAssessmentReportList{},
 		&SbomReport{},
 		&SbomReportList{},
+		&ClusterSbomReport{},
+		&ClusterSbomReportList{},
 	)
 	meta.AddToGroupVersion(scheme, SchemeGroupVersion)
 	return nil

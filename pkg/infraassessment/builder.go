@@ -6,14 +6,14 @@ import (
 	"strings"
 	"time"
 
-	"github.com/khulnasoft/tunnel-operator/pkg/apis/khulnasoft/v1alpha1"
-	"github.com/khulnasoft/tunnel-operator/pkg/kube"
-	"github.com/khulnasoft/tunnel-operator/pkg/tunneloperator"
+	"github.com/aquasecurity/trivy-operator/pkg/apis/khulnasoft/v1alpha1"
+	"github.com/aquasecurity/trivy-operator/pkg/kube"
+	"github.com/aquasecurity/trivy-operator/pkg/tunneloperator"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/labels"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/util/validation"
-	"k8s.io/utils/pointer"
+	"k8s.io/utils/ptr"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 )
@@ -87,10 +87,10 @@ func (b *ReportBuilder) GetReport() (v1alpha1.InfraAssessmentReport, error) {
 	// append custom labels by config to report
 	kube.AppendCustomLabels(b.additionalReportLabels, labelsSet)
 	if b.resourceSpecHash != "" {
-		labelsSet[tunneloperator.LabelResourceSpecHash] = b.resourceSpecHash
+		labelsSet[trivyoperator.LabelResourceSpecHash] = b.resourceSpecHash
 	}
 	if b.pluginConfigHash != "" {
-		labelsSet[tunneloperator.LabelPluginConfigHash] = b.pluginConfigHash
+		labelsSet[trivyoperator.LabelPluginConfigHash] = b.pluginConfigHash
 	}
 
 	report := v1alpha1.InfraAssessmentReport{
@@ -122,7 +122,7 @@ func (b *ReportBuilder) GetReport() (v1alpha1.InfraAssessmentReport, error) {
 	// additional RBAC permissions are not required when the OwnerReferencesPermissionsEnforcement
 	// is enabled.
 	// See https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#ownerreferencespermissionenforcement
-	report.OwnerReferences[0].BlockOwnerDeletion = pointer.Bool(false)
+	report.OwnerReferences[0].BlockOwnerDeletion = ptr.To[bool](false)
 	return report, nil
 }
 
@@ -133,10 +133,10 @@ func (b *ReportBuilder) GetClusterReport() (v1alpha1.ClusterInfraAssessmentRepor
 	// append custom labels by config to report
 	kube.AppendCustomLabels(b.additionalReportLabels, labelsSet)
 	if b.resourceSpecHash != "" {
-		labelsSet[tunneloperator.LabelResourceSpecHash] = b.resourceSpecHash
+		labelsSet[trivyoperator.LabelResourceSpecHash] = b.resourceSpecHash
 	}
 	if b.pluginConfigHash != "" {
-		labelsSet[tunneloperator.LabelPluginConfigHash] = b.pluginConfigHash
+		labelsSet[trivyoperator.LabelPluginConfigHash] = b.pluginConfigHash
 	}
 
 	report := v1alpha1.ClusterInfraAssessmentReport{
@@ -162,7 +162,7 @@ func (b *ReportBuilder) GetClusterReport() (v1alpha1.ClusterInfraAssessmentRepor
 	// additional RBAC permissions are not required when the OwnerReferencesPermissionsEnforcement
 	// is enabled.
 	// See https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#ownerreferencespermissionenforcement
-	report.OwnerReferences[0].BlockOwnerDeletion = pointer.Bool(false)
+	report.OwnerReferences[0].BlockOwnerDeletion = ptr.To[bool](false)
 	return report, nil
 }
 

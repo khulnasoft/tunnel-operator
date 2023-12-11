@@ -5,8 +5,8 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/khulnasoft/tunnel-operator/pkg/apis/khulnasoft/v1alpha1"
-	"github.com/khulnasoft/tunnel-operator/pkg/tunneloperator"
+	"github.com/aquasecurity/trivy-operator/pkg/apis/khulnasoft/v1alpha1"
+	"github.com/aquasecurity/trivy-operator/pkg/tunneloperator"
 	"github.com/stretchr/testify/assert"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
@@ -256,7 +256,7 @@ func TestGenerateComplianceReport(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			c := fake.NewClientBuilder().WithScheme(tunneloperator.NewScheme()).
+			c := fake.NewClientBuilder().WithScheme(trivyoperator.NewScheme()).
 				WithLists(tt.configAuditList).
 				WithObjects(tt.clusterComplianceReport).
 				WithStatusSubresource(tt.clusterComplianceReport).

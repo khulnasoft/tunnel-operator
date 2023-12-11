@@ -1,11 +1,10 @@
 # ExposedSecretReport
 
-An instance of the ExposedSecretReport represents the secrets found in a container image of a given
-Kubernetes workload. It consists of a list exposed secrets with a summary grouped by severity. For a multi-container workload tunnel-operator creates multiple instances
-of ExposedSecretsReports in the workload's namespace with the owner reference set to that workload.
+An instance of the `ExposedSecretReport` represents the secrets found in a container image of a given
+Kubernetes workload. It consists of a list exposed secrets with a summary grouped by severity. For a multi-container workload the Trivy Operator will create multiple instances of the `ExposedSecretsReports` in the workload's namespace with the owner reference set to that workload.
 Each report follows the naming convention `<workload kind>-<workload name>-<container-name>`.
 
-The following listing shows a sample ExposedSecretReport associated with the ReplicaSet named `app-574ddcb559` in the
+The following listing shows a sample `ExposedSecretReport` associated with the ReplicaSet named `app-574ddcb559` in the
 `default` namespace that has the `app` container.
 
 ```yaml
@@ -16,10 +15,10 @@ metadata:
   generation: 2
   labels:
     resource-spec-hash: 8495697ff5
-    tunnel-operator.container.name: app
-    tunnel-operator.resource.kind: ReplicaSet
-    tunnel-operator.resource.name: app-67b77f5965
-    tunnel-operator.resource.namespace: default
+    trivy-operator.container.name: app
+    trivy-operator.resource.kind: ReplicaSet
+    trivy-operator.resource.name: app-67b77f5965
+    trivy-operator.resource.namespace: default
   name: replicaset-app-67b77f5965-app
   namespace: default
   ownerReferences:
@@ -34,12 +33,12 @@ metadata:
 report:
   artifact:
     repository: myimagewithsecret
-    tag: v0.16.0
+    tag: v0.17.0
   registry:
     server: index.docker.io
   scanner:
-    name: Tunnel
-    vendor: Khulnasoft Security
+    name: Trivy
+    vendor: Aqua Security
     version: 0.35.0
   secrets:
   - category: Stripe

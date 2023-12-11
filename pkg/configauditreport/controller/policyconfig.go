@@ -6,14 +6,14 @@ import (
 
 	rbacv1 "k8s.io/api/rbac/v1"
 
-	"github.com/khulnasoft/tunnel-operator/pkg/configauditreport"
+	"github.com/aquasecurity/trivy-operator/pkg/configauditreport"
 
-	"github.com/khulnasoft/tunnel-operator/pkg/apis/khulnasoft/v1alpha1"
-	"github.com/khulnasoft/tunnel-operator/pkg/ext"
-	"github.com/khulnasoft/tunnel-operator/pkg/kube"
-	"github.com/khulnasoft/tunnel-operator/pkg/operator/etc"
-	"github.com/khulnasoft/tunnel-operator/pkg/operator/predicate"
-	"github.com/khulnasoft/tunnel-operator/pkg/tunneloperator"
+	"github.com/aquasecurity/trivy-operator/pkg/apis/khulnasoft/v1alpha1"
+	"github.com/aquasecurity/trivy-operator/pkg/ext"
+	"github.com/aquasecurity/trivy-operator/pkg/kube"
+	"github.com/aquasecurity/trivy-operator/pkg/operator/etc"
+	"github.com/aquasecurity/trivy-operator/pkg/operator/predicate"
+	"github.com/aquasecurity/trivy-operator/pkg/tunneloperator"
 	"github.com/go-logr/logr"
 	corev1 "k8s.io/api/core/v1"
 	networkingv1 "k8s.io/api/networking/v1"
@@ -33,12 +33,12 @@ type PolicyConfigController struct {
 	logr.Logger
 	etc.Config
 	kube.ObjectResolver
-	tunneloperator.PluginContext
+	trivyoperator.PluginContext
 	configauditreport.PluginInMemory
 	ClusterVersion string
 }
 
-// Controller for tunnel-operator-policies-config in the operator namespace; must be cluster scoped even with namespace predicate
+// Controller for trivy-operator-policies-config in the operator namespace; must be cluster scoped even with namespace predicate
 // +kubebuilder:rbac:groups="",resources=configmaps,verbs=get;list;watch
 
 func (r *PolicyConfigController) SetupWithManager(mgr ctrl.Manager) error {
@@ -70,7 +70,7 @@ func (r *PolicyConfigController) SetupWithManager(mgr ctrl.Manager) error {
 		if err := ctrl.NewControllerManagedBy(mgr).
 			For(&corev1.ConfigMap{}, builder.WithPredicates(
 				predicate.Not(predicate.IsBeingTerminated),
-				predicate.HasName(tunneloperator.PoliciesConfigMapName),
+				predicate.HasName(trivyoperator.PoliciesConfigMapName),
 				predicate.InNamespace(r.Config.Namespace),
 			)).
 			Complete(r.reconcileConfig(configResource.Kind)); err != nil {
@@ -89,7 +89,7 @@ func (r *PolicyConfigController) SetupWithManager(mgr ctrl.Manager) error {
 		err := ctrl.NewControllerManagedBy(mgr).
 			For(&corev1.ConfigMap{}, builder.WithPredicates(
 				predicate.Not(predicate.IsBeingTerminated),
-				predicate.HasName(tunneloperator.PoliciesConfigMapName),
+				predicate.HasName(trivyoperator.PoliciesConfigMapName),
 				predicate.InNamespace(r.Config.Namespace))).
 			Complete(r.reconcileClusterConfig(resource.Kind))
 		if err != nil {
@@ -130,8 +130,8 @@ func (r *PolicyConfigController) reconcileConfig(kind kube.Kind) reconcile.Func 
 		}
 
 		labelSelector, err := labels.Parse(fmt.Sprintf("%s!=%s,%s=%s",
-			tunneloperator.LabelPluginConfigHash, configHash,
-			tunneloperator.LabelResourceKind, kind))
+			trivyoperator.LabelPluginConfigHash, configHash,
+			trivyoperator.LabelResourceKind, kind))
 		if err != nil {
 			return ctrl.Result{}, fmt.Errorf("parsing label selector: %w", err)
 		}
@@ -220,8 +220,8 @@ func (r *PolicyConfigController) reconcileClusterConfig(kind kube.Kind) reconcil
 		}
 
 		labelSelector, err := labels.Parse(fmt.Sprintf("%s!=%s,%s=%s",
-			tunneloperator.LabelPluginConfigHash, configHash,
-			tunneloperator.LabelResourceKind, kind))
+			trivyoperator.LabelPluginConfigHash, configHash,
+			trivyoperator.LabelResourceKind, kind))
 		if err != nil {
 			return ctrl.Result{}, fmt.Errorf("parsing label selector: %w", err)
 		}

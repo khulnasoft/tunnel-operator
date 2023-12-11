@@ -3,15 +3,15 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   annotations:
-    tunnel-operator.container-images: '{"nginx":"k8s.gcr.io/nginx-slim:0.8"}'
+    trivy-operator.container-images: '{"nginx":"k8s.gcr.io/nginx-slim:0.8"}'
   generation: 1
   labels:
-    app.kubernetes.io/managed-by: tunnel-operator
+    app.kubernetes.io/managed-by: trivy-operator
     resource-spec-hash: <HASH>
-    tunnel-operator.resource.kind: StatefulSet
-    tunnel-operator.resource.name: web
-    tunnel-operator.resource.namespace: default
-    vulnerabilityReport.scanner: Tunnel
+    trivy-operator.resource.kind: StatefulSet
+    trivy-operator.resource.name: web
+    trivy-operator.resource.namespace: default
+    vulnerabilityReport.scanner: Trivy
   name: scan-vulnerabilityreport-85bdb4586d
 spec:
   backoffLimit: 0
@@ -25,14 +25,14 @@ spec:
   template:
     metadata:
       labels:
-        app.kubernetes.io/managed-by: tunnel-operator
+        app.kubernetes.io/managed-by: trivy-operator
         controller-uid: <CONTROLLER-UID>
         job-name: scan-vulnerabilityreport-85bdb4586d
         resource-spec-hash: <HASH>
-        tunnel-operator.resource.kind: StatefulSet
-        tunnel-operator.resource.name: web
-        tunnel-operator.resource.namespace: default
-        vulnerabilityReport.scanner: Tunnel
+        trivy-operator.resource.kind: StatefulSet
+        trivy-operator.resource.name: web
+        trivy-operator.resource.namespace: default
+        vulnerabilityReport.scanner: Trivy
     spec:
       affinity:
         nodeAffinity:
@@ -47,69 +47,69 @@ spec:
       containers:
         - args:
             - -c
-            - tunnel image --slow 'k8s.gcr.io/nginx-slim:0.8' --security-checks vuln,secret --image-config-scanners secret   --skip-update  --cache-dir /tmp/tunnel/.cache --quiet  --format json > /tmp/scan/result_nginx.json &&  bzip2 -c /tmp/scan/result_nginx.json | base64
+            - trivy image --slow 'k8s.gcr.io/nginx-slim:0.8' --security-checks vuln,secret --image-config-scanners secret   --skip-update  --cache-dir /tmp/trivy/.cache --quiet  --format json > /tmp/scan/result_nginx.json &&  bzip2 -c /tmp/scan/result_nginx.json | base64
           command:
             - /bin/sh
           env:
-            - name: TUNNEL_SEVERITY
+            - name: TRIVY_SEVERITY
               valueFrom:
                 configMapKeyRef:
-                  key: tunnel.severity
-                  name: tunnel-operator-tunnel-config
+                  key: trivy.severity
+                  name: trivy-operator-trivy-config
                   optional: true
-            - name: TUNNEL_IGNORE_UNFIXED
+            - name: TRIVY_IGNORE_UNFIXED
               valueFrom:
                 configMapKeyRef:
-                  key: tunnel.ignoreUnfixed
-                  name: tunnel-operator-tunnel-config
+                  key: trivy.ignoreUnfixed
+                  name: trivy-operator-trivy-config
                   optional: true
-            - name: TUNNEL_OFFLINE_SCAN
+            - name: TRIVY_OFFLINE_SCAN
               valueFrom:
                 configMapKeyRef:
-                  key: tunnel.offlineScan
-                  name: tunnel-operator-tunnel-config
+                  key: trivy.offlineScan
+                  name: trivy-operator-trivy-config
                   optional: true
-            - name: TUNNEL_JAVA_DB_REPOSITORY
+            - name: TRIVY_JAVA_DB_REPOSITORY
               valueFrom:
                 configMapKeyRef:
-                  key: tunnel.javaDbRepository
-                  name: tunnel-operator-tunnel-config
+                  key: trivy.javaDbRepository
+                  name: trivy-operator-trivy-config
                   optional: true
-            - name: TUNNEL_TIMEOUT
+            - name: TRIVY_TIMEOUT
               valueFrom:
                 configMapKeyRef:
-                  key: tunnel.timeout
-                  name: tunnel-operator-tunnel-config
+                  key: trivy.timeout
+                  name: trivy-operator-trivy-config
                   optional: true
-            - name: TUNNEL_SKIP_FILES
+            - name: TRIVY_SKIP_FILES
               valueFrom:
                 configMapKeyRef:
-                  key: tunnel.skipFiles
-                  name: tunnel-operator-tunnel-config
+                  key: trivy.skipFiles
+                  name: trivy-operator-trivy-config
                   optional: true
-            - name: TUNNEL_SKIP_DIRS
+            - name: TRIVY_SKIP_DIRS
               valueFrom:
                 configMapKeyRef:
-                  key: tunnel.skipDirs
-                  name: tunnel-operator-tunnel-config
+                  key: trivy.skipDirs
+                  name: trivy-operator-trivy-config
                   optional: true
             - name: HTTP_PROXY
               valueFrom:
                 configMapKeyRef:
-                  key: tunnel.httpProxy
-                  name: tunnel-operator-tunnel-config
+                  key: trivy.httpProxy
+                  name: trivy-operator-trivy-config
                   optional: true
             - name: HTTPS_PROXY
               valueFrom:
                 configMapKeyRef:
-                  key: tunnel.httpsProxy
-                  name: tunnel-operator-tunnel-config
+                  key: trivy.httpsProxy
+                  name: trivy-operator-trivy-config
                   optional: true
             - name: NO_PROXY
               valueFrom:
                 configMapKeyRef:
-                  key: tunnel.noProxy
-                  name: tunnel-operator-tunnel-config
+                  key: trivy.noProxy
+                  name: trivy-operator-trivy-config
                   optional: true
           image: ghcr.io/aquasecurity/trivy:0.35.0
           imagePullPolicy: IfNotPresent
@@ -127,37 +127,37 @@ spec:
       initContainers:
         - args:
             - --cache-dir
-            - /tmp/tunnel/.cache
+            - /tmp/trivy/.cache
             - image
             - --download-db-only
             - --db-repository
-            - ghcr.io/khulnasoft-lab/tunnel-db
+            - ghcr.io/aquasecurity/trivy-db
           command:
-            - tunnel
+            - trivy
           env:
             - name: HTTP_PROXY
               valueFrom:
                 configMapKeyRef:
-                  key: tunnel.httpProxy
-                  name: tunnel-operator-tunnel-config
+                  key: trivy.httpProxy
+                  name: trivy-operator-trivy-config
                   optional: true
             - name: HTTPS_PROXY
               valueFrom:
                 configMapKeyRef:
-                  key: tunnel.httpsProxy
-                  name: tunnel-operator-tunnel-config
+                  key: trivy.httpsProxy
+                  name: trivy-operator-trivy-config
                   optional: true
             - name: NO_PROXY
               valueFrom:
                 configMapKeyRef:
-                  key: tunnel.noProxy
-                  name: tunnel-operator-tunnel-config
+                  key: trivy.noProxy
+                  name: trivy-operator-trivy-config
                   optional: true
             - name: GITHUB_TOKEN
               valueFrom:
                 secretKeyRef:
-                  key: tunnel.githubToken
-                  name: tunnel-operator-tunnel-config
+                  key: trivy.githubToken
+                  name: trivy-operator-trivy-config
                   optional: true
           image: "ghcr.io/aquasecurity/trivy:0.35.0"
           imagePullPolicy: IfNotPresent

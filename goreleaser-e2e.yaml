@@ -9,7 +9,7 @@ before:
   hooks:
     - go mod download
 builds:
-  - id: tunnel-operator
+  - id: trivy-operator
     main: ./cmd/tunnel-operator/main.go
     binary: tunnel-operator
     goos:
@@ -19,7 +19,7 @@ builds:
 archives:
   - name_template: "{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}"
     builds:
-      - tunnel-operator
+      - trivy-operator
     format_overrides:
       - goos: windows
         format: zip
@@ -36,26 +36,26 @@ changelog:
       - ^release
 dockers:
   - image_templates:
-      - ghcr.io/khulnasoft/tunnel-operator:{{ .Version }}-amd64
+      - ghcr.io/aquasecurity/trivy-operator:{{ .Version }}-amd64
     use: buildx
     goos: linux
     dockerfile: build/tunnel-operator/Dockerfile
     goarch: amd64
     ids:
-      - tunnel-operator
+      - trivy-operator
     build_flag_templates:
-      - --label=org.opencontainers.image.title=tunnel-operator
-      - --label=org.opencontainers.image.description=Keeps tunnel-operator
+      - --label=org.opencontainers.image.title=trivy-operator
+      - --label=org.opencontainers.image.description=Keeps trivy-operator
         resources updated
-      - --label=org.opencontainers.image.vendor=Khulnasoft Security
+      - --label=org.opencontainers.image.vendor=Aqua Security
       - --label=org.opencontainers.image.version={{ .Version }}
       - --label=org.opencontainers.image.created={{ .Date }}
-      - --label=org.opencontainers.image.source=https://github.com/khulnasoft/tunnel-operator
+      - --label=org.opencontainers.image.source=https://github.com/aquasecurity/trivy-operator
       - --label=org.opencontainers.image.revision={{ .FullCommit }}
-      - --label=org.opencontainers.image.documentation=https://khulnasoft.github.io/tunnel-operator/v{{
+      - --label=org.opencontainers.image.documentation=https://khulnasoft.github.io/trivy-operator/v{{
         .Version }}/
       - --platform=linux/amd64
 docker_manifests:
-  - name_template: ghcr.io/khulnasoft/tunnel-operator:{{ .Version }}
+  - name_template: ghcr.io/aquasecurity/trivy-operator:{{ .Version }}
     image_templates:
-      - ghcr.io/khulnasoft/tunnel-operator:{{ .Version }}-amd64
+      - ghcr.io/aquasecurity/trivy-operator:{{ .Version }}-amd64

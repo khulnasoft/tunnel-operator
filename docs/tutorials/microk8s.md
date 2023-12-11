@@ -1,4 +1,4 @@
-## Using the Tunnel Operator through Microk8s 
+## Using the Trivy Operator through Microk8s 
 
 [Microk8s](https://microk8s.io/) is a lightweight Kubernetes distribution that can be used on your personal machine, Raspberry Pi cluster, in data centres or edge devices; just to name a few use cases.
 
@@ -18,13 +18,13 @@ A list of addons is provided below.
     openebs              # (community) OpenEBS is the open-source storage solution for Kubernetes
     osm-edge             # (community) osm-edge is a lightweight SMI compatible service mesh for the edge-computing.
     portainer            # (community) Portainer UI for your Kubernetes cluster
-    tunnel-operator       # (community) Kubernetes-native security toolkit
+    trivy-operator       # (community) Kubernetes-native security toolkit
     traefik              # (community) traefik Ingress controller for external access
     dns                  # (core) CoreDNS
     ha-cluster           # (core) Configure high availability on the current node
     helm                 # (core) Helm - the package manager for Kubernetes
     helm3                # (core) Helm 3 - the package manager for Kubernetes
-    tunnel                # (core) Kubernetes-native security scanner
+    trivy                # (core) Kubernetes-native security scanner
     cert-manager         # (core) Cloud native certificate management
     dashboard            # (core) The Kubernetes dashboard
     host-access          # (core) Allow Pods connecting to Host services smoothly
@@ -41,37 +41,37 @@ A list of addons is provided below.
     storage              # (core) Alias to hostpath-storage add-on, deprecated
 ```
 
-This tutorial will showcase how to install and then remove the Tunnel Operator addon.
+This tutorial will showcase how to install and then remove the Trivy Operator addon.
 
 ## Prerequisites
 
 You need to have microk8s installed. In our case, we have set up kubectl to use the microk8s cluster. You can find different guides, depending on your operating system, on the [microk8s website.](https://microk8s.io/tutorials)
 
-## Install the Tunnel Operator 
+## Install the Trivy Operator 
 
-To install the Tunnel Operator, simply run the following command:
+To install the Trivy Operator, simply run the following command:
 ```
-microk8s enable tunnel
+microk8s enable trivy
 ```
 
 The confirmation should be similar to the following output:
 ```
-Infer repository core for addon tunnel
+Infer repository core for addon trivy
 Infer repository core for addon helm3
 Addon core/helm3 is already enabled
 Infer repository core for addon dns
 Addon core/dns is already enabled
-Installing Tunnel
-"khulnasoft" already exists with the same configuration, skipping
-Release "tunnel-operator" does not exist. Installing it now.
-NAME: tunnel-operator
+Installing Trivy
+"aqua" already exists with the same configuration, skipping
+Release "trivy-operator" does not exist. Installing it now.
+NAME: trivy-operator
 LAST DEPLOYED: Sat Oct  8 16:39:59 2022
-NAMESPACE: tunnel-system
+NAMESPACE: trivy-system
 STATUS: deployed
 REVISION: 1
 TEST SUITE: None
 NOTES:
-You have installed Tunnel Operator in the tunnel-system namespace.
+You have installed Trivy Operator in the trivy-system namespace.
 It is configured to discover Kubernetes workloads and resources in
 all namespace(s).
 
@@ -83,46 +83,46 @@ Inspect created ConfigAuditReports by:
 
     kubectl get configauditreports --all-namespaces -o wide
 
-Inspect the work log of tunnel-operator by:
+Inspect the work log of trivy-operator by:
 
-    kubectl logs -n tunnel-system deployment/tunnel-operator
-Tunnel is installed
+    kubectl logs -n trivy-system deployment/trivy-operator
+Trivy is installed
 ```
 
-You should now see the Tunnel Operator pod running inside of the `tunnel-system` namespace:
+You should now see the Trivy Operator pod running inside of the `trivy-system` namespace:
 ```
-kubectl get all -n tunnel-system
+kubectl get all -n trivy-system
 NAME                                            READY   STATUS    RESTARTS   AGE
-pod/tunnel-operator-57c44575c4-ml2hw             1/1     Running   0          29s
+pod/trivy-operator-57c44575c4-ml2hw             1/1     Running   0          29s
 pod/scan-vulnerabilityreport-5d55f55cd7-7l6kn   1/1     Running   0          27s
 
 NAME                     TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
-service/tunnel-operator   ClusterIP   None         <none>        80/TCP    29s
+service/trivy-operator   ClusterIP   None         <none>        80/TCP    29s
 
 NAME                             READY   UP-TO-DATE   AVAILABLE   AGE
-deployment.apps/tunnel-operator   1/1     1            1           29s
+deployment.apps/trivy-operator   1/1     1            1           29s
 
 NAME                                        DESIRED   CURRENT   READY   AGE
-replicaset.apps/tunnel-operator-57c44575c4   1         1         1       29s
+replicaset.apps/trivy-operator-57c44575c4   1         1         1       29s
 
 NAME                                            COMPLETIONS   DURATION   AGE
 job.batch/scan-vulnerabilityreport-5d55f55cd7   0/1           27s        27s
 ```
 
-If you have any container images running in your microk8s cluster, Tunnel will start a vulnerability scan on those right away. 
+If you have any container images running in your microk8s cluster, Trivy will start a vulnerability scan on those right away. 
 
 ## Cleaning up
 
-Removing the Tunnel Operator from your cluster is as easy as installing it. Simply run:
+Removing the Trivy Operator from your cluster is as easy as installing it. Simply run:
 ```
-microk8s disable tunnel
+microk8s disable trivy
 ```
 
 You should see an output similar to the following:
 ```
-Infer repository core for addon tunnel
-Disabling Tunnel
-release "tunnel-operator" uninstalled
-Tunnel disabled
+Infer repository core for addon trivy
+Disabling Trivy
+release "trivy-operator" uninstalled
+Trivy disabled
 ```
 

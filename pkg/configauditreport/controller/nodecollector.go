@@ -6,12 +6,12 @@ import (
 	"io"
 
 	j "github.com/aquasecurity/trivy-kubernetes/pkg/jobs"
-	"github.com/khulnasoft/tunnel-operator/pkg/configauditreport"
-	"github.com/khulnasoft/tunnel-operator/pkg/infraassessment"
-	"github.com/khulnasoft/tunnel-operator/pkg/kube"
-	"github.com/khulnasoft/tunnel-operator/pkg/operator/etc"
-	. "github.com/khulnasoft/tunnel-operator/pkg/operator/predicate"
-	"github.com/khulnasoft/tunnel-operator/pkg/tunneloperator"
+	"github.com/aquasecurity/trivy-operator/pkg/configauditreport"
+	"github.com/aquasecurity/trivy-operator/pkg/infraassessment"
+	"github.com/aquasecurity/trivy-operator/pkg/kube"
+	"github.com/aquasecurity/trivy-operator/pkg/operator/etc"
+	. "github.com/aquasecurity/trivy-operator/pkg/operator/predicate"
+	"github.com/aquasecurity/trivy-operator/pkg/tunneloperator"
 	"github.com/go-logr/logr"
 	batchv1 "k8s.io/api/batch/v1"
 	corev1 "k8s.io/api/core/v1"
@@ -32,11 +32,11 @@ type NodeCollectorJobController struct {
 	etc.Config
 	kube.ObjectResolver
 	kube.LogsReader
-	tunneloperator.ConfigData
-	tunneloperator.PluginContext
+	trivyoperator.ConfigData
+	trivyoperator.PluginContext
 	configauditreport.PluginInMemory
 	InfraReadWriter infraassessment.ReadWriter
-	tunneloperator.BuildInfo
+	trivyoperator.BuildInfo
 }
 
 // +kubebuilder:rbac:groups=batch,resources=jobs,verbs=get;list;watch;create;delete
@@ -44,7 +44,7 @@ type NodeCollectorJobController struct {
 func (r *NodeCollectorJobController) SetupWithManager(mgr ctrl.Manager) error {
 	var predicates []predicate.Predicate
 
-	predicates = append(predicates, ManagedByTunnelOperator, IsNodeInfoCollector, JobHasAnyCondition)
+	predicates = append(predicates, ManagedByTrivyOperator, IsNodeInfoCollector, JobHasAnyCondition)
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&batchv1.Job{}, builder.WithPredicates(predicates...)).
 		Complete(r.reconcileJobs())

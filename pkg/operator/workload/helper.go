@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/khulnasoft/tunnel-operator/pkg/apis/khulnasoft/v1alpha1"
-	"github.com/khulnasoft/tunnel-operator/pkg/kube"
-	"github.com/khulnasoft/tunnel-operator/pkg/tunneloperator"
+	"github.com/aquasecurity/trivy-operator/pkg/apis/khulnasoft/v1alpha1"
+	"github.com/aquasecurity/trivy-operator/pkg/kube"
+	"github.com/aquasecurity/trivy-operator/pkg/tunneloperator"
 	"github.com/go-logr/logr"
 	"golang.org/x/exp/maps"
 	"golang.org/x/net/context"
@@ -131,7 +131,7 @@ func MarkOldReportForImmediateDeletion(ctx context.Context, resolver kube.Object
 	annotation := map[string]string{
 		v1alpha1.TTLReportAnnotation: time.Duration(0).String(),
 	}
-	resourceNameLabels := map[string]string{tunneloperator.LabelResourceName: resourceName}
+	resourceNameLabels := map[string]string{trivyoperator.LabelResourceName: resourceName}
 	err := markOldVulnerabilityReports(ctx, resolver, namespace, resourceNameLabels, annotation)
 	if err != nil {
 		return err
@@ -141,6 +141,10 @@ func MarkOldReportForImmediateDeletion(ctx context.Context, resolver kube.Object
 		return err
 	}
 	err = markOldExposeSecretsReport(ctx, resolver, namespace, resourceNameLabels, annotation)
+	if err != nil {
+		return err
+	}
+	err = markOldSbomReport(ctx, resolver, namespace, resourceNameLabels, annotation)
 	if err != nil {
 		return err
 	}
@@ -189,6 +193,23 @@ func markOldExposeSecretsReport(ctx context.Context, resolver kube.ObjectResolve
 			return err
 		}
 		for _, report := range exposeSecretReportList.Items {
+			err := markReportTTL(ctx, resolver, report.DeepCopy(), annotation)
+			if err != nil {
+				return err
+			}
+		}
+		return nil
+	})
+}
+
+func markOldSbomReport(ctx context.Context, resolver kube.ObjectResolver, namespace string, resourceNameLabels map[string]string, annotation map[string]string) error {
+	return retry.RetryOnConflict(retry.DefaultRetry, func() error {
+		var sbomReportList v1alpha1.SbomReportList
+		err := GetReportsByLabel(ctx, resolver, &sbomReportList, namespace, resourceNameLabels)
+		if err != nil {
+			return err
+		}
+		for _, report := range sbomReportList.Items {
 			err := markReportTTL(ctx, resolver, report.DeepCopy(), annotation)
 			if err != nil {
 				return err

@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/khulnasoft/tunnel-operator/pkg/operator"
-	"github.com/khulnasoft/tunnel-operator/pkg/operator/etc"
-	"github.com/khulnasoft/tunnel-operator/pkg/tunneloperator"
+	"github.com/aquasecurity/trivy-operator/pkg/operator"
+	"github.com/aquasecurity/trivy-operator/pkg/operator/etc"
+	"github.com/aquasecurity/trivy-operator/pkg/tunneloperator"
 	_ "go.uber.org/automaxprocs"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/log"
@@ -19,7 +19,7 @@ var (
 	commit  = "none"
 	date    = "unknown"
 
-	buildInfo = tunneloperator.BuildInfo{
+	buildInfo = trivyoperator.BuildInfo{
 		Version: version,
 		Commit:  commit,
 		Date:    date,
@@ -30,10 +30,10 @@ var (
 	setupLog = log.Log.WithName("main")
 )
 
-// main is the entrypoint of the Tunnel Operator executable command.
+// main is the entrypoint of the Trivy Operator executable command.
 func main() {
 	if err := run(); err != nil {
-		fmt.Fprintf(os.Stderr, "unable to run tunnel operator: %v\n", err)
+		fmt.Fprintf(os.Stderr, "unable to run trivy operator: %v\n", err)
 		os.Exit(1)
 	}
 }

@@ -16,6 +16,6 @@ about: If something isn't working as expected.
 
 **Environment:**
 
-- Tunnel-Operator version (use `tunnel-operator version`):
+- Trivy-Operator version (use `trivy-operator version`):
 - Kubernetes version (use `kubectl version`):
 - OS (macOS 10.15, Windows 10, Ubuntu 19.10 etc):

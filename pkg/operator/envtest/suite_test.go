@@ -11,23 +11,23 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/khulnasoft/tunnel-operator/pkg/apis/khulnasoft/v1alpha1"
-	"github.com/khulnasoft/tunnel-operator/pkg/compliance"
-	"github.com/khulnasoft/tunnel-operator/pkg/configauditreport"
-	ca "github.com/khulnasoft/tunnel-operator/pkg/configauditreport/controller"
-	"github.com/khulnasoft/tunnel-operator/pkg/exposedsecretreport"
-	"github.com/khulnasoft/tunnel-operator/pkg/ext"
-	"github.com/khulnasoft/tunnel-operator/pkg/infraassessment"
-	"github.com/khulnasoft/tunnel-operator/pkg/kube"
-	"github.com/khulnasoft/tunnel-operator/pkg/operator"
-	"github.com/khulnasoft/tunnel-operator/pkg/operator/etc"
-	"github.com/khulnasoft/tunnel-operator/pkg/operator/jobs"
-	"github.com/khulnasoft/tunnel-operator/pkg/plugins"
-	"github.com/khulnasoft/tunnel-operator/pkg/plugins/tunnel"
-	"github.com/khulnasoft/tunnel-operator/pkg/rbacassessment"
-	"github.com/khulnasoft/tunnel-operator/pkg/tunneloperator"
-	"github.com/khulnasoft/tunnel-operator/pkg/vulnerabilityreport"
-	"github.com/khulnasoft/tunnel-operator/pkg/vulnerabilityreport/controller"
+	"github.com/aquasecurity/trivy-operator/pkg/apis/khulnasoft/v1alpha1"
+	"github.com/aquasecurity/trivy-operator/pkg/compliance"
+	"github.com/aquasecurity/trivy-operator/pkg/configauditreport"
+	ca "github.com/aquasecurity/trivy-operator/pkg/configauditreport/controller"
+	"github.com/aquasecurity/trivy-operator/pkg/exposedsecretreport"
+	"github.com/aquasecurity/trivy-operator/pkg/ext"
+	"github.com/aquasecurity/trivy-operator/pkg/infraassessment"
+	"github.com/aquasecurity/trivy-operator/pkg/kube"
+	"github.com/aquasecurity/trivy-operator/pkg/operator"
+	"github.com/aquasecurity/trivy-operator/pkg/operator/etc"
+	"github.com/aquasecurity/trivy-operator/pkg/operator/jobs"
+	"github.com/aquasecurity/trivy-operator/pkg/plugins"
+	"github.com/aquasecurity/trivy-operator/pkg/plugins/trivy"
+	"github.com/aquasecurity/trivy-operator/pkg/rbacassessment"
+	"github.com/aquasecurity/trivy-operator/pkg/tunneloperator"
+	"github.com/aquasecurity/trivy-operator/pkg/vulnerabilityreport"
+	"github.com/aquasecurity/trivy-operator/pkg/vulnerabilityreport/controller"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/client-go/kubernetes/scheme"
 	"k8s.io/client-go/rest"
@@ -100,36 +100,37 @@ var _ = BeforeSuite(func() {
 		InvokeClusterComplianceOnce:   true,
 	}
 
-	tunnelOperatorConfig := tunneloperator.GetDefaultConfig()
+	trivyOperatorConfig := trivyoperator.GetDefaultConfig()
 
-	tunnelOperatorConfig.Set(tunneloperator.KeyVulnerabilityScannerEnabled, "true")
-	tunnelOperatorConfig.Set(tunneloperator.KeyExposedSecretsScannerEnabled, "true")
+	trivyOperatorConfig.Set(trivyoperator.KeyVulnerabilityScannerEnabled, "true")
+	trivyOperatorConfig.Set(trivyoperator.KeyExposedSecretsScannerEnabled, "true")
 
 	plugin, pluginContext, err := plugins.NewResolver().
 		WithNamespace(config.Namespace).
 		WithServiceAccountName(config.ServiceAccount).
-		WithConfig(tunnelOperatorConfig).
+		WithConfig(trivyOperatorConfig).
 		WithClient(managerClient).
 		WithObjectResolver(&objectResolver).
 		GetVulnerabilityPlugin()
 	Expect(err).ToNot(HaveOccurred())
-	err = pluginContext.EnsureConfig(tunneloperator.PluginConfig{
+	err = pluginContext.EnsureConfig(trivyoperator.PluginConfig{
 		Data: map[string]string{
-			"tunnel.repository":   tunnel.DefaultImageRepository,
-			"tunnel.tag":          "0.35.0",
-			"tunnel.mode":         string(tunnel.Standalone),
-			"tunnel.slow":         "true",
-			"tunnel.dbRepository": tunnel.DefaultDBRepository,
+			"trivy.repository":   trivy.DefaultImageRepository,
+			"trivy.tag":          "0.35.0",
+			"trivy.mode":         string(trivy.Standalone),
+			"trivy.slow":         "true",
+			"trivy.dbRepository": trivy.DefaultDBRepository,
 		},
 	})
 	Expect(err).ToNot(HaveOccurred())
-
+	err = plugin.Init(pluginContext)
+	Expect(err).ToNot(HaveOccurred())
 	err = (&controller.WorkloadController{
 		Logger:                  ctrl.Log.WithName("reconciler").WithName("vulnerabilityreport"),
 		Config:                  config,
 		Client:                  managerClient,
 		ObjectResolver:          objectResolver,
-		LimitChecker:            jobs.NewLimitChecker(config, managerClient, tunnelOperatorConfig),
+		LimitChecker:            jobs.NewLimitChecker(config, managerClient, trivyOperatorConfig),
 		SecretsReader:           kube.NewSecretsReader(managerClient),
 		Plugin:                  plugin,
 		PluginContext:           pluginContext,
@@ -140,7 +141,7 @@ var _ = BeforeSuite(func() {
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
-	buildInfo := tunneloperator.BuildInfo{
+	buildInfo := trivyoperator.BuildInfo{
 		Version: "version",
 		Commit:  "commit",
 		Date:    "12/12/2020",
@@ -148,7 +149,7 @@ var _ = BeforeSuite(func() {
 	pluginca, _, err := plugins.NewResolver().WithBuildInfo(buildInfo).
 		WithNamespace(config.Namespace).
 		WithServiceAccountName(config.ServiceAccount).
-		WithConfig(tunnelOperatorConfig).
+		WithConfig(trivyOperatorConfig).
 		WithClient(managerClient).
 		WithObjectResolver(&objectResolver).
 		GetConfigAuditPlugin()
@@ -158,7 +159,7 @@ var _ = BeforeSuite(func() {
 	err = (&ca.ResourceController{
 		Logger:          ctrl.Log.WithName("resourcecontroller"),
 		Config:          config,
-		ConfigData:      tunnelOperatorConfig,
+		ConfigData:      trivyOperatorConfig,
 		ObjectResolver:  objectResolver,
 		PluginContext:   pluginContext,
 		PluginInMemory:  pluginca,

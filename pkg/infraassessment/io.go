@@ -2,8 +2,8 @@ package infraassessment
 
 import (
 	"context"
-	"github.com/khulnasoft/tunnel-operator/pkg/apis/khulnasoft/v1alpha1"
-	"github.com/khulnasoft/tunnel-operator/pkg/kube"
+	"github.com/aquasecurity/trivy-operator/pkg/apis/khulnasoft/v1alpha1"
+	"github.com/aquasecurity/trivy-operator/pkg/kube"
 	"k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/types"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -21,7 +21,7 @@ type Writer interface {
 
 // Reader is the interface that wraps methods for finding v1alpha1.ConfigAuditReport
 // and v1alpha1.ClusterConfigAuditReport objects.
-// TODO(danielpacak): Consider returning tunneloperator.ResourceNotFound error instead of returning nil.
+// TODO(danielpacak): Consider returning trivyoperator.ResourceNotFound error instead of returning nil.
 type Reader interface {
 
 	// FindReportByOwner returns a v1alpha1.InfraAssessmentReport owned by the given

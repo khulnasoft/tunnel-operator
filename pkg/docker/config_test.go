@@ -4,7 +4,7 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/khulnasoft/tunnel-operator/pkg/docker"
+	"github.com/aquasecurity/trivy-operator/pkg/docker"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -176,7 +176,7 @@ func TestGetServerFromDockerAuthKey(t *testing.T) {
 			expectedServer: "core.harbor.domain:8080",
 		},
 		{
-			authKey:        "rg.pl-waw.scw.cloud/tunneloperator",
+			authKey:        "rg.pl-waw.scw.cloud/trivyoperator",
 			expectedServer: "rg.pl-waw.scw.cloud",
 		},
 		{
@@ -184,8 +184,8 @@ func TestGetServerFromDockerAuthKey(t *testing.T) {
 			expectedServer: "rg.pl-waw.scw.cloud:7777",
 		},
 		{
-			authKey:        "registry.khulnasoft.com",
-			expectedServer: "registry.khulnasoft.com",
+			authKey:        "registry.aquasec.com",
+			expectedServer: "registry.aquasec.com",
 		},
 		{
 			authKey:        "https://index.docker.io/v1/",
@@ -216,15 +216,15 @@ func TestGetServerFromImageRef(t *testing.T) {
 			expectedServer: "index.docker.io",
 		},
 		{
-			imageRef:       "aquasecurity/trivy:0.10.0",
+			imageRef:       "aquasec/trivy:0.10.0",
 			expectedServer: "index.docker.io",
 		},
 		{
-			imageRef:       "docker.io/khulnasoft/harbor-scanner-tunnel:0.10.0",
+			imageRef:       "docker.io/aquasec/harbor-scanner-trivy:0.10.0",
 			expectedServer: "index.docker.io",
 		},
 		{
-			imageRef:       "index.docker.io/khulnasoft/harbor-scanner-tunnel:0.10.0",
+			imageRef:       "index.docker.io/aquasec/harbor-scanner-trivy:0.10.0",
 			expectedServer: "index.docker.io",
 		},
 		{

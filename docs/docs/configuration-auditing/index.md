@@ -1,13 +1,12 @@
 # Configuration Auditing
 
-
 ## Setting
-the following flags can be set with the `tunnel-operator-tunnel-cofnig` configmap in order to impact scanning
+The following flags can be set with the `trivy-operator-trivy-config` ConfigMap in order to impact scanning
 
 | CONFIGMAP KEY                     | DEFAULT                                                                               | DESCRIPTION                                                                                                     |
 |-----------------------------------|---------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|
-| `tunnel.useBuiltinRegoPolicies`    | `true`                                                                                | The Flag to enable the usage of builtin rego policies by default                                                |
-| `tunnel.supportedConfigAuditKinds` | `Workload,Service,Role,ClusterRole,NetworkPolicy,Ingress,LimitRange,ResourceQuota`    | The Flag is the list of supported kinds separated by comma delimiter to be scanned by the config audit scanner  |
+| `trivy.useBuiltinRegoPolicies`    | `true`                                                                                | The Flag to enable the usage of builtin rego policies by default                                                |
+| `trivy.supportedConfigAuditKinds` | `Workload,Service,Role,ClusterRole,NetworkPolicy,Ingress,LimitRange,ResourceQuota`    | The Flag is the list of supported kinds separated by comma delimiter to be scanned by the config audit scanner  |
 
 
 As your organization deploys containerized workloads in Kubernetes environments, you will be faced with many
@@ -16,7 +15,7 @@ improperly creates a high-impact security and compliance risk. DevOps, and platf
 continuously assess build artifacts, workloads, and infrastructure against configuration hardening standards to
 remediate any violations.
 
-tunnel-operator configuration audit capabilities are purpose-built for Kubernetes environments. In particular, tunnel
+trivy-operator configuration audit capabilities are purpose-built for Kubernetes environments. In particular, the Trivy
 Operator continuously checks images, workloads, and Kubernetes infrastructure components against common configurations
 security standards and generates detailed assessment reports, which are then stored in the default Kubernetes database.
 

@@ -6,31 +6,34 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/khulnasoft/tunnel-operator/pkg/compliance"
-	"github.com/khulnasoft/tunnel-operator/pkg/configauditreport"
-	"github.com/khulnasoft/tunnel-operator/pkg/configauditreport/controller"
-	"github.com/khulnasoft/tunnel-operator/pkg/exposedsecretreport"
-	"github.com/khulnasoft/tunnel-operator/pkg/ext"
-	"github.com/khulnasoft/tunnel-operator/pkg/infraassessment"
-	"github.com/khulnasoft/tunnel-operator/pkg/kube"
-	"github.com/khulnasoft/tunnel-operator/pkg/metrics"
-	"github.com/khulnasoft/tunnel-operator/pkg/operator/etc"
-	"github.com/khulnasoft/tunnel-operator/pkg/operator/jobs"
-	"github.com/khulnasoft/tunnel-operator/pkg/plugins"
-	"github.com/khulnasoft/tunnel-operator/pkg/rbacassessment"
-	"github.com/khulnasoft/tunnel-operator/pkg/sbomreport"
-	"github.com/khulnasoft/tunnel-operator/pkg/tunneloperator"
-	"github.com/khulnasoft/tunnel-operator/pkg/vulnerabilityreport"
-	vcontroller "github.com/khulnasoft/tunnel-operator/pkg/vulnerabilityreport/controller"
-	"github.com/khulnasoft/tunnel-operator/pkg/webhook"
+	"github.com/aquasecurity/trivy-operator/pkg/compliance"
+	"github.com/aquasecurity/trivy-operator/pkg/configauditreport"
+	"github.com/aquasecurity/trivy-operator/pkg/configauditreport/controller"
+	"github.com/aquasecurity/trivy-operator/pkg/exposedsecretreport"
+	"github.com/aquasecurity/trivy-operator/pkg/ext"
+	"github.com/aquasecurity/trivy-operator/pkg/infraassessment"
+	"github.com/aquasecurity/trivy-operator/pkg/kube"
+	"github.com/aquasecurity/trivy-operator/pkg/metrics"
+	"github.com/aquasecurity/trivy-operator/pkg/operator/etc"
+	"github.com/aquasecurity/trivy-operator/pkg/operator/jobs"
+	"github.com/aquasecurity/trivy-operator/pkg/plugins"
+	"github.com/aquasecurity/trivy-operator/pkg/rbacassessment"
+	"github.com/aquasecurity/trivy-operator/pkg/sbomreport"
+	"github.com/aquasecurity/trivy-operator/pkg/tunneloperator"
+	"github.com/aquasecurity/trivy-operator/pkg/vulnerabilityreport"
+	vcontroller "github.com/aquasecurity/trivy-operator/pkg/vulnerabilityreport/controller"
+	"github.com/aquasecurity/trivy-operator/pkg/webhook"
 	"github.com/bluele/gcache"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/client-go/kubernetes"
 	ctrl "sigs.k8s.io/controller-runtime"
+	"sigs.k8s.io/controller-runtime/pkg/cache"
 	"sigs.k8s.io/controller-runtime/pkg/client"
+
 	"sigs.k8s.io/controller-runtime/pkg/healthz"
 	"sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/manager"
+	metricsserver "sigs.k8s.io/controller-runtime/pkg/metrics/server"
 )
 
 var (
@@ -39,7 +42,7 @@ var (
 
 // Start starts all registered reconcilers and blocks until the context is cancelled.
 // Returns an error if there is an error starting any reconciler.
-func Start(ctx context.Context, buildInfo tunneloperator.BuildInfo, operatorConfig etc.Config) error {
+func Start(ctx context.Context, buildInfo trivyoperator.BuildInfo, operatorConfig etc.Config) error {
 	installMode, operatorNamespace, targetNamespaces, err := operatorConfig.ResolveInstallMode()
 	if err != nil {
 		return fmt.Errorf("resolving install mode: %w", err)
@@ -52,14 +55,16 @@ func Start(ctx context.Context, buildInfo tunneloperator.BuildInfo, operatorConf
 
 	// Set the default manager options.
 	options := manager.Options{
-		Scheme:                 tunneloperator.NewScheme(),
-		MetricsBindAddress:     operatorConfig.MetricsBindAddress,
+		Scheme:                 trivyoperator.NewScheme(),
+		Metrics:                metricsserver.Options{BindAddress: operatorConfig.MetricsBindAddress},
 		HealthProbeBindAddress: operatorConfig.HealthProbeBindAddress,
-		// Disable cache for resources used to look up image pull secrets to avoid
-		// spinning up informers and to tighten operator RBAC permissions
-		ClientDisableCacheFor: []client.Object{
-			&corev1.Secret{},
-			&corev1.ServiceAccount{},
+		Client: client.Options{
+			Cache: &client.CacheOptions{
+				DisableFor: []client.Object{
+					&corev1.Secret{},
+					&corev1.ServiceAccount{},
+				},
+			},
 		},
 	}
 
@@ -71,24 +76,23 @@ func Start(ctx context.Context, buildInfo tunneloperator.BuildInfo, operatorConf
 
 	switch installMode {
 	case etc.OwnNamespace:
-		// Add support for OwnNamespace set in OPERATOR_NAMESPACE (e.g. `tunnel-operator`)
-		// and OPERATOR_TARGET_NAMESPACES (e.g. `tunnel-operator`).
-		setupLog.Info("Constructing client cache", "namespace", targetNamespaces[0])
-		options.Cache.Namespaces = []string{targetNamespaces[0]}
-	case etc.SingleNamespace:
-		// Add support for SingleNamespace set in OPERATOR_NAMESPACE (e.g. `tunnel-operator`)
+		// Add support for OwnNamespace set in OPERATOR_NAMESPACE (e.g. `trivy-operator`)
+		// and OPERATOR_TARGET_NAMESPACES (e.g. `trivy-operator`).
+		setupLog.Info("Constructing client cache", "namespace", operatorNamespace)
+		options.Cache.DefaultNamespaces = map[string]cache.Config{operatorNamespace: {}}
+	case etc.SingleNamespace, etc.MultiNamespace:
+		// Add support for SingleNamespace set in OPERATOR_NAMESPACE (e.g. `trivy-operator`)
 		// and OPERATOR_TARGET_NAMESPACES (e.g. `default`).
-		cachedNamespaces := append(targetNamespaces, operatorNamespace)
-		setupLog.Info("Constructing client cache", "namespaces", cachedNamespaces)
-		options.Cache.Namespaces = cachedNamespaces
-	case etc.MultiNamespace:
-		// Add support for MultiNamespace set in OPERATOR_NAMESPACE (e.g. `tunnel-operator`)
+		// Add support for MultiNamespace set in OPERATOR_NAMESPACE (e.g. `trivy-operator`)
 		// and OPERATOR_TARGET_NAMESPACES (e.g. `default,kube-system`).
 		// Note that you may face performance issues when using this mode with a high number of namespaces.
 		// More: https://godoc.org/github.com/kubernetes-sigs/controller-runtime/pkg/cache#MultiNamespacedCacheBuilder
-		cachedNamespaces := append(targetNamespaces, operatorNamespace)
-		setupLog.Info("Constructing client cache", "namespaces", cachedNamespaces)
-		options.Cache.Namespaces = cachedNamespaces
+		namespaceCacheMap := make(map[string]cache.Config)
+		setupLog.Info("Constructing client cache", "namespaces", targetNamespaces)
+		for _, namespace := range append(targetNamespaces, operatorNamespace) {
+			namespaceCacheMap[namespace] = cache.Config{}
+		}
+		options.Cache.DefaultNamespaces = namespaceCacheMap
 	case etc.AllNamespaces:
 		// Add support for AllNamespaces set in OPERATOR_NAMESPACE (e.g. `operators`)
 		// and OPERATOR_TARGET_NAMESPACES left blank.
@@ -122,7 +126,7 @@ func Start(ctx context.Context, buildInfo tunneloperator.BuildInfo, operatorConf
 		return err
 	}
 
-	configManager := tunneloperator.NewConfigManager(clientSet, operatorNamespace)
+	configManager := trivyoperator.NewConfigManager(clientSet, operatorNamespace)
 	err = configManager.EnsureDefault(context.Background())
 	if err != nil {
 		return err
@@ -131,7 +135,7 @@ func Start(ctx context.Context, buildInfo tunneloperator.BuildInfo, operatorConf
 	if err != nil {
 		return err
 	}
-	tunnelOperatorConfig, err := configManager.Read(context.Background())
+	trivyOperatorConfig, err := configManager.Read(context.Background())
 	if err != nil {
 		return err
 	}
@@ -139,37 +143,35 @@ func Start(ctx context.Context, buildInfo tunneloperator.BuildInfo, operatorConf
 	if err != nil {
 		return err
 	}
-	limitChecker := jobs.NewLimitChecker(operatorConfig, mgr.GetClient(), tunnelOperatorConfig)
+	limitChecker := jobs.NewLimitChecker(operatorConfig, mgr.GetClient(), trivyOperatorConfig)
 	logsReader := kube.NewLogsReader(clientSet)
 	secretsReader := kube.NewSecretsReader(mgr.GetClient())
 
 	if operatorConfig.VulnerabilityScannerEnabled || operatorConfig.ExposedSecretScannerEnabled || operatorConfig.SbomGenerationEnable {
 
-		tunnelOperatorConfig.Set(tunneloperator.KeyVulnerabilityScannerEnabled, strconv.FormatBool(operatorConfig.VulnerabilityScannerEnabled))
-		tunnelOperatorConfig.Set(tunneloperator.KeyExposedSecretsScannerEnabled, strconv.FormatBool(operatorConfig.ExposedSecretScannerEnabled))
-		tunnelOperatorConfig.Set(tunneloperator.KeyGenerateSbom, strconv.FormatBool(operatorConfig.SbomGenerationEnable))
+		trivyOperatorConfig.Set(trivyoperator.KeyVulnerabilityScannerEnabled, strconv.FormatBool(operatorConfig.VulnerabilityScannerEnabled))
+		trivyOperatorConfig.Set(trivyoperator.KeyExposedSecretsScannerEnabled, strconv.FormatBool(operatorConfig.ExposedSecretScannerEnabled))
+		trivyOperatorConfig.Set(trivyoperator.KeyGenerateSbom, strconv.FormatBool(operatorConfig.SbomGenerationEnable))
 
 		plugin, pluginContext, err := plugins.NewResolver().
 			WithBuildInfo(buildInfo).
 			WithNamespace(operatorNamespace).
 			WithServiceAccountName(operatorConfig.ServiceAccount).
-			WithConfig(tunnelOperatorConfig).
+			WithConfig(trivyOperatorConfig).
 			WithClient(mgr.GetClient()).
 			WithObjectResolver(&objectResolver).
 			GetVulnerabilityPlugin()
 		if err != nil {
 			return err
 		}
-
 		err = plugin.Init(pluginContext)
 		if err != nil {
-			return fmt.Errorf("initializing %s plugin: %w", pluginContext.GetName(), err)
+			return err
 		}
-
 		if err = (&vcontroller.WorkloadController{
 			Logger:           ctrl.Log.WithName("reconciler").WithName("vulnerabilityreport"),
 			Config:           operatorConfig,
-			ConfigData:       tunnelOperatorConfig,
+			ConfigData:       trivyOperatorConfig,
 			Client:           mgr.GetClient(),
 			ObjectResolver:   objectResolver,
 			LimitChecker:     limitChecker,
@@ -177,8 +179,8 @@ func Start(ctx context.Context, buildInfo tunneloperator.BuildInfo, operatorConf
 			Plugin:           plugin,
 			PluginContext:    pluginContext,
 			CacheSyncTimeout: *operatorConfig.ControllerCacheSyncTimeout,
-			ServerHealthChecker: vcontroller.NewTunnelServerChecker(
-				operatorConfig.TunnelServerHealthCheckCacheExpiration,
+			ServerHealthChecker: vcontroller.NewTrivyServerChecker(
+				operatorConfig.TrivyServerHealthCheckCacheExpiration,
 				gcache.New(1).LRU().Build(),
 				vcontroller.NewHttpChecker()),
 			VulnerabilityReadWriter: vulnerabilityreport.NewReadWriter(&objectResolver),
@@ -193,7 +195,7 @@ func Start(ctx context.Context, buildInfo tunneloperator.BuildInfo, operatorConf
 		if err = (&vcontroller.ScanJobController{
 			Logger:                  ctrl.Log.WithName("reconciler").WithName("scan job"),
 			Config:                  operatorConfig,
-			ConfigData:              tunnelOperatorConfig,
+			ConfigData:              trivyOperatorConfig,
 			ObjectResolver:          objectResolver,
 			LogsReader:              logsReader,
 			Plugin:                  plugin,
@@ -211,7 +213,7 @@ func Start(ctx context.Context, buildInfo tunneloperator.BuildInfo, operatorConf
 			WithBuildInfo(buildInfo).
 			WithNamespace(operatorNamespace).
 			WithServiceAccountName(operatorConfig.ServiceAccount).
-			WithConfig(tunnelOperatorConfig).
+			WithConfig(trivyOperatorConfig).
 			WithClient(mgr.GetClient()).
 			WithObjectResolver(&objectResolver).
 			GetVulnerabilityPlugin()
@@ -228,12 +230,16 @@ func Start(ctx context.Context, buildInfo tunneloperator.BuildInfo, operatorConf
 			plugin, pluginContextCofig, err := plugins.NewResolver().WithBuildInfo(buildInfo).
 				WithNamespace(operatorNamespace).
 				WithServiceAccountName(operatorConfig.ServiceAccount).
-				WithConfig(tunnelOperatorConfig).
+				WithConfig(trivyOperatorConfig).
 				WithClient(mgr.GetClient()).
 				WithObjectResolver(&objectResolver).
 				GetConfigAuditPlugin()
 			if err != nil {
 				return fmt.Errorf("initializing %s plugin: %w", pluginContext.GetName(), err)
+			}
+			err = plugin.Init(pluginContext)
+			if err != nil {
+				return err
 			}
 			ttlReconciler.PluginContext = pluginContextCofig
 			ttlReconciler.PluginInMemory = plugin
@@ -257,7 +263,7 @@ func Start(ctx context.Context, buildInfo tunneloperator.BuildInfo, operatorConf
 		plugin, pluginContext, err := plugins.NewResolver().WithBuildInfo(buildInfo).
 			WithNamespace(operatorNamespace).
 			WithServiceAccountName(operatorConfig.ServiceAccount).
-			WithConfig(tunnelOperatorConfig).
+			WithConfig(trivyOperatorConfig).
 			WithClient(mgr.GetClient()).
 			WithObjectResolver(&objectResolver).
 			GetConfigAuditPlugin()
@@ -266,7 +272,7 @@ func Start(ctx context.Context, buildInfo tunneloperator.BuildInfo, operatorConf
 		}
 		err = plugin.Init(pluginContext)
 		if err != nil {
-			return fmt.Errorf("initializing %s plugin: %w", pluginContext.GetName(), err)
+			return err
 		}
 		var gitVersion string
 		if version, err := clientSet.ServerVersion(); err == nil {
@@ -276,7 +282,7 @@ func Start(ctx context.Context, buildInfo tunneloperator.BuildInfo, operatorConf
 		if err = (&controller.ResourceController{
 			Logger:           ctrl.Log.WithName("resourcecontroller"),
 			Config:           operatorConfig,
-			ConfigData:       tunnelOperatorConfig,
+			ConfigData:       trivyOperatorConfig,
 			ObjectResolver:   objectResolver,
 			PluginContext:    pluginContext,
 			PluginInMemory:   plugin,
@@ -300,11 +306,11 @@ func Start(ctx context.Context, buildInfo tunneloperator.BuildInfo, operatorConf
 			return fmt.Errorf("unable to setup resource controller: %w", err)
 		}
 		if operatorConfig.InfraAssessmentScannerEnabled {
-			limitChecker := jobs.NewLimitChecker(operatorConfig, mgr.GetClient(), tunnelOperatorConfig)
+			limitChecker := jobs.NewLimitChecker(operatorConfig, mgr.GetClient(), trivyOperatorConfig)
 			if err = (&controller.NodeReconciler{
 				Logger:           ctrl.Log.WithName("node-reconciler"),
 				Config:           operatorConfig,
-				ConfigData:       tunnelOperatorConfig,
+				ConfigData:       trivyOperatorConfig,
 				ObjectResolver:   objectResolver,
 				PluginContext:    pluginContext,
 				PluginInMemory:   plugin,
@@ -318,7 +324,7 @@ func Start(ctx context.Context, buildInfo tunneloperator.BuildInfo, operatorConf
 			if err = (&controller.NodeCollectorJobController{
 				Logger:          ctrl.Log.WithName("node-collectorontroller"),
 				Config:          operatorConfig,
-				ConfigData:      tunnelOperatorConfig,
+				ConfigData:      trivyOperatorConfig,
 				ObjectResolver:  objectResolver,
 				LogsReader:      logsReader,
 				PluginContext:   pluginContext,
@@ -347,7 +353,7 @@ func Start(ctx context.Context, buildInfo tunneloperator.BuildInfo, operatorConf
 
 	if operatorConfig.MetricsFindingsEnabled {
 		logger := ctrl.Log.WithName("metrics")
-		rmc := metrics.NewResourcesMetricsCollector(logger, operatorConfig, tunnelOperatorConfig, mgr.GetClient())
+		rmc := metrics.NewResourcesMetricsCollector(logger, operatorConfig, trivyOperatorConfig, mgr.GetClient())
 		if err := rmc.SetupWithManager(mgr); err != nil {
 			return fmt.Errorf("unable to setup resources metrics collector: %w", err)
 		}

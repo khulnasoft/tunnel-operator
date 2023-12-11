@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/khulnasoft/tunnel-operator/pkg/docker"
+	"github.com/aquasecurity/trivy-operator/pkg/docker"
 	corev1 "k8s.io/api/core/v1"
 	k8sapierror "k8s.io/apimachinery/pkg/api/errors"
 	"sigs.k8s.io/controller-runtime/pkg/client"

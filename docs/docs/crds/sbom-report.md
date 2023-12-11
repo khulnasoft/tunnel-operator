@@ -2,7 +2,7 @@
 
 An instance of the SbomReport represents the latest sbom (software bill of metarials) found in a container image of a given
 Kubernetes workload. It consists of a list of OS package and application bil of metarial with a summary of
-components and dependencies. For a multi-container workload tunnel-operator creates multiple instances
+components and dependencies. For a multi-container workload trivy-operator creates multiple instances
 of SbomReports in the workload's namespace with the owner reference set to that workload.
 Each report follows the naming convention `<workload kind>-<workload name>-<container-name>`.
 
@@ -17,10 +17,10 @@ metadata:
   generation: 1
   labels:
     resource-spec-hash: 796669cd5d
-    tunnel-operator.container.name: kube-apiserver
-    tunnel-operator.resource.kind: Pod
-    tunnel-operator.resource.name: kube-apiserver-kind-control-plane
-    tunnel-operator.resource.namespace: kube-system
+    trivy-operator.container.name: kube-apiserver
+    trivy-operator.resource.kind: Pod
+    trivy-operator.resource.name: kube-apiserver-kind-control-plane
+    trivy-operator.resource.namespace: kube-system
   name: pod-kube-apiserver-kind-control-plane-kube-apiserver
   namespace: kube-system
   ownerReferences:
@@ -42,9 +42,9 @@ report:
     - bom-ref: 9464f5f9-750d-4ea0-8705-c8d067b25b29
       name: debian
       properties:
-      - name: khulnasoft:tunnel:Class
+      - name: aquasecurity:trivy:Class
         value: os-pkgs
-      - name: khulnasoft:tunnel:Type
+      - name: aquasecurity:trivy:Type
         value: debian
       supplier: {}
       type: operating-system
@@ -55,17 +55,17 @@ report:
         license: {}
       name: base-files
       properties:
-      - name: khulnasoft:tunnel:LayerDiffID
+      - name: aquasecurity:trivy:LayerDiffID
         value: sha256:417cb9b79adeec55f58b890dc9831e252e3523d8de5fd28b4ee2abb151b7dc8b
-      - name: khulnasoft:tunnel:LayerDigest
+      - name: aquasecurity:trivy:LayerDigest
         value: sha256:5dea5ec2316d4a067b946b15c3c4f140b4f2ad607e73e9bc41b673ee5ebb99a3
-      - name: khulnasoft:tunnel:PkgID
+      - name: aquasecurity:trivy:PkgID
         value: base-files@10.3+deb10u9
-      - name: khulnasoft:tunnel:PkgType
+      - name: aquasecurity:trivy:PkgType
         value: debian
-      - name: khulnasoft:tunnel:SrcName
+      - name: aquasecurity:trivy:SrcName
         value: base-files
-      - name: khulnasoft:tunnel:SrcVersion
+      - name: aquasecurity:trivy:SrcVersion
         value: 10.3+deb10u9
       purl: pkg:deb/debian/base-files@10.3+deb10u9?arch=amd64&distro=debian-10.9
       supplier:
@@ -78,17 +78,17 @@ report:
         license: {}
       name: netbase
       properties:
-      - name: khulnasoft:tunnel:LayerDiffID
+      - name: aquasecurity:trivy:LayerDiffID
         value: sha256:417cb9b79adeec55f58b890dc9831e252e3523d8de5fd28b4ee2abb151b7dc8b
-      - name: khulnasoft:tunnel:LayerDigest
+      - name: aquasecurity:trivy:LayerDigest
         value: sha256:5dea5ec2316d4a067b946b15c3c4f140b4f2ad607e73e9bc41b673ee5ebb99a3
-      - name: khulnasoft:tunnel:PkgID
+      - name: aquasecurity:trivy:PkgID
         value: netbase@5.6
-      - name: khulnasoft:tunnel:PkgType
+      - name: aquasecurity:trivy:PkgType
         value: debian
-      - name: khulnasoft:tunnel:SrcName
+      - name: aquasecurity:trivy:SrcName
         value: netbase
-      - name: khulnasoft:tunnel:SrcVersion
+      - name: aquasecurity:trivy:SrcVersion
         value: "5.6"
       purl: pkg:deb/debian/netbase@5.6?arch=all&distro=debian-10.9
       supplier:
@@ -98,19 +98,19 @@ report:
     - bom-ref: pkg:deb/debian/tzdata@2021a-0+deb10u1?arch=all&distro=debian-10.9
       name: tzdata
       properties:
-      - name: khulnasoft:tunnel:LayerDiffID
+      - name: aquasecurity:trivy:LayerDiffID
         value: sha256:417cb9b79adeec55f58b890dc9831e252e3523d8de5fd28b4ee2abb151b7dc8b
-      - name: khulnasoft:tunnel:LayerDigest
+      - name: aquasecurity:trivy:LayerDigest
         value: sha256:5dea5ec2316d4a067b946b15c3c4f140b4f2ad607e73e9bc41b673ee5ebb99a3
-      - name: khulnasoft:tunnel:PkgID
+      - name: aquasecurity:trivy:PkgID
         value: tzdata@2021a-0+deb10u1
-      - name: khulnasoft:tunnel:PkgType
+      - name: aquasecurity:trivy:PkgType
         value: debian
-      - name: khulnasoft:tunnel:SrcName
+      - name: aquasecurity:trivy:SrcName
         value: tzdata
-      - name: khulnasoft:tunnel:SrcRelease
+      - name: aquasecurity:trivy:SrcRelease
         value: 0+deb10u1
-      - name: khulnasoft:tunnel:SrcVersion
+      - name: aquasecurity:trivy:SrcVersion
         value: 2021a
       purl: pkg:deb/debian/tzdata@2021a-0+deb10u1?arch=all&distro=debian-10.9
       supplier:
@@ -137,32 +137,32 @@ report:
         bom-ref: pkg:oci/kube-apiserver@sha256:53a13cd1588391888c5a8ac4cef13d3ee6d229cd904038936731af7131d193a9?repository_url=k8s.gcr.io%2Fkube-apiserver&arch=amd64
         name: k8s.gcr.io/kube-apiserver:v1.21.1
         properties:
-        - name: khulnasoft:tunnel:DiffID
+        - name: aquasecurity:trivy:DiffID
           value: sha256:417cb9b79adeec55f58b890dc9831e252e3523d8de5fd28b4ee2abb151b7dc8b,sha256:b50131762317bbe47def2d426d5c78a353a08b966d36bed4a04aee99dde4e12b,sha256:1e6ed7621dee7e03dd779486ed469a65af6fb13071d13bd3a89c079683e3b1f0
-        - name: khulnasoft:tunnel:ImageID
+        - name: aquasecurity:trivy:ImageID
           value: sha256:771ffcf9ca634e37cbd3202fd86bd7e2df48ecba4067d1992541bfa00e88a9bb
-        - name: khulnasoft:tunnel:RepoDigest
+        - name: aquasecurity:trivy:RepoDigest
           value: k8s.gcr.io/kube-apiserver@sha256:53a13cd1588391888c5a8ac4cef13d3ee6d229cd904038936731af7131d193a9
-        - name: khulnasoft:tunnel:RepoTag
+        - name: aquasecurity:trivy:RepoTag
           value: k8s.gcr.io/kube-apiserver:v1.21.1
-        - name: khulnasoft:tunnel:SchemaVersion
+        - name: aquasecurity:trivy:SchemaVersion
           value: "2"
         purl: pkg:oci/kube-apiserver@sha256:53a13cd1588391888c5a8ac4cef13d3ee6d229cd904038936731af7131d193a9?repository_url=k8s.gcr.io%2Fkube-apiserver&arch=amd64
         supplier: {}
         type: container
       timestamp: "2023-07-10T09:37:21+00:00"
       tools:
-      - name: tunnel
-        vendor: khulnasoft
+      - name: trivy
+        vendor: aquasecurity
     serialNumber: urn:uuid:50dbce86-28c5-4caf-9d08-a4aadf23233e
     specVersion: 1.4
     version: 1
   registry:
     server: k8s.gcr.io
   scanner:
-    name: Tunnel
-    vendor: Khulnasoft Security
-    version: 0.44.1
+    name: Trivy
+    vendor: Aqua Security
+    version: 0.47.0
   summary:
     componentsCount: 5
     dependenciesCount: 5

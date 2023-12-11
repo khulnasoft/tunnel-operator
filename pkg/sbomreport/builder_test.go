@@ -3,20 +3,21 @@ package sbomreport_test
 import (
 	"testing"
 
-	"github.com/khulnasoft/tunnel-operator/pkg/apis/khulnasoft/v1alpha1"
-	"github.com/khulnasoft/tunnel-operator/pkg/sbomreport"
-	"github.com/khulnasoft/tunnel-operator/pkg/tunneloperator"
+	"github.com/aquasecurity/trivy-operator/pkg/apis/khulnasoft/v1alpha1"
+	"github.com/aquasecurity/trivy-operator/pkg/sbomreport"
+	"github.com/aquasecurity/trivy-operator/pkg/tunneloperator"
 	"github.com/onsi/gomega"
+	"github.com/stretchr/testify/assert"
 	appsv1 "k8s.io/api/apps/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/labels"
 	"k8s.io/client-go/kubernetes/scheme"
-	"k8s.io/utils/pointer"
+	"k8s.io/utils/ptr"
 )
 
 func TestReportBuilder(t *testing.T) {
 	g := gomega.NewGomegaWithT(t)
-	report, err := sbomreport.NewReportBuilder(scheme.Scheme).
+	report, _, err := sbomreport.NewReportBuilder(scheme.Scheme).
 		Controller(&appsv1.ReplicaSet{
 			TypeMeta: metav1.TypeMeta{
 				Kind:       "ReplicaSet",
@@ -44,19 +45,88 @@ func TestReportBuilder(t *testing.T) {
 					APIVersion:         "apps/v1",
 					Kind:               "ReplicaSet",
 					Name:               "some-owner",
-					Controller:         pointer.Bool(true),
-					BlockOwnerDeletion: pointer.Bool(false),
+					Controller:         ptr.To[bool](true),
+					BlockOwnerDeletion: ptr.To[bool](false),
 				},
 			},
 			Labels: map[string]string{
-				tunneloperator.LabelResourceKind:      "ReplicaSet",
-				tunneloperator.LabelResourceName:      "some-owner",
-				tunneloperator.LabelResourceNamespace: "qa",
-				tunneloperator.LabelContainerName:     "my-container",
-				tunneloperator.LabelResourceSpecHash:  "xyz",
+				trivyoperator.LabelResourceKind:      "ReplicaSet",
+				trivyoperator.LabelResourceName:      "some-owner",
+				trivyoperator.LabelResourceNamespace: "qa",
+				trivyoperator.LabelContainerName:     "my-container",
+				trivyoperator.LabelResourceSpecHash:  "xyz",
 				"tier":                               "tier-1",
 			},
 		},
 		Report: v1alpha1.SbomReportData{},
 	}))
+}
+
+func TestArtifactRef(t *testing.T) {
+	testCases := []struct {
+		name string
+		data v1alpha1.SbomReportData
+		want string
+	}{
+		{
+			name: "get image ref with libary",
+			data: v1alpha1.SbomReportData{
+				Registry: v1alpha1.Registry{
+					Server: "index.docker.io",
+				},
+				Artifact: v1alpha1.Artifact{
+					Repository: "library/alpine",
+					Tag:        "3.12.0",
+				},
+			},
+			want: "56bcdb7c95",
+		},
+		{
+			name: "get image ref without libary",
+			data: v1alpha1.SbomReportData{
+				Registry: v1alpha1.Registry{
+					Server: "index.docker.io",
+				},
+				Artifact: v1alpha1.Artifact{
+					Repository: "alpine",
+					Tag:        "3.12.0",
+				},
+			},
+			want: "56bcdb7c95",
+		},
+		{
+			name: "get image ref without index",
+			data: v1alpha1.SbomReportData{
+				Registry: v1alpha1.Registry{
+					Server: "index.docker.io",
+				},
+				Artifact: v1alpha1.Artifact{
+					Repository: "rancher/local-path-provisioner",
+					Tag:        "v0.0.14",
+				},
+			},
+			want: "79b568748c",
+		},
+		{
+			name: "get image ref non docker registry",
+			data: v1alpha1.SbomReportData{
+				Registry: v1alpha1.Registry{
+					Server: "k8s.gcr.io",
+				},
+				Artifact: v1alpha1.Artifact{
+					Repository: "kube-apiserver",
+					Tag:        "v1.21.1",
+				},
+			},
+			want: "6857f776bb",
+		},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			ref := sbomreport.ArtifactRef(tc.data)
+			assert.Equal(t, ref, tc.want)
+		})
+
+	}
 }

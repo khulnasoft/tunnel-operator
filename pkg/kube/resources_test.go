@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/khulnasoft/tunnel-operator/pkg/kube"
+	"github.com/aquasecurity/trivy-operator/pkg/kube"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	batchv1 "k8s.io/api/batch/v1"
@@ -90,25 +90,25 @@ func TestGetContainerImagesFromJob(t *testing.T) {
 
 	t.Run("Should return error when annotation is not set", func(t *testing.T) {
 		_, err := kube.GetContainerImagesFromJob(&batchv1.Job{})
-		require.EqualError(t, err, "required annotation not set: tunnel-operator.container-images")
+		require.EqualError(t, err, "required annotation not set: trivy-operator.container-images")
 	})
 
 	t.Run("Should return error when annotation is set but has invalid value", func(t *testing.T) {
 		_, err := kube.GetContainerImagesFromJob(&batchv1.Job{
 			ObjectMeta: metav1.ObjectMeta{
 				Annotations: map[string]string{
-					"tunnel-operator.container-images": ``,
+					"trivy-operator.container-images": ``,
 				},
 			},
 		})
-		require.EqualError(t, err, "parsing annotation: tunnel-operator.container-images: unexpected end of JSON input")
+		require.EqualError(t, err, "parsing annotation: trivy-operator.container-images: unexpected end of JSON input")
 	})
 
 	t.Run("Should return ContainerImages when annotation is set", func(t *testing.T) {
 		images, err := kube.GetContainerImagesFromJob(&batchv1.Job{
 			ObjectMeta: metav1.ObjectMeta{
 				Annotations: map[string]string{
-					"tunnel-operator.container-images": `{"nginx":"nginx:1.16","sidecar":"sidecar:1.32.7"}`,
+					"trivy-operator.container-images": `{"nginx":"nginx:1.16","sidecar":"sidecar:1.32.7"}`,
 				},
 			},
 		})

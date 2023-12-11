@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	TTLReportAnnotation = "tunnel-operator.khulnasoft.github.io/report-ttl"
+	TTLReportAnnotation = "trivy-operator.khulnasoft.github.io/report-ttl"
 )
 
 // Severity level of a vulnerability or a configuration audit check.
@@ -35,7 +35,7 @@ func StringToSeverity(name string) (Severity, error) {
 	}
 }
 
-const ScannerNameTunnel = "Tunnel"
+const ScannerNameTrivy = "Trivy"
 
 // Scanner is the spec for a scanner generating a security assessment report.
 type Scanner struct {

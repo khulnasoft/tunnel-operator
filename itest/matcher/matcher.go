@@ -6,26 +6,26 @@ import (
 	. "github.com/onsi/gomega"
 	. "github.com/onsi/gomega/gstruct"
 
-	"github.com/khulnasoft/tunnel-operator/pkg/apis/khulnasoft/v1alpha1"
-	"github.com/khulnasoft/tunnel-operator/pkg/kube"
-	"github.com/khulnasoft/tunnel-operator/pkg/tunneloperator"
+	"github.com/aquasecurity/trivy-operator/pkg/apis/khulnasoft/v1alpha1"
+	"github.com/aquasecurity/trivy-operator/pkg/kube"
+	"github.com/aquasecurity/trivy-operator/pkg/tunneloperator"
 	"github.com/onsi/gomega/types"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/utils/pointer"
+	"k8s.io/utils/ptr"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
 )
 
 var (
-	tunnelScanner = v1alpha1.Scanner{
-		Name:    v1alpha1.ScannerNameTunnel,
-		Vendor:  "Khulnasoft Security",
+	trivyScanner = v1alpha1.Scanner{
+		Name:    v1alpha1.ScannerNameTrivy,
+		Vendor:  "Aqua Security",
 		Version: "0.36.0",
 	}
 	builtInScanner = v1alpha1.Scanner{
-		Name:    v1alpha1.ScannerNameTunnel,
-		Vendor:  "Khulnasoft Security",
+		Name:    v1alpha1.ScannerNameTrivy,
+		Vendor:  "Aqua Security",
 		Version: "dev",
 	}
 )
@@ -37,7 +37,7 @@ var (
 // of the actual v1alpha1.VulnerabilityReport.
 func IsVulnerabilityReportForContainerOwnedBy(containerName string, owner client.Object) types.GomegaMatcher {
 	return &vulnerabilityReportMatcher{
-		scheme:        tunneloperator.NewScheme(),
+		scheme:        trivyoperator.NewScheme(),
 		containerName: containerName,
 		owner:         owner,
 	}
@@ -65,7 +65,7 @@ func (m *vulnerabilityReportMatcher) Match(actual interface{}) (bool, error) {
 	if err != nil {
 		return false, err
 	}
-	keys[tunneloperator.LabelContainerName] = Equal(m.containerName)
+	keys[trivyoperator.LabelContainerName] = Equal(m.containerName)
 
 	matcher := MatchFields(IgnoreExtras, Fields{
 		"ObjectMeta": MatchFields(IgnoreExtras, Fields{
@@ -75,12 +75,12 @@ func (m *vulnerabilityReportMatcher) Match(actual interface{}) (bool, error) {
 				Kind:               gvk.Kind,
 				Name:               m.owner.GetName(),
 				UID:                m.owner.GetUID(),
-				Controller:         pointer.Bool(true),
-				BlockOwnerDeletion: pointer.Bool(false),
+				Controller:         ptr.To[bool](true),
+				BlockOwnerDeletion: ptr.To[bool](false),
 			}),
 		}),
 		"Report": MatchFields(IgnoreExtras, Fields{
-			"Scanner":         Equal(tunnelScanner),
+			"Scanner":         Equal(trivyScanner),
 			"Vulnerabilities": Not(BeNil()),
 		}),
 	})
@@ -148,7 +148,7 @@ func (m *configAuditReportMatcher) Match(actual interface{}) (bool, error) {
 	if !ok {
 		return false, fmt.Errorf("%T expects a %T", configAuditReportMatcher{}, v1alpha1.ConfigAuditReport{})
 	}
-	gvk, err := apiutil.GVKForObject(m.owner, tunneloperator.NewScheme())
+	gvk, err := apiutil.GVKForObject(m.owner, trivyoperator.NewScheme())
 	if err != nil {
 		return false, err
 	}
@@ -156,17 +156,17 @@ func (m *configAuditReportMatcher) Match(actual interface{}) (bool, error) {
 	matcher := MatchFields(IgnoreExtras, Fields{
 		"ObjectMeta": MatchFields(IgnoreExtras, Fields{
 			"Labels": MatchKeys(IgnoreExtras, Keys{
-				tunneloperator.LabelResourceKind:      Equal(gvk.Kind),
-				tunneloperator.LabelResourceName:      Equal(m.owner.GetName()),
-				tunneloperator.LabelResourceNamespace: Equal(m.owner.GetNamespace()),
+				trivyoperator.LabelResourceKind:      Equal(gvk.Kind),
+				trivyoperator.LabelResourceName:      Equal(m.owner.GetName()),
+				trivyoperator.LabelResourceNamespace: Equal(m.owner.GetNamespace()),
 			}),
 			"OwnerReferences": ConsistOf(metav1.OwnerReference{
 				APIVersion:         gvk.GroupVersion().Identifier(),
 				Kind:               gvk.Kind,
 				Name:               m.owner.GetName(),
 				UID:                m.owner.GetUID(),
-				Controller:         pointer.Bool(true),
-				BlockOwnerDeletion: pointer.Bool(false),
+				Controller:         ptr.To[bool](true),
+				BlockOwnerDeletion: ptr.To[bool](false),
 			}),
 		}),
 		"Report": MatchFields(IgnoreExtras, Fields{

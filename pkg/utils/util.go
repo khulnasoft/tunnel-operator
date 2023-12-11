@@ -1,7 +1,7 @@
 package utils
 
 import (
-	"github.com/khulnasoft/tunnel-operator/pkg/kube"
+	"github.com/aquasecurity/trivy-operator/pkg/kube"
 	"github.com/emirpasic/gods/sets/hashset"
 )
 

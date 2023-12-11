@@ -6,8 +6,8 @@ import (
 
 	"context"
 	"fmt"
-	"github.com/khulnasoft/tunnel-operator/pkg/apis/khulnasoft/v1alpha1"
-	"github.com/khulnasoft/tunnel-operator/pkg/ext"
+	"github.com/aquasecurity/trivy-operator/pkg/apis/khulnasoft/v1alpha1"
+	"github.com/aquasecurity/trivy-operator/pkg/ext"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -30,12 +30,12 @@ type cm struct {
 
 // GenerateComplianceReport generate and public compliance report by spec
 func (w *cm) GenerateComplianceReport(ctx context.Context, spec v1alpha1.ReportSpec) error {
-	tunnelResults, err := misconfigReportToTunnelResults(w.client, ctx)
+	trivyResults, err := misconfigReportToTrivyResults(w.client, ctx)
 	if err != nil {
 		return err
 	}
 
-	status, err := w.buildComplianceReport(spec, tunnelResults)
+	status, err := w.buildComplianceReport(spec, trivyResults)
 	if err != nil {
 		return err
 	}
@@ -75,8 +75,8 @@ func (w *cm) createComplianceReport(ctx context.Context, reportSpec v1alpha1.Rep
 
 // BuildComplianceReport build compliance based on report type {summary | detail}
 func (w *cm) buildComplianceReport(spec v1alpha1.ReportSpec, complianceResults []ttypes.Results) (v1alpha1.ReportStatus, error) {
-	tunnelCompSpec := v1alpha1.ToComplainceSpec(spec.Complaince)
-	cr, err := report.BuildComplianceReport(complianceResults, tunnelCompSpec)
+	trivyCompSpec := v1alpha1.ToComplainceSpec(spec.Complaince)
+	cr, err := report.BuildComplianceReport(complianceResults, trivyCompSpec)
 	if err != nil {
 		return v1alpha1.ReportStatus{}, err
 	}
@@ -92,8 +92,8 @@ func (w *cm) buildComplianceReport(spec v1alpha1.ReportSpec, complianceResults [
 	}
 }
 
-// MisconfigReportToTunnelResults convert misconfig and infra assessment report Data to tunnel results
-func misconfigReportToTunnelResults(cli client.Client, ctx context.Context) ([]ttypes.Results, error) {
+// MisconfigReportToTrivyResults convert misconfig and infra assessment report Data to trivy results
+func misconfigReportToTrivyResults(cli client.Client, ctx context.Context) ([]ttypes.Results, error) {
 	resultsArray := make([]ttypes.Results, 0)
 	// collect configaudit report data
 	caObjList := &v1alpha1.ConfigAuditReportList{}

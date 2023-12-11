@@ -3,7 +3,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   creationTimestamp: null
-  name: tunnel-operator
+  name: trivy-operator
 rules:
 - apiGroups:
   - ""
@@ -117,24 +117,6 @@ rules:
   - list
   - watch
 - apiGroups:
-  - batch
-  resources:
-  - cronjobs
-  verbs:
-  - get
-  - list
-  - watch
-- apiGroups:
-  - batch
-  resources:
-  - jobs
-  verbs:
-  - create
-  - delete
-  - get
-  - list
-  - watch
-- apiGroups:
   - khulnasoft.github.io
   resources:
   - clustercompliancedetailreports
@@ -194,6 +176,18 @@ rules:
   - khulnasoft.github.io
   resources:
   - clusterrbacassessmentreports
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - khulnasoft.github.io
+  resources:
+  - clustersbomreports
   verbs:
   - create
   - delete
@@ -273,6 +267,24 @@ rules:
   - list
   - patch
   - update
+  - watch
+- apiGroups:
+  - batch
+  resources:
+  - cronjobs
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - batch
+  resources:
+  - jobs
+  verbs:
+  - create
+  - delete
+  - get
+  - list
   - watch
 - apiGroups:
   - networking.k8s.io

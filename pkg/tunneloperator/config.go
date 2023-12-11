@@ -1,4 +1,4 @@
-package tunneloperator
+package trivyoperator
 
 import (
 	"context"
@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/khulnasoft/tunnel-operator/pkg/apis/khulnasoft/v1alpha1"
+	"github.com/aquasecurity/trivy-operator/pkg/apis/khulnasoft/v1alpha1"
 	containerimage "github.com/google/go-containerregistry/pkg/name"
 	ocpappsv1 "github.com/openshift/api/apps/v1"
 	appsv1 "k8s.io/api/apps/v1"
@@ -78,13 +78,13 @@ const (
 	KeyReportResourceLabels                = "report.resourceLabels"
 	KeyReportRecordFailedChecksOnly        = "report.recordFailedChecksOnly"
 	KeyMetricsResourceLabelsPrefix         = "metrics.resourceLabelsPrefix"
-	KeyTunnelServerURL                      = "tunnel.serverURL"
+	KeyTrivyServerURL                      = "trivy.serverURL"
 	KeyNodeCollectorImageRef               = "node.collector.imageRef"
 	KeyNodeCollectorImagePullSecret        = "node.collector.imagePullSecret"
 	KeyAdditionalReportLabels              = "report.additionalLabels"
 )
 
-// ConfigData holds Tunnel-operator configuration settings as a set of key-value
+// ConfigData holds Trivy-operator configuration settings as a set of key-value
 // pairs.
 type ConfigData map[string]string
 
@@ -98,12 +98,12 @@ type ConfigManager interface {
 // GetDefaultConfig returns the default configuration settings.
 func GetDefaultConfig() ConfigData {
 	return map[string]string{
-		keyVulnerabilityReportsScanner:  "Tunnel",
-		keyConfigAuditReportsScanner:    "Tunnel",
+		keyVulnerabilityReportsScanner:  "Trivy",
+		keyConfigAuditReportsScanner:    "Trivy",
 		KeyScanJobcompressLogs:          "true",
 		keyComplianceFailEntriesLimit:   "10",
 		KeyReportRecordFailedChecksOnly: "true",
-		KeyNodeCollectorImageRef:        "ghcr.io/khulnasoft/node-collector:0.0.6",
+		KeyNodeCollectorImageRef:        "ghcr.io/aquasecurity/node-collector:0.0.6",
 	}
 }
 
@@ -363,8 +363,8 @@ func (c ConfigData) NodeCollectorImageRef() string {
 	return c[KeyNodeCollectorImageRef]
 }
 
-func (c ConfigData) GeTunnelServerURL() string {
-	return c[KeyTunnelServerURL]
+func (c ConfigData) GeTrivyServerURL() string {
+	return c[KeyTrivyServerURL]
 }
 func (c ConfigData) GetRequiredData(key string) (string, error) {
 	var ok bool
@@ -433,7 +433,7 @@ func (c *configManager) EnsureDefault(ctx context.Context) error {
 				Namespace: c.namespace,
 				Name:      ConfigMapName,
 				Labels: labels.Set{
-					LabelK8SAppManagedBy: "tunnel-operator",
+					LabelK8SAppManagedBy: "trivy-operator",
 				},
 			},
 			Data: GetDefaultConfig(),
@@ -456,7 +456,7 @@ func (c *configManager) EnsureDefault(ctx context.Context) error {
 			Namespace: c.namespace,
 			Name:      SecretName,
 			Labels: labels.Set{
-				LabelK8SAppManagedBy: "tunnel-operator",
+				LabelK8SAppManagedBy: "trivy-operator",
 			},
 		},
 	}
@@ -496,7 +496,7 @@ func (c *configManager) Delete(ctx context.Context) error {
 	if err != nil && !apierrors.IsNotFound(err) {
 		return err
 	}
-	err = c.client.CoreV1().ConfigMaps(c.namespace).Delete(ctx, GetPluginConfigMapName("Tunnel"), metav1.DeleteOptions{})
+	err = c.client.CoreV1().ConfigMaps(c.namespace).Delete(ctx, GetPluginConfigMapName("Trivy"), metav1.DeleteOptions{})
 	if err != nil && !apierrors.IsNotFound(err) {
 		return err
 	}

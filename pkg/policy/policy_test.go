@@ -12,16 +12,16 @@ import (
 	"testing"
 
 	"github.com/aquasecurity/defsec/pkg/scan"
-	"github.com/khulnasoft/tunnel-operator/pkg/apis/khulnasoft/v1alpha1"
-	"github.com/khulnasoft/tunnel-operator/pkg/plugins/tunnel"
-	"github.com/khulnasoft/tunnel-operator/pkg/policy"
-	"github.com/khulnasoft/tunnel-operator/pkg/utils"
+	"github.com/aquasecurity/trivy-operator/pkg/apis/khulnasoft/v1alpha1"
+	"github.com/aquasecurity/trivy-operator/pkg/plugins/trivy"
+	"github.com/aquasecurity/trivy-operator/pkg/policy"
+	"github.com/aquasecurity/trivy-operator/pkg/utils"
 	. "github.com/onsi/gomega"
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
 	rbacv1 "k8s.io/api/rbac/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/utils/pointer"
+	"k8s.io/utils/ptr"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -314,7 +314,7 @@ deny[res] {
 					Template: corev1.PodTemplateSpec{
 						Spec: corev1.PodSpec{
 							SecurityContext: &corev1.PodSecurityContext{
-								RunAsNonRoot: pointer.Bool(true),
+								RunAsNonRoot: ptr.To[bool](true),
 							},
 							Containers: []corev1.Container{
 								{
@@ -452,7 +452,7 @@ warn[res] {
 					Template: corev1.PodTemplateSpec{
 						Spec: corev1.PodSpec{
 							SecurityContext: &corev1.PodSecurityContext{
-								RunAsNonRoot: pointer.Bool(true),
+								RunAsNonRoot: ptr.To[bool](true),
 							},
 							Containers: []corev1.Container{
 								{
@@ -548,7 +548,7 @@ warn[res] {
 					Template: corev1.PodTemplateSpec{
 						Spec: corev1.PodSpec{
 							SecurityContext: &corev1.PodSecurityContext{
-								RunAsNonRoot: pointer.Bool(true),
+								RunAsNonRoot: ptr.To[bool](true),
 							},
 							Containers: []corev1.Container{
 								{
@@ -1160,16 +1160,16 @@ func newTestConfig(builtInPolicies bool) testConfig {
 	return testConfig{builtInPolicies: builtInPolicies}
 }
 
-// GetUseBuiltinRegoPolicies return tunnel config which associated to configauditreport plugin
+// GetUseBuiltinRegoPolicies return trivy config which associated to configauditreport plugin
 func (tc testConfig) GetUseBuiltinRegoPolicies() bool {
 	return tc.builtInPolicies
 }
 
 // GetSupportedConfigAuditKinds list of supported kinds to be scanned by the config audit scanner
 func (tc testConfig) GetSupportedConfigAuditKinds() []string {
-	return utils.MapKinds(strings.Split(tunnel.SupportedConfigAuditKinds, ","))
+	return utils.MapKinds(strings.Split(trivy.SupportedConfigAuditKinds, ","))
 }
 
 func (tc testConfig) GetSeverity() string {
-	return tunnel.KeyTunnelSeverity
+	return trivy.KeyTrivySeverity
 }

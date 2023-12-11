@@ -1,39 +1,41 @@
-package tunneloperator
+package trivyoperator
 
 const (
-	// NamespaceName the name of the namespace in which Tunnel-operator stores its
+	// NamespaceName the name of the namespace in which Trivy-operator stores its
 	// configuration and where it runs scan jobs.
-	NamespaceName = "tunnel-operator"
+	NamespaceName = "trivy-operator"
 
-	// ConfigMapName the name of the ConfigMap where Tunnel-operator stores its
+	// ConfigMapName the name of the ConfigMap where Trivy-operator stores its
 	// configuration.
-	ConfigMapName = "tunnel-operator"
+	ConfigMapName = "trivy-operator"
 
-	// SecretName the name of the secret where Tunnel-operator stores is sensitive
+	// SecretName the name of the secret where Trivy-operator stores is sensitive
 	// configuration.
-	SecretName = "tunnel-operator"
+	SecretName = "trivy-operator"
 
 	// PoliciesConfigMapName the name of the ConfigMap used to store OPA Rego
 	// policies.
-	PoliciesConfigMapName = "tunnel-operator-policies-config"
+	PoliciesConfigMapName = "trivy-operator-policies-config"
 )
 
 const (
-	LabelResourceKind      = "tunnel-operator.resource.kind"
-	LabelResourceName      = "tunnel-operator.resource.name"
-	LabelResourceNameHash  = "tunnel-operator.resource.name-hash"
-	LabelResourceNamespace = "tunnel-operator.resource.namespace"
-	LabelContainerName     = "tunnel-operator.container.name"
+	LabelResourceKind      = "trivy-operator.resource.kind"
+	LabelResourceName      = "trivy-operator.resource.name"
+	LabelResourceNameHash  = "trivy-operator.resource.name-hash"
+	LabelResourceNamespace = "trivy-operator.resource.namespace"
+	LabelContainerName     = "trivy-operator.container.name"
 	LabelResourceSpecHash  = "resource-spec-hash"
 	LabelPluginConfigHash  = "plugin-config-hash"
+	LabelResourceImageID   = "resource-image-id"
+	LabelReusedReport      = "reused-report"
 
 	LabelVulnerabilityReportScanner = "vulnerabilityReport.scanner"
 	LabelNodeInfoCollector          = "node-info.collector"
 
 	LabelK8SAppManagedBy = "app.kubernetes.io/managed-by"
-	AppTunnelOperator     = "tunnel-operator"
+	AppTrivyOperator     = "trivy-operator"
 )
 
 const (
-	AnnotationContainerImages = "tunnel-operator.container-images"
+	AnnotationContainerImages = "trivy-operator.container-images"
 )

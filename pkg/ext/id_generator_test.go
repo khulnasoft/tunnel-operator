@@ -3,7 +3,7 @@ package ext_test
 import (
 	"testing"
 
-	"github.com/khulnasoft/tunnel-operator/pkg/ext"
+	"github.com/aquasecurity/trivy-operator/pkg/ext"
 	"github.com/stretchr/testify/assert"
 )
 

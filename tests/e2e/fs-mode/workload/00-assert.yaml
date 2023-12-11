@@ -3,7 +3,7 @@ apiVersion: khulnasoft.github.io/v1alpha1
 kind: VulnerabilityReport
 metadata:
   annotations:
-    tunnel-operator.khulnasoft.github.io/report-ttl: 24h0m0s
+    trivy-operator.khulnasoft.github.io/report-ttl: 24h0m0s
   name: pod-my-pod-app
 report:
   artifact:
@@ -12,5 +12,5 @@ report:
   registry:
     server: index.docker.io
   scanner:
-    name: Tunnel
-    vendor: Khulnasoft Security
+    name: Trivy
+    vendor: Aqua Security

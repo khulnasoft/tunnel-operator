@@ -16,10 +16,10 @@ GINKGO=$(GOBIN)/ginkgo
 SOURCES := $(shell find . -name '*.go')
 
 IMAGE_TAG := dev
-TUNNEL_OPERATOR_IMAGE := khulnasoft/tunnel-operator:$(IMAGE_TAG)
-TUNNEL_OPERATOR_IMAGE_UBI8 := khulnasoft/tunnel-operator:$(IMAGE_TAG)-ubi8
+TRIVY_OPERATOR_IMAGE := aquasecurity/trivy-operator:$(IMAGE_TAG)
+TRIVY_OPERATOR_IMAGE_UBI8 := aquasecurity/trivy-operator:$(IMAGE_TAG)-ubi8
 
-MKDOCS_IMAGE := khulnasoft/mkdocs-material:tunnel-operator
+MKDOCS_IMAGE := aquasec/mkdocs-material:trivy-operator
 MKDOCS_PORT := 8000
 
 # ENVTEST_K8S_VERSION refers to the version of kubebuilder assets to be downloaded by envtest binary.
@@ -29,11 +29,11 @@ ENVTEST_K8S_VERSION = 1.24.2
 all: build
 
 .PHONY: build
-build: build-tunnel-operator
+build: build-trivy-operator
 
-## Builds the tunnel-operator binary
-build-tunnel-operator: $(SOURCES)
-	CGO_ENABLED=0 GOOS=linux go build -o ./bin/tunnel-operator ./cmd/tunnel-operator/main.go
+## Builds the trivy-operator binary
+build-trivy-operator: $(SOURCES)
+	CGO_ENABLED=0 GOOS=linux go build -o ./bin/trivy-operator ./cmd/tunnel-operator/main.go
 
 .PHONY: get-ginkgo
 ## Installs Ginkgo CLI
@@ -59,19 +59,19 @@ envtest: $(SOURCES) generate-all envtest ## Run tests.
 	KUBEBUILDER_ASSETS="$(shell $(ENVTEST) use $(ENVTEST_K8S_VERSION) -p path)" \
 	go test -v -timeout 60s -coverprofile=coverage.txt ./pkg/operator/envtest/...
 
-.PHONY: itests-tunnel-operator
-## Runs integration tests for Tunnel Operator with code coverage enabled
-itests-tunnel-operator: check-kubeconfig get-ginkgo
+.PHONY: itests-trivy-operator
+## Runs integration tests for Trivy Operator with code coverage enabled
+itests-trivy-operator: check-kubeconfig get-ginkgo
 	@$(GINKGO) \
 	-coverprofile=coverage.txt \
-	-coverpkg=github.com/khulnasoft/tunnel-operator/pkg/operator,\
-	github.com/khulnasoft/tunnel-operator/pkg/operator/predicate,\
-	github.com/khulnasoft/tunnel-operator/pkg/operator/controller,\
-	github.com/khulnasoft/tunnel-operator/pkg/plugin,\
-	github.com/khulnasoft/tunnel-operator/pkg/plugin/tunnel,\
-	github.com/khulnasoft/tunnel-operator/pkg/configauditreport,\
-	github.com/khulnasoft/tunnel-operator/pkg/vulnerabilityreport \
-	./itest/tunnel-operator
+	-coverpkg=github.com/aquasecurity/trivy-operator/pkg/operator,\
+	github.com/aquasecurity/trivy-operator/pkg/operator/predicate,\
+	github.com/aquasecurity/trivy-operator/pkg/operator/controller,\
+	github.com/aquasecurity/trivy-operator/pkg/plugin,\
+	github.com/aquasecurity/trivy-operator/pkg/plugin/trivy,\
+	github.com/aquasecurity/trivy-operator/pkg/configauditreport,\
+	github.com/aquasecurity/trivy-operator/pkg/vulnerabilityreport \
+	./itest/trivy-operator
 
 .PHONY: check-kubeconfig
 check-kubeconfig:
@@ -88,23 +88,23 @@ clean:
 
 ## Builds Docker images for all binaries
 docker-build: \
-	docker-build-tunnel-operator \
-	docker-build-tunnel-operator-ubi8
+	docker-build-trivy-operator \
+	docker-build-trivy-operator-ubi8
 
-## Builds Docker image for tunnel-operator
-docker-build-tunnel-operator: build-tunnel-operator
-	$(DOCKER) build --no-cache -t $(TUNNEL_OPERATOR_IMAGE) -f build/tunnel-operator/Dockerfile bin
+## Builds Docker image for trivy-operator
+docker-build-trivy-operator: build-trivy-operator
+	$(DOCKER) build --no-cache -t $(TRIVY_OPERATOR_IMAGE) -f build/tunnel-operator/Dockerfile bin
 	
-## Builds Docker image for tunnel-operator ubi8
-docker-build-tunnel-operator-ubi8: build-tunnel-operator
-	$(DOCKER) build --no-cache -f build/tunnel-operator/Dockerfile.ubi8 -t $(TUNNEL_OPERATOR_IMAGE_UBI8) bin
+## Builds Docker image for trivy-operator ubi8
+docker-build-trivy-operator-ubi8: build-trivy-operator
+	$(DOCKER) build --no-cache -f build/tunnel-operator/Dockerfile.ubi8 -t $(TRIVY_OPERATOR_IMAGE_UBI8) bin
 
 kind-load-images: \
-	docker-build-tunnel-operator \
-	docker-build-tunnel-operator-ubi8
+	docker-build-trivy-operator \
+	docker-build-trivy-operator-ubi8
 	$(KIND) load docker-image \
-		$(TUNNEL_OPERATOR_IMAGE) \
-		$(TUNNEL_OPERATOR_IMAGE_UBI8)
+		$(TRIVY_OPERATOR_IMAGE) \
+		$(TRIVY_OPERATOR_IMAGE_UBI8)
 
 ## Runs MkDocs development server to preview the documentation page
 mkdocs-serve:
@@ -116,7 +116,7 @@ $(GOBIN)/labeler:
 
 .PHONY: label
 label: $(GOBIN)/labeler
-	labeler apply misc/triage/labels.yaml -r khulnasoft/tunnel-operator -l 5
+	labeler apply misc/triage/labels.yaml -r aquasecurity/trivy-operator -l 5
 
 ## Location to install dependencies to
 LOCALBIN ?= $(shell pwd)/bin
@@ -147,7 +147,7 @@ verify-generated: generate-all
 
 .PHONY: generate
 generate: controller-gen
-	$(CONTROLLER_GEN) object:headerFile="hack/boilerplate.go.txt" paths="./pkg/..." +rbac:roleName=tunnel-operator output:rbac:artifacts:config=deploy/helm/generated
+	$(CONTROLLER_GEN) object:headerFile="hack/boilerplate.go.txt" paths="./pkg/..." +rbac:roleName=trivy-operator output:rbac:artifacts:config=deploy/helm/generated
 
 .PHONY: manifests
 manifests: controller-gen
@@ -170,7 +170,7 @@ verify-generated-helm-docs: generate-helm-docs
 .PHONY: \
 	clean \
 	docker-build \
-	docker-build-tunnel-operator \
-	docker-build-tunnel-operator-ubi8 \
+	docker-build-trivy-operator \
+	docker-build-trivy-operator-ubi8 \
 	kind-load-images \
 	mkdocs-serve

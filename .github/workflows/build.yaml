@@ -34,52 +34,47 @@ jobs:
     name: Verify code
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
       - name: Setup Go
         uses: actions/setup-go@v4
         with:
-          go-version: ${{ env.GO_VERSION }}
-      - name: Checkout code
-        uses: actions/checkout@v3
-      - name: Cached Go dependencies
-        uses: actions/cache@v3
+          go-version-file: go.mod
+      - name: Install tools
+        uses: aquaproj/aqua-installer@v2.2.0
         with:
-          path: ~/go/pkg/mod
-          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
-          restore-keys: |
-            ${{ runner.os }}-go-
+          aqua_version: v1.25.0
       - name: Verify Go code
         uses: golangci/golangci-lint-action@v3.7.0
         with:
           args: --verbose
-          version: v1.53.2
+          version: v1.54.2
           skip-pkg-cache: true
           skip-build-cache: true
       - name: Verify YAML code
         uses: ibiqlik/action-yamllint@v3
       - name: Vendor Go modules
-        run: go mod vendor
+        run: go mod tidy
       - name: Verify all generated
-        run: make verify-generated
+        run: mage generate:verify
       - name: Verify Generated Helm docs
-        run: make verify-generated-helm-docs
+        run: mage generate:verifydocs
   tests:
     name: Run tests
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
       - name: Setup Go
         uses: actions/setup-go@v4
         with:
-          go-version: ${{ env.GO_VERSION }}
-      - name: Checkout code
-        uses: actions/checkout@v3
-      - uses: actions/cache@v3
+          go-version-file: go.mod
+      - name: Install tools
+        uses: aquaproj/aqua-installer@v2.2.0
         with:
-          path: ~/go/pkg/mod
-          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
-          restore-keys: |
-            ${{ runner.os }}-go-
+          aqua_version: v1.25.0
       - name: Run unit tests
-        run: make test
+        run: mage test:unit
       - name: Upload code coverage
         uses: codecov/codecov-action@v3
         with:
@@ -91,43 +86,39 @@ jobs:
       - verify-code
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
       - name: Setup Go
         uses: actions/setup-go@v4
         with:
-          go-version: ${{ env.GO_VERSION }}
-      - name: Checkout code
-        uses: actions/checkout@v3
-      - uses: actions/cache@v3
+          go-version-file: go.mod
+      - name: Install tools
+        uses: aquaproj/aqua-installer@v2.2.0
         with:
-          path: ~/go/pkg/mod
-          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
-          restore-keys: |
-            ${{ runner.os }}-go-
+          aqua_version: v1.25.0
       - name: Run envtest
-        run: make envtest
+        run: mage test:envtest
       - name: Upload code coverage
         uses: codecov/codecov-action@v3
         with:
           files: ./coverage.txt
-  itest-tunnel-operator:
+  itest-trivy-operator:
     name: Run integration tests
     needs:
       - operator-envtest
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
       - name: Setup Go
         uses: actions/setup-go@v4
         with:
-          go-version: ${{ env.GO_VERSION }}
-      - name: Checkout code
-        uses: actions/checkout@v3
-      - uses: actions/cache@v3
+          go-version-file: go.mod
+      - name: Install tools
+        uses: aquaproj/aqua-installer@v2.2.0
         with:
-          path: ~/go/pkg/mod
-          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
-          restore-keys: |
-            ${{ runner.os }}-go-
+          aqua_version: v1.25.0
       - name: Setup Kubernetes cluster (KIND)
         uses: engineerd/setup-kind@v0.5.0
         with:
@@ -141,44 +132,38 @@ jobs:
       - name: Run integration tests
         run: |
           kubectl create -k deploy/static
-          make itests-tunnel-operator
+          mage test:integration
         env:
           KUBECONFIG: /home/runner/.kube/config
-          OPERATOR_NAMESPACE: tunnel-system
+          OPERATOR_NAMESPACE: trivy-system
           OPERATOR_TARGET_NAMESPACES: default
       - name: Upload code coverage
         uses: codecov/codecov-action@v3
         with:
-          files: ./itest/tunnel-operator/coverage.txt
+          files: ./itest/trivy-operator/coverage.txt
   e2e-testing:
     name: Run end to end testing
     needs:
-      - itest-tunnel-operator
+      - itest-trivy-operator
     runs-on: ubuntu-latest
     env:
       DOCKER_CLI_EXPERIMENTAL: enabled
     steps:
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
+        uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
         id: buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
       - name: Available platforms
         run: echo ${{ steps.buildx.outputs.platforms }}
+      - name: Checkout code
+        uses: actions/checkout@v4
       - name: Setup Go
         uses: actions/setup-go@v4
         with:
-          go-version: ${{ env.GO_VERSION }}
-      - name: Checkout code
-        uses: actions/checkout@v3
-      - uses: actions/cache@v3
-        with:
-          path: ~/go/pkg/mod
-          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
-          restore-keys: |
-            ${{ runner.os }}-go-
+          go-version-file: go.mod
       - name: Release snapshot
-        uses: goreleaser/goreleaser-action@v4
+        uses: goreleaser/goreleaser-action@v5
         with:
           version: v1.7.0
           args: release -f=goreleaser-e2e.yaml --snapshot --skip-publish --rm-dist
@@ -203,12 +188,12 @@ jobs:
           kubectl describe node
       - name: Load operator image to cluster
         run: >
-          docker tag ghcr.io/khulnasoft/tunnel-operator:${{ github.sha }}-amd64
-          ghcr.io/khulnasoft/tunnel-operator:e2e
+          docker tag ghcr.io/aquasecurity/trivy-operator:${{ github.sha }}-amd64
+          ghcr.io/aquasecurity/trivy-operator:e2e
 
-          docker save -o tunnel-operator.tar ghcr.io/khulnasoft/tunnel-operator:e2e
+          docker save -o trivy-operator.tar ghcr.io/aquasecurity/trivy-operator:e2e
 
-          kind load image-archive tunnel-operator.tar
+          kind load image-archive trivy-operator.tar
       - name: Init E2E tests (Install kuttl & helm)
         run: >
           mkdir -p ./bin
@@ -238,6 +223,27 @@ jobs:
         run: >
           ./bin/kuttl test --start-kind=false --config
           tests/config/client-server.yaml
+
+          ./tests/resources-cleanup.sh > /dev/null 2>&1
+      - name: Standalon mode with Sbom scanning
+          reports tests
+        run: >
+          ./bin/kuttl test --start-kind=false --config
+          tests/config/sbom-standalone.yaml
+
+          ./tests/resources-cleanup.sh > /dev/null 2>&1
+      - name: Client/Server with Sbom scanning
+          reports tests
+        run: >
+          ./bin/kuttl test --start-kind=false --config
+          tests/config/client-server-sbom.yaml
+
+          ./tests/resources-cleanup.sh > /dev/null 2>&1
+      - name: file system with Sbom scanning
+          reports tests
+        run: >
+          ./bin/kuttl test --start-kind=false --config
+          tests/config/fs-sbom.yaml
 
           ./tests/resources-cleanup.sh > /dev/null 2>&1
       - name: Node scan producing cluster infraassessment report

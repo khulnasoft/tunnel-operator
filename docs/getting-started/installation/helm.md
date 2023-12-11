@@ -3,76 +3,91 @@
 [Helm], which is de facto standard package manager for Kubernetes, allows installing applications from parameterized
 YAML manifests called Helm [charts].
 
-To address shortcomings of [static YAML manifests](./kubectl.md) we provide the Helm chart to deploy the Tunnel-Operator.
+To address shortcomings of [static YAML manifests](./kubectl.md) we provide the Helm chart to deploy the Trivy-Operator.
 The Helm chart supports all [Install Modes](./configuration.md#install-modes).
 
-As an example, let's install the operator in the `tunnel-system` namespace and configure it to select all namespaces,
-except `kube-system` and `tunnel-system`:
+As an example, let's install the operator in the `trivy-system` namespace and configure it to select all namespaces,
+except `kube-system` and `trivy-system`:
 
 1. Clone the chart directory:
-   ```
-   git clone --depth 1 --branch {{ git.tag }} https://github.com/khulnasoft/tunnel-operator.git
-   cd tunnel-operator
-   ```
-   Or add Khulnasoft chart repository:
-   ```
-   helm repo add khulnasoft https://khulnasoft.github.io/helm-charts/
+
+```sh
+   git clone --depth 1 --branch {{ git.tag }} https://github.com/aquasecurity/trivy-operator.git
+   cd trivy-operator
+```
+
+   Or add Aqua chart repository:
+
+```sh
+   helm repo add aqua https://khulnasoft.github.io/helm-charts/
    helm repo update
-   ```
+```
+
 2. Install the chart from a local directory:
-   ```
-   helm install tunnel-operator ./deploy/helm \
-     --namespace tunnel-system \
-     --create-namespace \
-   ```
-   Or install the chart from the Khulnasoft chart repository:
-   ```
-   helm install tunnel-operator khulnasoft/tunnel-operator \
-     --namespace tunnel-system \
+
+```sh
+
+   helm install trivy-operator ./deploy/helm \
+     --namespace trivy-system \
+     --create-namespace 
+```
+
+   Or install the chart from the Aqua chart repository:
+
+```sh
+   helm install trivy-operator aqua/trivy-operator \
+     --namespace trivy-system \
      --create-namespace \
      --version {{ var.chart_version }}
-   ```
+```
 
    Configuration options can be passed using the `--set` parameter. To list only the fixed vulnerabilities in the cluster, one can use the following command.
-   ```
-      helm install tunnel-operator ./deploy/helm \
-     --namespace tunnel-system \
+
+```sh
+      helm install trivy-operator ./deploy/helm \
+     --namespace trivy-system \
      --create-namespace \
-     --set="tunnel.ignoreUnfixed=true"
-   ```
-   
-   There are many [values] in the chart that can be set to configure Tunnel-Operator. See the [Customising][customising] section for more details.
-4. Check that the `tunnel-operator` Helm release is created in the `tunnel-system` namespace, and it has status
+     --set="trivy.ignoreUnfixed=true"
+```
+
+   There are many [values] in the chart that can be set to configure Trivy-Operator. See the [Customisin[customising] section for more details.
+
+4. Check that the `trivy-operator` Helm release is created in the `trivy-system` namespace, and it has status
    `deployed`:
-   ```console
-   $ helm list -n tunnel-system
+
+```sh
+   $ helm list -n trivy-system
    NAME              	NAMESPACE         	REVISION	UPDATED                             	STATUS  	CHART                   	APP VERSION
-   tunnel-operator	tunnel-system	1       	2021-01-27 20:09:53.158961 +0100 CET	deployed	tunnel-operator-{{ var.chart_version }}	{{ git.tag[1:] }}
-   ```
-   To confirm that the operator is running, check that the `tunnel-operator` Deployment in the `tunnel-system`
+   trivy-operator	trivy-system	1       	2021-01-27 20:09:53.158961 +0100 CET	deployed	trivy-operator-{{ var.chart_version }}	{{ git.tag[1:] }}
+```
+
+   To confirm that the operator is running, check that the `trivy-operator` Deployment in the `trivy-system`
    namespace is available and all its containers are ready:
-   ```console
-   $ kubectl get deployment -n tunnel-system
+
+```sh
+   $ kubectl get deployment -n trivy-system
    NAME                 READY   UP-TO-DATE   AVAILABLE   AGE
-   tunnel-operator   1/1     1            1           11m
-   ```
+   trivy-operator   1/1     1            1           11m
+```
+
    If for some reason it's not ready yet, check the logs of the Deployment for errors:
-   ```
-   kubectl logs deployment/tunnel-operator -n tunnel-system
-   ```
+  
+```sh
+   kubectl logs deployment/trivy-operator -n trivy-system
+```
 
 ## Install as Helm dependency
 
 There are cases, when potential chart developers want to add the operator as dependency. An example would be the creation of an umbrella chart for an application, which depends on 3d-party charts.
 
-In this case, It maybe not suitable to install the Tunnel Operator in the same namespace as the main application. Instead, we can use the Helm value `operator.namespace` to define a namespace where only the operator will be installed. The Operator chart will then either create a new namespace if not existing or use the existing one.
+In this case, It maybe not suitable to install the Trivy Operator in the same namespace as the main application. Instead, we can use the Helm value `operator.namespace` to define a namespace where only the operator will be installed. The Operator chart will then either create a new namespace if not existing or use the existing one.
 
 ## Uninstall
 
 You can uninstall the operator with the following command:
 
 ```
-helm uninstall tunnel-operator -n tunnel-system
+helm uninstall trivy-operator -n trivy-system
 ```
 
 You have to manually delete custom resource definitions created by the `helm install` command:
@@ -80,7 +95,7 @@ You have to manually delete custom resource definitions created by the `helm ins
 !!! danger
     Deleting custom resource definitions will also delete all security reports generated by the operator.
 
-    ```
+```sh
     kubectl delete crd vulnerabilityreports.khulnasoft.github.io
     kubectl delete crd exposedsecretreports.khulnasoft.github.io
     kubectl delete crd configauditreports.khulnasoft.github.io
@@ -92,11 +107,11 @@ You have to manually delete custom resource definitions created by the `helm ins
     kubectl delete crd clusterinfraassessmentreports.khulnasoft.github.io
     kubectl delete crd clusterconfigauditreports.khulnasoft.github.io
     kubectl delete crd sbomreports.khulnasoft.github.io
-    ```
+```
 
 ## Customising the Helm Chart
 
-The Tunnel Operator Helm Chart can be customised in the same way as other Helm Charts, by overwriting values in the `values.yaml` files.
+The Trivy Operator Helm Chart can be customised in the same way as other Helm Charts, by overwriting values in the `values.yaml` files.
 
 You can find all the values that can be customised in the README of [the Helm Chart on GitHub.][helm-dir]
 
@@ -104,34 +119,35 @@ There are two ways to overwrite values in a Helm chart upon installation:
 
 **Create a custom values.yaml file with your changes and give Helm the file upon installation**
 
-   e.g. to specfy that Tunnel should ignore all unfixed vulnerabilities:
-   ```yaml
-   tunnel:
+   e.g. to specfy that Trivy should ignore all unfixed vulnerabilities:
+
+```yaml
+   trivy:
       ignoreUnfixed: true
-   ```
+```
 
-   The file can be passed into Tunnel with the `--values` flag in Helm:
+   The file can be passed into Trivy with the `--values` flag in Helm:
 
    ```yaml
-   helm install tunnel-operator khulnasoft/tunnel-operator \
-      --namespace tunnel-system \
+   helm install trivy-operator aqua/trivy-operator \
+      --namespace trivy-system \
       --create-namespace \
       --values values.yaml
    ```
 
-**Set the values that you want to customise in the installation command**
+### Set the values that you want to customise in the installation command
 
    This is done with the `--set` command in Helm:
 
    ```yaml
-   helm install tunnel-operator khulnasoft/tunnel-operator \
-      --namespace tunnel-system \
+   helm install trivy-operator aqua/trivy-operator \
+      --namespace trivy-system \
       --create-namespace \
-      --set="tunnel.ignoreUnfixed=true" \
+      --set="trivy.ignoreUnfixed=true" \
    ```
 
 [Helm]: https://helm.sh/
 [charts]: https://helm.sh/docs/topics/charts/
-[values]: https://raw.githubusercontent.com/khulnasoft/tunnel-operator/{{ git.tag }}/deploy/helm/values.yaml
+[values]: https://raw.githubusercontent.com/aquasecurity/trivy-operator/{{ git.tag }}/deploy/helm/values.yaml
 [customising]: ./#customising-the-helm-chart
-[helm-dir]: https://github.com/khulnasoft/tunnel-operator/tree/main/deploy/helm
+[helm-dir]: https://github.com/aquasecurity/trivy-operator/tree/main/deploy/helm

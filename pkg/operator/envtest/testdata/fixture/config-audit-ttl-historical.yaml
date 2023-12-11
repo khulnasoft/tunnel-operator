@@ -3,17 +3,17 @@ apiVersion: khulnasoft.github.io/v1alpha1
 kind: ConfigAuditReport
 metadata:
   annotations:
-    tunnel-operator.khulnasoft.github.io/report-ttl: 0s
-    tunnel-operator.khulnasoft.github.io/report-historical: true
+    trivy-operator.khulnasoft.github.io/report-ttl: 0s
+    trivy-operator.khulnasoft.github.io/report-historical: true
   creationTimestamp: 2022-12-08T15:50:37Z
   generation: 1
   labels:
     resource-spec-hash: 65df6ff459
     plugin-config-hash: 659b7b9c47
-    tunnel-operator.container.name: coredns
-    tunnel-operator.resource.kind: ReplicaSet
-    tunnel-operator.resource.name: coredns-558bd4d5da
-    tunnel-operator.resource.namespace: kube-system
+    trivy-operator.container.name: coredns
+    trivy-operator.resource.kind: ReplicaSet
+    trivy-operator.resource.name: coredns-558bd4d5da
+    trivy-operator.resource.namespace: kube-system
   name: replicaset-coredns-558bd4d5da-coredns
   namespace: kube-system
   ownerReferences:
@@ -35,8 +35,8 @@ report:
       success: false
       title: The default namespace should not be used
   scanner:
-    name: Tunnel
-    vendor: Khulnasoft Security
+    name: Trivy
+    vendor: Aqua Security
     version: dev
   summary:
     criticalCount: 0

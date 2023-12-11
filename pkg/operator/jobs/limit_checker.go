@@ -3,37 +3,37 @@ package jobs
 import (
 	"context"
 
-	"github.com/khulnasoft/tunnel-operator/pkg/operator/etc"
-	"github.com/khulnasoft/tunnel-operator/pkg/tunneloperator"
+	"github.com/aquasecurity/trivy-operator/pkg/operator/etc"
+	"github.com/aquasecurity/trivy-operator/pkg/tunneloperator"
 	batchv1 "k8s.io/api/batch/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
-const ScannerName = "Tunnel"
+const ScannerName = "Trivy"
 
 type LimitChecker interface {
 	Check(ctx context.Context) (bool, int, error)
 	CheckNodes(ctx context.Context) (bool, int, error)
 }
 
-func NewLimitChecker(config etc.Config, c client.Client, tunnelOperatorConfig tunneloperator.ConfigData) LimitChecker {
+func NewLimitChecker(config etc.Config, c client.Client, trivyOperatorConfig trivyoperator.ConfigData) LimitChecker {
 	return &checker{
 		config:              config,
 		client:              c,
-		tunnelOperatorConfig: tunnelOperatorConfig,
+		trivyOperatorConfig: trivyOperatorConfig,
 	}
 }
 
 type checker struct {
 	config              etc.Config
 	client              client.Client
-	tunnelOperatorConfig tunneloperator.ConfigData
+	trivyOperatorConfig trivyoperator.ConfigData
 }
 
 func (c *checker) Check(ctx context.Context) (bool, int, error) {
 	matchinglabels := client.MatchingLabels{
-		tunneloperator.LabelK8SAppManagedBy:            tunneloperator.AppTunnelOperator,
-		tunneloperator.LabelVulnerabilityReportScanner: ScannerName,
+		trivyoperator.LabelK8SAppManagedBy:            trivyoperator.AppTrivyOperator,
+		trivyoperator.LabelVulnerabilityReportScanner: ScannerName,
 	}
 	scanJobsCount, err := c.countJobs(ctx, matchinglabels)
 	if err != nil {
@@ -45,8 +45,8 @@ func (c *checker) Check(ctx context.Context) (bool, int, error) {
 
 func (c *checker) CheckNodes(ctx context.Context) (bool, int, error) {
 	matchinglabels := client.MatchingLabels{
-		tunneloperator.LabelK8SAppManagedBy:   tunneloperator.AppTunnelOperator,
-		tunneloperator.LabelNodeInfoCollector: ScannerName,
+		trivyoperator.LabelK8SAppManagedBy:   trivyoperator.AppTrivyOperator,
+		trivyoperator.LabelNodeInfoCollector: ScannerName,
 	}
 	scanJobsCount, err := c.countJobs(ctx, matchinglabels)
 	if err != nil {
@@ -59,8 +59,8 @@ func (c *checker) CheckNodes(ctx context.Context) (bool, int, error) {
 func (c *checker) countJobs(ctx context.Context, matchingLabels client.MatchingLabels) (int, error) {
 	var scanJobs batchv1.JobList
 	listOptions := []client.ListOption{matchingLabels}
-	if !c.tunnelOperatorConfig.VulnerabilityScanJobsInSameNamespace() {
-		// scan jobs are running in only tunneloperator operator namespace
+	if !c.trivyOperatorConfig.VulnerabilityScanJobsInSameNamespace() {
+		// scan jobs are running in only trivyoperator operator namespace
 		listOptions = append(listOptions, client.InNamespace(c.config.Namespace))
 	}
 	err := c.client.List(ctx, &scanJobs, listOptions...)

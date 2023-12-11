@@ -1,8 +1,8 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - tunnel-operator.yaml
+  - trivy-operator.yaml
 images:
-  - name: ghcr.io/khulnasoft/tunnel-operator
-    newName: khulnasoft/tunnel-operator
+  - name: ghcr.io/aquasecurity/trivy-operator
+    newName: aquasecurity/trivy-operator
     newTag: dev

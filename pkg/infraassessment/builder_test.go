@@ -3,15 +3,15 @@ package infraassessment_test
 import (
 	"testing"
 
-	"github.com/khulnasoft/tunnel-operator/pkg/apis/khulnasoft/v1alpha1"
-	"github.com/khulnasoft/tunnel-operator/pkg/infraassessment"
-	"github.com/khulnasoft/tunnel-operator/pkg/tunneloperator"
+	"github.com/aquasecurity/trivy-operator/pkg/apis/khulnasoft/v1alpha1"
+	"github.com/aquasecurity/trivy-operator/pkg/infraassessment"
+	"github.com/aquasecurity/trivy-operator/pkg/tunneloperator"
 	. "github.com/onsi/gomega"
 	appsv1 "k8s.io/api/apps/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/labels"
 	"k8s.io/client-go/kubernetes/scheme"
-	"k8s.io/utils/pointer"
+	"k8s.io/utils/ptr"
 )
 
 func TestReportBuilder(t *testing.T) {
@@ -47,16 +47,16 @@ func TestReportBuilder(t *testing.T) {
 						APIVersion:         "apps/v1",
 						Kind:               "ReplicaSet",
 						Name:               "some-owner",
-						Controller:         pointer.Bool(true),
-						BlockOwnerDeletion: pointer.Bool(false),
+						Controller:         ptr.To[bool](true),
+						BlockOwnerDeletion: ptr.To[bool](false),
 					},
 				},
 				Labels: map[string]string{
-					tunneloperator.LabelResourceKind:      "ReplicaSet",
-					tunneloperator.LabelResourceName:      "some-owner",
-					tunneloperator.LabelResourceNamespace: "qa",
-					tunneloperator.LabelResourceSpecHash:  "xyz",
-					tunneloperator.LabelPluginConfigHash:  "nop",
+					trivyoperator.LabelResourceKind:      "ReplicaSet",
+					trivyoperator.LabelResourceName:      "some-owner",
+					trivyoperator.LabelResourceNamespace: "qa",
+					trivyoperator.LabelResourceSpecHash:  "xyz",
+					trivyoperator.LabelPluginConfigHash:  "nop",
 					"tier":                               "tier-1",
 				},
 			},

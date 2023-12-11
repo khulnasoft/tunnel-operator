@@ -8,18 +8,18 @@ import (
 
 	rbacv1 "k8s.io/api/rbac/v1"
 
-	"github.com/khulnasoft/tunnel-operator/pkg/configauditreport"
-	"github.com/khulnasoft/tunnel-operator/pkg/infraassessment"
-	"github.com/khulnasoft/tunnel-operator/pkg/operator/workload"
-	"github.com/khulnasoft/tunnel-operator/pkg/rbacassessment"
+	"github.com/aquasecurity/trivy-operator/pkg/configauditreport"
+	"github.com/aquasecurity/trivy-operator/pkg/infraassessment"
+	"github.com/aquasecurity/trivy-operator/pkg/operator/workload"
+	"github.com/aquasecurity/trivy-operator/pkg/rbacassessment"
 
 	"github.com/aquasecurity/defsec/pkg/scan"
-	"github.com/khulnasoft/tunnel-operator/pkg/apis/khulnasoft/v1alpha1"
-	"github.com/khulnasoft/tunnel-operator/pkg/kube"
-	"github.com/khulnasoft/tunnel-operator/pkg/operator/etc"
-	"github.com/khulnasoft/tunnel-operator/pkg/operator/predicate"
-	"github.com/khulnasoft/tunnel-operator/pkg/policy"
-	"github.com/khulnasoft/tunnel-operator/pkg/tunneloperator"
+	"github.com/aquasecurity/trivy-operator/pkg/apis/khulnasoft/v1alpha1"
+	"github.com/aquasecurity/trivy-operator/pkg/kube"
+	"github.com/aquasecurity/trivy-operator/pkg/operator/etc"
+	"github.com/aquasecurity/trivy-operator/pkg/operator/predicate"
+	"github.com/aquasecurity/trivy-operator/pkg/policy"
+	"github.com/aquasecurity/trivy-operator/pkg/tunneloperator"
 	"github.com/go-logr/logr"
 	corev1 "k8s.io/api/core/v1"
 	networkingv1 "k8s.io/api/networking/v1"
@@ -39,14 +39,14 @@ import (
 type ResourceController struct {
 	logr.Logger
 	etc.Config
-	tunneloperator.ConfigData
+	trivyoperator.ConfigData
 	kube.ObjectResolver
-	tunneloperator.PluginContext
+	trivyoperator.PluginContext
 	configauditreport.PluginInMemory
 	configauditreport.ReadWriter
 	RbacReadWriter  rbacassessment.ReadWriter
 	InfraReadWriter infraassessment.ReadWriter
-	tunneloperator.BuildInfo
+	trivyoperator.BuildInfo
 	ClusterVersion   string
 	CacheSyncTimeout time.Duration
 }
@@ -128,7 +128,7 @@ func (r *ResourceController) SetupWithManager(mgr ctrl.Manager) error {
 			CacheSyncTimeout: r.CacheSyncTimeout,
 		}).
 			For(resource.ForObject, builder.WithPredicates(
-				predicate.Not(predicate.ManagedByTunnelOperator),
+				predicate.Not(predicate.ManagedByTrivyOperator),
 				predicate.Not(predicate.IsBeingTerminated),
 			)).
 			Owns(resource.OwnsObject).
@@ -146,7 +146,7 @@ func (r *ResourceController) buildControlMgr(mgr ctrl.Manager, configResource ku
 		CacheSyncTimeout: r.CacheSyncTimeout,
 	}).
 		For(configResource.ForObject, builder.WithPredicates(
-			predicate.Not(predicate.ManagedByTunnelOperator),
+			predicate.Not(predicate.ManagedByTrivyOperator),
 			predicate.Not(predicate.IsLeaderElectionResource),
 			predicate.Not(predicate.IsBeingTerminated),
 			installModePredicate,
@@ -312,11 +312,11 @@ func (r *ResourceController) hasClusterReport(ctx context.Context, owner kube.Ob
 	if report != nil {
 		switch r := report.(type) {
 		case *v1alpha1.ClusterConfigAuditReport:
-			return r.Labels[tunneloperator.LabelResourceSpecHash] == podSpecHash &&
-				r.Labels[tunneloperator.LabelPluginConfigHash] == pluginConfigHash, nil
+			return r.Labels[trivyoperator.LabelResourceSpecHash] == podSpecHash &&
+				r.Labels[trivyoperator.LabelPluginConfigHash] == pluginConfigHash, nil
 		case *v1alpha1.ClusterRbacAssessmentReport:
-			return r.Labels[tunneloperator.LabelResourceSpecHash] == podSpecHash &&
-				r.Labels[tunneloperator.LabelPluginConfigHash] == pluginConfigHash, nil
+			return r.Labels[trivyoperator.LabelResourceSpecHash] == podSpecHash &&
+				r.Labels[trivyoperator.LabelPluginConfigHash] == pluginConfigHash, nil
 		}
 	}
 	return false, nil
@@ -329,11 +329,11 @@ func (r *ResourceController) findReportOwner(ctx context.Context, owner kube.Obj
 	if report != nil {
 		switch r := report.(type) {
 		case *v1alpha1.ConfigAuditReport:
-			return r.Labels[tunneloperator.LabelResourceSpecHash] == podSpecHash &&
-				r.Labels[tunneloperator.LabelPluginConfigHash] == pluginConfigHash, nil
+			return r.Labels[trivyoperator.LabelResourceSpecHash] == podSpecHash &&
+				r.Labels[trivyoperator.LabelPluginConfigHash] == pluginConfigHash, nil
 		case *v1alpha1.RbacAssessmentReport:
-			return r.Labels[tunneloperator.LabelResourceSpecHash] == podSpecHash &&
-				r.Labels[tunneloperator.LabelPluginConfigHash] == pluginConfigHash, nil
+			return r.Labels[trivyoperator.LabelResourceSpecHash] == podSpecHash &&
+				r.Labels[trivyoperator.LabelPluginConfigHash] == pluginConfigHash, nil
 		}
 	}
 	return false, nil
