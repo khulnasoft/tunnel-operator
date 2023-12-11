@@ -107,7 +107,7 @@ foo         replicaset-nginx-6d4cf56db6-nginx   library/nginx   1.16   Trivy    
 Just like any other cache it's very important that it's up to date and contains the correct information.
 To make sure of this we need to have a automated way of automatically cleaning up the ClusterVulnerabilityReport after some time.
 
-My suggestion is to solve this problem just like we did in [PR #879](https://github.com/aquasecurity/trivy-operator/pull/879).
+My suggestion is to solve this problem just like we did in [PR #879](https://github.com/khulnasoft/tunnel-operator/pull/879).
 For each ClusterVulnerabilityReport created we should annotate the report with `trivy-operator.khulnasoft.github.io/cluster-vulnerability-report-ttl`.
 When the TTL ends the other controller will automatically delete the existing ClusterVulnerabilityReport and the next time the image is created in the cluster and normal vulnerabilityreport scan will happen.
 

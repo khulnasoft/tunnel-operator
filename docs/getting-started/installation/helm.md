@@ -12,7 +12,7 @@ except `kube-system` and `trivy-system`:
 1. Clone the chart directory:
 
 ```sh
-   git clone --depth 1 --branch {{ git.tag }} https://github.com/aquasecurity/trivy-operator.git
+   git clone --depth 1 --branch {{ git.tag }} https://github.com/khulnasoft/tunnel-operator.git
    cd trivy-operator
 ```
 
@@ -148,6 +148,6 @@ There are two ways to overwrite values in a Helm chart upon installation:
 
 [Helm]: https://helm.sh/
 [charts]: https://helm.sh/docs/topics/charts/
-[values]: https://raw.githubusercontent.com/aquasecurity/trivy-operator/{{ git.tag }}/deploy/helm/values.yaml
+[values]: https://raw.githubusercontent.com/khulnasoft/tunnel-operator/{{ git.tag }}/deploy/helm/values.yaml
 [customising]: ./#customising-the-helm-chart
-[helm-dir]: https://github.com/aquasecurity/trivy-operator/tree/main/deploy/helm
+[helm-dir]: https://github.com/khulnasoft/tunnel-operator/tree/main/deploy/helm

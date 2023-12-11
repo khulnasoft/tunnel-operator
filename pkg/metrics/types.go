@@ -1,7 +1,7 @@
 package metrics
 
 import (
-	"github.com/aquasecurity/trivy-operator/pkg/apis/khulnasoft/v1alpha1"
+	"github.com/khulnasoft/tunnel-operator/pkg/apis/khulnasoft/v1alpha1"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
 )

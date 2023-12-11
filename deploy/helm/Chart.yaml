@@ -19,9 +19,9 @@ keywords:
   - aquasecurity
   - trivyoperator
   - trivy
-# home: https://github.com/aquasecurity/trivy-operator
+# home: https://github.com/khulnasoft/tunnel-operator
 sources:
-  - https://github.com/aquasecurity/trivy-operator
+  - https://github.com/khulnasoft/tunnel-operator
 # maintainers: # (optional)
 #   - name: The maintainers name (required for each maintainer)
 #     email: The maintainers email (optional for each maintainer)

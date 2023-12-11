@@ -8,10 +8,10 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/aquasecurity/trivy-operator/pkg/utils"
-	"github.com/aquasecurity/trivy-operator/pkg/vulnerabilityreport"
+	"github.com/khulnasoft/tunnel-operator/pkg/utils"
+	"github.com/khulnasoft/tunnel-operator/pkg/vulnerabilityreport"
 
-	"github.com/aquasecurity/trivy-operator/pkg/tunneloperator"
+	"github.com/khulnasoft/tunnel-operator/pkg/tunneloperator"
 
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/resource"

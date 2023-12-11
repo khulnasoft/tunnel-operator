@@ -1,4 +1,4 @@
-module github.com/aquasecurity/trivy-operator
+module github.com/khulnasoft/tunnel-operator
 
 go 1.21
 

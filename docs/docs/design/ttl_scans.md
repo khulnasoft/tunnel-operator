@@ -6,7 +6,7 @@ Add an option to automatically delete old security reports. In this first versio
 
 ## Motivation
 
-In [537](https://github.com/aquasecurity/trivy-operator/issues/537) we talk about a need to run nightly vulnerability scans of CVE:s.
+In [537](https://github.com/khulnasoft/tunnel-operator/issues/537) we talk about a need to run nightly vulnerability scans of CVE:s.
 This way we can make sure to get new CVE reports for long time running pods as well.
 
 ## Proposal

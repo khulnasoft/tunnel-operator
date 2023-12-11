@@ -4,7 +4,7 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/aquasecurity/trivy-operator/pkg/docker"
+	"github.com/khulnasoft/tunnel-operator/pkg/docker"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

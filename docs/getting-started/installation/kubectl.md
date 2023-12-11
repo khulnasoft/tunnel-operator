@@ -1,13 +1,13 @@
 # kubectl
 
-The Kubernetes Yaml Deployment files are available on GitHub in [https://github.com/aquasecurity/trivy-operator](https://github.com/aquasecurity/trivy-operator) under `/deploy/static`.
+The Kubernetes Yaml Deployment files are available on GitHub in [https://github.com/khulnasoft/tunnel-operator](https://github.com/khulnasoft/tunnel-operator) under `/deploy/static`.
 
 ## Example - Deploy from GitHub
 
 This will install the operator in the `trivy-system` namespace and configure it to scan all namespaces, except `kube-system` and `trivy-system`:
 
 ```bash
-kubectl apply -f https://raw.githubusercontent.com/aquasecurity/trivy-operator/{{ git.tag }}/deploy/static/trivy-operator.yaml
+kubectl apply -f https://raw.githubusercontent.com/khulnasoft/tunnel-operator/{{ git.tag }}/deploy/static/tunnel-operator.yaml
 ```
 
 To confirm that the Operator is running, check that the `trivy-operator` Deployment in the `trivy-system`
@@ -38,7 +38,7 @@ To learn more, please refer to the [Configuration](configuration) documentation.
 You can uninstall the operator with the following command:
 
 ```
-kubectl delete -f https://raw.githubusercontent.com/aquasecurity/trivy-operator/{{ git.tag }}/deploy/static/trivy-operator.yaml
+kubectl delete -f https://raw.githubusercontent.com/khulnasoft/tunnel-operator/{{ git.tag }}/deploy/static/tunnel-operator.yaml
 ```
 
 [Settings]: ./../../settings.md

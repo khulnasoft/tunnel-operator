@@ -16,8 +16,8 @@ GINKGO=$(GOBIN)/ginkgo
 SOURCES := $(shell find . -name '*.go')
 
 IMAGE_TAG := dev
-TRIVY_OPERATOR_IMAGE := aquasecurity/trivy-operator:$(IMAGE_TAG)
-TRIVY_OPERATOR_IMAGE_UBI8 := aquasecurity/trivy-operator:$(IMAGE_TAG)-ubi8
+TRIVY_OPERATOR_IMAGE := khulnasoft/tunnel-operator:$(IMAGE_TAG)
+TRIVY_OPERATOR_IMAGE_UBI8 := khulnasoft/tunnel-operator:$(IMAGE_TAG)-ubi8
 
 MKDOCS_IMAGE := aquasec/mkdocs-material:trivy-operator
 MKDOCS_PORT := 8000
@@ -64,13 +64,13 @@ envtest: $(SOURCES) generate-all envtest ## Run tests.
 itests-trivy-operator: check-kubeconfig get-ginkgo
 	@$(GINKGO) \
 	-coverprofile=coverage.txt \
-	-coverpkg=github.com/aquasecurity/trivy-operator/pkg/operator,\
-	github.com/aquasecurity/trivy-operator/pkg/operator/predicate,\
-	github.com/aquasecurity/trivy-operator/pkg/operator/controller,\
-	github.com/aquasecurity/trivy-operator/pkg/plugin,\
-	github.com/aquasecurity/trivy-operator/pkg/plugin/trivy,\
-	github.com/aquasecurity/trivy-operator/pkg/configauditreport,\
-	github.com/aquasecurity/trivy-operator/pkg/vulnerabilityreport \
+	-coverpkg=github.com/khulnasoft/tunnel-operator/pkg/operator,\
+	github.com/khulnasoft/tunnel-operator/pkg/operator/predicate,\
+	github.com/khulnasoft/tunnel-operator/pkg/operator/controller,\
+	github.com/khulnasoft/tunnel-operator/pkg/plugin,\
+	github.com/khulnasoft/tunnel-operator/pkg/plugin/trivy,\
+	github.com/khulnasoft/tunnel-operator/pkg/configauditreport,\
+	github.com/khulnasoft/tunnel-operator/pkg/vulnerabilityreport \
 	./itest/tunnel-operator
 
 .PHONY: check-kubeconfig
@@ -116,7 +116,7 @@ $(GOBIN)/labeler:
 
 .PHONY: label
 label: $(GOBIN)/labeler
-	labeler apply misc/triage/labels.yaml -r aquasecurity/trivy-operator -l 5
+	labeler apply misc/triage/labels.yaml -r khulnasoft/tunnel-operator -l 5
 
 ## Location to install dependencies to
 LOCALBIN ?= $(shell pwd)/bin

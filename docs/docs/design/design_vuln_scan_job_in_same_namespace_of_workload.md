@@ -221,4 +221,4 @@ With this approach trivy operator will not have to worry about managing(create/d
   
 [ECR registry configuration]: https://khulnasoft.github.io/trivy-operator/v0.17.0/integrations/managed-registries/#amazon-elastic-container-registry-ecr
 [IAM role to service account]: https://docs.aws.amazon.com/eks/latest/userguide/specify-service-account-role.html
-[Trivy fs command]: https://github.com/aquasecurity/trivy-operator/blob/main/docs/design/design_trivy_file_system_scanner.md
+[Trivy fs command]: https://github.com/khulnasoft/tunnel-operator/blob/main/docs/design/design_trivy_file_system_scanner.md

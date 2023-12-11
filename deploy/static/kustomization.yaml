@@ -3,6 +3,6 @@ kind: Kustomization
 resources:
   - trivy-operator.yaml
 images:
-  - name: ghcr.io/aquasecurity/trivy-operator
-    newName: aquasecurity/trivy-operator
+  - name: ghcr.io/khulnasoft/tunnel-operator
+    newName: khulnasoft/tunnel-operator
     newTag: dev

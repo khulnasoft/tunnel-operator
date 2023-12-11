@@ -9,4 +9,4 @@ the technologies and services that integrate with Kubernetes.
 workloads stored as custom resources.
 
 [lens]: https://k8slens.dev/
-[lens-extension]: https://github.com/aquasecurity/trivy-operator-lens-extension
+[lens-extension]: https://github.com/khulnasoft/tunnel-operator-lens-extension

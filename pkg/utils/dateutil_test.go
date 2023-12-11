@@ -1,7 +1,7 @@
 package utils
 
 import (
-	"github.com/aquasecurity/trivy-operator/pkg/ext"
+	"github.com/khulnasoft/tunnel-operator/pkg/ext"
 	"github.com/stretchr/testify/assert"
 	"testing"
 	"time"

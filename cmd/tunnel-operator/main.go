@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/aquasecurity/trivy-operator/pkg/operator"
-	"github.com/aquasecurity/trivy-operator/pkg/operator/etc"
-	"github.com/aquasecurity/trivy-operator/pkg/tunneloperator"
+	"github.com/khulnasoft/tunnel-operator/pkg/operator"
+	"github.com/khulnasoft/tunnel-operator/pkg/operator/etc"
+	"github.com/khulnasoft/tunnel-operator/pkg/tunneloperator"
 	_ "go.uber.org/automaxprocs"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/log"
