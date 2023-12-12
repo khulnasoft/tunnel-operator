@@ -33,7 +33,7 @@ type PolicyConfigController struct {
 	logr.Logger
 	etc.Config
 	kube.ObjectResolver
-	trivyoperator.PluginContext
+	tunneloperator.PluginContext
 	configauditreport.PluginInMemory
 	ClusterVersion string
 }
@@ -70,7 +70,7 @@ func (r *PolicyConfigController) SetupWithManager(mgr ctrl.Manager) error {
 		if err := ctrl.NewControllerManagedBy(mgr).
 			For(&corev1.ConfigMap{}, builder.WithPredicates(
 				predicate.Not(predicate.IsBeingTerminated),
-				predicate.HasName(trivyoperator.PoliciesConfigMapName),
+				predicate.HasName(tunneloperator.PoliciesConfigMapName),
 				predicate.InNamespace(r.Config.Namespace),
 			)).
 			Complete(r.reconcileConfig(configResource.Kind)); err != nil {
@@ -89,7 +89,7 @@ func (r *PolicyConfigController) SetupWithManager(mgr ctrl.Manager) error {
 		err := ctrl.NewControllerManagedBy(mgr).
 			For(&corev1.ConfigMap{}, builder.WithPredicates(
 				predicate.Not(predicate.IsBeingTerminated),
-				predicate.HasName(trivyoperator.PoliciesConfigMapName),
+				predicate.HasName(tunneloperator.PoliciesConfigMapName),
 				predicate.InNamespace(r.Config.Namespace))).
 			Complete(r.reconcileClusterConfig(resource.Kind))
 		if err != nil {
@@ -130,8 +130,8 @@ func (r *PolicyConfigController) reconcileConfig(kind kube.Kind) reconcile.Func 
 		}
 
 		labelSelector, err := labels.Parse(fmt.Sprintf("%s!=%s,%s=%s",
-			trivyoperator.LabelPluginConfigHash, configHash,
-			trivyoperator.LabelResourceKind, kind))
+			tunneloperator.LabelPluginConfigHash, configHash,
+			tunneloperator.LabelResourceKind, kind))
 		if err != nil {
 			return ctrl.Result{}, fmt.Errorf("parsing label selector: %w", err)
 		}
@@ -220,8 +220,8 @@ func (r *PolicyConfigController) reconcileClusterConfig(kind kube.Kind) reconcil
 		}
 
 		labelSelector, err := labels.Parse(fmt.Sprintf("%s!=%s,%s=%s",
-			trivyoperator.LabelPluginConfigHash, configHash,
-			trivyoperator.LabelResourceKind, kind))
+			tunneloperator.LabelPluginConfigHash, configHash,
+			tunneloperator.LabelResourceKind, kind))
 		if err != nil {
 			return ctrl.Result{}, fmt.Errorf("parsing label selector: %w", err)
 		}

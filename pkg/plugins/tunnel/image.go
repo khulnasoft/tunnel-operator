@@ -27,7 +27,7 @@ func NewImageJobSpecMgr() PodSpecMgr {
 	return &ImageJobSpecMgr{}
 }
 
-func (j *ImageJobSpecMgr) GetPodSpec(ctx trivyoperator.PluginContext, config Config, workload client.Object, credentials map[string]docker.Auth, securityContext *corev1.SecurityContext, p *plugin, clusterSboms map[string]v1alpha1.SbomReportData) (corev1.PodSpec, []*corev1.Secret, error) {
+func (j *ImageJobSpecMgr) GetPodSpec(ctx tunneloperator.PluginContext, config Config, workload client.Object, credentials map[string]docker.Auth, securityContext *corev1.SecurityContext, p *plugin, clusterSboms map[string]v1alpha1.SbomReportData) (corev1.PodSpec, []*corev1.Secret, error) {
 	return j.getPodSpecFunc(ctx, config, workload, credentials, securityContext, p, clusterSboms)
 }
 
@@ -44,7 +44,7 @@ func (j *ImageJobSpecMgr) GetPodSpec(ctx trivyoperator.PluginContext, config Con
 //
 //	trivy --cache-dir /tmp/trivy/.cache image --skip-update \
 //	  --format json <container image>
-func GetPodSpecForStandaloneMode(ctx trivyoperator.PluginContext, config Config, workload client.Object, credentials map[string]docker.Auth, securityContext *corev1.SecurityContext, p *plugin, clusterSboms map[string]v1alpha1.SbomReportData) (corev1.PodSpec, []*corev1.Secret, error) {
+func GetPodSpecForStandaloneMode(ctx tunneloperator.PluginContext, config Config, workload client.Object, credentials map[string]docker.Auth, securityContext *corev1.SecurityContext, p *plugin, clusterSboms map[string]v1alpha1.SbomReportData) (corev1.PodSpec, []*corev1.Secret, error) {
 	var secret *corev1.Secret
 	var secrets []*corev1.Secret
 	var containersSpec []corev1.Container
@@ -78,7 +78,7 @@ func GetPodSpecForStandaloneMode(ctx trivyoperator.PluginContext, config Config,
 		return corev1.PodSpec{}, nil, err
 	}
 
-	trivyConfigName := trivyoperator.GetPluginConfigMapName(Plugin)
+	trivyConfigName := tunneloperator.GetPluginConfigMapName(Plugin)
 
 	dbRepository, err := config.GetDBRepository()
 	if err != nil {
@@ -283,7 +283,7 @@ func GetPodSpecForStandaloneMode(ctx trivyoperator.PluginContext, config Config,
 	}
 
 	return corev1.PodSpec{
-		Affinity:                     trivyoperator.LinuxNodeAffinity(),
+		Affinity:                     tunneloperator.LinuxNodeAffinity(),
 		RestartPolicy:                corev1.RestartPolicyNever,
 		ServiceAccountName:           ctx.GetServiceAccountName(),
 		AutomountServiceAccountToken: ptr.To[bool](getAutomountServiceAccountToken(ctx)),
@@ -301,7 +301,7 @@ func GetPodSpecForStandaloneMode(ctx trivyoperator.PluginContext, config Config,
 //
 //	trivy image --server <server URL> \
 //	  --format json <container image>
-func GetPodSpecForClientServerMode(ctx trivyoperator.PluginContext, config Config, workload client.Object, credentials map[string]docker.Auth, securityContext *corev1.SecurityContext, p *plugin, clusterSboms map[string]v1alpha1.SbomReportData) (corev1.PodSpec, []*corev1.Secret, error) {
+func GetPodSpecForClientServerMode(ctx tunneloperator.PluginContext, config Config, workload client.Object, credentials map[string]docker.Auth, securityContext *corev1.SecurityContext, p *plugin, clusterSboms map[string]v1alpha1.SbomReportData) (corev1.PodSpec, []*corev1.Secret, error) {
 	var secret *corev1.Secret
 	var secrets []*corev1.Secret
 	var containersSpec []corev1.Container
@@ -341,7 +341,7 @@ func GetPodSpecForClientServerMode(ctx trivyoperator.PluginContext, config Confi
 
 	var containers []corev1.Container
 
-	trivyConfigName := trivyoperator.GetPluginConfigMapName(Plugin)
+	trivyConfigName := tunneloperator.GetPluginConfigMapName(Plugin)
 	// add tmp volume mount
 	volumeMounts := []corev1.VolumeMount{
 		{
@@ -521,7 +521,7 @@ func GetPodSpecForClientServerMode(ctx trivyoperator.PluginContext, config Confi
 	}
 
 	return corev1.PodSpec{
-		Affinity:                     trivyoperator.LinuxNodeAffinity(),
+		Affinity:                     tunneloperator.LinuxNodeAffinity(),
 		RestartPolicy:                corev1.RestartPolicyNever,
 		ServiceAccountName:           ctx.GetServiceAccountName(),
 		AutomountServiceAccountToken: ptr.To[bool](getAutomountServiceAccountToken(ctx)),
@@ -547,11 +547,11 @@ func initContainerEnvVar(trivyConfigName string, config Config) []corev1.EnvVar 
 	return envs
 }
 
-func getCommandAndArgs(ctx trivyoperator.PluginContext, mode Mode, imageRef string, trivyServerURL string, resultFileName string) ([]string, []string) {
+func getCommandAndArgs(ctx tunneloperator.PluginContext, mode Mode, imageRef string, trivyServerURL string, resultFileName string) ([]string, []string) {
 	command := []string{
 		"trivy",
 	}
-	trivyConfig := ctx.GetTrivyOperatorConfig()
+	trivyConfig := ctx.GetTunnelOperatorConfig()
 	compressLogs := trivyConfig.CompressLogs()
 	c, err := getConfig(ctx)
 	if err != nil {
@@ -622,11 +622,11 @@ func getCommandAndArgs(ctx trivyoperator.PluginContext, mode Mode, imageRef stri
 	return []string{"/bin/sh"}, []string{"-c", fmt.Sprintf(`trivy image %s '%s' %s %s %s %s %s %s --cache-dir %s --quiet %s --format json %s> /tmp/scan/%s &&  bzip2 -c /tmp/scan/%s | base64`, slow, imageRef, scanners, getSecurityChecks(ctx), imageconfigSecretScannerFlag, vulnTypeFlag, skipUpdate, skipJavaDBUpdate, cacheDir, getPkgList(ctx), serverUrlParms, resultFileName, resultFileName)}
 }
 
-func GetSbomScanCommandAndArgs(ctx trivyoperator.PluginContext, mode Mode, sbomFile string, trivyServerURL string, resultFileName string) ([]string, []string) {
+func GetSbomScanCommandAndArgs(ctx tunneloperator.PluginContext, mode Mode, sbomFile string, trivyServerURL string, resultFileName string) ([]string, []string) {
 	command := []string{
 		"trivy",
 	}
-	trivyConfig := ctx.GetTrivyOperatorConfig()
+	trivyConfig := ctx.GetTunnelOperatorConfig()
 	compressLogs := trivyConfig.CompressLogs()
 	c, err := getConfig(ctx)
 	if err != nil {
@@ -677,7 +677,7 @@ func GetSbomScanCommandAndArgs(ctx trivyoperator.PluginContext, mode Mode, sbomF
 	return []string{"/bin/sh"}, []string{"-c", fmt.Sprintf(`trivy sbom %s %s %s %s  --cache-dir /tmp/trivy/.cache --quiet --format json %s> /tmp/scan/%s &&  bzip2 -c /tmp/scan/%s | base64`, slow, sbomFile, vulnTypeFlag, skipUpdate, serverUrlParms, resultFileName, resultFileName)}
 }
 
-func vulnTypeFilter(ctx trivyoperator.PluginContext) []string {
+func vulnTypeFilter(ctx tunneloperator.PluginContext) []string {
 	config, err := getConfig(ctx)
 	if err != nil {
 		return []string{}

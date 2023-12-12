@@ -27,7 +27,7 @@ import (
 type TTLReportReconciler struct {
 	logr.Logger
 	etc.Config
-	trivyoperator.PluginContext
+	tunneloperator.PluginContext
 	client.Client
 	configauditreport.PluginInMemory
 	ext.Clock
@@ -126,11 +126,11 @@ func (r *TTLReportReconciler) applicableForDeletion(report client.Object, ttlRep
 	if !r.Config.ConfigAuditScannerEnabled {
 		return false
 	}
-	resourceKind, ok := report.GetLabels()[trivyoperator.LabelResourceKind]
+	resourceKind, ok := report.GetLabels()[tunneloperator.LabelResourceKind]
 	if !ok {
 		return false
 	}
-	policiesHash, ok := report.GetLabels()[trivyoperator.LabelPluginConfigHash]
+	policiesHash, ok := report.GetLabels()[tunneloperator.LabelPluginConfigHash]
 	if !ok {
 		return false
 	}

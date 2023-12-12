@@ -131,7 +131,7 @@ func MarkOldReportForImmediateDeletion(ctx context.Context, resolver kube.Object
 	annotation := map[string]string{
 		v1alpha1.TTLReportAnnotation: time.Duration(0).String(),
 	}
-	resourceNameLabels := map[string]string{trivyoperator.LabelResourceName: resourceName}
+	resourceNameLabels := map[string]string{tunneloperator.LabelResourceName: resourceName}
 	err := markOldVulnerabilityReports(ctx, resolver, namespace, resourceNameLabels, annotation)
 	if err != nil {
 		return err

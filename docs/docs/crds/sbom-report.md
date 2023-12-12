@@ -161,7 +161,7 @@ report:
     server: k8s.gcr.io
   scanner:
     name: Trivy
-    vendor: Aqua Security
+    vendor: Khulnasoft Security
     version: 0.47.0
   summary:
     componentsCount: 5

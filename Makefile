@@ -16,10 +16,10 @@ GINKGO=$(GOBIN)/ginkgo
 SOURCES := $(shell find . -name '*.go')
 
 IMAGE_TAG := dev
-TRIVY_OPERATOR_IMAGE := khulnasoft/tunnel-operator:$(IMAGE_TAG)
-TRIVY_OPERATOR_IMAGE_UBI8 := khulnasoft/tunnel-operator:$(IMAGE_TAG)-ubi8
+TUNNEL_OPERATOR_IMAGE := khulnasoft/tunnel-operator:$(IMAGE_TAG)
+TUNNEL_OPERATOR_IMAGE_UBI8 := khulnasoft/tunnel-operator:$(IMAGE_TAG)-ubi8
 
-MKDOCS_IMAGE := aquasec/mkdocs-material:tunnel-operator
+MKDOCS_IMAGE := khulnasoft/mkdocs-material:tunnel-operator
 MKDOCS_PORT := 8000
 
 # ENVTEST_K8S_VERSION refers to the version of kubebuilder assets to be downloaded by envtest binary.
@@ -60,7 +60,7 @@ envtest: $(SOURCES) generate-all envtest ## Run tests.
 	go test -v -timeout 60s -coverprofile=coverage.txt ./pkg/operator/envtest/...
 
 .PHONY: itests-tunnel-operator
-## Runs integration tests for Trivy Operator with code coverage enabled
+## Runs integration tests for Tunnel Operator with code coverage enabled
 itests-tunnel-operator: check-kubeconfig get-ginkgo
 	@$(GINKGO) \
 	-coverprofile=coverage.txt \
@@ -68,7 +68,7 @@ itests-tunnel-operator: check-kubeconfig get-ginkgo
 	github.com/khulnasoft/tunnel-operator/pkg/operator/predicate,\
 	github.com/khulnasoft/tunnel-operator/pkg/operator/controller,\
 	github.com/khulnasoft/tunnel-operator/pkg/plugin,\
-	github.com/khulnasoft/tunnel-operator/pkg/plugin/trivy,\
+	github.com/khulnasoft/tunnel-operator/pkg/plugin/tunnel,\
 	github.com/khulnasoft/tunnel-operator/pkg/configauditreport,\
 	github.com/khulnasoft/tunnel-operator/pkg/vulnerabilityreport \
 	./itest/tunnel-operator
@@ -93,18 +93,18 @@ docker-build: \
 
 ## Builds Docker image for tunnel-operator
 docker-build-tunnel-operator: build-tunnel-operator
-	$(DOCKER) build --no-cache -t $(TRIVY_OPERATOR_IMAGE) -f build/tunnel-operator/Dockerfile bin
+	$(DOCKER) build --no-cache -t $(TUNNEL_OPERATOR_IMAGE) -f build/tunnel-operator/Dockerfile bin
 	
 ## Builds Docker image for tunnel-operator ubi8
 docker-build-tunnel-operator-ubi8: build-tunnel-operator
-	$(DOCKER) build --no-cache -f build/tunnel-operator/Dockerfile.ubi8 -t $(TRIVY_OPERATOR_IMAGE_UBI8) bin
+	$(DOCKER) build --no-cache -f build/tunnel-operator/Dockerfile.ubi8 -t $(TUNNEL_OPERATOR_IMAGE_UBI8) bin
 
 kind-load-images: \
 	docker-build-tunnel-operator \
 	docker-build-tunnel-operator-ubi8
 	$(KIND) load docker-image \
-		$(TRIVY_OPERATOR_IMAGE) \
-		$(TRIVY_OPERATOR_IMAGE_UBI8)
+		$(TUNNEL_OPERATOR_IMAGE) \
+		$(TUNNEL_OPERATOR_IMAGE_UBI8)
 
 ## Runs MkDocs development server to preview the documentation page
 mkdocs-serve:

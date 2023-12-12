@@ -13,7 +13,7 @@ Key features are:
 
 ## Integration
 
-With [fjogeleit/tunnel-operator-polr-adapter](https://github.com/fjogeleit/tunnel-operator-polr-adapter) it is possible to create generalized (Cluster)PolicyReport CRD from the various Trivy Operator CRDs, which allows integration with Policy Reporter.
+With [fjogeleit/tunnel-operator-polr-adapter](https://github.com/fjogeleit/tunnel-operator-polr-adapter) it is possible to create generalized (Cluster)PolicyReport CRD from the various Tunnel Operator CRDs, which allows integration with Policy Reporter.
 
 ## Screenshots
 

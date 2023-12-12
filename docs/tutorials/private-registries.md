@@ -1,6 +1,6 @@
-# Allow the Trivy Operator to access private registries
+# Allow the Tunnel Operator to access private registries
 
-In this tutorial, we will detail multiple ways on setting up the Trivy Operator to access and scan container images from private container registries.
+In this tutorial, we will detail multiple ways on setting up the Tunnel Operator to access and scan container images from private container registries.
 
 ## Prerequisites
 
@@ -27,7 +27,7 @@ trivy:
   command: image
 ```
 
-By default, the command that trivy is supposed to run inside your cluster is `trivy image` for container image scanning. However, we want to change it to scan the filesystem in your nodes instead. Container images are ultimately stored as files on the node level of your cluster. This way, trivy is going to scan the files of your container images for vulnerabilities. This is a little bit of a work-around with the downside that the Trivy Operator will have to run as root. However, remember that security scanning already requires the operator to have lots of cluster privileges.
+By default, the command that trivy is supposed to run inside your cluster is `trivy image` for container image scanning. However, we want to change it to scan the filesystem in your nodes instead. Container images are ultimately stored as files on the node level of your cluster. This way, trivy is going to scan the files of your container images for vulnerabilities. This is a little bit of a work-around with the downside that the Tunnel Operator will have to run as root. However, remember that security scanning already requires the operator to have lots of cluster privileges.
 
 Next, we will change the the `command` and the `trivyOperator.scanJobPodTemplateContainerSecurityContext`of the `values.yaml` manifest. For this, we can create a new values.yaml manifest with our desired modifications:
 
@@ -133,7 +133,7 @@ Once you have defined your ImagePullSecret, the Operator will have access to the
 ## Third Option: Define an ImagePullSecret through a ServiceAccount
 
 Alternatively to defining an ImagePullSecret on the pod level, we can also define the secret through a Kubernetes Service Account. Our workload will be associated with the service account and can pull the secret from our private registry.
-Similar to the `Second Option`, once we have the key associated to our workload, the Trivy operator scan job has access to the secret and can pull the image.
+Similar to the `Second Option`, once we have the key associated to our workload, the Tunnel operator scan job has access to the secret and can pull the image.
 
 Again, you can have a look at the official [Kubernetes documentation](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) for further details.
 
@@ -301,6 +301,6 @@ data:
 
 ## Sixth Option: Grant access through managed registries
 
-The last way that you could give the Trivy operator access to your private container registry is through managed registries. In this case, the container registry and your Kubernetes cluster would have to be on the same cloud provider; then you can define access to your container namespace as part of the IAM account. Once defined, trivy will already have the permissions for the registry.
+The last way that you could give the Tunnel operator access to your private container registry is through managed registries. In this case, the container registry and your Kubernetes cluster would have to be on the same cloud provider; then you can define access to your container namespace as part of the IAM account. Once defined, trivy will already have the permissions for the registry.
 
 For additional information, please refer to the [documentation on managed registries.](https://khulnasoft.github.io/tunnel-operator/v0.17.0/docs/vulnerability-scanning/managed-registries/)

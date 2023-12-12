@@ -17,7 +17,7 @@ appVersion: 0.17.0
 
 keywords:
   - aquasecurity
-  - trivyoperator
+  - tunneloperator
   - trivy
 # home: https://github.com/khulnasoft/tunnel-operator
 sources:

@@ -56,13 +56,13 @@ func GetContainerImagesFromJob(job *batchv1.Job) (ContainerImages, error) {
 	var containerImagesAsJSON string
 	var ok bool
 
-	if containerImagesAsJSON, ok = job.Annotations[trivyoperator.AnnotationContainerImages]; !ok {
-		return nil, fmt.Errorf("required annotation not set: %s", trivyoperator.AnnotationContainerImages)
+	if containerImagesAsJSON, ok = job.Annotations[tunneloperator.AnnotationContainerImages]; !ok {
+		return nil, fmt.Errorf("required annotation not set: %s", tunneloperator.AnnotationContainerImages)
 	}
 	containerImages := ContainerImages{}
 	err := containerImages.FromJSON(containerImagesAsJSON)
 	if err != nil {
-		return nil, fmt.Errorf("parsing annotation: %s: %w", trivyoperator.AnnotationContainerImages, err)
+		return nil, fmt.Errorf("parsing annotation: %s: %w", tunneloperator.AnnotationContainerImages, err)
 	}
 	return containerImages, nil
 }

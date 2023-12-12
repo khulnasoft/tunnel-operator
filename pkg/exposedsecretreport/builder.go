@@ -75,7 +75,7 @@ func (b *ReportBuilder) reportName() string {
 
 func (b *ReportBuilder) Get() (v1alpha1.ExposedSecretReport, error) {
 	reportLabels := map[string]string{
-		trivyoperator.LabelContainerName: b.container,
+		tunneloperator.LabelContainerName: b.container,
 	}
 
 	// append matching resource labels by config to report
@@ -84,7 +84,7 @@ func (b *ReportBuilder) Get() (v1alpha1.ExposedSecretReport, error) {
 	kube.AppendCustomLabels(b.additionalReportLabels, reportLabels)
 
 	if b.hash != "" {
-		reportLabels[trivyoperator.LabelResourceSpecHash] = b.hash
+		reportLabels[tunneloperator.LabelResourceSpecHash] = b.hash
 	}
 
 	report := v1alpha1.ExposedSecretReport{

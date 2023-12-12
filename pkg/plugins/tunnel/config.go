@@ -76,7 +76,7 @@ const (
 
 // Config defines configuration params for this plugin.
 type Config struct {
-	trivyoperator.PluginConfig
+	tunneloperator.PluginConfig
 }
 
 func (c Config) GetAdditionalVulnerabilityReportFields() vulnerabilityreport.AdditionalFields {
@@ -219,7 +219,7 @@ func (c Config) GetImageScanCacheDir() string {
 func (c Config) GetFilesystemScanCacheDir() string {
 	val, ok := c.Data[keyTrivyFilesystemScanCacheDir]
 	if !ok || val == "" {
-		return "/var/trivyoperator/trivy-db"
+		return "/var/tunneloperator/trivy-db"
 	}
 	return val
 }

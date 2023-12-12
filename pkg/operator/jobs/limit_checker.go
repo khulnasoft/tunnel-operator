@@ -16,7 +16,7 @@ type LimitChecker interface {
 	CheckNodes(ctx context.Context) (bool, int, error)
 }
 
-func NewLimitChecker(config etc.Config, c client.Client, trivyOperatorConfig trivyoperator.ConfigData) LimitChecker {
+func NewLimitChecker(config etc.Config, c client.Client, trivyOperatorConfig tunneloperator.ConfigData) LimitChecker {
 	return &checker{
 		config:              config,
 		client:              c,
@@ -27,13 +27,13 @@ func NewLimitChecker(config etc.Config, c client.Client, trivyOperatorConfig tri
 type checker struct {
 	config              etc.Config
 	client              client.Client
-	trivyOperatorConfig trivyoperator.ConfigData
+	trivyOperatorConfig tunneloperator.ConfigData
 }
 
 func (c *checker) Check(ctx context.Context) (bool, int, error) {
 	matchinglabels := client.MatchingLabels{
-		trivyoperator.LabelK8SAppManagedBy:            trivyoperator.AppTrivyOperator,
-		trivyoperator.LabelVulnerabilityReportScanner: ScannerName,
+		tunneloperator.LabelK8SAppManagedBy:            tunneloperator.AppTunnelOperator,
+		tunneloperator.LabelVulnerabilityReportScanner: ScannerName,
 	}
 	scanJobsCount, err := c.countJobs(ctx, matchinglabels)
 	if err != nil {
@@ -45,8 +45,8 @@ func (c *checker) Check(ctx context.Context) (bool, int, error) {
 
 func (c *checker) CheckNodes(ctx context.Context) (bool, int, error) {
 	matchinglabels := client.MatchingLabels{
-		trivyoperator.LabelK8SAppManagedBy:   trivyoperator.AppTrivyOperator,
-		trivyoperator.LabelNodeInfoCollector: ScannerName,
+		tunneloperator.LabelK8SAppManagedBy:   tunneloperator.AppTunnelOperator,
+		tunneloperator.LabelNodeInfoCollector: ScannerName,
 	}
 	scanJobsCount, err := c.countJobs(ctx, matchinglabels)
 	if err != nil {
@@ -60,7 +60,7 @@ func (c *checker) countJobs(ctx context.Context, matchingLabels client.MatchingL
 	var scanJobs batchv1.JobList
 	listOptions := []client.ListOption{matchingLabels}
 	if !c.trivyOperatorConfig.VulnerabilityScanJobsInSameNamespace() {
-		// scan jobs are running in only trivyoperator operator namespace
+		// scan jobs are running in only tunneloperator operator namespace
 		listOptions = append(listOptions, client.InNamespace(c.config.Namespace))
 	}
 	err := c.client.List(ctx, &scanJobs, listOptions...)

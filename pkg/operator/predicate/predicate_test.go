@@ -134,7 +134,7 @@ var _ = Describe("Predicate", func() {
 					config := etc.Config{
 						Namespace:         "tunnel-operator",
 						TargetNamespaces:  "",
-						ExcludeNamespaces: "kube-system,trivyoperator-system",
+						ExcludeNamespaces: "kube-system,tunneloperator-system",
 					}
 					obj := &corev1.Pod{
 						ObjectMeta: metav1.ObjectMeta{
@@ -156,7 +156,7 @@ var _ = Describe("Predicate", func() {
 					config := etc.Config{
 						Namespace:         "tunnel-operator",
 						TargetNamespaces:  "",
-						ExcludeNamespaces: "kube-*,trivyoperator-system",
+						ExcludeNamespaces: "kube-*,tunneloperator-system",
 					}
 					obj := &corev1.Pod{
 						ObjectMeta: metav1.ObjectMeta{
@@ -178,10 +178,10 @@ var _ = Describe("Predicate", func() {
 	Describe("When checking a HasName predicate", func() {
 		Context("When object has desired name", func() {
 			It("Should return true", func() {
-				instance := predicate.HasName("trivyoperator-trivy-config")
+				instance := predicate.HasName("tunneloperator-trivy-config")
 				obj := &corev1.Pod{
 					ObjectMeta: metav1.ObjectMeta{
-						Name: "trivyoperator-trivy-config",
+						Name: "tunneloperator-trivy-config",
 					},
 				}
 
@@ -194,10 +194,10 @@ var _ = Describe("Predicate", func() {
 
 		Context("When object does not have desired name", func() {
 			It("Should return false", func() {
-				instance := predicate.HasName("trivyoperator-trivy-config")
+				instance := predicate.HasName("tunneloperator-trivy-config")
 				obj := &corev1.Pod{
 					ObjectMeta: metav1.ObjectMeta{
-						Name: "trivyoperator",
+						Name: "tunneloperator",
 					},
 				}
 
@@ -243,8 +243,8 @@ var _ = Describe("Predicate", func() {
 		})
 	})
 
-	Describe("When checking a ManagedByTrivyOperator predicate", func() {
-		instance := predicate.ManagedByTrivyOperator
+	Describe("When checking a ManagedByTunnelOperator predicate", func() {
+		instance := predicate.ManagedByTunnelOperator
 
 		Context("Where object is managed by Tunnel-Operator operator", func() {
 			It("Should return true", func() {

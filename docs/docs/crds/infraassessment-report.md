@@ -403,7 +403,7 @@ report:
     title: Ensure that the --root-ca-file argument is set as appropriate
   scanner:
     name: Trivy
-    vendor: Aqua Security
+    vendor: Khulnasoft Security
     version: dev
   summary:
     criticalCount: 0

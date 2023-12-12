@@ -117,13 +117,13 @@ func IsClusterScopedKind(kind string) bool {
 // tunnel-operator.LabelResourceNameHash label.
 func ObjectRefToLabels(obj ObjectRef) map[string]string {
 	labels := map[string]string{
-		trivyoperator.LabelResourceKind:      string(obj.Kind),
-		trivyoperator.LabelResourceNamespace: obj.Namespace,
+		tunneloperator.LabelResourceKind:      string(obj.Kind),
+		tunneloperator.LabelResourceNamespace: obj.Namespace,
 	}
 	if len(validation.IsValidLabelValue(obj.Name)) == 0 {
-		labels[trivyoperator.LabelResourceName] = obj.Name
+		labels[tunneloperator.LabelResourceName] = obj.Name
 	} else {
-		labels[trivyoperator.LabelResourceNameHash] = ComputeHash(obj.Name)
+		labels[tunneloperator.LabelResourceNameHash] = ComputeHash(obj.Name)
 	}
 	return labels
 }
@@ -134,38 +134,38 @@ func ObjectToObjectMeta(obj client.Object, objectMeta *metav1.ObjectMeta) error 
 	if objectMeta.Labels == nil {
 		objectMeta.Labels = make(map[string]string)
 	}
-	objectMeta.Labels[trivyoperator.LabelResourceKind] = obj.GetObjectKind().GroupVersionKind().Kind
-	objectMeta.Labels[trivyoperator.LabelResourceNamespace] = obj.GetNamespace()
+	objectMeta.Labels[tunneloperator.LabelResourceKind] = obj.GetObjectKind().GroupVersionKind().Kind
+	objectMeta.Labels[tunneloperator.LabelResourceNamespace] = obj.GetNamespace()
 	if len(validation.IsValidLabelValue(obj.GetName())) == 0 {
-		objectMeta.Labels[trivyoperator.LabelResourceName] = obj.GetName()
+		objectMeta.Labels[tunneloperator.LabelResourceName] = obj.GetName()
 	} else {
-		objectMeta.Labels[trivyoperator.LabelResourceNameHash] = ComputeHash(obj.GetName())
+		objectMeta.Labels[tunneloperator.LabelResourceNameHash] = ComputeHash(obj.GetName())
 		if objectMeta.Annotations == nil {
 			objectMeta.Annotations = make(map[string]string)
 		}
-		objectMeta.Annotations[trivyoperator.LabelResourceName] = obj.GetName()
+		objectMeta.Annotations[tunneloperator.LabelResourceName] = obj.GetName()
 	}
 	return nil
 }
 
 func ObjectRefFromObjectMeta(objectMeta metav1.ObjectMeta) (ObjectRef, error) {
-	if _, found := objectMeta.Labels[trivyoperator.LabelResourceKind]; !found {
-		return ObjectRef{}, fmt.Errorf("required label does not exist: %s", trivyoperator.LabelResourceKind)
+	if _, found := objectMeta.Labels[tunneloperator.LabelResourceKind]; !found {
+		return ObjectRef{}, fmt.Errorf("required label does not exist: %s", tunneloperator.LabelResourceKind)
 	}
 	var objname string
-	if _, found := objectMeta.Labels[trivyoperator.LabelResourceName]; !found {
-		if _, found := objectMeta.Annotations[trivyoperator.LabelResourceName]; found {
-			objname = objectMeta.Annotations[trivyoperator.LabelResourceName]
+	if _, found := objectMeta.Labels[tunneloperator.LabelResourceName]; !found {
+		if _, found := objectMeta.Annotations[tunneloperator.LabelResourceName]; found {
+			objname = objectMeta.Annotations[tunneloperator.LabelResourceName]
 		} else {
-			return ObjectRef{}, fmt.Errorf("required label does not exist: %s", trivyoperator.LabelResourceName)
+			return ObjectRef{}, fmt.Errorf("required label does not exist: %s", tunneloperator.LabelResourceName)
 		}
 	} else {
-		objname = objectMeta.Labels[trivyoperator.LabelResourceName]
+		objname = objectMeta.Labels[tunneloperator.LabelResourceName]
 	}
 	return ObjectRef{
-		Kind:      Kind(objectMeta.Labels[trivyoperator.LabelResourceKind]),
+		Kind:      Kind(objectMeta.Labels[tunneloperator.LabelResourceKind]),
 		Name:      objname,
-		Namespace: objectMeta.Labels[trivyoperator.LabelResourceNamespace],
+		Namespace: objectMeta.Labels[tunneloperator.LabelResourceNamespace],
 	}, nil
 }
 

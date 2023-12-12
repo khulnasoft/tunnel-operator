@@ -87,10 +87,10 @@ func (b *ReportBuilder) GetReport() (v1alpha1.InfraAssessmentReport, error) {
 	// append custom labels by config to report
 	kube.AppendCustomLabels(b.additionalReportLabels, labelsSet)
 	if b.resourceSpecHash != "" {
-		labelsSet[trivyoperator.LabelResourceSpecHash] = b.resourceSpecHash
+		labelsSet[tunneloperator.LabelResourceSpecHash] = b.resourceSpecHash
 	}
 	if b.pluginConfigHash != "" {
-		labelsSet[trivyoperator.LabelPluginConfigHash] = b.pluginConfigHash
+		labelsSet[tunneloperator.LabelPluginConfigHash] = b.pluginConfigHash
 	}
 
 	report := v1alpha1.InfraAssessmentReport{
@@ -133,10 +133,10 @@ func (b *ReportBuilder) GetClusterReport() (v1alpha1.ClusterInfraAssessmentRepor
 	// append custom labels by config to report
 	kube.AppendCustomLabels(b.additionalReportLabels, labelsSet)
 	if b.resourceSpecHash != "" {
-		labelsSet[trivyoperator.LabelResourceSpecHash] = b.resourceSpecHash
+		labelsSet[tunneloperator.LabelResourceSpecHash] = b.resourceSpecHash
 	}
 	if b.pluginConfigHash != "" {
-		labelsSet[trivyoperator.LabelPluginConfigHash] = b.pluginConfigHash
+		labelsSet[tunneloperator.LabelPluginConfigHash] = b.pluginConfigHash
 	}
 
 	report := v1alpha1.ClusterInfraAssessmentReport{

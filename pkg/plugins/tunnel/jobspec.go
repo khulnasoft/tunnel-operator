@@ -41,10 +41,10 @@ type Mode string
 // Command to scan image or filesystem.
 type Command string
 
-type GetPodSpecFunc func(ctx trivyoperator.PluginContext, config Config, workload client.Object, credentials map[string]docker.Auth, securityContext *corev1.SecurityContext, p *plugin, clusterSboms map[string]v1alpha1.SbomReportData) (corev1.PodSpec, []*corev1.Secret, error)
+type GetPodSpecFunc func(ctx tunneloperator.PluginContext, config Config, workload client.Object, credentials map[string]docker.Auth, securityContext *corev1.SecurityContext, p *plugin, clusterSboms map[string]v1alpha1.SbomReportData) (corev1.PodSpec, []*corev1.Secret, error)
 
 type PodSpecMgr interface {
-	GetPodSpec(ctx trivyoperator.PluginContext, config Config, workload client.Object, credentials map[string]docker.Auth, securityContext *corev1.SecurityContext, p *plugin, clusterSboms map[string]v1alpha1.SbomReportData) (corev1.PodSpec, []*corev1.Secret, error)
+	GetPodSpec(ctx tunneloperator.PluginContext, config Config, workload client.Object, credentials map[string]docker.Auth, securityContext *corev1.SecurityContext, p *plugin, clusterSboms map[string]v1alpha1.SbomReportData) (corev1.PodSpec, []*corev1.Secret, error)
 }
 
 func NewPodSpecMgr(config Config) PodSpecMgr {
@@ -88,7 +88,7 @@ func NewPodSpecMgr(config Config) PodSpecMgr {
 	}
 }
 
-func imageConfigSecretScanner(tc trivyoperator.ConfigData) []string {
+func imageConfigSecretScanner(tc tunneloperator.ConfigData) []string {
 	if tc.ExposedSecretsScannerEnabled() {
 		return []string{"--image-config-scanners", "secret"}
 	}
@@ -141,18 +141,18 @@ func ConfigWorkloadAnnotationEnvVars(workload client.Object, annotation string, 
 	return constructEnvVarSourceFromConfigMap(envVarName, trivyConfigName, configKey)
 }
 
-func getPkgList(ctx trivyoperator.PluginContext) string {
-	c := ctx.GetTrivyOperatorConfig()
+func getPkgList(ctx tunneloperator.PluginContext) string {
+	c := ctx.GetTunnelOperatorConfig()
 	if c.GenerateSbomEnabled() {
 		return "--list-all-pkgs"
 	}
 	return ""
 }
 
-func getSecurityChecks(ctx trivyoperator.PluginContext) string {
+func getSecurityChecks(ctx tunneloperator.PluginContext) string {
 	securityChecks := make([]string, 0)
 
-	c := ctx.GetTrivyOperatorConfig()
+	c := ctx.GetTunnelOperatorConfig()
 	if c.VulnerabilityScannerEnabled() {
 		securityChecks = append(securityChecks, "vuln")
 	}
@@ -208,11 +208,11 @@ func constructEnvVarSourceFromConfigMap(envName, configName, configKey string) (
 	return
 }
 
-func getAutomountServiceAccountToken(ctx trivyoperator.PluginContext) bool {
-	return ctx.GetTrivyOperatorConfig().GetScanJobAutomountServiceAccountToken()
+func getAutomountServiceAccountToken(ctx tunneloperator.PluginContext) bool {
+	return ctx.GetTunnelOperatorConfig().GetScanJobAutomountServiceAccountToken()
 }
 
-func getConfig(ctx trivyoperator.PluginContext) (Config, error) {
+func getConfig(ctx tunneloperator.PluginContext) (Config, error) {
 	pluginConfig, err := ctx.GetConfig()
 	if err != nil {
 		return Config{}, err

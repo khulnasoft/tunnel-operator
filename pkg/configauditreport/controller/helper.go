@@ -26,11 +26,11 @@ func Policies(ctx context.Context, config etc.Config, c client.Client, cac confi
 
 	err := c.Get(ctx, client.ObjectKey{
 		Namespace: config.Namespace,
-		Name:      trivyoperator.PoliciesConfigMapName,
+		Name:      tunneloperator.PoliciesConfigMapName,
 	}, cm)
 	if err != nil {
 		if !apierrors.IsNotFound(err) {
-			return nil, fmt.Errorf("failed getting policies from configmap: %s/%s: %w", config.Namespace, trivyoperator.PoliciesConfigMapName, err)
+			return nil, fmt.Errorf("failed getting policies from configmap: %s/%s: %w", config.Namespace, tunneloperator.PoliciesConfigMapName, err)
 		}
 	}
 	var version string
@@ -40,7 +40,7 @@ func Policies(ctx context.Context, config etc.Config, c client.Client, cac confi
 	return policy.NewPolicies(cm.Data, cac, log, version), nil
 }
 
-func evaluate(ctx context.Context, policies *policy.Policies, resource client.Object, bi trivyoperator.BuildInfo, cd trivyoperator.ConfigData, c etc.Config, inputs ...[]byte) (Misconfiguration, error) {
+func evaluate(ctx context.Context, policies *policy.Policies, resource client.Object, bi tunneloperator.BuildInfo, cd tunneloperator.ConfigData, c etc.Config, inputs ...[]byte) (Misconfiguration, error) {
 	misconfiguration := Misconfiguration{}
 	results, err := policies.Eval(ctx, resource, inputs...)
 	if err != nil {
@@ -95,10 +95,10 @@ func evaluate(ctx context.Context, policies *policy.Policies, resource client.Ob
 	return misconfiguration, nil
 }
 
-func scanner(bi trivyoperator.BuildInfo) v1alpha1.Scanner {
+func scanner(bi tunneloperator.BuildInfo) v1alpha1.Scanner {
 	return v1alpha1.Scanner{
 		Name:    v1alpha1.ScannerNameTrivy,
-		Vendor:  "Aqua Security",
+		Vendor:  "Khulnasoft Security",
 		Version: bi.Version,
 	}
 }

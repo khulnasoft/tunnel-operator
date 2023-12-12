@@ -76,8 +76,8 @@ func NewTrivyConfigAuditPlugin(clock ext.Clock, idGenerator ext.IDGenerator, obj
 }
 
 // Init ensures the default Config required by this plugin.
-func (p *plugin) Init(ctx trivyoperator.PluginContext) error {
-	return ctx.EnsureConfig(trivyoperator.PluginConfig{
+func (p *plugin) Init(ctx tunneloperator.PluginContext) error {
+	return ctx.EnsureConfig(tunneloperator.PluginConfig{
 		Data: map[string]string{
 			keyTrivyImageRepository:           DefaultImageRepository,
 			keyTrivyImageTag:                  "0.47.0",
@@ -97,7 +97,7 @@ func (p *plugin) Init(ctx trivyoperator.PluginContext) error {
 	})
 }
 
-func (p *plugin) GetScanJobSpec(ctx trivyoperator.PluginContext, workload client.Object, credentials map[string]docker.Auth, securityContext *corev1.SecurityContext, sbomClusterReport map[string]v1alpha1.SbomReportData) (corev1.PodSpec, []*corev1.Secret, error) {
+func (p *plugin) GetScanJobSpec(ctx tunneloperator.PluginContext, workload client.Object, credentials map[string]docker.Auth, securityContext *corev1.SecurityContext, sbomClusterReport map[string]v1alpha1.SbomReportData) (corev1.PodSpec, []*corev1.Secret, error) {
 	config, err := getConfig(ctx)
 	if err != nil {
 		return corev1.PodSpec{}, nil, err
@@ -121,12 +121,12 @@ const (
 	ignorePolicyName            = "policy.rego"
 	ignorePolicyMountPath       = "/etc/trivy/" + ignorePolicyName
 	scanResultVolumeName        = "scanresult"
-	FsSharedVolumeName          = "trivyoperator"
-	SharedVolumeLocationOfTrivy = "/var/trivyoperator/trivy"
+	FsSharedVolumeName          = "tunneloperator"
+	SharedVolumeLocationOfTrivy = "/var/tunneloperator/trivy"
 	SslCertDir                  = "/var/ssl-cert"
 )
 
-func (p *plugin) ParseReportData(ctx trivyoperator.PluginContext, imageRef string, logsReader io.ReadCloser) (v1alpha1.VulnerabilityReportData, v1alpha1.ExposedSecretReportData, *v1alpha1.SbomReportData, error) {
+func (p *plugin) ParseReportData(ctx tunneloperator.PluginContext, imageRef string, logsReader io.ReadCloser) (v1alpha1.VulnerabilityReportData, v1alpha1.ExposedSecretReportData, *v1alpha1.SbomReportData, error) {
 	var vulnReport v1alpha1.VulnerabilityReportData
 	var secretReport v1alpha1.ExposedSecretReportData
 	var sbomReport v1alpha1.SbomReportData
@@ -139,7 +139,7 @@ func (p *plugin) ParseReportData(ctx trivyoperator.PluginContext, imageRef strin
 	if err != nil {
 		return vulnReport, secretReport, &sbomReport, err
 	}
-	compressedLogs := ctx.GetTrivyOperatorConfig().CompressLogs()
+	compressedLogs := ctx.GetTunnelOperatorConfig().CompressLogs()
 	if compressedLogs && cmd != Filesystem && cmd != Rootfs {
 		var errCompress error
 		logsReader, errCompress = utils.ReadCompressData(logsReader)
@@ -166,12 +166,12 @@ func (p *plugin) ParseReportData(ctx trivyoperator.PluginContext, imageRef strin
 		return vulnReport, secretReport, &sbomReport, err
 	}
 
-	version, err := trivyoperator.GetVersionFromImageRef(trivyImageRef)
+	version, err := tunneloperator.GetVersionFromImageRef(trivyImageRef)
 	if err != nil {
 		return vulnReport, secretReport, &sbomReport, err
 	}
 	var sbomData *v1alpha1.SbomReportData
-	if ctx.GetTrivyOperatorConfig().GenerateSbomEnabled() {
+	if ctx.GetTunnelOperatorConfig().GenerateSbomEnabled() {
 		sbomData, err = sbomreport.BuildSbomReportData(reports, p.clock, registry, artifact, version)
 		if err != nil {
 			return vulnReport, secretReport, &sbomReport, err
@@ -208,7 +208,7 @@ func getExposedSecretsFromScanResult(report ty.Result) []v1alpha1.ExposedSecret 
 }
 
 // NewConfigForConfigAudit and interface which expose related configaudit report configuration
-func (p *plugin) NewConfigForConfigAudit(ctx trivyoperator.PluginContext) (configauditreport.ConfigAuditConfig, error) {
+func (p *plugin) NewConfigForConfigAudit(ctx tunneloperator.PluginContext) (configauditreport.ConfigAuditConfig, error) {
 	return getConfig(ctx)
 }
 

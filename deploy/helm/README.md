@@ -46,7 +46,7 @@ Keeps security report resources updated
 | operator.controllerCacheSyncTimeout | string | `"5m"` | controllerCacheSyncTimeout the duration to wait for controller resources cache sync (default: 5m). |
 | operator.exposedSecretScannerEnabled | bool | `true` | exposedSecretScannerEnabled the flag to enable exposed secret scanner |
 | operator.infraAssessmentScannerEnabled | bool | `true` | infraAssessmentScannerEnabled the flag to enable infra assessment scanner |
-| operator.leaderElectionId | string | `"trivyoperator-lock"` | leaderElectionId determines the name of the resource that leader election will use for holding the leader lock. |
+| operator.leaderElectionId | string | `"tunneloperator-lock"` | leaderElectionId determines the name of the resource that leader election will use for holding the leader lock. |
 | operator.logDevMode | bool | `false` | logDevMode the flag to enable development mode (more human-readable output, extra stack traces and logging information, etc) |
 | operator.mergeRbacFindingWithConfigAudit | bool | `false` | mergeRbacFindingWithConfigAudit the flag to enable merging rbac finding with config-audit report |
 | operator.metricsClusterComplianceInfo | bool | `false` | MetricsClusterComplianceInfo the flag to enable metrics about Cluster Compliance be aware of metrics cardinality is significantly increased with this feature enabled. |
@@ -105,7 +105,7 @@ Keeps security report resources updated
 | trivy.dbRepository | string | `"aquasecurity/trivy-db"` |  |
 | trivy.dbRepositoryInsecure | string | `"false"` | The Flag to enable insecure connection for downloading trivy-db via proxy (air-gaped env)  |
 | trivy.debug | bool | `false` | debug One of `true` or `false`. Enables debug mode. |
-| trivy.filesystemScanCacheDir | string | `"/var/trivyoperator/trivy-db"` | filesystemScanCacheDir the flag to set custom path for trivy filesystem scan `cache-dir` parameter. Only applicable in filesystem scan mode. |
+| trivy.filesystemScanCacheDir | string | `"/var/tunneloperator/trivy-db"` | filesystemScanCacheDir the flag to set custom path for trivy filesystem scan `cache-dir` parameter. Only applicable in filesystem scan mode. |
 | trivy.githubToken | string | `nil` | githubToken is the GitHub access token used by Trivy to download the vulnerabilities database from GitHub. Only applicable in Standalone mode. |
 | trivy.httpProxy | string | `nil` | httpProxy is the HTTP proxy used by Trivy to download the vulnerabilities database from GitHub. |
 | trivy.httpsProxy | string | `nil` | httpsProxy is the HTTPS proxy used by Trivy to download the vulnerabilities database from GitHub. |

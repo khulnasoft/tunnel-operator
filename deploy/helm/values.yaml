@@ -45,7 +45,7 @@ operator:
 
   # -- leaderElectionId determines the name of the resource that leader election
   # will use for holding the leader lock.
-  leaderElectionId: "trivyoperator-lock"
+  leaderElectionId: "tunneloperator-lock"
 
   # -- logDevMode the flag to enable development mode (more human-readable output, extra stack traces and logging information, etc)
   logDevMode: false
@@ -455,7 +455,7 @@ trivy:
   imageScanCacheDir: "/tmp/trivy/.cache"
   # -- filesystemScanCacheDir the flag to set custom path for trivy filesystem scan `cache-dir` parameter.
   # Only applicable in filesystem scan mode.
-  filesystemScanCacheDir: "/var/trivyoperator/trivy-db"
+  filesystemScanCacheDir: "/var/tunneloperator/trivy-db"
   # -- serverUser this param is the server user to be used to download db from private registry
   serverUser: ""
   # -- serverPassword this param is the server user to be used to download db from private registry

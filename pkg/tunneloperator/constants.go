@@ -1,4 +1,4 @@
-package trivyoperator
+package tunneloperator
 
 const (
 	// NamespaceName the name of the namespace in which Tunnel-operator stores its
@@ -33,7 +33,7 @@ const (
 	LabelNodeInfoCollector          = "node-info.collector"
 
 	LabelK8SAppManagedBy = "app.kubernetes.io/managed-by"
-	AppTrivyOperator     = "tunnel-operator"
+	AppTunnelOperator     = "tunnel-operator"
 )
 
 const (

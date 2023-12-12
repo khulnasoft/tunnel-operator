@@ -25,10 +25,10 @@ import (
 )
 
 type PrivateRegistryConfig struct {
-	Server   string `env:"TRIVY_OPERATOR_TEST_REGISTRY_SERVER"`
-	Username string `env:"TRIVY_OPERATOR_TEST_REGISTRY_USERNAME"`
-	Password string `env:"TRIVY_OPERATOR_TEST_REGISTRY_PASSWORD"`
-	ImageRef string `env:"TRIVY_OPERATOR_TEST_REGISTRY_PRIVATE_IMAGE_REF"`
+	Server   string `env:"TUNNEL_OPERATOR_TEST_REGISTRY_SERVER"`
+	Username string `env:"TUNNEL_OPERATOR_TEST_REGISTRY_USERNAME"`
+	Password string `env:"TUNNEL_OPERATOR_TEST_REGISTRY_PASSWORD"`
+	ImageRef string `env:"TUNNEL_OPERATOR_TEST_REGISTRY_PRIVATE_IMAGE_REF"`
 }
 
 func (c *PrivateRegistryConfig) Parse() error {
@@ -235,7 +235,7 @@ func (b *DeploymentBuilder) Build() *appsv1.Deployment {
 var (
 	trivyScanner = v1alpha1.Scanner{
 		Name:    v1alpha1.ScannerNameTrivy,
-		Vendor:  "Aqua Security",
+		Vendor:  "Khulnasoft Security",
 		Version: "0.17.0",
 	}
 )
@@ -273,10 +273,10 @@ func (b *VulnerabilityReportBuilder) Build() *v1alpha1.VulnerabilityReport {
 			Name:      b.name,
 			Namespace: b.namespace,
 			Labels: map[string]string{
-				trivyoperator.LabelContainerName:     "nginx", // TODO Make it configurable
-				trivyoperator.LabelResourceKind:      string(b.ownerKind),
-				trivyoperator.LabelResourceName:      b.ownerName,
-				trivyoperator.LabelResourceNamespace: b.namespace,
+				tunneloperator.LabelContainerName:     "nginx", // TODO Make it configurable
+				tunneloperator.LabelResourceKind:      string(b.ownerKind),
+				tunneloperator.LabelResourceName:      b.ownerName,
+				tunneloperator.LabelResourceNamespace: b.namespace,
 			},
 		},
 		Report: v1alpha1.VulnerabilityReportData{
@@ -345,9 +345,9 @@ func (h *Helper) HasVulnerabilityReportOwnedBy(obj client.Object) func() (bool, 
 		}
 		var reportList v1alpha1.VulnerabilityReportList
 		err = h.kubeClient.List(context.Background(), &reportList, client.MatchingLabels{
-			trivyoperator.LabelResourceKind:      gvk.Kind,
-			trivyoperator.LabelResourceName:      obj.GetName(),
-			trivyoperator.LabelResourceNamespace: obj.GetNamespace(),
+			tunneloperator.LabelResourceKind:      gvk.Kind,
+			tunneloperator.LabelResourceName:      obj.GetName(),
+			tunneloperator.LabelResourceNamespace: obj.GetNamespace(),
 		})
 		if err != nil {
 			return false, err
@@ -364,9 +364,9 @@ func (h *Helper) HasConfigAuditReportOwnedBy(obj client.Object) func() (bool, er
 		}
 		var reportsList v1alpha1.ConfigAuditReportList
 		err = h.kubeClient.List(context.Background(), &reportsList, client.MatchingLabels{
-			trivyoperator.LabelResourceKind:      gvk.Kind,
-			trivyoperator.LabelResourceName:      obj.GetName(),
-			trivyoperator.LabelResourceNamespace: obj.GetNamespace(),
+			tunneloperator.LabelResourceKind:      gvk.Kind,
+			tunneloperator.LabelResourceName:      obj.GetName(),
+			tunneloperator.LabelResourceNamespace: obj.GetNamespace(),
 		})
 		if err != nil {
 			return false, err
@@ -383,9 +383,9 @@ func (h *Helper) DeleteConfigAuditReportOwnedBy(obj client.Object) error {
 	}
 	var reportsList v1alpha1.ConfigAuditReportList
 	err = h.kubeClient.List(context.Background(), &reportsList, client.MatchingLabels{
-		trivyoperator.LabelResourceKind:      gvk.Kind,
-		trivyoperator.LabelResourceName:      obj.GetName(),
-		trivyoperator.LabelResourceNamespace: obj.GetNamespace(),
+		tunneloperator.LabelResourceKind:      gvk.Kind,
+		tunneloperator.LabelResourceName:      obj.GetName(),
+		tunneloperator.LabelResourceNamespace: obj.GetNamespace(),
 	})
 	if err != nil {
 		return err

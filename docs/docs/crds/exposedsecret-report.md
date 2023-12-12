@@ -1,7 +1,7 @@
 # ExposedSecretReport
 
 An instance of the `ExposedSecretReport` represents the secrets found in a container image of a given
-Kubernetes workload. It consists of a list exposed secrets with a summary grouped by severity. For a multi-container workload the Trivy Operator will create multiple instances of the `ExposedSecretsReports` in the workload's namespace with the owner reference set to that workload.
+Kubernetes workload. It consists of a list exposed secrets with a summary grouped by severity. For a multi-container workload the Tunnel Operator will create multiple instances of the `ExposedSecretsReports` in the workload's namespace with the owner reference set to that workload.
 Each report follows the naming convention `<workload kind>-<workload name>-<container-name>`.
 
 The following listing shows a sample `ExposedSecretReport` associated with the ReplicaSet named `app-574ddcb559` in the
@@ -38,7 +38,7 @@ report:
     server: index.docker.io
   scanner:
     name: Trivy
-    vendor: Aqua Security
+    vendor: Khulnasoft Security
     version: 0.35.0
   secrets:
   - category: Stripe

@@ -42,7 +42,7 @@ var (
 
 // Start starts all registered reconcilers and blocks until the context is cancelled.
 // Returns an error if there is an error starting any reconciler.
-func Start(ctx context.Context, buildInfo trivyoperator.BuildInfo, operatorConfig etc.Config) error {
+func Start(ctx context.Context, buildInfo tunneloperator.BuildInfo, operatorConfig etc.Config) error {
 	installMode, operatorNamespace, targetNamespaces, err := operatorConfig.ResolveInstallMode()
 	if err != nil {
 		return fmt.Errorf("resolving install mode: %w", err)
@@ -55,7 +55,7 @@ func Start(ctx context.Context, buildInfo trivyoperator.BuildInfo, operatorConfi
 
 	// Set the default manager options.
 	options := manager.Options{
-		Scheme:                 trivyoperator.NewScheme(),
+		Scheme:                 tunneloperator.NewScheme(),
 		Metrics:                metricsserver.Options{BindAddress: operatorConfig.MetricsBindAddress},
 		HealthProbeBindAddress: operatorConfig.HealthProbeBindAddress,
 		Client: client.Options{
@@ -126,7 +126,7 @@ func Start(ctx context.Context, buildInfo trivyoperator.BuildInfo, operatorConfi
 		return err
 	}
 
-	configManager := trivyoperator.NewConfigManager(clientSet, operatorNamespace)
+	configManager := tunneloperator.NewConfigManager(clientSet, operatorNamespace)
 	err = configManager.EnsureDefault(context.Background())
 	if err != nil {
 		return err
@@ -149,9 +149,9 @@ func Start(ctx context.Context, buildInfo trivyoperator.BuildInfo, operatorConfi
 
 	if operatorConfig.VulnerabilityScannerEnabled || operatorConfig.ExposedSecretScannerEnabled || operatorConfig.SbomGenerationEnable {
 
-		trivyOperatorConfig.Set(trivyoperator.KeyVulnerabilityScannerEnabled, strconv.FormatBool(operatorConfig.VulnerabilityScannerEnabled))
-		trivyOperatorConfig.Set(trivyoperator.KeyExposedSecretsScannerEnabled, strconv.FormatBool(operatorConfig.ExposedSecretScannerEnabled))
-		trivyOperatorConfig.Set(trivyoperator.KeyGenerateSbom, strconv.FormatBool(operatorConfig.SbomGenerationEnable))
+		trivyOperatorConfig.Set(tunneloperator.KeyVulnerabilityScannerEnabled, strconv.FormatBool(operatorConfig.VulnerabilityScannerEnabled))
+		trivyOperatorConfig.Set(tunneloperator.KeyExposedSecretsScannerEnabled, strconv.FormatBool(operatorConfig.ExposedSecretScannerEnabled))
+		trivyOperatorConfig.Set(tunneloperator.KeyGenerateSbom, strconv.FormatBool(operatorConfig.SbomGenerationEnable))
 
 		plugin, pluginContext, err := plugins.NewResolver().
 			WithBuildInfo(buildInfo).

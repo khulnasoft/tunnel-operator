@@ -176,7 +176,7 @@ func TestGetServerFromDockerAuthKey(t *testing.T) {
 			expectedServer: "core.harbor.domain:8080",
 		},
 		{
-			authKey:        "rg.pl-waw.scw.cloud/trivyoperator",
+			authKey:        "rg.pl-waw.scw.cloud/tunneloperator",
 			expectedServer: "rg.pl-waw.scw.cloud",
 		},
 		{

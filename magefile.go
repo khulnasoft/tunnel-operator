@@ -45,10 +45,10 @@ var (
 	GINKGO      = filepath.Join(PWD, "bin", "ginkgo")
 
 	IMAGE_TAG                 = "dev"
-	TRIVY_OPERATOR_IMAGE      = "khulnasoft/tunnel-operator:" + IMAGE_TAG
-	TRIVY_OPERATOR_IMAGE_UBI8 = "khulnasoft/tunnel-operator:" + IMAGE_TAG + "-ubi8"
+	TUNNEL_OPERATOR_IMAGE      = "khulnasoft/tunnel-operator:" + IMAGE_TAG
+	TUNNEL_OPERATOR_IMAGE_UBI8 = "khulnasoft/tunnel-operator:" + IMAGE_TAG + "-ubi8"
 
-	MKDOCS_IMAGE = "aquasec/mkdocs-material:tunnel-operator"
+	MKDOCS_IMAGE = "khulnasoft/mkdocs-material:tunnel-operator"
 	MKDOCS_PORT  = 8000
 
 	// ENVTEST_K8S_VERSION refers to the version of kubebuilder assets to be downloaded by envtest binary.
@@ -111,16 +111,16 @@ func (t Test) Unit() error {
 	return sh.RunWithV(ENV, "go", "test", "-v", "-short", "-timeout", "60s", "-coverprofile=coverage.txt", "./...")
 }
 
-// Target for running integration tests for Trivy Operator.
+// Target for running integration tests for Tunnel Operator.
 func (t Test) Integration() error {
-	fmt.Println("Running integration tests for Trivy Operator...")
+	fmt.Println("Running integration tests for Tunnel Operator...")
 	mg.Deps(checkKubeconfig, getGinkgo)
 	return sh.RunV(GINKGO, "-coverprofile=coverage.txt",
 		"-coverpkg=github.com/khulnasoft/tunnel-operator/pkg/operator,"+
 			"github.com/khulnasoft/tunnel-operator/pkg/operator/predicate,"+
 			"github.com/khulnasoft/tunnel-operator/pkg/operator/controller,"+
 			"github.com/khulnasoft/tunnel-operator/pkg/plugin,"+
-			"github.com/khulnasoft/tunnel-operator/pkg/plugin/trivy,"+
+			"github.com/khulnasoft/tunnel-operator/pkg/plugin/tunnel,"+
 			"github.com/khulnasoft/tunnel-operator/pkg/configauditreport,"+
 			"github.com/khulnasoft/tunnel-operator/pkg/vulnerabilityreport",
 		"./itest/tunnel-operator")
@@ -153,20 +153,20 @@ func (b Build) DockerAll() {
 // Target for building Docker image for tunnel-operator
 func (b Build) Docker() error {
 	fmt.Println("Building Docker image for tunnel-operator...")
-	return sh.RunV("docker", "build", "--no-cache", "-t", TRIVY_OPERATOR_IMAGE, "-f", "build/tunnel-operator/Dockerfile", "bin")
+	return sh.RunV("docker", "build", "--no-cache", "-t", TUNNEL_OPERATOR_IMAGE, "-f", "build/tunnel-operator/Dockerfile", "bin")
 }
 
 // Target for building Docker image for tunnel-operator ubi8
 func (b Build) DockerUbi8() error {
 	fmt.Println("Building Docker image for tunnel-operator ubi8...")
-	return sh.RunV("docker", "build", "--no-cache", "-f", "build/tunnel-operator/Dockerfile.ubi8", "-t", TRIVY_OPERATOR_IMAGE_UBI8, "bin")
+	return sh.RunV("docker", "build", "--no-cache", "-f", "build/tunnel-operator/Dockerfile.ubi8", "-t", TUNNEL_OPERATOR_IMAGE_UBI8, "bin")
 }
 
 // Target for loading Docker images into the KIND cluster
 func (b Build) KindLoadImages() error {
 	fmt.Println("Loading Docker images into the KIND cluster...")
 	mg.Deps(b.Docker, b.DockerUbi8)
-	return sh.RunV(KIND, "load", "docker-image", TRIVY_OPERATOR_IMAGE, TRIVY_OPERATOR_IMAGE_UBI8)
+	return sh.RunV(KIND, "load", "docker-image", TUNNEL_OPERATOR_IMAGE, TUNNEL_OPERATOR_IMAGE_UBI8)
 }
 
 type Docs mg.Namespace

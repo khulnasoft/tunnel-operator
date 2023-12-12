@@ -18,7 +18,7 @@ import (
 
 func TestReadWriter(t *testing.T) {
 
-	kubernetesScheme := trivyoperator.NewScheme()
+	kubernetesScheme := tunneloperator.NewScheme()
 
 	t.Run("Should create InfraAssessmentReport", func(t *testing.T) {
 		testClient := fake.NewClientBuilder().WithScheme(kubernetesScheme).Build()
@@ -29,9 +29,9 @@ func TestReadWriter(t *testing.T) {
 				Name:      "role-app",
 				Namespace: "qa",
 				Labels: map[string]string{
-					trivyoperator.LabelResourceKind:      "Role",
-					trivyoperator.LabelResourceName:      "app",
-					trivyoperator.LabelResourceNamespace: "qa",
+					tunneloperator.LabelResourceKind:      "Role",
+					tunneloperator.LabelResourceName:      "app",
+					tunneloperator.LabelResourceNamespace: "qa",
 				},
 			},
 			Report: v1alpha1.InfraAssessmentReportData{
@@ -56,9 +56,9 @@ func TestReadWriter(t *testing.T) {
 				Name:      "role-app",
 				Namespace: "qa",
 				Labels: map[string]string{
-					trivyoperator.LabelResourceKind:      "Role",
-					trivyoperator.LabelResourceName:      "app",
-					trivyoperator.LabelResourceNamespace: "qa",
+					tunneloperator.LabelResourceKind:      "Role",
+					tunneloperator.LabelResourceName:      "app",
+					tunneloperator.LabelResourceNamespace: "qa",
 				},
 				ResourceVersion: "1",
 			},
@@ -78,10 +78,10 @@ func TestReadWriter(t *testing.T) {
 				Namespace:       "qa",
 				ResourceVersion: "0",
 				Labels: map[string]string{
-					trivyoperator.LabelResourceKind:      "Role",
-					trivyoperator.LabelResourceName:      "app",
-					trivyoperator.LabelResourceNamespace: "qa",
-					trivyoperator.LabelResourceSpecHash:  "h1",
+					tunneloperator.LabelResourceKind:      "Role",
+					tunneloperator.LabelResourceName:      "app",
+					tunneloperator.LabelResourceNamespace: "qa",
+					tunneloperator.LabelResourceSpecHash:  "h1",
 				},
 			},
 			Report: v1alpha1.InfraAssessmentReportData{
@@ -98,10 +98,10 @@ func TestReadWriter(t *testing.T) {
 				Name:      "role-app",
 				Namespace: "qa",
 				Labels: map[string]string{
-					trivyoperator.LabelResourceKind:      "Role",
-					trivyoperator.LabelResourceName:      "app",
-					trivyoperator.LabelResourceNamespace: "qa",
-					trivyoperator.LabelResourceSpecHash:  "h2",
+					tunneloperator.LabelResourceKind:      "Role",
+					tunneloperator.LabelResourceName:      "app",
+					tunneloperator.LabelResourceNamespace: "qa",
+					tunneloperator.LabelResourceSpecHash:  "h2",
 				},
 			},
 			Report: v1alpha1.InfraAssessmentReportData{
@@ -126,10 +126,10 @@ func TestReadWriter(t *testing.T) {
 				Name:      "role-app",
 				Namespace: "qa",
 				Labels: map[string]string{
-					trivyoperator.LabelResourceKind:      "Role",
-					trivyoperator.LabelResourceName:      "app",
-					trivyoperator.LabelResourceNamespace: "qa",
-					trivyoperator.LabelResourceSpecHash:  "h2",
+					tunneloperator.LabelResourceKind:      "Role",
+					tunneloperator.LabelResourceName:      "app",
+					tunneloperator.LabelResourceNamespace: "qa",
+					tunneloperator.LabelResourceSpecHash:  "h2",
 				},
 				ResourceVersion: "1",
 			},
@@ -150,9 +150,9 @@ func TestReadWriter(t *testing.T) {
 					Name:            "role-my-deploy-my",
 					ResourceVersion: "0",
 					Labels: map[string]string{
-						trivyoperator.LabelResourceKind:      string(kube.KindDeployment),
-						trivyoperator.LabelResourceName:      "role-my-deploy",
-						trivyoperator.LabelResourceNamespace: "my-namespace",
+						tunneloperator.LabelResourceKind:      string(kube.KindDeployment),
+						tunneloperator.LabelResourceName:      "role-my-deploy",
+						tunneloperator.LabelResourceNamespace: "my-namespace",
 					},
 				},
 				Report: v1alpha1.InfraAssessmentReportData{},
@@ -161,9 +161,9 @@ func TestReadWriter(t *testing.T) {
 					Namespace: "my-namespace",
 					Name:      "role-my-sts",
 					Labels: map[string]string{
-						trivyoperator.LabelResourceKind:      string(kube.KindStatefulSet),
-						trivyoperator.LabelResourceName:      "role-my-sts",
-						trivyoperator.LabelResourceNamespace: "my-namespace",
+						tunneloperator.LabelResourceKind:      string(kube.KindStatefulSet),
+						tunneloperator.LabelResourceName:      "role-my-sts",
+						tunneloperator.LabelResourceNamespace: "my-namespace",
 					},
 				},
 				Report: v1alpha1.InfraAssessmentReportData{},
@@ -182,9 +182,9 @@ func TestReadWriter(t *testing.T) {
 				Name:            "role-my-deploy-my",
 				ResourceVersion: "0",
 				Labels: map[string]string{
-					trivyoperator.LabelResourceKind:      string(kube.KindDeployment),
-					trivyoperator.LabelResourceName:      "role-my-deploy",
-					trivyoperator.LabelResourceNamespace: "my-namespace",
+					tunneloperator.LabelResourceKind:      string(kube.KindDeployment),
+					tunneloperator.LabelResourceName:      "role-my-deploy",
+					tunneloperator.LabelResourceNamespace: "my-namespace",
 				},
 			},
 			Report: v1alpha1.InfraAssessmentReportData{},
@@ -199,12 +199,12 @@ func TestReadWriter(t *testing.T) {
 					Name:            "role-79f88497",
 					ResourceVersion: "0",
 					Labels: map[string]string{
-						trivyoperator.LabelResourceKind:      "Role",
-						trivyoperator.LabelResourceNameHash:  "79f88497",
-						trivyoperator.LabelResourceNamespace: "kube-system",
+						tunneloperator.LabelResourceKind:      "Role",
+						tunneloperator.LabelResourceNameHash:  "79f88497",
+						tunneloperator.LabelResourceNamespace: "kube-system",
 					},
 					Annotations: map[string]string{
-						trivyoperator.LabelResourceName: "system:controller:cloud-provider",
+						tunneloperator.LabelResourceName: "system:controller:cloud-provider",
 					},
 				},
 				Report: v1alpha1.InfraAssessmentReportData{},
@@ -214,12 +214,12 @@ func TestReadWriter(t *testing.T) {
 					Name:            "role-868458b9d6",
 					ResourceVersion: "0",
 					Labels: map[string]string{
-						trivyoperator.LabelResourceKind:      "Role",
-						trivyoperator.LabelResourceNameHash:  "868458b9d6",
-						trivyoperator.LabelResourceNamespace: "kube-system",
+						tunneloperator.LabelResourceKind:      "Role",
+						tunneloperator.LabelResourceNameHash:  "868458b9d6",
+						tunneloperator.LabelResourceNamespace: "kube-system",
 					},
 					Annotations: map[string]string{
-						trivyoperator.LabelResourceName: "system:controller:token-cleaner",
+						tunneloperator.LabelResourceName: "system:controller:token-cleaner",
 					},
 				},
 				Report: v1alpha1.InfraAssessmentReportData{},
@@ -238,12 +238,12 @@ func TestReadWriter(t *testing.T) {
 				Name:            "role-868458b9d6",
 				ResourceVersion: "0",
 				Labels: map[string]string{
-					trivyoperator.LabelResourceKind:      "Role",
-					trivyoperator.LabelResourceNameHash:  "868458b9d6",
-					trivyoperator.LabelResourceNamespace: "kube-system",
+					tunneloperator.LabelResourceKind:      "Role",
+					tunneloperator.LabelResourceNameHash:  "868458b9d6",
+					tunneloperator.LabelResourceNamespace: "kube-system",
 				},
 				Annotations: map[string]string{
-					trivyoperator.LabelResourceName: "system:controller:token-cleaner",
+					tunneloperator.LabelResourceName: "system:controller:token-cleaner",
 				},
 			},
 			Report: v1alpha1.InfraAssessmentReportData{},

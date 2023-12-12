@@ -22,7 +22,7 @@ func NewFileSystemJobSpecMgr() PodSpecMgr {
 	return &FileSystemJobSpecMgr{}
 }
 
-func (j *FileSystemJobSpecMgr) GetPodSpec(ctx trivyoperator.PluginContext, config Config, workload client.Object, credentials map[string]docker.Auth, securityContext *corev1.SecurityContext, p *plugin, clusterSboms map[string]v1alpha1.SbomReportData) (corev1.PodSpec, []*corev1.Secret, error) {
+func (j *FileSystemJobSpecMgr) GetPodSpec(ctx tunneloperator.PluginContext, config Config, workload client.Object, credentials map[string]docker.Auth, securityContext *corev1.SecurityContext, p *plugin, clusterSboms map[string]v1alpha1.SbomReportData) (corev1.PodSpec, []*corev1.Secret, error) {
 	return j.getPodSpecFunc(ctx, config, workload, credentials, securityContext, p, clusterSboms)
 }
 
@@ -31,7 +31,7 @@ func (j *FileSystemJobSpecMgr) GetPodSpec(ctx trivyoperator.PluginContext, confi
 // We are scanning the resource place on a specific file system location using the following command.
 //
 //	trivy --quiet fs  --format json --ignore-unfixed  file/system/location
-func GetPodSpecForStandaloneFSMode(ctx trivyoperator.PluginContext, config Config, workload client.Object, _ map[string]docker.Auth, securityContext *corev1.SecurityContext, p *plugin, clusterSboms map[string]v1alpha1.SbomReportData) (corev1.PodSpec, []*corev1.Secret, error) {
+func GetPodSpecForStandaloneFSMode(ctx tunneloperator.PluginContext, config Config, workload client.Object, _ map[string]docker.Auth, securityContext *corev1.SecurityContext, p *plugin, clusterSboms map[string]v1alpha1.SbomReportData) (corev1.PodSpec, []*corev1.Secret, error) {
 	var secrets []*corev1.Secret
 	spec, err := kube.GetPodSpec(workload)
 	if err != nil {
@@ -40,7 +40,7 @@ func GetPodSpecForStandaloneFSMode(ctx trivyoperator.PluginContext, config Confi
 	pullPolicy := corev1.PullIfNotPresent
 	// nodeName to schedule scan job explicitly on specific node.
 	var nodeName string
-	if !ctx.GetTrivyOperatorConfig().VulnerabilityScanJobsInSameNamespace() {
+	if !ctx.GetTunnelOperatorConfig().VulnerabilityScanJobsInSameNamespace() {
 		// get nodeName from running pods.
 		nodeName, err = p.objectResolver.GetNodeName(context.Background(), workload)
 		if err != nil {
@@ -55,7 +55,7 @@ func GetPodSpecForStandaloneFSMode(ctx trivyoperator.PluginContext, config Confi
 		return corev1.PodSpec{}, nil, err
 	}
 
-	trivyConfigName := trivyoperator.GetPluginConfigMapName(Plugin)
+	trivyConfigName := tunneloperator.GetPluginConfigMapName(Plugin)
 
 	dbRepository, err := config.GetDBRepository()
 	if err != nil {
@@ -73,7 +73,7 @@ func GetPodSpecForStandaloneFSMode(ctx trivyoperator.PluginContext, config Confi
 		{
 			Name:      FsSharedVolumeName,
 			ReadOnly:  false,
-			MountPath: "/var/trivyoperator",
+			MountPath: "/var/tunneloperator",
 		},
 		{
 			Name:      tmpVolumeName,
@@ -251,7 +251,7 @@ func GetPodSpecForStandaloneFSMode(ctx trivyoperator.PluginContext, config Confi
 	}
 
 	podSpec := corev1.PodSpec{
-		Affinity:                     trivyoperator.LinuxNodeAffinity(),
+		Affinity:                     tunneloperator.LinuxNodeAffinity(),
 		RestartPolicy:                corev1.RestartPolicyNever,
 		ServiceAccountName:           ctx.GetServiceAccountName(),
 		AutomountServiceAccountToken: ptr.To[bool](getAutomountServiceAccountToken(ctx)),
@@ -261,7 +261,7 @@ func GetPodSpecForStandaloneFSMode(ctx trivyoperator.PluginContext, config Confi
 		SecurityContext:              &corev1.PodSecurityContext{},
 	}
 
-	if !ctx.GetTrivyOperatorConfig().VulnerabilityScanJobsInSameNamespace() {
+	if !ctx.GetTunnelOperatorConfig().VulnerabilityScanJobsInSameNamespace() {
 		// schedule scan job explicitly on specific node.
 		podSpec.NodeName = nodeName
 	}
@@ -274,7 +274,7 @@ func GetPodSpecForStandaloneFSMode(ctx trivyoperator.PluginContext, config Confi
 // We scanning the resource place on a specific file system location using the following command.
 //
 //	trivy --quiet fs  --server TRIVY_SERVER  --format json --ignore-unfixed  file/system/location
-func GetPodSpecForClientServerFSMode(ctx trivyoperator.PluginContext, config Config, workload client.Object, _ map[string]docker.Auth, securityContext *corev1.SecurityContext, p *plugin, clusterSboms map[string]v1alpha1.SbomReportData) (corev1.PodSpec, []*corev1.Secret, error) {
+func GetPodSpecForClientServerFSMode(ctx tunneloperator.PluginContext, config Config, workload client.Object, _ map[string]docker.Auth, securityContext *corev1.SecurityContext, p *plugin, clusterSboms map[string]v1alpha1.SbomReportData) (corev1.PodSpec, []*corev1.Secret, error) {
 	var secrets []*corev1.Secret
 	spec, err := kube.GetPodSpec(workload)
 	if err != nil {
@@ -283,7 +283,7 @@ func GetPodSpecForClientServerFSMode(ctx trivyoperator.PluginContext, config Con
 	pullPolicy := corev1.PullIfNotPresent
 	// nodeName to schedule scan job explicitly on specific node.
 	var nodeName string
-	if !ctx.GetTrivyOperatorConfig().VulnerabilityScanJobsInSameNamespace() {
+	if !ctx.GetTunnelOperatorConfig().VulnerabilityScanJobsInSameNamespace() {
 		// get nodeName from running pods.
 		nodeName, err = p.objectResolver.GetNodeName(context.Background(), workload)
 		if err != nil {
@@ -308,7 +308,7 @@ func GetPodSpecForClientServerFSMode(ctx trivyoperator.PluginContext, config Con
 		return corev1.PodSpec{}, nil, err
 	}
 
-	trivyConfigName := trivyoperator.GetPluginConfigMapName(Plugin)
+	trivyConfigName := tunneloperator.GetPluginConfigMapName(Plugin)
 
 	requirements, err := config.GetResourceRequirements()
 	if err != nil {
@@ -319,7 +319,7 @@ func GetPodSpecForClientServerFSMode(ctx trivyoperator.PluginContext, config Con
 		{
 			Name:      FsSharedVolumeName,
 			ReadOnly:  false,
-			MountPath: "/var/trivyoperator",
+			MountPath: "/var/tunneloperator",
 		},
 		{
 			Name:      tmpVolumeName,
@@ -477,7 +477,7 @@ func GetPodSpecForClientServerFSMode(ctx trivyoperator.PluginContext, config Con
 	}
 
 	podSpec := corev1.PodSpec{
-		Affinity:                     trivyoperator.LinuxNodeAffinity(),
+		Affinity:                     tunneloperator.LinuxNodeAffinity(),
 		RestartPolicy:                corev1.RestartPolicyNever,
 		ServiceAccountName:           ctx.GetServiceAccountName(),
 		AutomountServiceAccountToken: ptr.To[bool](getAutomountServiceAccountToken(ctx)),
@@ -487,7 +487,7 @@ func GetPodSpecForClientServerFSMode(ctx trivyoperator.PluginContext, config Con
 		SecurityContext:              &corev1.PodSecurityContext{},
 	}
 
-	if !ctx.GetTrivyOperatorConfig().VulnerabilityScanJobsInSameNamespace() {
+	if !ctx.GetTunnelOperatorConfig().VulnerabilityScanJobsInSameNamespace() {
 		// schedule scan job explicitly on specific node.
 		podSpec.NodeName = nodeName
 	}
@@ -495,7 +495,7 @@ func GetPodSpecForClientServerFSMode(ctx trivyoperator.PluginContext, config Con
 	return podSpec, secrets, nil
 }
 
-func getFSScanningArgs(ctx trivyoperator.PluginContext, command Command, mode Mode, trivyServerURL string) []string {
+func getFSScanningArgs(ctx tunneloperator.PluginContext, command Command, mode Mode, trivyServerURL string) []string {
 	c, err := getConfig(ctx)
 	if err != nil {
 		return []string{}
@@ -533,7 +533,7 @@ func getFSScanningArgs(ctx trivyoperator.PluginContext, command Command, mode Mo
 	return args
 }
 
-func GetSbomFSScanningArgs(ctx trivyoperator.PluginContext, mode Mode, trivyServerURL string, sbomFile string) ([]string, []string) {
+func GetSbomFSScanningArgs(ctx tunneloperator.PluginContext, mode Mode, trivyServerURL string, sbomFile string) ([]string, []string) {
 	command := []string{
 		SharedVolumeLocationOfTrivy,
 	}

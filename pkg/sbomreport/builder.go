@@ -99,7 +99,7 @@ func ParseReference(ref string) (containerimage.Reference, error) {
 
 func (b *ReportBuilder) NamespacedReport() (v1alpha1.SbomReport, error) {
 	reportLabels := map[string]string{
-		trivyoperator.LabelContainerName: b.container,
+		tunneloperator.LabelContainerName: b.container,
 	}
 
 	// append matching resource labels by config to report
@@ -108,7 +108,7 @@ func (b *ReportBuilder) NamespacedReport() (v1alpha1.SbomReport, error) {
 	kube.AppendCustomLabels(b.additionalReportLabels, reportLabels)
 
 	if b.hash != "" {
-		reportLabels[trivyoperator.LabelResourceSpecHash] = b.hash
+		reportLabels[tunneloperator.LabelResourceSpecHash] = b.hash
 	}
 
 	report := v1alpha1.SbomReport{
@@ -150,7 +150,7 @@ func (b *ReportBuilder) Get() (v1alpha1.SbomReport, v1alpha1.ClusterSbomReport, 
 func (b *ReportBuilder) clusterReport() v1alpha1.ClusterSbomReport {
 	artifactRef := ArtifactRef(b.data)
 	reportLabels := map[string]string{
-		trivyoperator.LabelResourceImageID: artifactRef,
+		tunneloperator.LabelResourceImageID: artifactRef,
 	}
 	clusterReport := v1alpha1.ClusterSbomReport{
 		ObjectMeta: metav1.ObjectMeta{

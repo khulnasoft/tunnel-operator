@@ -107,11 +107,11 @@ func TestGetSbomScanCommandAndArgs(t *testing.T) {
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
 			client := fake.NewClientBuilder().
-				WithScheme(trivyoperator.NewScheme()).
+				WithScheme(tunneloperator.NewScheme()).
 				WithObjects(&corev1.ConfigMap{
 					ObjectMeta: metav1.ObjectMeta{
 						Name:      "tunnel-operator-trivy-config",
-						Namespace: "trivyoperator-ns",
+						Namespace: "tunneloperator-ns",
 					},
 					Data: map[string]string{
 						"trivy.tag":                    "0.41.0",
@@ -121,11 +121,11 @@ func TestGetSbomScanCommandAndArgs(t *testing.T) {
 				}).
 				Build()
 
-			pluginContext := trivyoperator.NewPluginContext().
+			pluginContext := tunneloperator.NewPluginContext().
 				WithName("trivy").
-				WithNamespace("trivyoperator-ns").
+				WithNamespace("tunneloperator-ns").
 				WithClient(client).
-				WithTrivyOperatorConfig(map[string]string{
+				WithTunnelOperatorConfig(map[string]string{
 					"trivy.tag":                    "0.41.0",
 					"scanJob.compressLogs":         tc.compressedLogs,
 					"trivy.clientServerSkipUpdate": "false",
