@@ -22,7 +22,7 @@ report:
   updateTimestamp: 2023-09-07T13:57:59Z
   scanner:
     name: Trivy
-    vendor: Aqua Security
+    vendor: Khulnasoft Security
     version: version
   summary:
     criticalCount: 0

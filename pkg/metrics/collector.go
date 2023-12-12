@@ -143,12 +143,12 @@ type metricDescriptors struct {
 type ResourcesMetricsCollector struct {
 	logr.Logger
 	etc.Config
-	trivyoperator.ConfigData
+	tunneloperator.ConfigData
 	client.Client
 	metricDescriptors
 }
 
-func NewResourcesMetricsCollector(logger logr.Logger, config etc.Config, trvConfig trivyoperator.ConfigData, clt client.Client) *ResourcesMetricsCollector {
+func NewResourcesMetricsCollector(logger logr.Logger, config etc.Config, trvConfig tunneloperator.ConfigData, clt client.Client) *ResourcesMetricsCollector {
 	metricDescriptors := buildMetricDescriptors(trvConfig)
 	return &ResourcesMetricsCollector{
 		Logger:            logger,
@@ -159,7 +159,7 @@ func NewResourcesMetricsCollector(logger logr.Logger, config etc.Config, trvConf
 	}
 }
 
-func buildMetricDescriptors(config trivyoperator.ConfigData) metricDescriptors {
+func buildMetricDescriptors(config tunneloperator.ConfigData) metricDescriptors {
 	imageVulnSeverities := map[string]func(vs v1alpha1.VulnerabilitySummary) int{
 		SeverityCritical().Label: func(vs v1alpha1.VulnerabilitySummary) int {
 			return vs.CriticalCount
@@ -532,7 +532,7 @@ func buildMetricDescriptors(config trivyoperator.ConfigData) metricDescriptors {
 	}
 }
 
-func getDynamicConfigLabels(config trivyoperator.ConfigData) []string {
+func getDynamicConfigLabels(config tunneloperator.ConfigData) []string {
 	labels := make([]string, 0)
 	resourceLabels := config.GetReportResourceLabels()
 	for _, label := range resourceLabels {
@@ -595,9 +595,9 @@ func (c ResourcesMetricsCollector) collectVulnerabilityReports(ctx context.Conte
 		for _, r := range reports.Items {
 			labelValues[0] = r.Namespace
 			labelValues[1] = r.Name
-			labelValues[2] = r.Labels[trivyoperator.LabelResourceKind]
-			labelValues[3] = r.Labels[trivyoperator.LabelResourceName]
-			labelValues[4] = r.Labels[trivyoperator.LabelContainerName]
+			labelValues[2] = r.Labels[tunneloperator.LabelResourceKind]
+			labelValues[3] = r.Labels[tunneloperator.LabelResourceName]
+			labelValues[4] = r.Labels[tunneloperator.LabelContainerName]
 			labelValues[5] = r.Report.Registry.Server
 			labelValues[6] = r.Report.Artifact.Repository
 			labelValues[7] = r.Report.Artifact.Tag
@@ -627,9 +627,9 @@ func (c ResourcesMetricsCollector) collectVulnerabilityIdReports(ctx context.Con
 			if c.Config.MetricsVulnerabilityId {
 				vulnLabelValues[0] = r.Namespace
 				vulnLabelValues[1] = r.Name
-				vulnLabelValues[2] = r.Labels[trivyoperator.LabelResourceKind]
-				vulnLabelValues[3] = r.Labels[trivyoperator.LabelResourceName]
-				vulnLabelValues[4] = r.Labels[trivyoperator.LabelContainerName]
+				vulnLabelValues[2] = r.Labels[tunneloperator.LabelResourceKind]
+				vulnLabelValues[3] = r.Labels[tunneloperator.LabelResourceName]
+				vulnLabelValues[4] = r.Labels[tunneloperator.LabelContainerName]
 				vulnLabelValues[5] = r.Report.Registry.Server
 				vulnLabelValues[6] = r.Report.Artifact.Repository
 				vulnLabelValues[7] = r.Report.Artifact.Tag
@@ -676,9 +676,9 @@ func (c ResourcesMetricsCollector) collectExposedSecretsReports(ctx context.Cont
 		for _, r := range reports.Items {
 			labelValues[0] = r.Namespace
 			labelValues[1] = r.Name
-			labelValues[2] = r.Labels[trivyoperator.LabelResourceKind]
-			labelValues[3] = r.Labels[trivyoperator.LabelResourceName]
-			labelValues[4] = r.Labels[trivyoperator.LabelContainerName]
+			labelValues[2] = r.Labels[tunneloperator.LabelResourceKind]
+			labelValues[3] = r.Labels[tunneloperator.LabelResourceName]
+			labelValues[4] = r.Labels[tunneloperator.LabelContainerName]
 			labelValues[5] = r.Report.Registry.Server
 			labelValues[6] = r.Report.Artifact.Repository
 			labelValues[7] = r.Report.Artifact.Tag
@@ -707,9 +707,9 @@ func (c ResourcesMetricsCollector) collectExposedSecretsInfoReports(ctx context.
 			if c.Config.MetricsExposedSecretInfo {
 				labelValues[0] = r.Namespace
 				labelValues[1] = r.Name
-				labelValues[2] = r.Labels[trivyoperator.LabelResourceKind]
-				labelValues[3] = r.Labels[trivyoperator.LabelResourceName]
-				labelValues[4] = r.Labels[trivyoperator.LabelContainerName]
+				labelValues[2] = r.Labels[tunneloperator.LabelResourceKind]
+				labelValues[3] = r.Labels[tunneloperator.LabelResourceName]
+				labelValues[4] = r.Labels[tunneloperator.LabelContainerName]
 				labelValues[5] = r.Report.Registry.Server
 				labelValues[6] = r.Report.Artifact.Repository
 				labelValues[7] = r.Report.Artifact.Tag
@@ -748,8 +748,8 @@ func (c *ResourcesMetricsCollector) collectConfigAuditReports(ctx context.Contex
 		for _, r := range reports.Items {
 			labelValues[0] = r.Namespace
 			labelValues[1] = r.Name
-			labelValues[2] = r.Labels[trivyoperator.LabelResourceKind]
-			labelValues[3] = r.Labels[trivyoperator.LabelResourceName]
+			labelValues[2] = r.Labels[tunneloperator.LabelResourceKind]
+			labelValues[3] = r.Labels[tunneloperator.LabelResourceName]
 			for i, label := range c.GetReportResourceLabels() {
 				labelValues[i+5] = r.Labels[label]
 			}
@@ -774,8 +774,8 @@ func (c *ResourcesMetricsCollector) collectConfigAuditInfoReports(ctx context.Co
 			if c.Config.MetricsConfigAuditInfo {
 				labelValues[0] = r.Namespace
 				labelValues[1] = r.Name
-				labelValues[2] = r.Labels[trivyoperator.LabelResourceKind]
-				labelValues[3] = r.Labels[trivyoperator.LabelResourceName]
+				labelValues[2] = r.Labels[tunneloperator.LabelResourceKind]
+				labelValues[3] = r.Labels[tunneloperator.LabelResourceName]
 				var configMap = make(map[string]bool)
 				for _, config := range r.Report.Checks {
 					if configMap[config.ID] {
@@ -813,8 +813,8 @@ func (c *ResourcesMetricsCollector) collectRbacAssessmentReports(ctx context.Con
 		for _, r := range reports.Items {
 			labelValues[0] = r.Namespace
 			labelValues[1] = r.Name
-			labelValues[2] = r.Labels[trivyoperator.LabelResourceKind]
-			labelValues[3] = r.Labels[trivyoperator.LabelResourceName]
+			labelValues[2] = r.Labels[tunneloperator.LabelResourceKind]
+			labelValues[3] = r.Labels[tunneloperator.LabelResourceName]
 			for i, label := range c.GetReportResourceLabels() {
 				labelValues[i+5] = r.Labels[label]
 			}
@@ -835,8 +835,8 @@ func (c *ResourcesMetricsCollector) collectRbacAssessmentInfoReports(ctx context
 			if c.Config.MetricsRbacAssessmentInfo {
 				labelValues[0] = r.Namespace
 				labelValues[1] = r.Name
-				labelValues[2] = r.Labels[trivyoperator.LabelResourceKind]
-				labelValues[3] = r.Labels[trivyoperator.LabelResourceName]
+				labelValues[2] = r.Labels[tunneloperator.LabelResourceKind]
+				labelValues[3] = r.Labels[tunneloperator.LabelResourceName]
 				var configMap = make(map[string]bool)
 				for _, rbac := range r.Report.Checks {
 					if configMap[rbac.ID] {
@@ -871,8 +871,8 @@ func (c *ResourcesMetricsCollector) collectInfraAssessmentReports(ctx context.Co
 		for _, r := range reports.Items {
 			labelValues[0] = r.Namespace
 			labelValues[1] = r.Name
-			labelValues[2] = r.Labels[trivyoperator.LabelResourceKind]
-			labelValues[3] = r.Labels[trivyoperator.LabelResourceName]
+			labelValues[2] = r.Labels[tunneloperator.LabelResourceKind]
+			labelValues[3] = r.Labels[tunneloperator.LabelResourceName]
 			for i, label := range c.GetReportResourceLabels() {
 				labelValues[i+5] = r.Labels[label]
 			}
@@ -893,8 +893,8 @@ func (c *ResourcesMetricsCollector) collectInfraAssessmentInfoReports(ctx contex
 			if c.Config.MetricsInfraAssessmentInfo {
 				labelValues[0] = r.Namespace
 				labelValues[1] = r.Name
-				labelValues[2] = r.Labels[trivyoperator.LabelResourceKind]
-				labelValues[3] = r.Labels[trivyoperator.LabelResourceName]
+				labelValues[2] = r.Labels[tunneloperator.LabelResourceKind]
+				labelValues[3] = r.Labels[tunneloperator.LabelResourceName]
 				var configMap = make(map[string]bool)
 				for _, infra := range r.Report.Checks {
 					if configMap[infra.ID] {
@@ -927,8 +927,8 @@ func (c *ResourcesMetricsCollector) collectClusterRbacAssessmentReports(ctx cont
 	}
 	for _, r := range reports.Items {
 		labelValues[0] = r.Name
-		labelValues[1] = r.Labels[trivyoperator.LabelResourceKind]
-		labelValues[2] = r.Labels[trivyoperator.LabelResourceName]
+		labelValues[1] = r.Labels[tunneloperator.LabelResourceKind]
+		labelValues[2] = r.Labels[tunneloperator.LabelResourceName]
 		for i, label := range c.GetReportResourceLabels() {
 			labelValues[i+4] = r.Labels[label]
 		}
@@ -967,9 +967,9 @@ func (c ResourcesMetricsCollector) collectImageReports(ctx context.Context, metr
 			if c.Config.MetricsImageInfo {
 				labelValues[0] = r.Namespace
 				labelValues[1] = r.Name
-				labelValues[2] = r.Labels[trivyoperator.LabelResourceKind]
-				labelValues[3] = r.Labels[trivyoperator.LabelResourceName]
-				labelValues[4] = r.Labels[trivyoperator.LabelContainerName]
+				labelValues[2] = r.Labels[tunneloperator.LabelResourceKind]
+				labelValues[3] = r.Labels[tunneloperator.LabelResourceName]
+				labelValues[4] = r.Labels[tunneloperator.LabelContainerName]
 				labelValues[5] = r.Report.Registry.Server
 				labelValues[6] = r.Report.Artifact.Repository
 				labelValues[7] = r.Report.Artifact.Tag

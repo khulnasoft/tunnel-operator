@@ -21,7 +21,7 @@ import (
 )
 
 var (
-	buildInfo = trivyoperator.BuildInfo{
+	buildInfo = tunneloperator.BuildInfo{
 		Version: "dev",
 		Commit:  "none",
 		Date:    "unknown",
@@ -39,12 +39,12 @@ var (
 	inputs behavior.Inputs
 )
 
-func TestTrivyOperator(t *testing.T) {
+func TestTunnelOperator(t *testing.T) {
 	if testing.Short() {
 		t.Skip("Skipping integration test")
 	}
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "Trivy Operator")
+	RunSpecs(t, "Tunnel Operator")
 }
 
 var _ = BeforeSuite(func() {
@@ -56,7 +56,7 @@ var _ = BeforeSuite(func() {
 	kubeConfig, err := ctrl.GetConfig()
 	Expect(err).ToNot(HaveOccurred())
 
-	scheme = trivyoperator.NewScheme()
+	scheme = tunneloperator.NewScheme()
 	kubeClient, err = client.New(kubeConfig, client.Options{
 		Scheme: scheme,
 	})
@@ -74,7 +74,7 @@ var _ = BeforeSuite(func() {
 
 	go func() {
 		defer GinkgoRecover()
-		By("Starting Trivy operator")
+		By("Starting Tunnel operator")
 		err = operator.Start(startCtx, buildInfo, operatorConfig)
 		Expect(err).ToNot(HaveOccurred())
 	}()
@@ -82,6 +82,6 @@ var _ = BeforeSuite(func() {
 })
 
 var _ = AfterSuite(func() {
-	By("Stopping Trivy operator")
+	By("Stopping Tunnel operator")
 	stopFunc()
 })

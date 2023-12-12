@@ -162,9 +162,9 @@ func TestObjectRefToLabels(t *testing.T) {
 				Namespace: "production",
 			},
 			labels: map[string]string{
-				trivyoperator.LabelResourceKind:      "Pod",
-				trivyoperator.LabelResourceNamespace: "production",
-				trivyoperator.LabelResourceName:      "my-pod",
+				tunneloperator.LabelResourceKind:      "Pod",
+				tunneloperator.LabelResourceNamespace: "production",
+				tunneloperator.LabelResourceName:      "my-pod",
 			},
 		},
 		{
@@ -174,9 +174,9 @@ func TestObjectRefToLabels(t *testing.T) {
 				Name: "system:controller:namespace-controller",
 			},
 			labels: map[string]string{
-				trivyoperator.LabelResourceKind:      "ClusterRole",
-				trivyoperator.LabelResourceNameHash:  kube.ComputeHash("system:controller:namespace-controller"),
-				trivyoperator.LabelResourceNamespace: "",
+				tunneloperator.LabelResourceKind:      "ClusterRole",
+				tunneloperator.LabelResourceNameHash:  kube.ComputeHash("system:controller:namespace-controller"),
+				tunneloperator.LabelResourceNamespace: "",
 			},
 		},
 	}
@@ -209,9 +209,9 @@ func TestObjectToObjectMeta(t *testing.T) {
 			},
 			expected: metav1.ObjectMeta{
 				Labels: map[string]string{
-					trivyoperator.LabelResourceKind:      "Pod",
-					trivyoperator.LabelResourceName:      "my-pod",
-					trivyoperator.LabelResourceNamespace: "production",
+					tunneloperator.LabelResourceKind:      "Pod",
+					tunneloperator.LabelResourceName:      "my-pod",
+					tunneloperator.LabelResourceNamespace: "production",
 				},
 			},
 		},
@@ -229,12 +229,12 @@ func TestObjectToObjectMeta(t *testing.T) {
 			},
 			expected: metav1.ObjectMeta{
 				Labels: map[string]string{
-					trivyoperator.LabelResourceKind:      "ClusterRole",
-					trivyoperator.LabelResourceNameHash:  kube.ComputeHash("system:controller:node-controller"),
-					trivyoperator.LabelResourceNamespace: "",
+					tunneloperator.LabelResourceKind:      "ClusterRole",
+					tunneloperator.LabelResourceNameHash:  kube.ComputeHash("system:controller:node-controller"),
+					tunneloperator.LabelResourceNamespace: "",
 				},
 				Annotations: map[string]string{
-					trivyoperator.LabelResourceName: "system:controller:node-controller",
+					tunneloperator.LabelResourceName: "system:controller:node-controller",
 				},
 			},
 		},
@@ -261,14 +261,14 @@ func TestObjectToObjectMeta(t *testing.T) {
 				Labels: map[string]string{
 					"foo": "bar",
 
-					trivyoperator.LabelResourceKind:      "ClusterRole",
-					trivyoperator.LabelResourceNameHash:  kube.ComputeHash("system:controller:node-controller"),
-					trivyoperator.LabelResourceNamespace: "",
+					tunneloperator.LabelResourceKind:      "ClusterRole",
+					tunneloperator.LabelResourceNameHash:  kube.ComputeHash("system:controller:node-controller"),
+					tunneloperator.LabelResourceNamespace: "",
 				},
 				Annotations: map[string]string{
 					"kee": "pass",
 
-					trivyoperator.LabelResourceName: "system:controller:node-controller",
+					tunneloperator.LabelResourceName: "system:controller:node-controller",
 				},
 			},
 		},
@@ -567,7 +567,7 @@ func TestGetPodSpec(t *testing.T) {
 }
 
 func TestObjectResolver_RelatedReplicaSetName(t *testing.T) {
-	kubClient := fake.NewClientBuilder().WithScheme(trivyoperator.NewScheme()).WithObjects(
+	kubClient := fake.NewClientBuilder().WithScheme(tunneloperator.NewScheme()).WithObjects(
 		&appsv1.Deployment{
 			ObjectMeta: metav1.ObjectMeta{
 				Name:      "nginx",
@@ -693,12 +693,12 @@ func TestObjectRefFromObjectMeta(t *testing.T) {
 			name: "Test Role",
 			object: metav1.ObjectMeta{
 				Labels: map[string]string{
-					trivyoperator.LabelResourceKind:      "Role",
-					trivyoperator.LabelResourceNamespace: "kube-system",
-					trivyoperator.LabelResourceNameHash:  kube.ComputeHash("system:admin"),
+					tunneloperator.LabelResourceKind:      "Role",
+					tunneloperator.LabelResourceNamespace: "kube-system",
+					tunneloperator.LabelResourceNameHash:  kube.ComputeHash("system:admin"),
 				},
 				Annotations: map[string]string{
-					trivyoperator.LabelResourceName: "system:admin",
+					tunneloperator.LabelResourceName: "system:admin",
 				},
 			},
 			expected: kube.ObjectRef{Kind: kube.KindRole, Name: "system:admin", Namespace: "kube-system"},
@@ -707,12 +707,12 @@ func TestObjectRefFromObjectMeta(t *testing.T) {
 			name: "Test RoleBinding",
 			object: metav1.ObjectMeta{
 				Labels: map[string]string{
-					trivyoperator.LabelResourceKind:      "RoleBinding",
-					trivyoperator.LabelResourceNamespace: "kube-system",
-					trivyoperator.LabelResourceNameHash:  kube.ComputeHash("system:admin:binding"),
+					tunneloperator.LabelResourceKind:      "RoleBinding",
+					tunneloperator.LabelResourceNamespace: "kube-system",
+					tunneloperator.LabelResourceNameHash:  kube.ComputeHash("system:admin:binding"),
 				},
 				Annotations: map[string]string{
-					trivyoperator.LabelResourceName: "system:admin:binding",
+					tunneloperator.LabelResourceName: "system:admin:binding",
 				},
 			},
 			expected: kube.ObjectRef{Kind: kube.KindRoleBinding, Name: "system:admin:binding", Namespace: "kube-system"},
@@ -721,12 +721,12 @@ func TestObjectRefFromObjectMeta(t *testing.T) {
 			name: "Kind ClusterRole",
 			object: metav1.ObjectMeta{
 				Labels: map[string]string{
-					trivyoperator.LabelResourceKind:      "ClusterRole",
-					trivyoperator.LabelResourceNamespace: "",
-					trivyoperator.LabelResourceNameHash:  kube.ComputeHash("system:netnode"),
+					tunneloperator.LabelResourceKind:      "ClusterRole",
+					tunneloperator.LabelResourceNamespace: "",
+					tunneloperator.LabelResourceNameHash:  kube.ComputeHash("system:netnode"),
 				},
 				Annotations: map[string]string{
-					trivyoperator.LabelResourceName: "system:netnode",
+					tunneloperator.LabelResourceName: "system:netnode",
 				},
 			},
 			expected: kube.ObjectRef{Kind: kube.KindClusterRole, Name: "system:netnode"},
@@ -735,12 +735,12 @@ func TestObjectRefFromObjectMeta(t *testing.T) {
 			name: "Kind ClusterRoleBinding",
 			object: metav1.ObjectMeta{
 				Labels: map[string]string{
-					trivyoperator.LabelResourceKind:      "ClusterRoleBinding",
-					trivyoperator.LabelResourceNamespace: "",
-					trivyoperator.LabelResourceNameHash:  kube.ComputeHash("system:netnode:binding"),
+					tunneloperator.LabelResourceKind:      "ClusterRoleBinding",
+					tunneloperator.LabelResourceNamespace: "",
+					tunneloperator.LabelResourceNameHash:  kube.ComputeHash("system:netnode:binding"),
 				},
 				Annotations: map[string]string{
-					trivyoperator.LabelResourceName: "system:netnode:binding",
+					tunneloperator.LabelResourceName: "system:netnode:binding",
 				},
 			},
 			expected: kube.ObjectRef{Kind: kube.KindClusterRoleBindings, Name: "system:netnode:binding"},
@@ -749,9 +749,9 @@ func TestObjectRefFromObjectMeta(t *testing.T) {
 			name: "Kind Pod",
 			object: metav1.ObjectMeta{
 				Labels: map[string]string{
-					trivyoperator.LabelResourceKind:      "Pod",
-					trivyoperator.LabelResourceNamespace: "default",
-					trivyoperator.LabelResourceName:      "nginx-pod",
+					tunneloperator.LabelResourceKind:      "Pod",
+					tunneloperator.LabelResourceNamespace: "default",
+					tunneloperator.LabelResourceName:      "nginx-pod",
 				},
 			},
 			expected: kube.ObjectRef{Kind: kube.KindPod, Name: "nginx-pod", Namespace: "default"},
@@ -760,9 +760,9 @@ func TestObjectRefFromObjectMeta(t *testing.T) {
 			name: "Kind Deployment",
 			object: metav1.ObjectMeta{
 				Labels: map[string]string{
-					trivyoperator.LabelResourceKind:      "Deployment",
-					trivyoperator.LabelResourceNamespace: "default",
-					trivyoperator.LabelResourceName:      "nginx-deployment",
+					tunneloperator.LabelResourceKind:      "Deployment",
+					tunneloperator.LabelResourceNamespace: "default",
+					tunneloperator.LabelResourceName:      "nginx-deployment",
 				},
 			},
 			expected: kube.ObjectRef{Kind: kube.KindDeployment, Name: "nginx-deployment", Namespace: "default"},
@@ -771,19 +771,19 @@ func TestObjectRefFromObjectMeta(t *testing.T) {
 			name: "Kind DaemonSet",
 			object: metav1.ObjectMeta{
 				Labels: map[string]string{
-					trivyoperator.LabelResourceKind:      "DaemonSet",
-					trivyoperator.LabelResourceNamespace: "default",
-					trivyoperator.LabelResourceName:      "nginx-ds",
+					tunneloperator.LabelResourceKind:      "DaemonSet",
+					tunneloperator.LabelResourceNamespace: "default",
+					tunneloperator.LabelResourceName:      "nginx-ds",
 				},
 			},
 			expected: kube.ObjectRef{Kind: kube.KindDaemonSet, Name: "nginx-ds", Namespace: "default"},
 		},
 		{
-			name: fmt.Sprintf("Should return error when %s label is missing", trivyoperator.LabelResourceKind),
+			name: fmt.Sprintf("Should return error when %s label is missing", tunneloperator.LabelResourceKind),
 			object: metav1.ObjectMeta{
 				Labels: map[string]string{
-					trivyoperator.LabelResourceName:      "nginx",
-					trivyoperator.LabelResourceNamespace: "default",
+					tunneloperator.LabelResourceName:      "nginx",
+					tunneloperator.LabelResourceNamespace: "default",
 				},
 			},
 			expectedError: "required label does not exist: tunnel-operator.resource.kind",
@@ -870,7 +870,7 @@ func TestGetActivePodsMatchingLabels(t *testing.T) {
 		},
 	}
 
-	testClient := fake.NewClientBuilder().WithScheme(trivyoperator.NewScheme()).WithObjects(
+	testClient := fake.NewClientBuilder().WithScheme(tunneloperator.NewScheme()).WithObjects(
 		nginxReplicaSet,
 		nginxPod,
 	).Build()
@@ -1069,7 +1069,7 @@ func TestObjectResolver_ReportOwner(t *testing.T) {
 		},
 	}
 
-	testClient := fake.NewClientBuilder().WithScheme(trivyoperator.NewScheme()).WithObjects(
+	testClient := fake.NewClientBuilder().WithScheme(tunneloperator.NewScheme()).WithObjects(
 		nginxDeploy,
 		nginxReplicaSet,
 		nginxPod,
@@ -1275,7 +1275,7 @@ func TestObjectResolver_IsActiveReplicaSet(t *testing.T) {
 			},
 		},
 	}
-	testClient := fake.NewClientBuilder().WithScheme(trivyoperator.NewScheme()).WithObjects(
+	testClient := fake.NewClientBuilder().WithScheme(tunneloperator.NewScheme()).WithObjects(
 		nginxDeploy,
 		nginxReplicaSet,
 		notActiveNginxReplicaSet,
@@ -1499,7 +1499,7 @@ func TestObjectResolver_IsActiveReplicationController(t *testing.T) {
 		},
 		Status: corev1.ReplicationControllerStatus{},
 	}
-	testClient := fake.NewClientBuilder().WithScheme(trivyoperator.NewScheme()).WithObjects(
+	testClient := fake.NewClientBuilder().WithScheme(tunneloperator.NewScheme()).WithObjects(
 		busyboxDeploymentConfig,
 		busyboxReplicaController,
 		notActivebusyboxReplicaController,

@@ -3,7 +3,7 @@
 The [Operator Lifecycle Manager (OLM)][olm] provides a declarative way to install and upgrade operators and their
 dependencies.
 
-You can install the Trivy Operator from [OperatorHub.io] or [ArtifactHUB] by creating the OperatorGroup, which
+You can install the Tunnel Operator from [OperatorHub.io] or [ArtifactHUB] by creating the OperatorGroup, which
 defines the Operator's multitenancy, and Subscription that links everything together to run the operator's pod.
 
 As an example, let's install the Operator from the OperatorHub catalog in the `trivy-system` namespace and
@@ -57,7 +57,7 @@ configure it to watch the `default` namespaces:
    ```console
    $ kubectl get clusterserviceversions -n trivy-system
    NAME                        DISPLAY              VERSION   REPLACES                     PHASE
-   tunnel-operator.{{ git.tag }}  Trivy Operator   {{ git.tag[1:] }}    tunnel-operator.{{ var.prev_git_tag }}   Succeeded
+   tunnel-operator.{{ git.tag }}  Tunnel Operator   {{ git.tag[1:] }}    tunnel-operator.{{ var.prev_git_tag }}   Succeeded
    ```
    If the above command succeeds and the ClusterServiceVersion has transitioned from `Installing` to `Succeeded` phase
    you will also find the operator's Deployment in the same namespace where the Subscription is:

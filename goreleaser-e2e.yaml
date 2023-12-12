@@ -47,7 +47,7 @@ dockers:
       - --label=org.opencontainers.image.title=tunnel-operator
       - --label=org.opencontainers.image.description=Keeps tunnel-operator
         resources updated
-      - --label=org.opencontainers.image.vendor=Aqua Security
+      - --label=org.opencontainers.image.vendor=Khulnasoft Security
       - --label=org.opencontainers.image.version={{ .Version }}
       - --label=org.opencontainers.image.created={{ .Date }}
       - --label=org.opencontainers.image.source=https://github.com/khulnasoft/tunnel-operator

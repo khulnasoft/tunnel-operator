@@ -139,7 +139,7 @@ func (r *readWriter) FindReportByImageRef(ctx context.Context, imageRef string) 
 		return nil, err
 	}
 	labels := client.MatchingLabels(map[string]string{
-		trivyoperator.LabelResourceImageID: imageRef,
+		tunneloperator.LabelResourceImageID: imageRef,
 	})
 
 	err = r.List(ctx, &list, labels)
@@ -174,7 +174,7 @@ func BuildSbomReportData(reports ty.Report, clock ext.Clock, registry v1alpha1.R
 		UpdateTimestamp: metav1.NewTime(clock.Now()),
 		Scanner: v1alpha1.Scanner{
 			Name:    v1alpha1.ScannerNameTrivy,
-			Vendor:  "Aqua Security",
+			Vendor:  "Khulnasoft Security",
 			Version: version,
 		},
 		Registry: registry,

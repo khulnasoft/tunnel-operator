@@ -38,14 +38,14 @@ import (
 type NodeReconciler struct {
 	logr.Logger
 	etc.Config
-	trivyoperator.ConfigData
+	tunneloperator.ConfigData
 	kube.ObjectResolver
-	trivyoperator.PluginContext
+	tunneloperator.PluginContext
 	configauditreport.PluginInMemory
 	jobs.LimitChecker
 	InfraReadWriter  infraassessment.ReadWriter
 	CacheSyncTimeout time.Duration
-	trivyoperator.BuildInfo
+	tunneloperator.BuildInfo
 }
 
 // +kubebuilder:rbac:groups="",resources=nodes,verbs=get;list;watch
@@ -160,7 +160,7 @@ func (r *NodeReconciler) reconcileNodes() reconcile.Func {
 		if err != nil {
 			return ctrl.Result{}, fmt.Errorf("getting scan job priority class name: %w", err)
 		}
-		nodeCollectorImageRef := r.GetTrivyOperatorConfig().NodeCollectorImageRef()
+		nodeCollectorImageRef := r.GetTunnelOperatorConfig().NodeCollectorImageRef()
 		coll := j.NewCollector(cluster,
 			j.WithJobTemplateName(j.NodeCollectorName),
 			j.WithName(r.getNodeCollectorName(node)),
@@ -177,10 +177,10 @@ func (r *NodeReconciler) reconcileNodes() reconcile.Func {
 			j.WithVolumesMount(nodeCollectorVolumeMounts),
 			j.WithContainerResourceRequirements(&requirements),
 			j.WithJobLabels(map[string]string{
-				trivyoperator.LabelNodeInfoCollector: "Trivy",
-				trivyoperator.LabelK8SAppManagedBy:   trivyoperator.AppTrivyOperator,
-				trivyoperator.LabelResourceKind:      node.Kind,
-				trivyoperator.LabelResourceName:      node.Name,
+				tunneloperator.LabelNodeInfoCollector: "Trivy",
+				tunneloperator.LabelK8SAppManagedBy:   tunneloperator.AppTunnelOperator,
+				tunneloperator.LabelResourceKind:      node.Kind,
+				tunneloperator.LabelResourceName:      node.Name,
 			}))
 
 		log.V(1).Info("Scheduling Node collector job")

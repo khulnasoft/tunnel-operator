@@ -175,7 +175,7 @@ report:
       title: Do not allow update/create of a malicious pod
   scanner:
     name: Trivy
-    vendor: Aqua Security
+    vendor: Khulnasoft Security
     version: '0.17.0'
   summary:
     criticalCount: 1

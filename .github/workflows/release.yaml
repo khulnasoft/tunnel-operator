@@ -33,7 +33,7 @@ jobs:
       - name: Run unit tests
         run: mage test:unit
   itest-tunnel-operator:
-    name: Run integration tests / Trivy Operator
+    name: Run integration tests / Tunnel Operator
     needs:
       - tests
     runs-on: ubuntu-latest

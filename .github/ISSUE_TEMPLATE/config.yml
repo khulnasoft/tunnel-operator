@@ -2,4 +2,4 @@ blank_issues_enabled: false
 contact_links:
   - name: Support Question
     url: https://github.com/khulnasoft/tunnel-operator/discussions/new?category_id=18526498
-    about: If you have a question about Trivy operator.
+    about: If you have a question about Tunnel operator.

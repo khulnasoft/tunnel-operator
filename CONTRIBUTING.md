@@ -20,7 +20,7 @@ These guidelines will help you get started with the Tunnel-operator project.
     - [Code Coverage](#code-coverage)
   - [Custom Resource Definitions](#custom-resource-definitions)
     - [Generating code and manifests](#generating-code-and-manifests)
-  - [Test Trivy Operator](#test-tunnel-operator)
+  - [Test Tunnel Operator](#test-tunnel-operator)
     - [In cluster](#in-cluster)
     - [Out of cluster](#out-of-cluster)
   - [Update Static YAML Manifests](#update-static-yaml-manifests)
@@ -90,7 +90,7 @@ have to
 
 | Binary               | Image                                          | Description                                                   |
 |----------------------|------------------------------------------------|---------------------------------------------------------------|
-| `tunnel-operator`     | `ghcr.io/khulnasoft/tunnel-operator:dev`         | Trivy Operator                                                |
+| `tunnel-operator`     | `ghcr.io/khulnasoft/tunnel-operator:dev`         | Tunnel Operator                                                |
 
 To build all Tunnel-operator binary, run:
 
@@ -244,7 +244,7 @@ or similar, RBAC markers multiple places in the code. This how we want it to be,
 allow us to track RBAC changes to code changes. Any permission granted multiple times by markers
 will be deduplicated by controller-gen.
 
-## Test Trivy Operator
+## Test Tunnel Operator
 
 You can deploy the operator in the `trivy-system` namespace and configure it to watch the `default` namespace.
 In OLM terms such install mode is called *SingleNamespace*. The *SingleNamespace* mode is good to get started with a
@@ -358,7 +358,7 @@ chmod +x install.sh
 
 ### Build the Catalog Image
 
-The Trivy Operator metadata is formatted in *packagemanifest* layout, so you need to place it in the directory
+The Tunnel Operator metadata is formatted in *packagemanifest* layout, so you need to place it in the directory
 structure of the [community-operators] repository.
 
 ```
@@ -366,7 +366,7 @@ git clone git@github.com:k8s-operatorhub/community-operators.git
 cd community-operators
 ```
 
-Build the catalog image for OLM containing just Trivy Operator with a Dockerfile like this:
+Build the catalog image for OLM containing just Tunnel Operator with a Dockerfile like this:
 
 ```
 cat << EOF > tunnel-operator.Dockerfile
@@ -397,7 +397,7 @@ docker image push docker.io/<your account>/tunnel-operator-catalog:dev
 ### Register the Catalog Image
 
 Create a CatalogSource instance in the `olm` namespace to reference in the Operator catalog image that contains the
-Trivy Operator:
+Tunnel Operator:
 
 ```
 cat << EOF | kubectl apply -f -
@@ -420,7 +420,7 @@ You can delete the default catalog that OLM ships with to avoid duplicate entrie
 kubectl delete catalogsource operatorhubio-catalog -n olm
 ```
 
-Inspect the list of loaded package manifests on the system with the following command to filter for the Trivy Operator:
+Inspect the list of loaded package manifests on the system with the following command to filter for the Tunnel Operator:
 
 ```console
 $ kubectl get packagemanifests
@@ -428,7 +428,7 @@ NAME                 CATALOG             AGE
 tunnel-operator   tunnel-operator Catalog   97s
 ```
 
-If the Trivy Operator appears in this list, the catalog was successfully parsed and it is now available to install.
+If the Tunnel Operator appears in this list, the catalog was successfully parsed and it is now available to install.
 Follow the installation instructions for [OLM][tunnel-operator-install-olm]. Make sure that the Subscription's `spec.source`
 property refers to the `tunnel-operator-catalog` source instead of `operatorhubio-catalog`.
 

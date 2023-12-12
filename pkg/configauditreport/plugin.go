@@ -9,9 +9,9 @@ type PluginInMemory interface {
 
 	// Init is a callback to initialize this plugin, e.g. ensure the default
 	// configuration.
-	Init(ctx trivyoperator.PluginContext) error
+	Init(ctx tunneloperator.PluginContext) error
 
-	NewConfigForConfigAudit(ctx trivyoperator.PluginContext) (ConfigAuditConfig, error)
+	NewConfigForConfigAudit(ctx tunneloperator.PluginContext) (ConfigAuditConfig, error)
 }
 
 // ConfigAuditConfig defines the interface between tunnel-operator and trivy configuration which related to configauditreport

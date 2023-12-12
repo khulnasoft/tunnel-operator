@@ -88,9 +88,9 @@ func TestPlugin_GetScanJobSpec(t *testing.T) {
 		{
 			name: "Standalone mode without insecure registry",
 			trivyOperatorConfig: map[string]string{
-				trivyoperator.KeyVulnerabilityScannerEnabled:  "true",
-				trivyoperator.KeyExposedSecretsScannerEnabled: "true",
-				trivyoperator.KeyScanJobcompressLogs:          "true",
+				tunneloperator.KeyVulnerabilityScannerEnabled:  "true",
+				tunneloperator.KeyExposedSecretsScannerEnabled: "true",
+				tunneloperator.KeyScanJobcompressLogs:          "true",
 			},
 			config: map[string]string{
 				"trivy.repository":                "docker.io/aquasec/trivy",
@@ -126,9 +126,9 @@ func TestPlugin_GetScanJobSpec(t *testing.T) {
 				},
 			},
 			expectedJobSpec: corev1.PodSpec{
-				Affinity:                     trivyoperator.LinuxNodeAffinity(),
+				Affinity:                     tunneloperator.LinuxNodeAffinity(),
 				RestartPolicy:                corev1.RestartPolicyNever,
-				ServiceAccountName:           "trivyoperator-sa",
+				ServiceAccountName:           "tunneloperator-sa",
 				ImagePullSecrets:             []corev1.LocalObjectReference{},
 				AutomountServiceAccountToken: ptr.To[bool](false),
 				Volumes: []corev1.Volume{
@@ -376,9 +376,9 @@ func TestPlugin_GetScanJobSpec(t *testing.T) {
 		{
 			name: "Standalone mode with insecure registry",
 			trivyOperatorConfig: map[string]string{
-				trivyoperator.KeyVulnerabilityScannerEnabled:  "false",
-				trivyoperator.KeyExposedSecretsScannerEnabled: "true",
-				trivyoperator.KeyScanJobcompressLogs:          "true",
+				tunneloperator.KeyVulnerabilityScannerEnabled:  "false",
+				tunneloperator.KeyExposedSecretsScannerEnabled: "true",
+				tunneloperator.KeyScanJobcompressLogs:          "true",
 			},
 			config: map[string]string{
 				"trivy.repository":                   "docker.io/aquasec/trivy",
@@ -411,9 +411,9 @@ func TestPlugin_GetScanJobSpec(t *testing.T) {
 					},
 				}},
 			expectedJobSpec: corev1.PodSpec{
-				Affinity:                     trivyoperator.LinuxNodeAffinity(),
+				Affinity:                     tunneloperator.LinuxNodeAffinity(),
 				RestartPolicy:                corev1.RestartPolicyNever,
-				ServiceAccountName:           "trivyoperator-sa",
+				ServiceAccountName:           "tunneloperator-sa",
 				AutomountServiceAccountToken: ptr.To[bool](false),
 				ImagePullSecrets:             []corev1.LocalObjectReference{},
 				Volumes: []corev1.Volume{
@@ -664,9 +664,9 @@ func TestPlugin_GetScanJobSpec(t *testing.T) {
 		{
 			name: "Standalone mode with non-SSL registry",
 			trivyOperatorConfig: map[string]string{
-				trivyoperator.KeyVulnerabilityScannerEnabled:  "true",
-				trivyoperator.KeyExposedSecretsScannerEnabled: "false",
-				trivyoperator.KeyScanJobcompressLogs:          "true",
+				tunneloperator.KeyVulnerabilityScannerEnabled:  "true",
+				tunneloperator.KeyExposedSecretsScannerEnabled: "false",
+				tunneloperator.KeyScanJobcompressLogs:          "true",
 			},
 			config: map[string]string{
 				"trivy.repository":                 "docker.io/aquasec/trivy",
@@ -699,9 +699,9 @@ func TestPlugin_GetScanJobSpec(t *testing.T) {
 				},
 			},
 			expectedJobSpec: corev1.PodSpec{
-				Affinity:                     trivyoperator.LinuxNodeAffinity(),
+				Affinity:                     tunneloperator.LinuxNodeAffinity(),
 				RestartPolicy:                corev1.RestartPolicyNever,
-				ServiceAccountName:           "trivyoperator-sa",
+				ServiceAccountName:           "tunneloperator-sa",
 				ImagePullSecrets:             []corev1.LocalObjectReference{},
 				AutomountServiceAccountToken: ptr.To[bool](false),
 				Volumes: []corev1.Volume{
@@ -952,9 +952,9 @@ func TestPlugin_GetScanJobSpec(t *testing.T) {
 		{
 			name: "Standalone mode with trivyignore file",
 			trivyOperatorConfig: map[string]string{
-				trivyoperator.KeyVulnerabilityScannerEnabled:  "true",
-				trivyoperator.KeyExposedSecretsScannerEnabled: "true",
-				trivyoperator.KeyScanJobcompressLogs:          "true",
+				tunneloperator.KeyVulnerabilityScannerEnabled:  "true",
+				tunneloperator.KeyExposedSecretsScannerEnabled: "true",
+				tunneloperator.KeyScanJobcompressLogs:          "true",
 			},
 			config: map[string]string{
 				"trivy.repository": "docker.io/aquasec/trivy",
@@ -991,9 +991,9 @@ CVE-2019-1543`,
 				},
 			},
 			expectedJobSpec: corev1.PodSpec{
-				Affinity:                     trivyoperator.LinuxNodeAffinity(),
+				Affinity:                     tunneloperator.LinuxNodeAffinity(),
 				RestartPolicy:                corev1.RestartPolicyNever,
-				ServiceAccountName:           "trivyoperator-sa",
+				ServiceAccountName:           "tunneloperator-sa",
 				ImagePullSecrets:             []corev1.LocalObjectReference{},
 				AutomountServiceAccountToken: ptr.To[bool](false),
 				Volumes: []corev1.Volume{
@@ -1265,9 +1265,9 @@ CVE-2019-1543`,
 		{
 			name: "Standalone mode with trivy ignore policy",
 			trivyOperatorConfig: map[string]string{
-				trivyoperator.KeyVulnerabilityScannerEnabled:  "true",
-				trivyoperator.KeyExposedSecretsScannerEnabled: "true",
-				trivyoperator.KeyScanJobcompressLogs:          "true",
+				tunneloperator.KeyVulnerabilityScannerEnabled:  "true",
+				tunneloperator.KeyExposedSecretsScannerEnabled: "true",
+				tunneloperator.KeyScanJobcompressLogs:          "true",
 			},
 			config: map[string]string{
 				"trivy.repository": "docker.io/aquasec/trivy",
@@ -1304,9 +1304,9 @@ default ignore = false`,
 				},
 			},
 			expectedJobSpec: corev1.PodSpec{
-				Affinity:                     trivyoperator.LinuxNodeAffinity(),
+				Affinity:                     tunneloperator.LinuxNodeAffinity(),
 				RestartPolicy:                corev1.RestartPolicyNever,
-				ServiceAccountName:           "trivyoperator-sa",
+				ServiceAccountName:           "tunneloperator-sa",
 				ImagePullSecrets:             []corev1.LocalObjectReference{},
 				AutomountServiceAccountToken: ptr.To[bool](false),
 				Volumes: []corev1.Volume{
@@ -1578,9 +1578,9 @@ default ignore = false`,
 		{
 			name: "Standalone mode with mirror",
 			trivyOperatorConfig: map[string]string{
-				trivyoperator.KeyVulnerabilityScannerEnabled:  "true",
-				trivyoperator.KeyExposedSecretsScannerEnabled: "true",
-				trivyoperator.KeyScanJobcompressLogs:          "true",
+				tunneloperator.KeyVulnerabilityScannerEnabled:  "true",
+				tunneloperator.KeyExposedSecretsScannerEnabled: "true",
+				tunneloperator.KeyScanJobcompressLogs:          "true",
 			},
 			config: map[string]string{
 				"trivy.repository": "docker.io/aquasec/trivy",
@@ -1615,9 +1615,9 @@ default ignore = false`,
 				},
 			},
 			expectedJobSpec: corev1.PodSpec{
-				Affinity:                     trivyoperator.LinuxNodeAffinity(),
+				Affinity:                     tunneloperator.LinuxNodeAffinity(),
 				RestartPolicy:                corev1.RestartPolicyNever,
-				ServiceAccountName:           "trivyoperator-sa",
+				ServiceAccountName:           "tunneloperator-sa",
 				ImagePullSecrets:             []corev1.LocalObjectReference{},
 				AutomountServiceAccountToken: ptr.To[bool](false),
 				Volumes: []corev1.Volume{
@@ -1865,9 +1865,9 @@ default ignore = false`,
 		{
 			name: "Standalone mode with custom db repositories",
 			trivyOperatorConfig: map[string]string{
-				trivyoperator.KeyVulnerabilityScannerEnabled:  "true",
-				trivyoperator.KeyExposedSecretsScannerEnabled: "true",
-				trivyoperator.KeyScanJobcompressLogs:          "true",
+				tunneloperator.KeyVulnerabilityScannerEnabled:  "true",
+				tunneloperator.KeyExposedSecretsScannerEnabled: "true",
+				tunneloperator.KeyScanJobcompressLogs:          "true",
 			},
 			config: map[string]string{
 				"trivy.repository":                "docker.io/aquasec/trivy",
@@ -1903,9 +1903,9 @@ default ignore = false`,
 				},
 			},
 			expectedJobSpec: corev1.PodSpec{
-				Affinity:                     trivyoperator.LinuxNodeAffinity(),
+				Affinity:                     tunneloperator.LinuxNodeAffinity(),
 				RestartPolicy:                corev1.RestartPolicyNever,
-				ServiceAccountName:           "trivyoperator-sa",
+				ServiceAccountName:           "tunneloperator-sa",
 				ImagePullSecrets:             []corev1.LocalObjectReference{},
 				AutomountServiceAccountToken: ptr.To[bool](false),
 				Volumes: []corev1.Volume{
@@ -2153,9 +2153,9 @@ default ignore = false`,
 		{
 			name: "ClientServer mode without insecure registry",
 			trivyOperatorConfig: map[string]string{
-				trivyoperator.KeyVulnerabilityScannerEnabled:  "true",
-				trivyoperator.KeyExposedSecretsScannerEnabled: "true",
-				trivyoperator.KeyScanJobcompressLogs:          "true",
+				tunneloperator.KeyVulnerabilityScannerEnabled:  "true",
+				tunneloperator.KeyExposedSecretsScannerEnabled: "true",
+				tunneloperator.KeyScanJobcompressLogs:          "true",
 			},
 			config: map[string]string{
 				"trivy.repository":                "docker.io/aquasec/trivy",
@@ -2188,9 +2188,9 @@ default ignore = false`,
 				},
 			},
 			expectedJobSpec: corev1.PodSpec{
-				Affinity:                     trivyoperator.LinuxNodeAffinity(),
+				Affinity:                     tunneloperator.LinuxNodeAffinity(),
 				RestartPolicy:                corev1.RestartPolicyNever,
-				ServiceAccountName:           "trivyoperator-sa",
+				ServiceAccountName:           "tunneloperator-sa",
 				ImagePullSecrets:             []corev1.LocalObjectReference{},
 				AutomountServiceAccountToken: ptr.To[bool](false),
 				Volumes: []corev1.Volume{getTmpVolume(),
@@ -2382,9 +2382,9 @@ default ignore = false`,
 		{
 			name: "ClientServer mode without insecure registry",
 			trivyOperatorConfig: map[string]string{
-				trivyoperator.KeyVulnerabilityScannerEnabled:  "true",
-				trivyoperator.KeyExposedSecretsScannerEnabled: "true",
-				trivyoperator.KeyScanJobcompressLogs:          "true",
+				tunneloperator.KeyVulnerabilityScannerEnabled:  "true",
+				tunneloperator.KeyExposedSecretsScannerEnabled: "true",
+				tunneloperator.KeyScanJobcompressLogs:          "true",
 			},
 			config: map[string]string{
 				"trivy.repository":                "docker.io/aquasec/trivy",
@@ -2417,10 +2417,10 @@ default ignore = false`,
 				},
 			},
 			expectedJobSpec: corev1.PodSpec{
-				Affinity:                     trivyoperator.LinuxNodeAffinity(),
+				Affinity:                     tunneloperator.LinuxNodeAffinity(),
 				RestartPolicy:                corev1.RestartPolicyNever,
 				ImagePullSecrets:             []corev1.LocalObjectReference{},
-				ServiceAccountName:           "trivyoperator-sa",
+				ServiceAccountName:           "tunneloperator-sa",
 				AutomountServiceAccountToken: ptr.To[bool](false),
 				Volumes: []corev1.Volume{getTmpVolume(),
 					getScanResultVolume(),
@@ -2611,9 +2611,9 @@ default ignore = false`,
 		{
 			name: "ClientServer mode with insecure server",
 			trivyOperatorConfig: map[string]string{
-				trivyoperator.KeyVulnerabilityScannerEnabled:  "true",
-				trivyoperator.KeyExposedSecretsScannerEnabled: "true",
-				trivyoperator.KeyScanJobcompressLogs:          "true",
+				tunneloperator.KeyVulnerabilityScannerEnabled:  "true",
+				tunneloperator.KeyExposedSecretsScannerEnabled: "true",
+				tunneloperator.KeyScanJobcompressLogs:          "true",
 			},
 			config: map[string]string{
 				"trivy.repository":                "docker.io/aquasec/trivy",
@@ -2647,9 +2647,9 @@ default ignore = false`,
 				},
 			},
 			expectedJobSpec: corev1.PodSpec{
-				Affinity:                     trivyoperator.LinuxNodeAffinity(),
+				Affinity:                     tunneloperator.LinuxNodeAffinity(),
 				RestartPolicy:                corev1.RestartPolicyNever,
-				ServiceAccountName:           "trivyoperator-sa",
+				ServiceAccountName:           "tunneloperator-sa",
 				ImagePullSecrets:             []corev1.LocalObjectReference{},
 				AutomountServiceAccountToken: ptr.To[bool](false),
 				Volumes: []corev1.Volume{getTmpVolume(),
@@ -2845,9 +2845,9 @@ default ignore = false`,
 		{
 			name: "ClientServer mode with non-SSL registry",
 			trivyOperatorConfig: map[string]string{
-				trivyoperator.KeyVulnerabilityScannerEnabled:  "true",
-				trivyoperator.KeyExposedSecretsScannerEnabled: "false",
-				trivyoperator.KeyScanJobcompressLogs:          "true",
+				tunneloperator.KeyVulnerabilityScannerEnabled:  "true",
+				tunneloperator.KeyExposedSecretsScannerEnabled: "false",
+				tunneloperator.KeyScanJobcompressLogs:          "true",
 			},
 			config: map[string]string{
 				"trivy.repository":                 "docker.io/aquasec/trivy",
@@ -2881,9 +2881,9 @@ default ignore = false`,
 				},
 			},
 			expectedJobSpec: corev1.PodSpec{
-				Affinity:                     trivyoperator.LinuxNodeAffinity(),
+				Affinity:                     tunneloperator.LinuxNodeAffinity(),
 				RestartPolicy:                corev1.RestartPolicyNever,
-				ServiceAccountName:           "trivyoperator-sa",
+				ServiceAccountName:           "tunneloperator-sa",
 				ImagePullSecrets:             []corev1.LocalObjectReference{},
 				AutomountServiceAccountToken: ptr.To[bool](false),
 				Volumes: []corev1.Volume{getTmpVolume(),
@@ -3079,9 +3079,9 @@ default ignore = false`,
 		{
 			name: "ClientServer mode with trivyignore file",
 			trivyOperatorConfig: map[string]string{
-				trivyoperator.KeyVulnerabilityScannerEnabled:  "false",
-				trivyoperator.KeyExposedSecretsScannerEnabled: "true",
-				trivyoperator.KeyScanJobcompressLogs:          "true",
+				tunneloperator.KeyVulnerabilityScannerEnabled:  "false",
+				tunneloperator.KeyExposedSecretsScannerEnabled: "true",
+				tunneloperator.KeyScanJobcompressLogs:          "true",
 			},
 			config: map[string]string{
 				"trivy.repository": "docker.io/aquasec/trivy",
@@ -3119,9 +3119,9 @@ CVE-2019-1543`,
 				},
 			},
 			expectedJobSpec: corev1.PodSpec{
-				Affinity:                     trivyoperator.LinuxNodeAffinity(),
+				Affinity:                     tunneloperator.LinuxNodeAffinity(),
 				RestartPolicy:                corev1.RestartPolicyNever,
-				ServiceAccountName:           "trivyoperator-sa",
+				ServiceAccountName:           "tunneloperator-sa",
 				ImagePullSecrets:             []corev1.LocalObjectReference{},
 				AutomountServiceAccountToken: ptr.To[bool](false),
 
@@ -3339,9 +3339,9 @@ CVE-2019-1543`,
 		{
 			name: "ClientServer mode with trivy ignore policy",
 			trivyOperatorConfig: map[string]string{
-				trivyoperator.KeyVulnerabilityScannerEnabled:  "false",
-				trivyoperator.KeyExposedSecretsScannerEnabled: "true",
-				trivyoperator.KeyScanJobcompressLogs:          "true",
+				tunneloperator.KeyVulnerabilityScannerEnabled:  "false",
+				tunneloperator.KeyExposedSecretsScannerEnabled: "true",
+				tunneloperator.KeyScanJobcompressLogs:          "true",
 			},
 			config: map[string]string{
 				"trivy.repository": "docker.io/aquasec/trivy",
@@ -3379,9 +3379,9 @@ default ignore = false`,
 				},
 			},
 			expectedJobSpec: corev1.PodSpec{
-				Affinity:                     trivyoperator.LinuxNodeAffinity(),
+				Affinity:                     tunneloperator.LinuxNodeAffinity(),
 				RestartPolicy:                corev1.RestartPolicyNever,
-				ServiceAccountName:           "trivyoperator-sa",
+				ServiceAccountName:           "tunneloperator-sa",
 				ImagePullSecrets:             []corev1.LocalObjectReference{},
 				AutomountServiceAccountToken: ptr.To[bool](false),
 
@@ -3599,9 +3599,9 @@ default ignore = false`,
 		{
 			name: "ClientServer mode with custom db repositories",
 			trivyOperatorConfig: map[string]string{
-				trivyoperator.KeyVulnerabilityScannerEnabled:  "true",
-				trivyoperator.KeyExposedSecretsScannerEnabled: "true",
-				trivyoperator.KeyScanJobcompressLogs:          "true",
+				tunneloperator.KeyVulnerabilityScannerEnabled:  "true",
+				tunneloperator.KeyExposedSecretsScannerEnabled: "true",
+				tunneloperator.KeyScanJobcompressLogs:          "true",
 			},
 			config: map[string]string{
 				"trivy.repository":                "docker.io/aquasec/trivy",
@@ -3634,9 +3634,9 @@ default ignore = false`,
 				},
 			},
 			expectedJobSpec: corev1.PodSpec{
-				Affinity:                     trivyoperator.LinuxNodeAffinity(),
+				Affinity:                     tunneloperator.LinuxNodeAffinity(),
 				RestartPolicy:                corev1.RestartPolicyNever,
-				ServiceAccountName:           "trivyoperator-sa",
+				ServiceAccountName:           "tunneloperator-sa",
 				ImagePullSecrets:             []corev1.LocalObjectReference{},
 				AutomountServiceAccountToken: ptr.To[bool](false),
 				Volumes: []corev1.Volume{getTmpVolume(),
@@ -3828,9 +3828,9 @@ default ignore = false`,
 		{
 			name: "Trivy fs scan command in Standalone mode",
 			trivyOperatorConfig: map[string]string{
-				trivyoperator.KeyVulnerabilityScannerEnabled:  "true",
-				trivyoperator.KeyExposedSecretsScannerEnabled: "true",
-				trivyoperator.KeyScanJobcompressLogs:          "true",
+				tunneloperator.KeyVulnerabilityScannerEnabled:  "true",
+				tunneloperator.KeyExposedSecretsScannerEnabled: "true",
+				tunneloperator.KeyScanJobcompressLogs:          "true",
 			},
 			config: map[string]string{
 				"trivy.repository":                "docker.io/aquasec/trivy",
@@ -3864,9 +3864,9 @@ default ignore = false`,
 					NodeName: "kind-control-pane",
 				}},
 			expectedJobSpec: corev1.PodSpec{
-				Affinity:                     trivyoperator.LinuxNodeAffinity(),
+				Affinity:                     tunneloperator.LinuxNodeAffinity(),
 				RestartPolicy:                corev1.RestartPolicyNever,
-				ServiceAccountName:           "trivyoperator-sa",
+				ServiceAccountName:           "tunneloperator-sa",
 				ImagePullSecrets:             []corev1.LocalObjectReference{},
 				AutomountServiceAccountToken: ptr.To[bool](false),
 				Volumes: []corev1.Volume{
@@ -3914,7 +3914,7 @@ default ignore = false`,
 							{
 								Name:      trivy.FsSharedVolumeName,
 								ReadOnly:  false,
-								MountPath: "/var/trivyoperator",
+								MountPath: "/var/tunneloperator",
 							},
 							{
 								Name:      "tmp",
@@ -3992,7 +3992,7 @@ default ignore = false`,
 						},
 						Args: []string{
 							"--cache-dir",
-							"/var/trivyoperator/trivy-db",
+							"/var/tunneloperator/trivy-db",
 							"image",
 							"--download-db-only",
 							"--db-repository", trivy.DefaultDBRepository,
@@ -4011,7 +4011,7 @@ default ignore = false`,
 							{
 								Name:      trivy.FsSharedVolumeName,
 								ReadOnly:  false,
-								MountPath: "/var/trivyoperator",
+								MountPath: "/var/tunneloperator",
 							},
 							{
 								Name:      "tmp",
@@ -4138,7 +4138,7 @@ default ignore = false`,
 						},
 						Args: []string{
 							"--cache-dir",
-							"/var/trivyoperator/trivy-db",
+							"/var/tunneloperator/trivy-db",
 							"--quiet",
 							"filesystem",
 							"--security-checks",
@@ -4163,7 +4163,7 @@ default ignore = false`,
 							{
 								Name:      trivy.FsSharedVolumeName,
 								ReadOnly:  false,
-								MountPath: "/var/trivyoperator",
+								MountPath: "/var/tunneloperator",
 							},
 							{
 								Name:      "tmp",
@@ -4189,9 +4189,9 @@ default ignore = false`,
 		{
 			name: "Trivy fs scan command in ClientServer mode",
 			trivyOperatorConfig: map[string]string{
-				trivyoperator.KeyVulnerabilityScannerEnabled:  "true",
-				trivyoperator.KeyExposedSecretsScannerEnabled: "true",
-				trivyoperator.KeyScanJobcompressLogs:          "true",
+				tunneloperator.KeyVulnerabilityScannerEnabled:  "true",
+				tunneloperator.KeyExposedSecretsScannerEnabled: "true",
+				tunneloperator.KeyScanJobcompressLogs:          "true",
 			},
 			config: map[string]string{
 				"trivy.repository":                "docker.io/aquasec/trivy",
@@ -4226,9 +4226,9 @@ default ignore = false`,
 					NodeName: "kind-control-pane",
 				}},
 			expectedJobSpec: corev1.PodSpec{
-				Affinity:                     trivyoperator.LinuxNodeAffinity(),
+				Affinity:                     tunneloperator.LinuxNodeAffinity(),
 				RestartPolicy:                corev1.RestartPolicyNever,
-				ServiceAccountName:           "trivyoperator-sa",
+				ServiceAccountName:           "tunneloperator-sa",
 				ImagePullSecrets:             []corev1.LocalObjectReference{},
 				AutomountServiceAccountToken: ptr.To[bool](false),
 				Volumes: []corev1.Volume{
@@ -4276,7 +4276,7 @@ default ignore = false`,
 							{
 								Name:      trivy.FsSharedVolumeName,
 								ReadOnly:  false,
-								MountPath: "/var/trivyoperator",
+								MountPath: "/var/tunneloperator",
 							},
 							{
 								Name:      "tmp",
@@ -4439,7 +4439,7 @@ default ignore = false`,
 						},
 						Args: []string{
 							"--cache-dir",
-							"/var/trivyoperator/trivy-db",
+							"/var/tunneloperator/trivy-db",
 							"--quiet",
 							"filesystem",
 							"--security-checks",
@@ -4466,7 +4466,7 @@ default ignore = false`,
 							{
 								Name:      trivy.FsSharedVolumeName,
 								ReadOnly:  false,
-								MountPath: "/var/trivyoperator",
+								MountPath: "/var/tunneloperator",
 							},
 							{
 								Name:      "tmp",
@@ -4492,9 +4492,9 @@ default ignore = false`,
 		{
 			name: "Trivy rootfs scan command in Standalone mode",
 			trivyOperatorConfig: map[string]string{
-				trivyoperator.KeyVulnerabilityScannerEnabled:  "true",
-				trivyoperator.KeyExposedSecretsScannerEnabled: "true",
-				trivyoperator.KeyScanJobcompressLogs:          "true",
+				tunneloperator.KeyVulnerabilityScannerEnabled:  "true",
+				tunneloperator.KeyExposedSecretsScannerEnabled: "true",
+				tunneloperator.KeyScanJobcompressLogs:          "true",
 			},
 			config: map[string]string{
 				"trivy.repository":                "docker.io/aquasec/trivy",
@@ -4528,9 +4528,9 @@ default ignore = false`,
 					NodeName: "kind-control-pane",
 				}},
 			expectedJobSpec: corev1.PodSpec{
-				Affinity:                     trivyoperator.LinuxNodeAffinity(),
+				Affinity:                     tunneloperator.LinuxNodeAffinity(),
 				RestartPolicy:                corev1.RestartPolicyNever,
-				ServiceAccountName:           "trivyoperator-sa",
+				ServiceAccountName:           "tunneloperator-sa",
 				ImagePullSecrets:             []corev1.LocalObjectReference{},
 				AutomountServiceAccountToken: ptr.To[bool](false),
 				Volumes: []corev1.Volume{
@@ -4578,7 +4578,7 @@ default ignore = false`,
 							{
 								Name:      trivy.FsSharedVolumeName,
 								ReadOnly:  false,
-								MountPath: "/var/trivyoperator",
+								MountPath: "/var/tunneloperator",
 							},
 							{
 								Name:      "tmp",
@@ -4656,7 +4656,7 @@ default ignore = false`,
 						},
 						Args: []string{
 							"--cache-dir",
-							"/var/trivyoperator/trivy-db",
+							"/var/tunneloperator/trivy-db",
 							"image",
 							"--download-db-only",
 							"--db-repository", trivy.DefaultDBRepository,
@@ -4675,7 +4675,7 @@ default ignore = false`,
 							{
 								Name:      trivy.FsSharedVolumeName,
 								ReadOnly:  false,
-								MountPath: "/var/trivyoperator",
+								MountPath: "/var/tunneloperator",
 							},
 							{
 								Name:      "tmp",
@@ -4802,7 +4802,7 @@ default ignore = false`,
 						},
 						Args: []string{
 							"--cache-dir",
-							"/var/trivyoperator/trivy-db",
+							"/var/tunneloperator/trivy-db",
 							"--quiet",
 							"rootfs",
 							"--security-checks",
@@ -4827,7 +4827,7 @@ default ignore = false`,
 							{
 								Name:      trivy.FsSharedVolumeName,
 								ReadOnly:  false,
-								MountPath: "/var/trivyoperator",
+								MountPath: "/var/tunneloperator",
 							},
 							{
 								Name:      "tmp",
@@ -4853,9 +4853,9 @@ default ignore = false`,
 		{
 			name: "Trivy rootfs scan command in ClientServer mode",
 			trivyOperatorConfig: map[string]string{
-				trivyoperator.KeyVulnerabilityScannerEnabled:  "true",
-				trivyoperator.KeyExposedSecretsScannerEnabled: "true",
-				trivyoperator.KeyScanJobcompressLogs:          "true",
+				tunneloperator.KeyVulnerabilityScannerEnabled:  "true",
+				tunneloperator.KeyExposedSecretsScannerEnabled: "true",
+				tunneloperator.KeyScanJobcompressLogs:          "true",
 			},
 			config: map[string]string{
 				"trivy.repository":                "docker.io/aquasec/trivy",
@@ -4890,9 +4890,9 @@ default ignore = false`,
 					NodeName: "kind-control-pane",
 				}},
 			expectedJobSpec: corev1.PodSpec{
-				Affinity:                     trivyoperator.LinuxNodeAffinity(),
+				Affinity:                     tunneloperator.LinuxNodeAffinity(),
 				RestartPolicy:                corev1.RestartPolicyNever,
-				ServiceAccountName:           "trivyoperator-sa",
+				ServiceAccountName:           "tunneloperator-sa",
 				ImagePullSecrets:             []corev1.LocalObjectReference{},
 				AutomountServiceAccountToken: ptr.To[bool](false),
 				Volumes: []corev1.Volume{
@@ -4940,7 +4940,7 @@ default ignore = false`,
 							{
 								Name:      trivy.FsSharedVolumeName,
 								ReadOnly:  false,
-								MountPath: "/var/trivyoperator",
+								MountPath: "/var/tunneloperator",
 							},
 							{
 								Name:      "tmp",
@@ -5103,7 +5103,7 @@ default ignore = false`,
 						},
 						Args: []string{
 							"--cache-dir",
-							"/var/trivyoperator/trivy-db",
+							"/var/tunneloperator/trivy-db",
 							"--quiet",
 							"rootfs",
 							"--security-checks",
@@ -5130,7 +5130,7 @@ default ignore = false`,
 							{
 								Name:      trivy.FsSharedVolumeName,
 								ReadOnly:  false,
-								MountPath: "/var/trivyoperator",
+								MountPath: "/var/tunneloperator",
 							},
 							{
 								Name:      "tmp",
@@ -5156,9 +5156,9 @@ default ignore = false`,
 		{
 			name: "Standalone mode with ECR image and mirror",
 			trivyOperatorConfig: map[string]string{
-				trivyoperator.KeyVulnerabilityScannerEnabled:  "true",
-				trivyoperator.KeyExposedSecretsScannerEnabled: "true",
-				trivyoperator.KeyScanJobcompressLogs:          "true",
+				tunneloperator.KeyVulnerabilityScannerEnabled:  "true",
+				tunneloperator.KeyExposedSecretsScannerEnabled: "true",
+				tunneloperator.KeyScanJobcompressLogs:          "true",
 			},
 			config: map[string]string{
 				"trivy.repository": "docker.io/aquasec/trivy",
@@ -5193,9 +5193,9 @@ default ignore = false`,
 				},
 			},
 			expectedJobSpec: corev1.PodSpec{
-				Affinity:                     trivyoperator.LinuxNodeAffinity(),
+				Affinity:                     tunneloperator.LinuxNodeAffinity(),
 				RestartPolicy:                corev1.RestartPolicyNever,
-				ServiceAccountName:           "trivyoperator-sa",
+				ServiceAccountName:           "tunneloperator-sa",
 				ImagePullSecrets:             []corev1.LocalObjectReference{},
 				AutomountServiceAccountToken: ptr.To[bool](false),
 				Volumes: []corev1.Volume{
@@ -5447,9 +5447,9 @@ default ignore = false`,
 		{
 			name: "Standalone mode with credentials",
 			trivyOperatorConfig: map[string]string{
-				trivyoperator.KeyVulnerabilityScannerEnabled:  "true",
-				trivyoperator.KeyExposedSecretsScannerEnabled: "true",
-				trivyoperator.KeyScanJobcompressLogs:          "true",
+				tunneloperator.KeyVulnerabilityScannerEnabled:  "true",
+				tunneloperator.KeyExposedSecretsScannerEnabled: "true",
+				tunneloperator.KeyScanJobcompressLogs:          "true",
 			},
 			config: map[string]string{
 				"trivy.repository": "docker.io/aquasec/trivy",
@@ -5491,9 +5491,9 @@ default ignore = false`,
 				},
 			},
 			expectedJobSpec: corev1.PodSpec{
-				Affinity:                     trivyoperator.LinuxNodeAffinity(),
+				Affinity:                     tunneloperator.LinuxNodeAffinity(),
 				RestartPolicy:                corev1.RestartPolicyNever,
-				ServiceAccountName:           "trivyoperator-sa",
+				ServiceAccountName:           "tunneloperator-sa",
 				ImagePullSecrets:             []corev1.LocalObjectReference{},
 				AutomountServiceAccountToken: ptr.To[bool](false),
 				Volumes: []corev1.Volume{
@@ -5762,9 +5762,9 @@ default ignore = false`,
 		{
 			name: "Standalone mode with credentials and mirror",
 			trivyOperatorConfig: map[string]string{
-				trivyoperator.KeyVulnerabilityScannerEnabled:  "true",
-				trivyoperator.KeyExposedSecretsScannerEnabled: "true",
-				trivyoperator.KeyScanJobcompressLogs:          "true",
+				tunneloperator.KeyVulnerabilityScannerEnabled:  "true",
+				tunneloperator.KeyExposedSecretsScannerEnabled: "true",
+				tunneloperator.KeyScanJobcompressLogs:          "true",
 			},
 			config: map[string]string{
 				"trivy.repository": "docker.io/aquasec/trivy",
@@ -5808,9 +5808,9 @@ default ignore = false`,
 				},
 			},
 			expectedJobSpec: corev1.PodSpec{
-				Affinity:                     trivyoperator.LinuxNodeAffinity(),
+				Affinity:                     tunneloperator.LinuxNodeAffinity(),
 				RestartPolicy:                corev1.RestartPolicyNever,
-				ServiceAccountName:           "trivyoperator-sa",
+				ServiceAccountName:           "tunneloperator-sa",
 				ImagePullSecrets:             []corev1.LocalObjectReference{},
 				AutomountServiceAccountToken: ptr.To[bool](false),
 				Volumes: []corev1.Volume{
@@ -6084,15 +6084,15 @@ default ignore = false`,
 				&corev1.ConfigMap{
 					ObjectMeta: metav1.ObjectMeta{
 						Name:      "tunnel-operator-trivy-config",
-						Namespace: "trivyoperator-ns",
+						Namespace: "tunneloperator-ns",
 					},
 					Data: tc.config,
 				}, &v1.CronJob{}).Build()
-			pluginContext := trivyoperator.NewPluginContext().
+			pluginContext := tunneloperator.NewPluginContext().
 				WithName(trivy.Plugin).
-				WithNamespace("trivyoperator-ns").
-				WithServiceAccountName("trivyoperator-sa").
-				WithTrivyOperatorConfig(tc.trivyOperatorConfig).
+				WithNamespace("tunneloperator-ns").
+				WithServiceAccountName("tunneloperator-sa").
+				WithTunnelOperatorConfig(tc.trivyOperatorConfig).
 				WithClient(fakeclient).
 				Get()
 			resolver := kube.NewObjectResolver(fakeclient, &kube.CompatibleObjectMapper{})
@@ -6127,9 +6127,9 @@ default ignore = false`,
 	}{{
 		name: "Trivy fs scan command in Standalone mode",
 		trivyOperatorConfig: map[string]string{
-			trivyoperator.KeyVulnerabilityScannerEnabled:       "true",
-			trivyoperator.KeyExposedSecretsScannerEnabled:      "true",
-			trivyoperator.KeyVulnerabilityScansInSameNamespace: "true",
+			tunneloperator.KeyVulnerabilityScannerEnabled:       "true",
+			tunneloperator.KeyExposedSecretsScannerEnabled:      "true",
+			tunneloperator.KeyVulnerabilityScansInSameNamespace: "true",
 		},
 		config: map[string]string{
 			"trivy.repository":                "docker.io/aquasec/trivy",
@@ -6164,9 +6164,9 @@ default ignore = false`,
 				ServiceAccountName: "nginx-sa",
 			}},
 		expectedJobSpec: corev1.PodSpec{
-			Affinity:                     trivyoperator.LinuxNodeAffinity(),
+			Affinity:                     tunneloperator.LinuxNodeAffinity(),
 			RestartPolicy:                corev1.RestartPolicyNever,
-			ServiceAccountName:           "trivyoperator-sa",
+			ServiceAccountName:           "tunneloperator-sa",
 			ImagePullSecrets:             []corev1.LocalObjectReference{},
 			AutomountServiceAccountToken: ptr.To[bool](false),
 			Volumes: []corev1.Volume{
@@ -6214,7 +6214,7 @@ default ignore = false`,
 						{
 							Name:      trivy.FsSharedVolumeName,
 							ReadOnly:  false,
-							MountPath: "/var/trivyoperator",
+							MountPath: "/var/tunneloperator",
 						},
 						{
 							Name:      "tmp",
@@ -6292,7 +6292,7 @@ default ignore = false`,
 					},
 					Args: []string{
 						"--cache-dir",
-						"/var/trivyoperator/trivy-db",
+						"/var/tunneloperator/trivy-db",
 						"image",
 						"--download-db-only",
 						"--db-repository", trivy.DefaultDBRepository,
@@ -6311,7 +6311,7 @@ default ignore = false`,
 						{
 							Name:      trivy.FsSharedVolumeName,
 							ReadOnly:  false,
-							MountPath: "/var/trivyoperator",
+							MountPath: "/var/tunneloperator",
 						},
 						{
 							Name:      "tmp",
@@ -6439,7 +6439,7 @@ default ignore = false`,
 					},
 					Args: []string{
 						"--cache-dir",
-						"/var/trivyoperator/trivy-db",
+						"/var/tunneloperator/trivy-db",
 						"--quiet",
 						"filesystem",
 						"--security-checks",
@@ -6464,7 +6464,7 @@ default ignore = false`,
 						{
 							Name:      trivy.FsSharedVolumeName,
 							ReadOnly:  false,
-							MountPath: "/var/trivyoperator",
+							MountPath: "/var/tunneloperator",
 						},
 						{
 							Name:      "tmp",
@@ -6487,23 +6487,23 @@ default ignore = false`,
 			SecurityContext: &corev1.PodSecurityContext{},
 		},
 	}}
-	// Test cases when trivyoperator is enabled with option to run job in the namespace of workload
+	// Test cases when tunneloperator is enabled with option to run job in the namespace of workload
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
 			fakeclient := fake.NewClientBuilder().WithObjects(
 				&corev1.ConfigMap{
 					ObjectMeta: metav1.ObjectMeta{
 						Name:      "tunnel-operator-trivy-config",
-						Namespace: "trivyoperator-ns",
+						Namespace: "tunneloperator-ns",
 					},
 					Data: tc.config,
 				}, &v1beta1.CronJob{}).Build()
-			pluginContext := trivyoperator.NewPluginContext().
+			pluginContext := tunneloperator.NewPluginContext().
 				WithName(trivy.Plugin).
-				WithNamespace("trivyoperator-ns").
-				WithServiceAccountName("trivyoperator-sa").
+				WithNamespace("tunneloperator-ns").
+				WithServiceAccountName("tunneloperator-sa").
 				WithClient(fakeclient).
-				WithTrivyOperatorConfig(tc.trivyOperatorConfig).
+				WithTunnelOperatorConfig(tc.trivyOperatorConfig).
 				Get()
 			resolver := kube.NewObjectResolver(fakeclient, &kube.CompatibleObjectMapper{})
 			instance := trivy.NewPlugin(fixedClock, ext.NewSimpleIDGenerator(), &resolver)
@@ -6533,7 +6533,7 @@ var (
 		UpdateTimestamp: metav1.NewTime(fixedTime),
 		Scanner: v1alpha1.Scanner{
 			Name:    v1alpha1.ScannerNameTrivy,
-			Vendor:  "Aqua Security",
+			Vendor:  "Khulnasoft Security",
 			Version: "0.9.1",
 		},
 		Registry: v1alpha1.Registry{
@@ -6583,7 +6583,7 @@ var (
 		UpdateTimestamp: metav1.NewTime(fixedTime),
 		Scanner: v1alpha1.Scanner{
 			Name:    v1alpha1.ScannerNameTrivy,
-			Vendor:  "Aqua Security",
+			Vendor:  "Khulnasoft Security",
 			Version: "0.9.1",
 		},
 		Registry: v1alpha1.Registry{
@@ -6639,7 +6639,7 @@ var (
 		UpdateTimestamp: metav1.NewTime(fixedTime),
 		Scanner: v1alpha1.Scanner{
 			Name:    v1alpha1.ScannerNameTrivy,
-			Vendor:  "Aqua Security",
+			Vendor:  "Khulnasoft Security",
 			Version: "0.9.1",
 		},
 		Registry: v1alpha1.Registry{
@@ -6669,7 +6669,7 @@ var (
 		UpdateTimestamp: metav1.NewTime(fixedTime),
 		Scanner: v1alpha1.Scanner{
 			Name:    v1alpha1.ScannerNameTrivy,
-			Vendor:  "Aqua Security",
+			Vendor:  "Khulnasoft Security",
 			Version: "0.9.1",
 		},
 		Registry: v1alpha1.Registry{
@@ -6693,7 +6693,7 @@ func TestPlugin_ParseReportData(t *testing.T) {
 	config := &corev1.ConfigMap{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      "tunnel-operator-trivy-config",
-			Namespace: "trivyoperator-ns",
+			Namespace: "tunneloperator-ns",
 		},
 		Data: map[string]string{
 			"trivy.repository": "aquasec/trivy",
@@ -6769,12 +6769,12 @@ func TestPlugin_ParseReportData(t *testing.T) {
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
 			fakeClient := fake.NewClientBuilder().WithObjects(config).Build()
-			ctx := trivyoperator.NewPluginContext().
+			ctx := tunneloperator.NewPluginContext().
 				WithName("Trivy").
-				WithNamespace("trivyoperator-ns").
-				WithServiceAccountName("trivyoperator-sa").
+				WithNamespace("tunneloperator-ns").
+				WithServiceAccountName("tunneloperator-sa").
 				WithClient(fakeClient).
-				WithTrivyOperatorConfig(map[string]string{
+				WithTunnelOperatorConfig(map[string]string{
 					"scanJob.compressLogs": tc.compressed,
 					"generateSbomEnabled":  "false",
 				}).
@@ -7008,18 +7008,18 @@ func TestGetContainers(t *testing.T) {
 				&corev1.ConfigMap{
 					ObjectMeta: metav1.ObjectMeta{
 						Name:      "tunnel-operator-trivy-config",
-						Namespace: "trivyoperator-ns",
+						Namespace: "tunneloperator-ns",
 					},
 					Data: tc.configData,
 				},
 			).Build()
 
-			pluginContext := trivyoperator.NewPluginContext().
+			pluginContext := tunneloperator.NewPluginContext().
 				WithName(trivy.Plugin).
-				WithNamespace("trivyoperator-ns").
-				WithServiceAccountName("trivyoperator-sa").
+				WithNamespace("tunneloperator-ns").
+				WithServiceAccountName("tunneloperator-sa").
 				WithClient(fakeclient).
-				WithTrivyOperatorConfig(map[string]string{trivyoperator.KeyVulnerabilityScansInSameNamespace: "true"}).
+				WithTunnelOperatorConfig(map[string]string{tunneloperator.KeyVulnerabilityScansInSameNamespace: "true"}).
 				Get()
 			resolver := kube.NewObjectResolver(fakeclient, &kube.CompatibleObjectMapper{})
 			instance := trivy.NewPlugin(fixedClock, ext.NewSimpleIDGenerator(), &resolver)
@@ -7287,7 +7287,7 @@ func TestGetClientServerSkipUpdate(t *testing.T) {
 	}{
 		{
 			name: "clientServerSkipUpdate param set to true",
-			configData: trivy.Config{PluginConfig: trivyoperator.PluginConfig{
+			configData: trivy.Config{PluginConfig: tunneloperator.PluginConfig{
 				Data: map[string]string{
 					"trivy.clientServerSkipUpdate": "true",
 				},
@@ -7296,7 +7296,7 @@ func TestGetClientServerSkipUpdate(t *testing.T) {
 		},
 		{
 			name: "clientServerSkipUpdate param set to false",
-			configData: trivy.Config{PluginConfig: trivyoperator.PluginConfig{
+			configData: trivy.Config{PluginConfig: tunneloperator.PluginConfig{
 				Data: map[string]string{
 					"trivy.clientServerSkipUpdate": "false",
 				},
@@ -7305,7 +7305,7 @@ func TestGetClientServerSkipUpdate(t *testing.T) {
 		},
 		{
 			name: "clientServerSkipUpdate param set to no valid value",
-			configData: trivy.Config{PluginConfig: trivyoperator.PluginConfig{
+			configData: trivy.Config{PluginConfig: tunneloperator.PluginConfig{
 				Data: map[string]string{
 					"trivy.clientServerSkipUpdate": "false2",
 				},
@@ -7314,7 +7314,7 @@ func TestGetClientServerSkipUpdate(t *testing.T) {
 		},
 		{
 			name: "clientServerSkipUpdate param set to no value",
-			configData: trivy.Config{PluginConfig: trivyoperator.PluginConfig{
+			configData: trivy.Config{PluginConfig: tunneloperator.PluginConfig{
 				Data: map[string]string{},
 			}},
 			want: false,
@@ -7337,7 +7337,7 @@ func TestGetSkipJavaDBUpdate(t *testing.T) {
 	}{
 		{
 			name: "skipJavaDBUpdate param set to true",
-			configData: trivy.Config{PluginConfig: trivyoperator.PluginConfig{
+			configData: trivy.Config{PluginConfig: tunneloperator.PluginConfig{
 				Data: map[string]string{
 					"trivy.skipJavaDBUpdate": "true",
 				},
@@ -7346,7 +7346,7 @@ func TestGetSkipJavaDBUpdate(t *testing.T) {
 		},
 		{
 			name: "skipJavaDBUpdate param set to false",
-			configData: trivy.Config{PluginConfig: trivyoperator.PluginConfig{
+			configData: trivy.Config{PluginConfig: tunneloperator.PluginConfig{
 				Data: map[string]string{
 					"trivy.skipJavaDBUpdate": "false",
 				},
@@ -7355,7 +7355,7 @@ func TestGetSkipJavaDBUpdate(t *testing.T) {
 		},
 		{
 			name: "skipJavaDBUpdate param set to no valid value",
-			configData: trivy.Config{PluginConfig: trivyoperator.PluginConfig{
+			configData: trivy.Config{PluginConfig: tunneloperator.PluginConfig{
 				Data: map[string]string{
 					"trivy.skipJavaDBUpdate": "false2",
 				},
@@ -7364,7 +7364,7 @@ func TestGetSkipJavaDBUpdate(t *testing.T) {
 		},
 		{
 			name: "skipJavaDBUpdate param set to no  value",
-			configData: trivy.Config{PluginConfig: trivyoperator.PluginConfig{
+			configData: trivy.Config{PluginConfig: tunneloperator.PluginConfig{
 				Data: map[string]string{},
 			}},
 			want: false,
@@ -7387,7 +7387,7 @@ func TestGetImageScanCacheDir(t *testing.T) {
 	}{
 		{
 			name: "imageScanCacheDir param set non-default path",
-			configData: trivy.Config{PluginConfig: trivyoperator.PluginConfig{
+			configData: trivy.Config{PluginConfig: tunneloperator.PluginConfig{
 				Data: map[string]string{
 					"trivy.imageScanCacheDir": "/home/trivy/.cache",
 				},
@@ -7396,7 +7396,7 @@ func TestGetImageScanCacheDir(t *testing.T) {
 		},
 		{
 			name: "imageScanCacheDir param set as empty string",
-			configData: trivy.Config{PluginConfig: trivyoperator.PluginConfig{
+			configData: trivy.Config{PluginConfig: tunneloperator.PluginConfig{
 				Data: map[string]string{
 					"trivy.imageScanCacheDir": "",
 				},
@@ -7405,7 +7405,7 @@ func TestGetImageScanCacheDir(t *testing.T) {
 		},
 		{
 			name: "imageScanCacheDir param unset",
-			configData: trivy.Config{PluginConfig: trivyoperator.PluginConfig{
+			configData: trivy.Config{PluginConfig: tunneloperator.PluginConfig{
 				Data: map[string]string{},
 			}},
 			want: "/tmp/trivy/.cache",
@@ -7427,28 +7427,28 @@ func TestGetFilesystemScanCacheDir(t *testing.T) {
 	}{
 		{
 			name: "filesystemScanCacheDir param set non-default path",
-			configData: trivy.Config{PluginConfig: trivyoperator.PluginConfig{
+			configData: trivy.Config{PluginConfig: tunneloperator.PluginConfig{
 				Data: map[string]string{
-					"trivy.filesystemScanCacheDir": "/home/trivyoperator/trivy-db",
+					"trivy.filesystemScanCacheDir": "/home/tunneloperator/trivy-db",
 				},
 			}},
-			want: "/home/trivyoperator/trivy-db",
+			want: "/home/tunneloperator/trivy-db",
 		},
 		{
 			name: "filesystemScanCacheDir param set as empty string",
-			configData: trivy.Config{PluginConfig: trivyoperator.PluginConfig{
+			configData: trivy.Config{PluginConfig: tunneloperator.PluginConfig{
 				Data: map[string]string{
 					"trivy.filesystemScanCacheDir": "",
 				},
 			}},
-			want: "/var/trivyoperator/trivy-db",
+			want: "/var/tunneloperator/trivy-db",
 		},
 		{
 			name: "filesystemScanCacheDir param unset",
-			configData: trivy.Config{PluginConfig: trivyoperator.PluginConfig{
+			configData: trivy.Config{PluginConfig: tunneloperator.PluginConfig{
 				Data: map[string]string{},
 			}},
-			want: "/var/trivyoperator/trivy-db",
+			want: "/var/tunneloperator/trivy-db",
 		},
 	}
 	for _, tc := range testCases {

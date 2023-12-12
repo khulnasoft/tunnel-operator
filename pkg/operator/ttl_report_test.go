@@ -29,7 +29,7 @@ func TestRegenerateReportIfExpired(t *testing.T) {
 	clock := ext.NewSystemClock()
 
 	// scheme
-	scheme := trivyoperator.NewScheme()
+	scheme := tunneloperator.NewScheme()
 
 	// set the ScannerReportTTL
 	config, err := etc.GetOperatorConfig()

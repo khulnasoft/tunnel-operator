@@ -75,14 +75,14 @@ var InNamespace = func(namespace string) predicate.Predicate {
 	})
 }
 
-// ManagedByTrivyOperator is a predicate.Predicate that returns true if the
+// ManagedByTunnelOperator is a predicate.Predicate that returns true if the
 // specified client.Object is managed by Tunnel-Operator.
 //
 // For example, pods controlled by jobs scheduled by Tunnel-Operator Operator are
-// labeled with `app.kubernetes.io/managed-by=trivyoperator`.
-var ManagedByTrivyOperator = predicate.NewPredicateFuncs(func(obj client.Object) bool {
-	if managedBy, ok := obj.GetLabels()[trivyoperator.LabelK8SAppManagedBy]; ok {
-		return managedBy == trivyoperator.AppTrivyOperator
+// labeled with `app.kubernetes.io/managed-by=tunneloperator`.
+var ManagedByTunnelOperator = predicate.NewPredicateFuncs(func(obj client.Object) bool {
+	if managedBy, ok := obj.GetLabels()[tunneloperator.LabelK8SAppManagedBy]; ok {
+		return managedBy == tunneloperator.AppTunnelOperator
 	}
 	return false
 })
@@ -103,14 +103,14 @@ var JobHasAnyCondition = predicate.NewPredicateFuncs(func(obj client.Object) boo
 })
 
 var IsVulnerabilityReportScan = predicate.NewPredicateFuncs(func(obj client.Object) bool {
-	if _, ok := obj.GetLabels()[trivyoperator.LabelVulnerabilityReportScanner]; ok {
+	if _, ok := obj.GetLabels()[tunneloperator.LabelVulnerabilityReportScanner]; ok {
 		return true
 	}
 	return false
 })
 
 var IsNodeInfoCollector = predicate.NewPredicateFuncs(func(obj client.Object) bool {
-	if _, ok := obj.GetLabels()[trivyoperator.LabelNodeInfoCollector]; ok {
+	if _, ok := obj.GetLabels()[tunneloperator.LabelNodeInfoCollector]; ok {
 		return true
 	}
 	return false
@@ -123,7 +123,7 @@ var IsLinuxNode = predicate.NewPredicateFuncs(func(obj client.Object) bool {
 	return false
 })
 
-var ExcludeNode = func(config trivyoperator.ConfigData) (predicate.Predicate, error) {
+var ExcludeNode = func(config tunneloperator.ConfigData) (predicate.Predicate, error) {
 	excludeNodes, err := config.GetNodeCollectorExcludeNodes()
 	if err != nil {
 		return nil, err

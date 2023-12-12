@@ -39,14 +39,14 @@ import (
 type ResourceController struct {
 	logr.Logger
 	etc.Config
-	trivyoperator.ConfigData
+	tunneloperator.ConfigData
 	kube.ObjectResolver
-	trivyoperator.PluginContext
+	tunneloperator.PluginContext
 	configauditreport.PluginInMemory
 	configauditreport.ReadWriter
 	RbacReadWriter  rbacassessment.ReadWriter
 	InfraReadWriter infraassessment.ReadWriter
-	trivyoperator.BuildInfo
+	tunneloperator.BuildInfo
 	ClusterVersion   string
 	CacheSyncTimeout time.Duration
 }
@@ -128,7 +128,7 @@ func (r *ResourceController) SetupWithManager(mgr ctrl.Manager) error {
 			CacheSyncTimeout: r.CacheSyncTimeout,
 		}).
 			For(resource.ForObject, builder.WithPredicates(
-				predicate.Not(predicate.ManagedByTrivyOperator),
+				predicate.Not(predicate.ManagedByTunnelOperator),
 				predicate.Not(predicate.IsBeingTerminated),
 			)).
 			Owns(resource.OwnsObject).
@@ -146,7 +146,7 @@ func (r *ResourceController) buildControlMgr(mgr ctrl.Manager, configResource ku
 		CacheSyncTimeout: r.CacheSyncTimeout,
 	}).
 		For(configResource.ForObject, builder.WithPredicates(
-			predicate.Not(predicate.ManagedByTrivyOperator),
+			predicate.Not(predicate.ManagedByTunnelOperator),
 			predicate.Not(predicate.IsLeaderElectionResource),
 			predicate.Not(predicate.IsBeingTerminated),
 			installModePredicate,
@@ -312,11 +312,11 @@ func (r *ResourceController) hasClusterReport(ctx context.Context, owner kube.Ob
 	if report != nil {
 		switch r := report.(type) {
 		case *v1alpha1.ClusterConfigAuditReport:
-			return r.Labels[trivyoperator.LabelResourceSpecHash] == podSpecHash &&
-				r.Labels[trivyoperator.LabelPluginConfigHash] == pluginConfigHash, nil
+			return r.Labels[tunneloperator.LabelResourceSpecHash] == podSpecHash &&
+				r.Labels[tunneloperator.LabelPluginConfigHash] == pluginConfigHash, nil
 		case *v1alpha1.ClusterRbacAssessmentReport:
-			return r.Labels[trivyoperator.LabelResourceSpecHash] == podSpecHash &&
-				r.Labels[trivyoperator.LabelPluginConfigHash] == pluginConfigHash, nil
+			return r.Labels[tunneloperator.LabelResourceSpecHash] == podSpecHash &&
+				r.Labels[tunneloperator.LabelPluginConfigHash] == pluginConfigHash, nil
 		}
 	}
 	return false, nil
@@ -329,11 +329,11 @@ func (r *ResourceController) findReportOwner(ctx context.Context, owner kube.Obj
 	if report != nil {
 		switch r := report.(type) {
 		case *v1alpha1.ConfigAuditReport:
-			return r.Labels[trivyoperator.LabelResourceSpecHash] == podSpecHash &&
-				r.Labels[trivyoperator.LabelPluginConfigHash] == pluginConfigHash, nil
+			return r.Labels[tunneloperator.LabelResourceSpecHash] == podSpecHash &&
+				r.Labels[tunneloperator.LabelPluginConfigHash] == pluginConfigHash, nil
 		case *v1alpha1.RbacAssessmentReport:
-			return r.Labels[trivyoperator.LabelResourceSpecHash] == podSpecHash &&
-				r.Labels[trivyoperator.LabelPluginConfigHash] == pluginConfigHash, nil
+			return r.Labels[tunneloperator.LabelResourceSpecHash] == podSpecHash &&
+				r.Labels[tunneloperator.LabelPluginConfigHash] == pluginConfigHash, nil
 		}
 	}
 	return false, nil

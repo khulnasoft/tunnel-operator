@@ -32,11 +32,11 @@ type NodeCollectorJobController struct {
 	etc.Config
 	kube.ObjectResolver
 	kube.LogsReader
-	trivyoperator.ConfigData
-	trivyoperator.PluginContext
+	tunneloperator.ConfigData
+	tunneloperator.PluginContext
 	configauditreport.PluginInMemory
 	InfraReadWriter infraassessment.ReadWriter
-	trivyoperator.BuildInfo
+	tunneloperator.BuildInfo
 }
 
 // +kubebuilder:rbac:groups=batch,resources=jobs,verbs=get;list;watch;create;delete
@@ -44,7 +44,7 @@ type NodeCollectorJobController struct {
 func (r *NodeCollectorJobController) SetupWithManager(mgr ctrl.Manager) error {
 	var predicates []predicate.Predicate
 
-	predicates = append(predicates, ManagedByTrivyOperator, IsNodeInfoCollector, JobHasAnyCondition)
+	predicates = append(predicates, ManagedByTunnelOperator, IsNodeInfoCollector, JobHasAnyCondition)
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&batchv1.Job{}, builder.WithPredicates(predicates...)).
 		Complete(r.reconcileJobs())

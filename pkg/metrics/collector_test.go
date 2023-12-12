@@ -30,7 +30,7 @@ var _ = Describe("ResourcesMetricsCollector", func() {
 	JustBeforeEach(func() {
 		var logger logr.Logger
 		var config etc.Config
-		var trvConfig = trivyoperator.GetDefaultConfig()
+		var trvConfig = tunneloperator.GetDefaultConfig()
 		collector = *NewResourcesMetricsCollector(logger, config, trvConfig, client.Build())
 	})
 
@@ -48,9 +48,9 @@ var _ = Describe("ResourcesMetricsCollector", func() {
 			vr1.Namespace = "default"
 			vr1.Name = "replicaset-nginx-6d4cf56db6-nginx"
 			vr1.Labels = labels.Set{
-				trivyoperator.LabelResourceKind:  "ReplicaSet",
-				trivyoperator.LabelResourceName:  "nginx-6d4cf56db6",
-				trivyoperator.LabelContainerName: "nginx",
+				tunneloperator.LabelResourceKind:  "ReplicaSet",
+				tunneloperator.LabelResourceName:  "nginx-6d4cf56db6",
+				tunneloperator.LabelContainerName: "nginx",
 				"tier":                           "tier-1",
 				"owner":                          "team-a",
 				"app.kubernetes.io/name":         "my_name"}
@@ -69,9 +69,9 @@ var _ = Describe("ResourcesMetricsCollector", func() {
 			vr2.Namespace = "some-ns"
 			vr2.Name = "replicaset-app-d327abe3c4-proxy"
 			vr2.Labels = labels.Set{
-				trivyoperator.LabelResourceKind:  "ReplicaSet",
-				trivyoperator.LabelResourceName:  "app-d327abe3c4",
-				trivyoperator.LabelContainerName: "proxy"}
+				tunneloperator.LabelResourceKind:  "ReplicaSet",
+				tunneloperator.LabelResourceName:  "app-d327abe3c4",
+				tunneloperator.LabelContainerName: "proxy"}
 			vr2.Report.Registry.Server = "quay.io"
 			vr2.Report.Artifact.Repository = "oauth2-proxy/oauth2-proxy"
 			vr2.Report.Artifact.Tag = "v7.2.1"
@@ -98,9 +98,9 @@ var _ = Describe("ResourcesMetricsCollector", func() {
 			vr3.Namespace = "ingress-nginx"
 			vr3.Name = "daemonset-ingress-nginx-controller-controller"
 			vr3.Labels = labels.Set{
-				trivyoperator.LabelResourceKind:  "DaemonSet",
-				trivyoperator.LabelResourceName:  "ingress-nginx-controller",
-				trivyoperator.LabelContainerName: "controller"}
+				tunneloperator.LabelResourceKind:  "DaemonSet",
+				tunneloperator.LabelResourceName:  "ingress-nginx-controller",
+				tunneloperator.LabelContainerName: "controller"}
 			vr3.Report.Registry.Server = "k8s.gcr.io"
 			vr3.Report.Artifact.Repository = "ingress-nginx/controller"
 			vr3.Report.Artifact.Digest = "sha256:5516d103a9c2ecc4f026efbd4b40662ce22dc1f824fb129ed121460aaa5c47f8"
@@ -222,8 +222,8 @@ var _ = Describe("ResourcesMetricsCollector", func() {
 		})
 		It("should produce correct metrics with MetricsVulnerabilityId option enabled and configured labels included using the correct prefix", func() {
 			collector.Config.MetricsVulnerabilityId = true
-			collector.Set(trivyoperator.KeyReportResourceLabels, "tier,ssot")
-			collector.Set(trivyoperator.KeyMetricsResourceLabelsPrefix, "custom_prefix_")
+			collector.Set(tunneloperator.KeyReportResourceLabels, "tier,ssot")
+			collector.Set(tunneloperator.KeyMetricsResourceLabelsPrefix, "custom_prefix_")
 			collector.metricDescriptors = buildMetricDescriptors(collector.ConfigData) // Force rebuild metricDescriptors again
 			const expected = `
 		# HELP trivy_vulnerability_id Number of container image vulnerabilities group by vulnerability id
@@ -247,8 +247,8 @@ var _ = Describe("ResourcesMetricsCollector", func() {
 				To(Succeed())
 		})
 		It("should produce correct metrics with configured labels included using the correct prefix", func() {
-			collector.Set(trivyoperator.KeyReportResourceLabels, "tier,ssot")
-			collector.Set(trivyoperator.KeyMetricsResourceLabelsPrefix, "custom_prefix_")
+			collector.Set(tunneloperator.KeyReportResourceLabels, "tier,ssot")
+			collector.Set(tunneloperator.KeyMetricsResourceLabelsPrefix, "custom_prefix_")
 			collector.metricDescriptors = buildMetricDescriptors(collector.ConfigData) // Force rebuild metricDescriptors again
 			const expected = `
 		# HELP trivy_image_vulnerabilities Number of container image vulnerabilities
@@ -274,8 +274,8 @@ var _ = Describe("ResourcesMetricsCollector", func() {
 		})
 		It("should produce correct image os metrics with configured labels included using the correct prefix", func() {
 			collector.Config.MetricsImageInfo = true
-			collector.Set(trivyoperator.KeyReportResourceLabels, "tier,ssot")
-			collector.Set(trivyoperator.KeyMetricsResourceLabelsPrefix, "custom_prefix_")
+			collector.Set(tunneloperator.KeyReportResourceLabels, "tier,ssot")
+			collector.Set(tunneloperator.KeyMetricsResourceLabelsPrefix, "custom_prefix_")
 			collector.metricDescriptors = buildMetricDescriptors(collector.ConfigData) // Force rebuild metricDescriptors again
 			const expected = `
 		# HELP trivy_image_info scanned container image information
@@ -288,8 +288,8 @@ var _ = Describe("ResourcesMetricsCollector", func() {
 				To(Succeed())
 		})
 		It("should produce correct metrics with configured labels included using the correct prefix and sanitized the invalid metric label", func() {
-			collector.Set(trivyoperator.KeyReportResourceLabels, "app.kubernetes.io/name")
-			collector.Set(trivyoperator.KeyMetricsResourceLabelsPrefix, "custom_prefix_")
+			collector.Set(tunneloperator.KeyReportResourceLabels, "app.kubernetes.io/name")
+			collector.Set(tunneloperator.KeyMetricsResourceLabelsPrefix, "custom_prefix_")
 			collector.metricDescriptors = buildMetricDescriptors(collector.ConfigData) // Force rebuild metricDescriptors again
 			const expected = `
 		# HELP trivy_image_vulnerabilities Number of container image vulnerabilities
@@ -321,9 +321,9 @@ var _ = Describe("ResourcesMetricsCollector", func() {
 			sr1.Namespace = "default"
 			sr1.Name = "replicaset-nginx-6d4cf56db6-nginx"
 			sr1.Labels = labels.Set{
-				trivyoperator.LabelResourceKind:  "ReplicaSet",
-				trivyoperator.LabelResourceName:  "nginx-6d4cf56db6",
-				trivyoperator.LabelContainerName: "nginx"}
+				tunneloperator.LabelResourceKind:  "ReplicaSet",
+				tunneloperator.LabelResourceName:  "nginx-6d4cf56db6",
+				tunneloperator.LabelContainerName: "nginx"}
 			sr1.Report.Registry.Server = "index.docker.io"
 			sr1.Report.Artifact.Repository = "library/nginx"
 			sr1.Report.Artifact.Tag = "1.16"
@@ -337,9 +337,9 @@ var _ = Describe("ResourcesMetricsCollector", func() {
 			sr2.Namespace = "some-ns"
 			sr2.Name = "replicaset-app-d327abe3c4-proxy"
 			sr2.Labels = labels.Set{
-				trivyoperator.LabelResourceKind:  "ReplicaSet",
-				trivyoperator.LabelResourceName:  "app-d327abe3c4",
-				trivyoperator.LabelContainerName: "proxy"}
+				tunneloperator.LabelResourceKind:  "ReplicaSet",
+				tunneloperator.LabelResourceName:  "app-d327abe3c4",
+				tunneloperator.LabelContainerName: "proxy"}
 			sr2.Report.Registry.Server = "quay.io"
 			sr2.Report.Artifact.Repository = "oauth2-proxy/oauth2-proxy"
 			sr2.Report.Artifact.Tag = "v7.2.1"
@@ -360,9 +360,9 @@ var _ = Describe("ResourcesMetricsCollector", func() {
 			sr3.Namespace = "ingress-nginx"
 			sr3.Name = "daemonset-ingress-nginx-controller-controller"
 			sr3.Labels = labels.Set{
-				trivyoperator.LabelResourceKind:  "DaemonSet",
-				trivyoperator.LabelResourceName:  "ingress-nginx-controller",
-				trivyoperator.LabelContainerName: "controller"}
+				tunneloperator.LabelResourceKind:  "DaemonSet",
+				tunneloperator.LabelResourceName:  "ingress-nginx-controller",
+				tunneloperator.LabelContainerName: "controller"}
 			sr3.Report.Registry.Server = "k8s.gcr.io"
 			sr3.Report.Artifact.Repository = "ingress-nginx/controller"
 			sr3.Report.Artifact.Digest = "sha256:5516d103a9c2ecc4f026efbd4b40662ce22dc1f824fb129ed121460aaa5c47f8"
@@ -456,8 +456,8 @@ var _ = Describe("ResourcesMetricsCollector", func() {
 			car1.Namespace = "default"
 			car1.Name = "replicaset-nginx-6d4cf56db6"
 			car1.Labels = labels.Set{
-				trivyoperator.LabelResourceKind: "ReplicaSet",
-				trivyoperator.LabelResourceName: "nginx-6d4cf56db6"}
+				tunneloperator.LabelResourceKind: "ReplicaSet",
+				tunneloperator.LabelResourceName: "nginx-6d4cf56db6"}
 			car1.Report.Checks = append(car1.Report.Checks,
 				[]v1alpha1.Check{
 					{
@@ -485,8 +485,8 @@ var _ = Describe("ResourcesMetricsCollector", func() {
 			car2.Namespace = "some-ns"
 			car2.Name = "configmap-test"
 			car2.Labels = labels.Set{
-				trivyoperator.LabelResourceKind: "ConfigMap",
-				trivyoperator.LabelResourceName: "test"}
+				tunneloperator.LabelResourceKind: "ConfigMap",
+				tunneloperator.LabelResourceName: "test"}
 			car2.Report.Checks = append(car2.Report.Checks,
 				[]v1alpha1.Check{
 					{
@@ -512,8 +512,8 @@ var _ = Describe("ResourcesMetricsCollector", func() {
 			car3.Namespace = "vault-system"
 			car3.Name = "replicaset-vault-agent-injector-65fd65bfb8"
 			car3.Labels = labels.Set{
-				trivyoperator.LabelResourceKind: "ReplicaSet",
-				trivyoperator.LabelResourceName: "vault-agent-injector-65fd65bfb8"}
+				tunneloperator.LabelResourceKind: "ReplicaSet",
+				tunneloperator.LabelResourceName: "vault-agent-injector-65fd65bfb8"}
 			car3.Report.Checks = append(car3.Report.Checks,
 				[]v1alpha1.Check{
 					{
@@ -600,8 +600,8 @@ var _ = Describe("ResourcesMetricsCollector", func() {
 			car1.Namespace = "kube-system"
 			car1.Name = "pod-kube-apiserver-minikube-6d4cf56db6"
 			car1.Labels = labels.Set{
-				trivyoperator.LabelResourceKind: "Pod",
-				trivyoperator.LabelResourceName: "kube-apiserver-minikube-6d4cf56db6"}
+				tunneloperator.LabelResourceKind: "Pod",
+				tunneloperator.LabelResourceName: "kube-apiserver-minikube-6d4cf56db6"}
 			car1.Report.Checks = append(car1.Report.Checks,
 				[]v1alpha1.Check{
 					{
@@ -662,8 +662,8 @@ var _ = Describe("ResourcesMetricsCollector", func() {
 			car1.Namespace = "default"
 			car1.Name = "role-admin-6d4cf56db6"
 			car1.Labels = labels.Set{
-				trivyoperator.LabelResourceKind: "Role",
-				trivyoperator.LabelResourceName: "admin-6d4cf56db6"}
+				tunneloperator.LabelResourceKind: "Role",
+				tunneloperator.LabelResourceName: "admin-6d4cf56db6"}
 			car1.Report.Checks = append(car1.Report.Checks,
 				[]v1alpha1.Check{
 					{
@@ -691,8 +691,8 @@ var _ = Describe("ResourcesMetricsCollector", func() {
 			car2.Namespace = "some-ns"
 			car2.Name = "role-write-test"
 			car2.Labels = labels.Set{
-				trivyoperator.LabelResourceKind: "Role",
-				trivyoperator.LabelResourceName: "write-test"}
+				tunneloperator.LabelResourceKind: "Role",
+				tunneloperator.LabelResourceName: "write-test"}
 			car2.Report.Checks = append(car2.Report.Checks,
 				[]v1alpha1.Check{
 					{
@@ -718,8 +718,8 @@ var _ = Describe("ResourcesMetricsCollector", func() {
 			car3.Namespace = "vault-system"
 			car3.Name = "role-read-65fd65bfb8"
 			car3.Labels = labels.Set{
-				trivyoperator.LabelResourceKind: "Role",
-				trivyoperator.LabelResourceName: "read-65fd65bfb8"}
+				tunneloperator.LabelResourceKind: "Role",
+				tunneloperator.LabelResourceName: "read-65fd65bfb8"}
 			car3.Report.Checks = append(car3.Report.Checks,
 				[]v1alpha1.Check{
 					{
@@ -804,23 +804,23 @@ var _ = Describe("ResourcesMetricsCollector", func() {
 			car1 := &v1alpha1.ClusterRbacAssessmentReport{}
 			car1.Name = "cluster_role-admin-6d4cf56db6"
 			car1.Labels = labels.Set{
-				trivyoperator.LabelResourceKind: "ClusterRole",
-				trivyoperator.LabelResourceName: "admin-6d4cf56db6"}
+				tunneloperator.LabelResourceKind: "ClusterRole",
+				tunneloperator.LabelResourceName: "admin-6d4cf56db6"}
 			car1.Report.Summary.CriticalCount = 2
 			car1.Report.Summary.LowCount = 9
 
 			car2 := &v1alpha1.ClusterRbacAssessmentReport{}
 			car2.Name = "cluster_role-write-test"
 			car2.Labels = labels.Set{
-				trivyoperator.LabelResourceKind: "ClusterRole",
-				trivyoperator.LabelResourceName: "write-test"}
+				tunneloperator.LabelResourceKind: "ClusterRole",
+				tunneloperator.LabelResourceName: "write-test"}
 			car2.Report.Summary.LowCount = 1
 
 			car3 := &v1alpha1.ClusterRbacAssessmentReport{}
 			car3.Name = "cluster_role-read-65fd65bfb8"
 			car3.Labels = labels.Set{
-				trivyoperator.LabelResourceKind: "ClusterRole",
-				trivyoperator.LabelResourceName: "read-65fd65bfb8"}
+				tunneloperator.LabelResourceKind: "ClusterRole",
+				tunneloperator.LabelResourceName: "read-65fd65bfb8"}
 			car3.Report.Summary.MediumCount = 4
 			car3.Report.Summary.LowCount = 7
 

@@ -20,12 +20,12 @@ import (
 var (
 	trivyScanner = v1alpha1.Scanner{
 		Name:    v1alpha1.ScannerNameTrivy,
-		Vendor:  "Aqua Security",
+		Vendor:  "Khulnasoft Security",
 		Version: "0.36.0",
 	}
 	builtInScanner = v1alpha1.Scanner{
 		Name:    v1alpha1.ScannerNameTrivy,
-		Vendor:  "Aqua Security",
+		Vendor:  "Khulnasoft Security",
 		Version: "dev",
 	}
 )
@@ -37,7 +37,7 @@ var (
 // of the actual v1alpha1.VulnerabilityReport.
 func IsVulnerabilityReportForContainerOwnedBy(containerName string, owner client.Object) types.GomegaMatcher {
 	return &vulnerabilityReportMatcher{
-		scheme:        trivyoperator.NewScheme(),
+		scheme:        tunneloperator.NewScheme(),
 		containerName: containerName,
 		owner:         owner,
 	}
@@ -65,7 +65,7 @@ func (m *vulnerabilityReportMatcher) Match(actual interface{}) (bool, error) {
 	if err != nil {
 		return false, err
 	}
-	keys[trivyoperator.LabelContainerName] = Equal(m.containerName)
+	keys[tunneloperator.LabelContainerName] = Equal(m.containerName)
 
 	matcher := MatchFields(IgnoreExtras, Fields{
 		"ObjectMeta": MatchFields(IgnoreExtras, Fields{
@@ -148,7 +148,7 @@ func (m *configAuditReportMatcher) Match(actual interface{}) (bool, error) {
 	if !ok {
 		return false, fmt.Errorf("%T expects a %T", configAuditReportMatcher{}, v1alpha1.ConfigAuditReport{})
 	}
-	gvk, err := apiutil.GVKForObject(m.owner, trivyoperator.NewScheme())
+	gvk, err := apiutil.GVKForObject(m.owner, tunneloperator.NewScheme())
 	if err != nil {
 		return false, err
 	}
@@ -156,9 +156,9 @@ func (m *configAuditReportMatcher) Match(actual interface{}) (bool, error) {
 	matcher := MatchFields(IgnoreExtras, Fields{
 		"ObjectMeta": MatchFields(IgnoreExtras, Fields{
 			"Labels": MatchKeys(IgnoreExtras, Keys{
-				trivyoperator.LabelResourceKind:      Equal(gvk.Kind),
-				trivyoperator.LabelResourceName:      Equal(m.owner.GetName()),
-				trivyoperator.LabelResourceNamespace: Equal(m.owner.GetNamespace()),
+				tunneloperator.LabelResourceKind:      Equal(gvk.Kind),
+				tunneloperator.LabelResourceName:      Equal(m.owner.GetName()),
+				tunneloperator.LabelResourceNamespace: Equal(m.owner.GetNamespace()),
 			}),
 			"OwnerReferences": ConsistOf(metav1.OwnerReference{
 				APIVersion:         gvk.GroupVersion().Identifier(),

@@ -11,7 +11,7 @@ import (
 func TestSlow(t *testing.T) {
 	testCases := []struct {
 		name       string
-		configData trivyoperator.ConfigData
+		configData tunneloperator.ConfigData
 		want       string
 	}{{
 
@@ -58,7 +58,7 @@ func TestSlow(t *testing.T) {
 	}
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
-			got := trivy.Slow(trivy.Config{trivyoperator.PluginConfig{Data: tc.configData}})
+			got := trivy.Slow(trivy.Config{tunneloperator.PluginConfig{Data: tc.configData}})
 			assert.Equal(t, got, tc.want)
 		})
 	}
@@ -67,7 +67,7 @@ func TestSlow(t *testing.T) {
 func TestScanner(t *testing.T) {
 	testCases := []struct {
 		name       string
-		configData trivyoperator.ConfigData
+		configData tunneloperator.ConfigData
 		want       string
 	}{{
 
@@ -99,7 +99,7 @@ func TestScanner(t *testing.T) {
 	}
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
-			got := trivy.Scanners(trivy.Config{trivyoperator.PluginConfig{Data: tc.configData}})
+			got := trivy.Scanners(trivy.Config{tunneloperator.PluginConfig{Data: tc.configData}})
 			assert.Equal(t, got, tc.want)
 		})
 	}
@@ -108,7 +108,7 @@ func TestScanner(t *testing.T) {
 func TestSkipDBUpdate(t *testing.T) {
 	testCases := []struct {
 		name       string
-		configData trivyoperator.ConfigData
+		configData tunneloperator.ConfigData
 		want       string
 	}{{
 
@@ -140,7 +140,7 @@ func TestSkipDBUpdate(t *testing.T) {
 	}
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
-			got := trivy.SkipDBUpdate(trivy.Config{trivyoperator.PluginConfig{Data: tc.configData}})
+			got := trivy.SkipDBUpdate(trivy.Config{tunneloperator.PluginConfig{Data: tc.configData}})
 			assert.Equal(t, got, tc.want)
 		})
 	}
@@ -149,7 +149,7 @@ func TestSkipDBUpdate(t *testing.T) {
 func TestSkipJavaDBUpdate(t *testing.T) {
 	testCases := []struct {
 		name       string
-		configData trivyoperator.ConfigData
+		configData tunneloperator.ConfigData
 		want       string
 	}{
 		{
@@ -193,7 +193,7 @@ func TestSkipJavaDBUpdate(t *testing.T) {
 	}
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
-			got := trivy.SkipJavaDBUpdate(trivy.Config{trivyoperator.PluginConfig{Data: tc.configData}})
+			got := trivy.SkipJavaDBUpdate(trivy.Config{tunneloperator.PluginConfig{Data: tc.configData}})
 			assert.Equal(t, got, tc.want)
 		})
 	}

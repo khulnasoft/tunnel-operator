@@ -33,7 +33,7 @@ report:
   updateTimestamp: '2021-05-20T12:38:10Z'
   scanner:
     name: Trivy 
-    vendor: Aqua Security
+    vendor: Khulnasoft Security
     version: '0.17.0'
   summary:
     criticalCount: 2

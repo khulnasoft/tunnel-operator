@@ -11,8 +11,8 @@ import (
 )
 
 type Resolver struct {
-	buildInfo          trivyoperator.BuildInfo
-	config             trivyoperator.ConfigData
+	buildInfo          tunneloperator.BuildInfo
+	config             tunneloperator.ConfigData
 	namespace          string
 	serviceAccountName string
 	client             client.Client
@@ -23,12 +23,12 @@ func NewResolver() *Resolver {
 	return &Resolver{}
 }
 
-func (r *Resolver) WithBuildInfo(buildInfo trivyoperator.BuildInfo) *Resolver {
+func (r *Resolver) WithBuildInfo(buildInfo tunneloperator.BuildInfo) *Resolver {
 	r.buildInfo = buildInfo
 	return r
 }
 
-func (r *Resolver) WithConfig(config trivyoperator.ConfigData) *Resolver {
+func (r *Resolver) WithConfig(config tunneloperator.ConfigData) *Resolver {
 	r.config = config
 	return r
 }
@@ -58,36 +58,36 @@ func (r *Resolver) WithObjectResolver(objectResolver *kube.ObjectResolver) *Reso
 // mode.
 //
 // You could add your own scanner by implementing the vulnerabilityreport.Plugin interface.
-func (r *Resolver) GetVulnerabilityPlugin() (vulnerabilityreport.Plugin, trivyoperator.PluginContext, error) {
+func (r *Resolver) GetVulnerabilityPlugin() (vulnerabilityreport.Plugin, tunneloperator.PluginContext, error) {
 	scanner, err := r.config.GetVulnerabilityReportsScanner()
 	if err != nil {
 		return nil, nil, err
 	}
 
-	pluginContext := trivyoperator.NewPluginContext().
+	pluginContext := tunneloperator.NewPluginContext().
 		WithName(string(scanner)).
 		WithClient(r.client).
 		WithNamespace(r.namespace).
 		WithServiceAccountName(r.serviceAccountName).
-		WithTrivyOperatorConfig(r.config).
+		WithTunnelOperatorConfig(r.config).
 		Get()
 
 	return trivy.NewPlugin(ext.NewSystemClock(), ext.NewGoogleUUIDGenerator(), r.objectResolver), pluginContext, nil
 }
 
 // GetConfigAuditPlugin is a factory method that instantiates the configauditreport.Plugin.
-func (r *Resolver) GetConfigAuditPlugin() (configauditreport.PluginInMemory, trivyoperator.PluginContext, error) {
+func (r *Resolver) GetConfigAuditPlugin() (configauditreport.PluginInMemory, tunneloperator.PluginContext, error) {
 	scanner, err := r.config.GetConfigAuditReportsScanner()
 	if err != nil {
 		return nil, nil, err
 	}
 
-	pluginContext := trivyoperator.NewPluginContext().
+	pluginContext := tunneloperator.NewPluginContext().
 		WithName(string(scanner)).
 		WithClient(r.client).
 		WithNamespace(r.namespace).
 		WithServiceAccountName(r.serviceAccountName).
-		WithTrivyOperatorConfig(r.config).
+		WithTunnelOperatorConfig(r.config).
 		Get()
 
 	return trivy.NewTrivyConfigAuditPlugin(ext.NewSystemClock(), ext.NewGoogleUUIDGenerator(), r.objectResolver), pluginContext, nil

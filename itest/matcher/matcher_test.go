@@ -37,10 +37,10 @@ func TestVulnerabilityReportMatcher(t *testing.T) {
 				Name:      "pod-nginx-pod-nginx-container",
 				Namespace: "default",
 				Labels: map[string]string{
-					trivyoperator.LabelContainerName:     "nginx-container",
-					trivyoperator.LabelResourceKind:      "Pod",
-					trivyoperator.LabelResourceName:      "nginx-pod",
-					trivyoperator.LabelResourceNamespace: "default",
+					tunneloperator.LabelContainerName:     "nginx-container",
+					tunneloperator.LabelResourceKind:      "Pod",
+					tunneloperator.LabelResourceName:      "nginx-pod",
+					tunneloperator.LabelResourceNamespace: "default",
 				},
 				OwnerReferences: []metav1.OwnerReference{
 					{
@@ -56,7 +56,7 @@ func TestVulnerabilityReportMatcher(t *testing.T) {
 			Report: v1alpha1.VulnerabilityReportData{
 				Scanner: v1alpha1.Scanner{
 					Name:    v1alpha1.ScannerNameTrivy,
-					Vendor:  "Aqua Security",
+					Vendor:  "Khulnasoft Security",
 					Version: "0.36.0",
 				},
 				Vulnerabilities: []v1alpha1.Vulnerability{},
@@ -90,9 +90,9 @@ func TestConfigAuditReportMatcher(t *testing.T) {
 				Name:      "replicaset-nginx-6d4cf56db6",
 				Namespace: "default",
 				Labels: map[string]string{
-					trivyoperator.LabelResourceKind:      "ReplicaSet",
-					trivyoperator.LabelResourceName:      "nginx-6d4cf56db6",
-					trivyoperator.LabelResourceNamespace: "default",
+					tunneloperator.LabelResourceKind:      "ReplicaSet",
+					tunneloperator.LabelResourceName:      "nginx-6d4cf56db6",
+					tunneloperator.LabelResourceNamespace: "default",
 				},
 				OwnerReferences: []metav1.OwnerReference{
 					{
@@ -108,7 +108,7 @@ func TestConfigAuditReportMatcher(t *testing.T) {
 			Report: v1alpha1.ConfigAuditReportData{
 				Scanner: v1alpha1.Scanner{
 					Name:    v1alpha1.ScannerNameTrivy,
-					Vendor:  "Aqua Security",
+					Vendor:  "Khulnasoft Security",
 					Version: "dev",
 				},
 			},

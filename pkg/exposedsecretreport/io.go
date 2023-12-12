@@ -96,7 +96,7 @@ func BuildExposedSecretsReportData(clock ext.Clock, registry v1alpha1.Registry, 
 		UpdateTimestamp: metav1.NewTime(clock.Now()),
 		Scanner: v1alpha1.Scanner{
 			Name:    v1alpha1.ScannerNameTrivy,
-			Vendor:  "Aqua Security",
+			Vendor:  "Khulnasoft Security",
 			Version: version,
 		},
 		Registry: registry,

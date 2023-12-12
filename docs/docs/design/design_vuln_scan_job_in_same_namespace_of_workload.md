@@ -7,7 +7,7 @@ method to provide access to registry, then trivy operator has challenges to scan
 
 - Consider an example of ECR registry, there is one option available in which that user can associate IAM role to service account,
  then workloads which are associated with this service account will get authorised to run with the image from that registry.
- If user wants to get these images scanned using Trivy operator then currently we have only one way to do that.
+ If user wants to get these images scanned using Tunnel operator then currently we have only one way to do that.
  User has to associate IAM role to tunnel-operator service account, so with when scan job run with `tunnel-operator`service
  account, then Trivy will get appropriate permission to pull the image. To know more on how this mechanism works, please
  refer to the documents [ECR registry configuration], [IAM role to service account], but, trivy cannot use permission

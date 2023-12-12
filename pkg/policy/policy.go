@@ -42,7 +42,7 @@ const (
 	policiesFolder            = "externalPolicies"
 	regoExt                   = "rego"
 	yamlExt                   = "yaml"
-	externalPoliciesNamespace = "trivyoperator"
+	externalPoliciesNamespace = "tunneloperator"
 )
 
 type Policies struct {

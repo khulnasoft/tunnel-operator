@@ -1,4 +1,4 @@
-package trivyoperator
+package tunneloperator
 
 import (
 	"context"

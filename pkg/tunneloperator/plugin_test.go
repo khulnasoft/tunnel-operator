@@ -1,4 +1,4 @@
-package trivyoperator_test
+package tunneloperator_test
 
 import (
 	"testing"
@@ -12,7 +12,7 @@ import (
 
 func TestGetPluginConfigMapName(t *testing.T) {
 	g := gomega.NewGomegaWithT(t)
-	name := trivyoperator.GetPluginConfigMapName("Trivy")
+	name := tunneloperator.GetPluginConfigMapName("Trivy")
 	g.Expect(name).To(gomega.Equal("tunnel-operator-trivy-config"))
 }
 
@@ -22,11 +22,11 @@ func TestPluginContext_GetConfig(t *testing.T) {
 		g := gomega.NewGomegaWithT(t)
 
 		client := fake.NewClientBuilder().
-			WithScheme(trivyoperator.NewScheme()).
+			WithScheme(tunneloperator.NewScheme()).
 			WithObjects(&corev1.ConfigMap{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      "tunnel-operator-trivy-config",
-					Namespace: "trivyoperator-ns",
+					Namespace: "tunneloperator-ns",
 				},
 				Data: map[string]string{
 					"foo": "bar",
@@ -34,9 +34,9 @@ func TestPluginContext_GetConfig(t *testing.T) {
 			}).
 			Build()
 
-		pluginContext := trivyoperator.NewPluginContext().
+		pluginContext := tunneloperator.NewPluginContext().
 			WithName("trivy").
-			WithNamespace("trivyoperator-ns").
+			WithNamespace("tunneloperator-ns").
 			WithClient(client).
 			Get()
 
@@ -44,7 +44,7 @@ func TestPluginContext_GetConfig(t *testing.T) {
 
 		g.Expect(err).ToNot(gomega.HaveOccurred())
 		g.Expect(cm).To(gomega.Equal(
-			trivyoperator.PluginConfig{
+			tunneloperator.PluginConfig{
 				Data: map[string]string{
 					"foo": "bar",
 				},
@@ -55,11 +55,11 @@ func TestPluginContext_GetConfig(t *testing.T) {
 		g := gomega.NewGomegaWithT(t)
 
 		client := fake.NewClientBuilder().
-			WithScheme(trivyoperator.NewScheme()).
+			WithScheme(tunneloperator.NewScheme()).
 			WithObjects(&corev1.ConfigMap{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      "tunnel-operator-trivy-config",
-					Namespace: "trivyoperator-ns",
+					Namespace: "tunneloperator-ns",
 				},
 				Data: map[string]string{
 					"foo": "bar",
@@ -67,7 +67,7 @@ func TestPluginContext_GetConfig(t *testing.T) {
 			}, &corev1.Secret{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:      "tunnel-operator-trivy-config",
-					Namespace: "trivyoperator-ns",
+					Namespace: "tunneloperator-ns",
 				},
 				Data: map[string][]byte{
 					"secret": []byte("pa$$word"),
@@ -75,9 +75,9 @@ func TestPluginContext_GetConfig(t *testing.T) {
 			}).
 			Build()
 
-		pluginContext := trivyoperator.NewPluginContext().
+		pluginContext := tunneloperator.NewPluginContext().
 			WithName("trivy").
-			WithNamespace("trivyoperator-ns").
+			WithNamespace("tunneloperator-ns").
 			WithClient(client).
 			Get()
 
@@ -85,7 +85,7 @@ func TestPluginContext_GetConfig(t *testing.T) {
 
 		g.Expect(err).ToNot(gomega.HaveOccurred())
 		g.Expect(cm).To(gomega.Equal(
-			trivyoperator.PluginConfig{
+			tunneloperator.PluginConfig{
 				Data: map[string]string{
 					"foo": "bar",
 				},

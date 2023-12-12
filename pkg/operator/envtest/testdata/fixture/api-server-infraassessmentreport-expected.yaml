@@ -105,7 +105,7 @@ report:
         PodSecurityPolicy is not used
   scanner:
     name: Trivy
-    vendor: Aqua Security
+    vendor: Khulnasoft Security
     version: version
   summary:
     criticalCount: 0

@@ -100,10 +100,10 @@ var _ = BeforeSuite(func() {
 		InvokeClusterComplianceOnce:   true,
 	}
 
-	trivyOperatorConfig := trivyoperator.GetDefaultConfig()
+	trivyOperatorConfig := tunneloperator.GetDefaultConfig()
 
-	trivyOperatorConfig.Set(trivyoperator.KeyVulnerabilityScannerEnabled, "true")
-	trivyOperatorConfig.Set(trivyoperator.KeyExposedSecretsScannerEnabled, "true")
+	trivyOperatorConfig.Set(tunneloperator.KeyVulnerabilityScannerEnabled, "true")
+	trivyOperatorConfig.Set(tunneloperator.KeyExposedSecretsScannerEnabled, "true")
 
 	plugin, pluginContext, err := plugins.NewResolver().
 		WithNamespace(config.Namespace).
@@ -113,7 +113,7 @@ var _ = BeforeSuite(func() {
 		WithObjectResolver(&objectResolver).
 		GetVulnerabilityPlugin()
 	Expect(err).ToNot(HaveOccurred())
-	err = pluginContext.EnsureConfig(trivyoperator.PluginConfig{
+	err = pluginContext.EnsureConfig(tunneloperator.PluginConfig{
 		Data: map[string]string{
 			"trivy.repository":   trivy.DefaultImageRepository,
 			"trivy.tag":          "0.35.0",
@@ -141,7 +141,7 @@ var _ = BeforeSuite(func() {
 	}).SetupWithManager(k8sManager)
 	Expect(err).ToNot(HaveOccurred())
 
-	buildInfo := trivyoperator.BuildInfo{
+	buildInfo := tunneloperator.BuildInfo{
 		Version: "version",
 		Commit:  "commit",
 		Date:    "12/12/2020",

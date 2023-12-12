@@ -256,7 +256,7 @@ func TestGenerateComplianceReport(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			c := fake.NewClientBuilder().WithScheme(trivyoperator.NewScheme()).
+			c := fake.NewClientBuilder().WithScheme(tunneloperator.NewScheme()).
 				WithLists(tt.configAuditList).
 				WithObjects(tt.clusterComplianceReport).
 				WithStatusSubresource(tt.clusterComplianceReport).
