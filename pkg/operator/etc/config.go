@@ -14,7 +14,7 @@ type Config struct {
 	Namespace                                    string         `env:"OPERATOR_NAMESPACE"`
 	TargetNamespaces                             string         `env:"OPERATOR_TARGET_NAMESPACES"`
 	ExcludeNamespaces                            string         `env:"OPERATOR_EXCLUDE_NAMESPACES"`
-	ServiceAccount                               string         `env:"OPERATOR_SERVICE_ACCOUNT" envDefault:"trivy-operator"`
+	ServiceAccount                               string         `env:"OPERATOR_SERVICE_ACCOUNT" envDefault:"tunnel-operator"`
 	LogDevMode                                   bool           `env:"OPERATOR_LOG_DEV_MODE" envDefault:"false"`
 	ScanJobTimeout                               time.Duration  `env:"OPERATOR_SCAN_JOB_TIMEOUT" envDefault:"5m"`
 	ScanJobTTL                                   *time.Duration `env:"OPERATOR_SCAN_JOB_TTL"`

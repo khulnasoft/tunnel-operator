@@ -5,9 +5,9 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: trivy-operator-trivy-config
-  namespace: {{ include "trivy-operator.namespace" $ }}
-  labels: {{- include "trivy-operator.labels" $ | nindent 4 }}
+  name: tunnel-operator-trivy-config
+  namespace: {{ include "tunnel-operator.namespace" $ }}
+  labels: {{- include "tunnel-operator.labels" $ | nindent 4 }}
 data:
   trivy.repository: "{{ required ".Values.trivy.image.registry is required" ( include "global.imageRegistry" . | default .Values.trivy.image.registry ) }}/{{ required ".Values.trivy.image.repository is required" .Values.trivy.image.repository }}"
   trivy.tag: {{ required ".Values.trivy.image.tag is required" .Values.trivy.image.tag | quote }}
@@ -86,7 +86,7 @@ data:
   {{- end }}
   {{- end }}
   {{- if .Values.operator.builtInTrivyServer }}
-  trivy.serverURL: {{ printf "http://%s.%s:%s" .Values.trivy.serverServiceName (include "trivy-operator.namespace" .) "4954"  | quote }}
+  trivy.serverURL: {{ printf "http://%s.%s:%s" .Values.trivy.serverServiceName (include "tunnel-operator.namespace" .) "4954"  | quote }}
   trivy.mode: "ClientServer"
   {{- else }}
   trivy.mode: {{ .Values.trivy.mode | quote }}

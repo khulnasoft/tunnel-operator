@@ -1,6 +1,6 @@
 ---
 # This is a manually triggered workflow to build and publish the MkDocs from the
-# specified Git revision to GitHub pages on https://khulnasoft.github.io/trivy-operator.
+# specified Git revision to GitHub pages on https://khulnasoft.github.io/tunnel-operator.
 name: Publish documentation
 
 on:

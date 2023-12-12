@@ -18,10 +18,10 @@ import (
 const (
 	GCPCR_Inage_Regex  = `^(gcr\.io.*|^([a-zA-Z0-9-]+)-*-*.docker.pkg.dev.*)`
 	AWSECR_Image_Regex = "^\\d+\\.dkr\\.ecr\\.(\\w+-\\w+-\\d+)\\.amazonaws\\.com\\/"
-	// SkipDirsAnnotation annotation  example: trivy-operator.khulnasoft.github.io/skip-dirs: "/tmp,/home"
-	SkipDirsAnnotation = "trivy-operator.khulnasoft.github.io/skip-dirs"
-	// SkipFilesAnnotation example: trivy-operator.khulnasoft.github.io/skip-files: "/src/Gemfile.lock,/examplebinary"
-	SkipFilesAnnotation = "trivy-operator.khulnasoft.github.io/skip-files"
+	// SkipDirsAnnotation annotation  example: tunnel-operator.khulnasoft.github.io/skip-dirs: "/tmp,/home"
+	SkipDirsAnnotation = "tunnel-operator.khulnasoft.github.io/skip-dirs"
+	// SkipFilesAnnotation example: tunnel-operator.khulnasoft.github.io/skip-files: "/src/Gemfile.lock,/examplebinary"
+	SkipFilesAnnotation = "tunnel-operator.khulnasoft.github.io/skip-files"
 )
 
 const (

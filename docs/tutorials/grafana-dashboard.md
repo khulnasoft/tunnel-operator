@@ -67,7 +67,7 @@ Visit https://github.com/prometheus-operator/kube-prometheus for instructions on
 
 ### Installing the Trivy Operator Helm Chart
 
-In this section, we will install the Trivy Operator Helm Chart. The commands are provided in the [documentation](https://khulnasoft.github.io/trivy-operator/v0.7.1/operator/installation/helm/).
+In this section, we will install the Trivy Operator Helm Chart. The commands are provided in the [documentation](https://khulnasoft.github.io/tunnel-operator/v0.7.1/operator/installation/helm/).
 
 ```
 helm repo add aqua https://khulnasoft.github.io/helm-charts/
@@ -89,7 +89,7 @@ In the changes above, we tell the Trivy Helm Chart to first, enable the ServiceM
 Next, we can install the operator with the following command:
 
 ```
-helm install trivy-operator aqua/trivy-operator \
+helm install tunnel-operator aqua/tunnel-operator \
   --namespace trivy-system \
   --create-namespace \
   --version {{ var.chart_version }} \
@@ -99,7 +99,7 @@ helm install trivy-operator aqua/trivy-operator \
 Ensure that you can see the following success message:
 
 ```
-NAME: trivy-operator
+NAME: tunnel-operator
 LAST DEPLOYED: Fri Nov 25 12:46:35 2022
 NAMESPACE: trivy-system
 STATUS: deployed
@@ -131,16 +131,16 @@ In a new terminal, we are going to port-forward to the Trivy Operator service to
 
 Note that this operation is optional and just used to demonstrate where you can find the metrics to then query them in a better way through Prometheus and Grafana.
 
-Run the following command to remove the headless setting  `clusterIP: None` by editing `trivy-operator` service:
+Run the following command to remove the headless setting  `clusterIP: None` by editing `tunnel-operator` service:
 
 ```
-kubectl edit service trivy-operator -n trivy-system
+kubectl edit service tunnel-operator -n trivy-system
 ```
 
 Run the following command to port-forward the Trivy Operator Service:
 
 ```
-kubectl port-forward service/trivy-operator -n trivy-system 5000:80
+kubectl port-forward service/tunnel-operator -n trivy-system 5000:80
 ```
 
 Once you open the '<http://localhost:5000/metrics>' you should see all the metrics gathered from the operator. However, this is obviously not the prettiest way of looking at them. Thus, the next sections will show you how to query metrics through Prometheus and visualise them in Grafana.

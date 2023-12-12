@@ -3,7 +3,7 @@
 [Helm], which is de facto standard package manager for Kubernetes, allows installing applications from parameterized
 YAML manifests called Helm [charts].
 
-To address shortcomings of [static YAML manifests](./kubectl.md) we provide the Helm chart to deploy the Trivy-Operator.
+To address shortcomings of [static YAML manifests](./kubectl.md) we provide the Helm chart to deploy the Tunnel-Operator.
 The Helm chart supports all [Install Modes](./configuration.md#install-modes).
 
 As an example, let's install the operator in the `trivy-system` namespace and configure it to select all namespaces,
@@ -13,7 +13,7 @@ except `kube-system` and `trivy-system`:
 
 ```sh
    git clone --depth 1 --branch {{ git.tag }} https://github.com/khulnasoft/tunnel-operator.git
-   cd trivy-operator
+   cd tunnel-operator
 ```
 
    Or add Aqua chart repository:
@@ -27,7 +27,7 @@ except `kube-system` and `trivy-system`:
 
 ```sh
 
-   helm install trivy-operator ./deploy/helm \
+   helm install tunnel-operator ./deploy/helm \
      --namespace trivy-system \
      --create-namespace 
 ```
@@ -35,7 +35,7 @@ except `kube-system` and `trivy-system`:
    Or install the chart from the Aqua chart repository:
 
 ```sh
-   helm install trivy-operator aqua/trivy-operator \
+   helm install tunnel-operator aqua/tunnel-operator \
      --namespace trivy-system \
      --create-namespace \
      --version {{ var.chart_version }}
@@ -44,36 +44,36 @@ except `kube-system` and `trivy-system`:
    Configuration options can be passed using the `--set` parameter. To list only the fixed vulnerabilities in the cluster, one can use the following command.
 
 ```sh
-      helm install trivy-operator ./deploy/helm \
+      helm install tunnel-operator ./deploy/helm \
      --namespace trivy-system \
      --create-namespace \
      --set="trivy.ignoreUnfixed=true"
 ```
 
-   There are many [values] in the chart that can be set to configure Trivy-Operator. See the [Customisin[customising] section for more details.
+   There are many [values] in the chart that can be set to configure Tunnel-Operator. See the [Customisin[customising] section for more details.
 
-4. Check that the `trivy-operator` Helm release is created in the `trivy-system` namespace, and it has status
+4. Check that the `tunnel-operator` Helm release is created in the `trivy-system` namespace, and it has status
    `deployed`:
 
 ```sh
    $ helm list -n trivy-system
    NAME              	NAMESPACE         	REVISION	UPDATED                             	STATUS  	CHART                   	APP VERSION
-   trivy-operator	trivy-system	1       	2021-01-27 20:09:53.158961 +0100 CET	deployed	trivy-operator-{{ var.chart_version }}	{{ git.tag[1:] }}
+   tunnel-operator	trivy-system	1       	2021-01-27 20:09:53.158961 +0100 CET	deployed	tunnel-operator-{{ var.chart_version }}	{{ git.tag[1:] }}
 ```
 
-   To confirm that the operator is running, check that the `trivy-operator` Deployment in the `trivy-system`
+   To confirm that the operator is running, check that the `tunnel-operator` Deployment in the `trivy-system`
    namespace is available and all its containers are ready:
 
 ```sh
    $ kubectl get deployment -n trivy-system
    NAME                 READY   UP-TO-DATE   AVAILABLE   AGE
-   trivy-operator   1/1     1            1           11m
+   tunnel-operator   1/1     1            1           11m
 ```
 
    If for some reason it's not ready yet, check the logs of the Deployment for errors:
   
 ```sh
-   kubectl logs deployment/trivy-operator -n trivy-system
+   kubectl logs deployment/tunnel-operator -n trivy-system
 ```
 
 ## Install as Helm dependency
@@ -87,7 +87,7 @@ In this case, It maybe not suitable to install the Trivy Operator in the same na
 You can uninstall the operator with the following command:
 
 ```
-helm uninstall trivy-operator -n trivy-system
+helm uninstall tunnel-operator -n trivy-system
 ```
 
 You have to manually delete custom resource definitions created by the `helm install` command:
@@ -129,7 +129,7 @@ There are two ways to overwrite values in a Helm chart upon installation:
    The file can be passed into Trivy with the `--values` flag in Helm:
 
    ```yaml
-   helm install trivy-operator aqua/trivy-operator \
+   helm install tunnel-operator aqua/tunnel-operator \
       --namespace trivy-system \
       --create-namespace \
       --values values.yaml
@@ -140,7 +140,7 @@ There are two ways to overwrite values in a Helm chart upon installation:
    This is done with the `--set` command in Helm:
 
    ```yaml
-   helm install trivy-operator aqua/trivy-operator \
+   helm install tunnel-operator aqua/tunnel-operator \
       --namespace trivy-system \
       --create-namespace \
       --set="trivy.ignoreUnfixed=true" \

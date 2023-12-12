@@ -9,7 +9,7 @@ before:
   hooks:
     - go mod download
 builds:
-  - id: trivy-operator
+  - id: tunnel-operator
     main: ./cmd/tunnel-operator/main.go
     binary: tunnel-operator
     goos:
@@ -19,7 +19,7 @@ builds:
 archives:
   - name_template: "{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}"
     builds:
-      - trivy-operator
+      - tunnel-operator
     format_overrides:
       - goos: windows
         format: zip
@@ -42,17 +42,17 @@ dockers:
     dockerfile: build/tunnel-operator/Dockerfile
     goarch: amd64
     ids:
-      - trivy-operator
+      - tunnel-operator
     build_flag_templates:
-      - --label=org.opencontainers.image.title=trivy-operator
-      - --label=org.opencontainers.image.description=Keeps trivy-operator
+      - --label=org.opencontainers.image.title=tunnel-operator
+      - --label=org.opencontainers.image.description=Keeps tunnel-operator
         resources updated
       - --label=org.opencontainers.image.vendor=Aqua Security
       - --label=org.opencontainers.image.version={{ .Version }}
       - --label=org.opencontainers.image.created={{ .Date }}
       - --label=org.opencontainers.image.source=https://github.com/khulnasoft/tunnel-operator
       - --label=org.opencontainers.image.revision={{ .FullCommit }}
-      - --label=org.opencontainers.image.documentation=https://khulnasoft.github.io/trivy-operator/v{{
+      - --label=org.opencontainers.image.documentation=https://khulnasoft.github.io/tunnel-operator/v{{
         .Version }}/
       - --platform=linux/amd64
 docker_manifests:

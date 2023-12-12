@@ -66,7 +66,7 @@ func TestPlugin_GetScanJobSpec(t *testing.T) {
 		ValueFrom: &corev1.EnvVarSource{
 			ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 				LocalObjectReference: corev1.LocalObjectReference{
-					Name: "trivy-operator-trivy-config",
+					Name: "tunnel-operator-trivy-config",
 				},
 				Key:      "trivy.timeout",
 				Optional: ptr.To[bool](true),
@@ -146,7 +146,7 @@ func TestPlugin_GetScanJobSpec(t *testing.T) {
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpProxy",
 										Optional: ptr.To[bool](true),
@@ -158,7 +158,7 @@ func TestPlugin_GetScanJobSpec(t *testing.T) {
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpsProxy",
 										Optional: ptr.To[bool](true),
@@ -170,7 +170,7 @@ func TestPlugin_GetScanJobSpec(t *testing.T) {
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.noProxy",
 										Optional: ptr.To[bool](true),
@@ -183,7 +183,7 @@ func TestPlugin_GetScanJobSpec(t *testing.T) {
 								ValueFrom: &corev1.EnvVarSource{
 									SecretKeyRef: &corev1.SecretKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.githubToken",
 										Optional: ptr.To[bool](true),
@@ -235,7 +235,7 @@ func TestPlugin_GetScanJobSpec(t *testing.T) {
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.severity",
 										Optional: ptr.To[bool](true),
@@ -247,7 +247,7 @@ func TestPlugin_GetScanJobSpec(t *testing.T) {
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.ignoreUnfixed",
 										Optional: ptr.To[bool](true),
@@ -259,7 +259,7 @@ func TestPlugin_GetScanJobSpec(t *testing.T) {
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.offlineScan",
 										Optional: ptr.To[bool](true),
@@ -271,7 +271,7 @@ func TestPlugin_GetScanJobSpec(t *testing.T) {
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.javaDbRepository",
 										Optional: ptr.To[bool](true),
@@ -284,7 +284,7 @@ func TestPlugin_GetScanJobSpec(t *testing.T) {
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.skipFiles",
 										Optional: ptr.To[bool](true),
@@ -296,7 +296,7 @@ func TestPlugin_GetScanJobSpec(t *testing.T) {
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.skipDirs",
 										Optional: ptr.To[bool](true),
@@ -308,7 +308,7 @@ func TestPlugin_GetScanJobSpec(t *testing.T) {
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpProxy",
 										Optional: ptr.To[bool](true),
@@ -320,7 +320,7 @@ func TestPlugin_GetScanJobSpec(t *testing.T) {
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpsProxy",
 										Optional: ptr.To[bool](true),
@@ -332,7 +332,7 @@ func TestPlugin_GetScanJobSpec(t *testing.T) {
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.noProxy",
 										Optional: ptr.To[bool](true),
@@ -431,7 +431,7 @@ func TestPlugin_GetScanJobSpec(t *testing.T) {
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpProxy",
 										Optional: ptr.To[bool](true),
@@ -443,7 +443,7 @@ func TestPlugin_GetScanJobSpec(t *testing.T) {
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpsProxy",
 										Optional: ptr.To[bool](true),
@@ -455,7 +455,7 @@ func TestPlugin_GetScanJobSpec(t *testing.T) {
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.noProxy",
 										Optional: ptr.To[bool](true),
@@ -467,7 +467,7 @@ func TestPlugin_GetScanJobSpec(t *testing.T) {
 								ValueFrom: &corev1.EnvVarSource{
 									SecretKeyRef: &corev1.SecretKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.githubToken",
 										Optional: ptr.To[bool](true),
@@ -519,7 +519,7 @@ func TestPlugin_GetScanJobSpec(t *testing.T) {
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.severity",
 										Optional: ptr.To[bool](true),
@@ -531,7 +531,7 @@ func TestPlugin_GetScanJobSpec(t *testing.T) {
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.ignoreUnfixed",
 										Optional: ptr.To[bool](true),
@@ -543,7 +543,7 @@ func TestPlugin_GetScanJobSpec(t *testing.T) {
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.offlineScan",
 										Optional: ptr.To[bool](true),
@@ -555,7 +555,7 @@ func TestPlugin_GetScanJobSpec(t *testing.T) {
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.javaDbRepository",
 										Optional: ptr.To[bool](true),
@@ -568,7 +568,7 @@ func TestPlugin_GetScanJobSpec(t *testing.T) {
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.skipFiles",
 										Optional: ptr.To[bool](true),
@@ -580,7 +580,7 @@ func TestPlugin_GetScanJobSpec(t *testing.T) {
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.skipDirs",
 										Optional: ptr.To[bool](true),
@@ -592,7 +592,7 @@ func TestPlugin_GetScanJobSpec(t *testing.T) {
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpProxy",
 										Optional: ptr.To[bool](true),
@@ -604,7 +604,7 @@ func TestPlugin_GetScanJobSpec(t *testing.T) {
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpsProxy",
 										Optional: ptr.To[bool](true),
@@ -616,7 +616,7 @@ func TestPlugin_GetScanJobSpec(t *testing.T) {
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.noProxy",
 										Optional: ptr.To[bool](true),
@@ -719,7 +719,7 @@ func TestPlugin_GetScanJobSpec(t *testing.T) {
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpProxy",
 										Optional: ptr.To[bool](true),
@@ -731,7 +731,7 @@ func TestPlugin_GetScanJobSpec(t *testing.T) {
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpsProxy",
 										Optional: ptr.To[bool](true),
@@ -743,7 +743,7 @@ func TestPlugin_GetScanJobSpec(t *testing.T) {
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.noProxy",
 										Optional: ptr.To[bool](true),
@@ -755,7 +755,7 @@ func TestPlugin_GetScanJobSpec(t *testing.T) {
 								ValueFrom: &corev1.EnvVarSource{
 									SecretKeyRef: &corev1.SecretKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.githubToken",
 										Optional: ptr.To[bool](true),
@@ -807,7 +807,7 @@ func TestPlugin_GetScanJobSpec(t *testing.T) {
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.severity",
 										Optional: ptr.To[bool](true),
@@ -819,7 +819,7 @@ func TestPlugin_GetScanJobSpec(t *testing.T) {
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.ignoreUnfixed",
 										Optional: ptr.To[bool](true),
@@ -831,7 +831,7 @@ func TestPlugin_GetScanJobSpec(t *testing.T) {
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.offlineScan",
 										Optional: ptr.To[bool](true),
@@ -843,7 +843,7 @@ func TestPlugin_GetScanJobSpec(t *testing.T) {
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.javaDbRepository",
 										Optional: ptr.To[bool](true),
@@ -856,7 +856,7 @@ func TestPlugin_GetScanJobSpec(t *testing.T) {
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.skipFiles",
 										Optional: ptr.To[bool](true),
@@ -868,7 +868,7 @@ func TestPlugin_GetScanJobSpec(t *testing.T) {
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.skipDirs",
 										Optional: ptr.To[bool](true),
@@ -880,7 +880,7 @@ func TestPlugin_GetScanJobSpec(t *testing.T) {
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpProxy",
 										Optional: ptr.To[bool](true),
@@ -892,7 +892,7 @@ func TestPlugin_GetScanJobSpec(t *testing.T) {
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpsProxy",
 										Optional: ptr.To[bool](true),
@@ -904,7 +904,7 @@ func TestPlugin_GetScanJobSpec(t *testing.T) {
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.noProxy",
 										Optional: ptr.To[bool](true),
@@ -1003,7 +1003,7 @@ CVE-2019-1543`,
 						VolumeSource: corev1.VolumeSource{
 							ConfigMap: &corev1.ConfigMapVolumeSource{
 								LocalObjectReference: corev1.LocalObjectReference{
-									Name: "trivy-operator-trivy-config",
+									Name: "tunnel-operator-trivy-config",
 								},
 								Items: []corev1.KeyToPath{
 									{
@@ -1027,7 +1027,7 @@ CVE-2019-1543`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpProxy",
 										Optional: ptr.To[bool](true),
@@ -1039,7 +1039,7 @@ CVE-2019-1543`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpsProxy",
 										Optional: ptr.To[bool](true),
@@ -1051,7 +1051,7 @@ CVE-2019-1543`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.noProxy",
 										Optional: ptr.To[bool](true),
@@ -1063,7 +1063,7 @@ CVE-2019-1543`,
 								ValueFrom: &corev1.EnvVarSource{
 									SecretKeyRef: &corev1.SecretKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.githubToken",
 										Optional: ptr.To[bool](true),
@@ -1115,7 +1115,7 @@ CVE-2019-1543`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.severity",
 										Optional: ptr.To[bool](true),
@@ -1127,7 +1127,7 @@ CVE-2019-1543`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.ignoreUnfixed",
 										Optional: ptr.To[bool](true),
@@ -1139,7 +1139,7 @@ CVE-2019-1543`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.offlineScan",
 										Optional: ptr.To[bool](true),
@@ -1151,7 +1151,7 @@ CVE-2019-1543`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.javaDbRepository",
 										Optional: ptr.To[bool](true),
@@ -1164,7 +1164,7 @@ CVE-2019-1543`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.skipFiles",
 										Optional: ptr.To[bool](true),
@@ -1176,7 +1176,7 @@ CVE-2019-1543`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.skipDirs",
 										Optional: ptr.To[bool](true),
@@ -1188,7 +1188,7 @@ CVE-2019-1543`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpProxy",
 										Optional: ptr.To[bool](true),
@@ -1200,7 +1200,7 @@ CVE-2019-1543`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpsProxy",
 										Optional: ptr.To[bool](true),
@@ -1212,7 +1212,7 @@ CVE-2019-1543`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.noProxy",
 										Optional: ptr.To[bool](true),
@@ -1316,7 +1316,7 @@ default ignore = false`,
 						VolumeSource: corev1.VolumeSource{
 							ConfigMap: &corev1.ConfigMapVolumeSource{
 								LocalObjectReference: corev1.LocalObjectReference{
-									Name: "trivy-operator-trivy-config",
+									Name: "tunnel-operator-trivy-config",
 								},
 								Items: []corev1.KeyToPath{
 									{
@@ -1340,7 +1340,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpProxy",
 										Optional: ptr.To[bool](true),
@@ -1352,7 +1352,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpsProxy",
 										Optional: ptr.To[bool](true),
@@ -1364,7 +1364,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.noProxy",
 										Optional: ptr.To[bool](true),
@@ -1376,7 +1376,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									SecretKeyRef: &corev1.SecretKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.githubToken",
 										Optional: ptr.To[bool](true),
@@ -1428,7 +1428,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.severity",
 										Optional: ptr.To[bool](true),
@@ -1440,7 +1440,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.ignoreUnfixed",
 										Optional: ptr.To[bool](true),
@@ -1452,7 +1452,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.offlineScan",
 										Optional: ptr.To[bool](true),
@@ -1464,7 +1464,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.javaDbRepository",
 										Optional: ptr.To[bool](true),
@@ -1477,7 +1477,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.skipFiles",
 										Optional: ptr.To[bool](true),
@@ -1489,7 +1489,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.skipDirs",
 										Optional: ptr.To[bool](true),
@@ -1501,7 +1501,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpProxy",
 										Optional: ptr.To[bool](true),
@@ -1513,7 +1513,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpsProxy",
 										Optional: ptr.To[bool](true),
@@ -1525,7 +1525,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.noProxy",
 										Optional: ptr.To[bool](true),
@@ -1635,7 +1635,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpProxy",
 										Optional: ptr.To[bool](true),
@@ -1647,7 +1647,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpsProxy",
 										Optional: ptr.To[bool](true),
@@ -1659,7 +1659,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.noProxy",
 										Optional: ptr.To[bool](true),
@@ -1672,7 +1672,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									SecretKeyRef: &corev1.SecretKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.githubToken",
 										Optional: ptr.To[bool](true),
@@ -1724,7 +1724,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.severity",
 										Optional: ptr.To[bool](true),
@@ -1736,7 +1736,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.ignoreUnfixed",
 										Optional: ptr.To[bool](true),
@@ -1748,7 +1748,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.offlineScan",
 										Optional: ptr.To[bool](true),
@@ -1760,7 +1760,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.javaDbRepository",
 										Optional: ptr.To[bool](true),
@@ -1773,7 +1773,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.skipFiles",
 										Optional: ptr.To[bool](true),
@@ -1785,7 +1785,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.skipDirs",
 										Optional: ptr.To[bool](true),
@@ -1797,7 +1797,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpProxy",
 										Optional: ptr.To[bool](true),
@@ -1809,7 +1809,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpsProxy",
 										Optional: ptr.To[bool](true),
@@ -1821,7 +1821,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.noProxy",
 										Optional: ptr.To[bool](true),
@@ -1923,7 +1923,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpProxy",
 										Optional: ptr.To[bool](true),
@@ -1935,7 +1935,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpsProxy",
 										Optional: ptr.To[bool](true),
@@ -1947,7 +1947,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.noProxy",
 										Optional: ptr.To[bool](true),
@@ -1960,7 +1960,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									SecretKeyRef: &corev1.SecretKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.githubToken",
 										Optional: ptr.To[bool](true),
@@ -2012,7 +2012,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.severity",
 										Optional: ptr.To[bool](true),
@@ -2024,7 +2024,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.ignoreUnfixed",
 										Optional: ptr.To[bool](true),
@@ -2036,7 +2036,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.offlineScan",
 										Optional: ptr.To[bool](true),
@@ -2048,7 +2048,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.javaDbRepository",
 										Optional: ptr.To[bool](true),
@@ -2061,7 +2061,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.skipFiles",
 										Optional: ptr.To[bool](true),
@@ -2073,7 +2073,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.skipDirs",
 										Optional: ptr.To[bool](true),
@@ -2085,7 +2085,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpProxy",
 										Optional: ptr.To[bool](true),
@@ -2097,7 +2097,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpsProxy",
 										Optional: ptr.To[bool](true),
@@ -2109,7 +2109,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.noProxy",
 										Optional: ptr.To[bool](true),
@@ -2208,7 +2208,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpProxy",
 										Optional: ptr.To[bool](true),
@@ -2220,7 +2220,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpsProxy",
 										Optional: ptr.To[bool](true),
@@ -2232,7 +2232,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.noProxy",
 										Optional: ptr.To[bool](true),
@@ -2244,7 +2244,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.severity",
 										Optional: ptr.To[bool](true),
@@ -2256,7 +2256,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.ignoreUnfixed",
 										Optional: ptr.To[bool](true),
@@ -2268,7 +2268,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.offlineScan",
 										Optional: ptr.To[bool](true),
@@ -2280,7 +2280,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.javaDbRepository",
 										Optional: ptr.To[bool](true),
@@ -2293,7 +2293,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.skipFiles",
 										Optional: ptr.To[bool](true),
@@ -2305,7 +2305,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.skipDirs",
 										Optional: ptr.To[bool](true),
@@ -2317,7 +2317,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.serverTokenHeader",
 										Optional: ptr.To[bool](true),
@@ -2329,7 +2329,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									SecretKeyRef: &corev1.SecretKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.serverToken",
 										Optional: ptr.To[bool](true),
@@ -2341,7 +2341,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									SecretKeyRef: &corev1.SecretKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.serverCustomHeaders",
 										Optional: ptr.To[bool](true),
@@ -2437,7 +2437,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpProxy",
 										Optional: ptr.To[bool](true),
@@ -2449,7 +2449,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpsProxy",
 										Optional: ptr.To[bool](true),
@@ -2461,7 +2461,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.noProxy",
 										Optional: ptr.To[bool](true),
@@ -2473,7 +2473,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.severity",
 										Optional: ptr.To[bool](true),
@@ -2485,7 +2485,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.ignoreUnfixed",
 										Optional: ptr.To[bool](true),
@@ -2497,7 +2497,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.offlineScan",
 										Optional: ptr.To[bool](true),
@@ -2509,7 +2509,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.javaDbRepository",
 										Optional: ptr.To[bool](true),
@@ -2522,7 +2522,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.skipFiles",
 										Optional: ptr.To[bool](true),
@@ -2534,7 +2534,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.skipDirs",
 										Optional: ptr.To[bool](true),
@@ -2546,7 +2546,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.serverTokenHeader",
 										Optional: ptr.To[bool](true),
@@ -2558,7 +2558,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									SecretKeyRef: &corev1.SecretKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.serverToken",
 										Optional: ptr.To[bool](true),
@@ -2570,7 +2570,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									SecretKeyRef: &corev1.SecretKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.serverCustomHeaders",
 										Optional: ptr.To[bool](true),
@@ -2667,7 +2667,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpProxy",
 										Optional: ptr.To[bool](true),
@@ -2679,7 +2679,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpsProxy",
 										Optional: ptr.To[bool](true),
@@ -2691,7 +2691,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.noProxy",
 										Optional: ptr.To[bool](true),
@@ -2703,7 +2703,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.severity",
 										Optional: ptr.To[bool](true),
@@ -2715,7 +2715,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.ignoreUnfixed",
 										Optional: ptr.To[bool](true),
@@ -2727,7 +2727,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.offlineScan",
 										Optional: ptr.To[bool](true),
@@ -2739,7 +2739,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.javaDbRepository",
 										Optional: ptr.To[bool](true),
@@ -2752,7 +2752,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.skipFiles",
 										Optional: ptr.To[bool](true),
@@ -2764,7 +2764,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.skipDirs",
 										Optional: ptr.To[bool](true),
@@ -2776,7 +2776,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.serverTokenHeader",
 										Optional: ptr.To[bool](true),
@@ -2788,7 +2788,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									SecretKeyRef: &corev1.SecretKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.serverToken",
 										Optional: ptr.To[bool](true),
@@ -2800,7 +2800,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									SecretKeyRef: &corev1.SecretKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.serverCustomHeaders",
 										Optional: ptr.To[bool](true),
@@ -2901,7 +2901,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpProxy",
 										Optional: ptr.To[bool](true),
@@ -2913,7 +2913,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpsProxy",
 										Optional: ptr.To[bool](true),
@@ -2925,7 +2925,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.noProxy",
 										Optional: ptr.To[bool](true),
@@ -2937,7 +2937,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.severity",
 										Optional: ptr.To[bool](true),
@@ -2949,7 +2949,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.ignoreUnfixed",
 										Optional: ptr.To[bool](true),
@@ -2961,7 +2961,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.offlineScan",
 										Optional: ptr.To[bool](true),
@@ -2973,7 +2973,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.javaDbRepository",
 										Optional: ptr.To[bool](true),
@@ -2986,7 +2986,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.skipFiles",
 										Optional: ptr.To[bool](true),
@@ -2998,7 +2998,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.skipDirs",
 										Optional: ptr.To[bool](true),
@@ -3010,7 +3010,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.serverTokenHeader",
 										Optional: ptr.To[bool](true),
@@ -3022,7 +3022,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									SecretKeyRef: &corev1.SecretKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.serverToken",
 										Optional: ptr.To[bool](true),
@@ -3034,7 +3034,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									SecretKeyRef: &corev1.SecretKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.serverCustomHeaders",
 										Optional: ptr.To[bool](true),
@@ -3131,7 +3131,7 @@ CVE-2019-1543`,
 						VolumeSource: corev1.VolumeSource{
 							ConfigMap: &corev1.ConfigMapVolumeSource{
 								LocalObjectReference: corev1.LocalObjectReference{
-									Name: "trivy-operator-trivy-config",
+									Name: "tunnel-operator-trivy-config",
 								},
 								Items: []corev1.KeyToPath{
 									{
@@ -3155,7 +3155,7 @@ CVE-2019-1543`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpProxy",
 										Optional: ptr.To[bool](true),
@@ -3167,7 +3167,7 @@ CVE-2019-1543`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpsProxy",
 										Optional: ptr.To[bool](true),
@@ -3179,7 +3179,7 @@ CVE-2019-1543`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.noProxy",
 										Optional: ptr.To[bool](true),
@@ -3191,7 +3191,7 @@ CVE-2019-1543`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.severity",
 										Optional: ptr.To[bool](true),
@@ -3203,7 +3203,7 @@ CVE-2019-1543`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.ignoreUnfixed",
 										Optional: ptr.To[bool](true),
@@ -3215,7 +3215,7 @@ CVE-2019-1543`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.offlineScan",
 										Optional: ptr.To[bool](true),
@@ -3227,7 +3227,7 @@ CVE-2019-1543`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.javaDbRepository",
 										Optional: ptr.To[bool](true),
@@ -3240,7 +3240,7 @@ CVE-2019-1543`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.skipFiles",
 										Optional: ptr.To[bool](true),
@@ -3252,7 +3252,7 @@ CVE-2019-1543`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.skipDirs",
 										Optional: ptr.To[bool](true),
@@ -3264,7 +3264,7 @@ CVE-2019-1543`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.serverTokenHeader",
 										Optional: ptr.To[bool](true),
@@ -3276,7 +3276,7 @@ CVE-2019-1543`,
 								ValueFrom: &corev1.EnvVarSource{
 									SecretKeyRef: &corev1.SecretKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.serverToken",
 										Optional: ptr.To[bool](true),
@@ -3288,7 +3288,7 @@ CVE-2019-1543`,
 								ValueFrom: &corev1.EnvVarSource{
 									SecretKeyRef: &corev1.SecretKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.serverCustomHeaders",
 										Optional: ptr.To[bool](true),
@@ -3391,7 +3391,7 @@ default ignore = false`,
 						VolumeSource: corev1.VolumeSource{
 							ConfigMap: &corev1.ConfigMapVolumeSource{
 								LocalObjectReference: corev1.LocalObjectReference{
-									Name: "trivy-operator-trivy-config",
+									Name: "tunnel-operator-trivy-config",
 								},
 								Items: []corev1.KeyToPath{
 									{
@@ -3415,7 +3415,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpProxy",
 										Optional: ptr.To[bool](true),
@@ -3427,7 +3427,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpsProxy",
 										Optional: ptr.To[bool](true),
@@ -3439,7 +3439,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.noProxy",
 										Optional: ptr.To[bool](true),
@@ -3451,7 +3451,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.severity",
 										Optional: ptr.To[bool](true),
@@ -3463,7 +3463,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.ignoreUnfixed",
 										Optional: ptr.To[bool](true),
@@ -3475,7 +3475,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.offlineScan",
 										Optional: ptr.To[bool](true),
@@ -3487,7 +3487,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.javaDbRepository",
 										Optional: ptr.To[bool](true),
@@ -3500,7 +3500,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.skipFiles",
 										Optional: ptr.To[bool](true),
@@ -3512,7 +3512,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.skipDirs",
 										Optional: ptr.To[bool](true),
@@ -3524,7 +3524,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.serverTokenHeader",
 										Optional: ptr.To[bool](true),
@@ -3536,7 +3536,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									SecretKeyRef: &corev1.SecretKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.serverToken",
 										Optional: ptr.To[bool](true),
@@ -3548,7 +3548,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									SecretKeyRef: &corev1.SecretKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.serverCustomHeaders",
 										Optional: ptr.To[bool](true),
@@ -3654,7 +3654,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpProxy",
 										Optional: ptr.To[bool](true),
@@ -3666,7 +3666,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpsProxy",
 										Optional: ptr.To[bool](true),
@@ -3678,7 +3678,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.noProxy",
 										Optional: ptr.To[bool](true),
@@ -3690,7 +3690,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.severity",
 										Optional: ptr.To[bool](true),
@@ -3702,7 +3702,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.ignoreUnfixed",
 										Optional: ptr.To[bool](true),
@@ -3714,7 +3714,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.offlineScan",
 										Optional: ptr.To[bool](true),
@@ -3726,7 +3726,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.javaDbRepository",
 										Optional: ptr.To[bool](true),
@@ -3739,7 +3739,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.skipFiles",
 										Optional: ptr.To[bool](true),
@@ -3751,7 +3751,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.skipDirs",
 										Optional: ptr.To[bool](true),
@@ -3763,7 +3763,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.serverTokenHeader",
 										Optional: ptr.To[bool](true),
@@ -3775,7 +3775,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									SecretKeyRef: &corev1.SecretKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.serverToken",
 										Optional: ptr.To[bool](true),
@@ -3787,7 +3787,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									SecretKeyRef: &corev1.SecretKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.serverCustomHeaders",
 										Optional: ptr.To[bool](true),
@@ -3942,7 +3942,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpProxy",
 										Optional: ptr.To[bool](true),
@@ -3954,7 +3954,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpsProxy",
 										Optional: ptr.To[bool](true),
@@ -3966,7 +3966,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.noProxy",
 										Optional: ptr.To[bool](true),
@@ -3979,7 +3979,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									SecretKeyRef: &corev1.SecretKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.githubToken",
 										Optional: ptr.To[bool](true),
@@ -4041,7 +4041,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.severity",
 										Optional: ptr.To[bool](true),
@@ -4053,7 +4053,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.skipFiles",
 										Optional: ptr.To[bool](true),
@@ -4065,7 +4065,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.skipDirs",
 										Optional: ptr.To[bool](true),
@@ -4077,7 +4077,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpProxy",
 										Optional: ptr.To[bool](true),
@@ -4089,7 +4089,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.timeout",
 										Optional: ptr.To[bool](true),
@@ -4101,7 +4101,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpsProxy",
 										Optional: ptr.To[bool](true),
@@ -4113,7 +4113,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.noProxy",
 										Optional: ptr.To[bool](true),
@@ -4125,7 +4125,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.javaDbRepository",
 										Optional: ptr.To[bool](true),
@@ -4306,7 +4306,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.severity",
 										Optional: ptr.To[bool](true),
@@ -4318,7 +4318,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.skipFiles",
 										Optional: ptr.To[bool](true),
@@ -4330,7 +4330,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.skipDirs",
 										Optional: ptr.To[bool](true),
@@ -4342,7 +4342,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpProxy",
 										Optional: ptr.To[bool](true),
@@ -4354,7 +4354,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.timeout",
 										Optional: ptr.To[bool](true),
@@ -4366,7 +4366,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpsProxy",
 										Optional: ptr.To[bool](true),
@@ -4378,7 +4378,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.noProxy",
 										Optional: ptr.To[bool](true),
@@ -4390,7 +4390,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.serverTokenHeader",
 										Optional: ptr.To[bool](true),
@@ -4402,7 +4402,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									SecretKeyRef: &corev1.SecretKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.serverToken",
 										Optional: ptr.To[bool](true),
@@ -4414,7 +4414,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									SecretKeyRef: &corev1.SecretKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.serverCustomHeaders",
 										Optional: ptr.To[bool](true),
@@ -4426,7 +4426,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.javaDbRepository",
 										Optional: ptr.To[bool](true),
@@ -4606,7 +4606,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpProxy",
 										Optional: ptr.To[bool](true),
@@ -4618,7 +4618,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpsProxy",
 										Optional: ptr.To[bool](true),
@@ -4630,7 +4630,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.noProxy",
 										Optional: ptr.To[bool](true),
@@ -4643,7 +4643,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									SecretKeyRef: &corev1.SecretKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.githubToken",
 										Optional: ptr.To[bool](true),
@@ -4705,7 +4705,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.severity",
 										Optional: ptr.To[bool](true),
@@ -4717,7 +4717,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.skipFiles",
 										Optional: ptr.To[bool](true),
@@ -4729,7 +4729,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.skipDirs",
 										Optional: ptr.To[bool](true),
@@ -4741,7 +4741,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpProxy",
 										Optional: ptr.To[bool](true),
@@ -4753,7 +4753,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.timeout",
 										Optional: ptr.To[bool](true),
@@ -4765,7 +4765,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpsProxy",
 										Optional: ptr.To[bool](true),
@@ -4777,7 +4777,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.noProxy",
 										Optional: ptr.To[bool](true),
@@ -4789,7 +4789,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.javaDbRepository",
 										Optional: ptr.To[bool](true),
@@ -4970,7 +4970,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.severity",
 										Optional: ptr.To[bool](true),
@@ -4982,7 +4982,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.skipFiles",
 										Optional: ptr.To[bool](true),
@@ -4994,7 +4994,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.skipDirs",
 										Optional: ptr.To[bool](true),
@@ -5006,7 +5006,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpProxy",
 										Optional: ptr.To[bool](true),
@@ -5018,7 +5018,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.timeout",
 										Optional: ptr.To[bool](true),
@@ -5030,7 +5030,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpsProxy",
 										Optional: ptr.To[bool](true),
@@ -5042,7 +5042,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.noProxy",
 										Optional: ptr.To[bool](true),
@@ -5054,7 +5054,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.serverTokenHeader",
 										Optional: ptr.To[bool](true),
@@ -5066,7 +5066,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									SecretKeyRef: &corev1.SecretKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.serverToken",
 										Optional: ptr.To[bool](true),
@@ -5078,7 +5078,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									SecretKeyRef: &corev1.SecretKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.serverCustomHeaders",
 										Optional: ptr.To[bool](true),
@@ -5090,7 +5090,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.javaDbRepository",
 										Optional: ptr.To[bool](true),
@@ -5213,7 +5213,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpProxy",
 										Optional: ptr.To[bool](true),
@@ -5225,7 +5225,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpsProxy",
 										Optional: ptr.To[bool](true),
@@ -5237,7 +5237,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.noProxy",
 										Optional: ptr.To[bool](true),
@@ -5250,7 +5250,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									SecretKeyRef: &corev1.SecretKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.githubToken",
 										Optional: ptr.To[bool](true),
@@ -5302,7 +5302,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.severity",
 										Optional: ptr.To[bool](true),
@@ -5314,7 +5314,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.ignoreUnfixed",
 										Optional: ptr.To[bool](true),
@@ -5326,7 +5326,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.offlineScan",
 										Optional: ptr.To[bool](true),
@@ -5338,7 +5338,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.javaDbRepository",
 										Optional: ptr.To[bool](true),
@@ -5351,7 +5351,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.skipFiles",
 										Optional: ptr.To[bool](true),
@@ -5363,7 +5363,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.skipDirs",
 										Optional: ptr.To[bool](true),
@@ -5375,7 +5375,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpProxy",
 										Optional: ptr.To[bool](true),
@@ -5387,7 +5387,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpsProxy",
 										Optional: ptr.To[bool](true),
@@ -5399,7 +5399,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.noProxy",
 										Optional: ptr.To[bool](true),
@@ -5511,7 +5511,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpProxy",
 										Optional: ptr.To[bool](true),
@@ -5523,7 +5523,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpsProxy",
 										Optional: ptr.To[bool](true),
@@ -5535,7 +5535,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.noProxy",
 										Optional: ptr.To[bool](true),
@@ -5547,7 +5547,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									SecretKeyRef: &corev1.SecretKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.githubToken",
 										Optional: ptr.To[bool](true),
@@ -5599,7 +5599,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.severity",
 										Optional: ptr.To[bool](true),
@@ -5611,7 +5611,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.ignoreUnfixed",
 										Optional: ptr.To[bool](true),
@@ -5623,7 +5623,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.offlineScan",
 										Optional: ptr.To[bool](true),
@@ -5635,7 +5635,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.javaDbRepository",
 										Optional: ptr.To[bool](true),
@@ -5648,7 +5648,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.skipFiles",
 										Optional: ptr.To[bool](true),
@@ -5660,7 +5660,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.skipDirs",
 										Optional: ptr.To[bool](true),
@@ -5672,7 +5672,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpProxy",
 										Optional: ptr.To[bool](true),
@@ -5684,7 +5684,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpsProxy",
 										Optional: ptr.To[bool](true),
@@ -5696,7 +5696,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.noProxy",
 										Optional: ptr.To[bool](true),
@@ -5828,7 +5828,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpProxy",
 										Optional: ptr.To[bool](true),
@@ -5840,7 +5840,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpsProxy",
 										Optional: ptr.To[bool](true),
@@ -5852,7 +5852,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.noProxy",
 										Optional: ptr.To[bool](true),
@@ -5864,7 +5864,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									SecretKeyRef: &corev1.SecretKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.githubToken",
 										Optional: ptr.To[bool](true),
@@ -5916,7 +5916,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.severity",
 										Optional: ptr.To[bool](true),
@@ -5928,7 +5928,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.ignoreUnfixed",
 										Optional: ptr.To[bool](true),
@@ -5940,7 +5940,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.offlineScan",
 										Optional: ptr.To[bool](true),
@@ -5952,7 +5952,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.javaDbRepository",
 										Optional: ptr.To[bool](true),
@@ -5965,7 +5965,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.skipFiles",
 										Optional: ptr.To[bool](true),
@@ -5977,7 +5977,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.skipDirs",
 										Optional: ptr.To[bool](true),
@@ -5989,7 +5989,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpProxy",
 										Optional: ptr.To[bool](true),
@@ -6001,7 +6001,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.httpsProxy",
 										Optional: ptr.To[bool](true),
@@ -6013,7 +6013,7 @@ default ignore = false`,
 								ValueFrom: &corev1.EnvVarSource{
 									ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 										LocalObjectReference: corev1.LocalObjectReference{
-											Name: "trivy-operator-trivy-config",
+											Name: "tunnel-operator-trivy-config",
 										},
 										Key:      "trivy.noProxy",
 										Optional: ptr.To[bool](true),
@@ -6083,7 +6083,7 @@ default ignore = false`,
 			fakeclient := fake.NewClientBuilder().WithObjects(
 				&corev1.ConfigMap{
 					ObjectMeta: metav1.ObjectMeta{
-						Name:      "trivy-operator-trivy-config",
+						Name:      "tunnel-operator-trivy-config",
 						Namespace: "trivyoperator-ns",
 					},
 					Data: tc.config,
@@ -6243,7 +6243,7 @@ default ignore = false`,
 							ValueFrom: &corev1.EnvVarSource{
 								ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 									LocalObjectReference: corev1.LocalObjectReference{
-										Name: "trivy-operator-trivy-config",
+										Name: "tunnel-operator-trivy-config",
 									},
 									Key:      "trivy.httpProxy",
 									Optional: ptr.To[bool](true),
@@ -6255,7 +6255,7 @@ default ignore = false`,
 							ValueFrom: &corev1.EnvVarSource{
 								ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 									LocalObjectReference: corev1.LocalObjectReference{
-										Name: "trivy-operator-trivy-config",
+										Name: "tunnel-operator-trivy-config",
 									},
 									Key:      "trivy.httpsProxy",
 									Optional: ptr.To[bool](true),
@@ -6267,7 +6267,7 @@ default ignore = false`,
 							ValueFrom: &corev1.EnvVarSource{
 								ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 									LocalObjectReference: corev1.LocalObjectReference{
-										Name: "trivy-operator-trivy-config",
+										Name: "tunnel-operator-trivy-config",
 									},
 									Key:      "trivy.noProxy",
 									Optional: ptr.To[bool](true),
@@ -6279,7 +6279,7 @@ default ignore = false`,
 							ValueFrom: &corev1.EnvVarSource{
 								SecretKeyRef: &corev1.SecretKeySelector{
 									LocalObjectReference: corev1.LocalObjectReference{
-										Name: "trivy-operator-trivy-config",
+										Name: "tunnel-operator-trivy-config",
 									},
 									Key:      "trivy.githubToken",
 									Optional: ptr.To[bool](true),
@@ -6342,7 +6342,7 @@ default ignore = false`,
 							ValueFrom: &corev1.EnvVarSource{
 								ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 									LocalObjectReference: corev1.LocalObjectReference{
-										Name: "trivy-operator-trivy-config",
+										Name: "tunnel-operator-trivy-config",
 									},
 									Key:      "trivy.severity",
 									Optional: ptr.To[bool](true),
@@ -6354,7 +6354,7 @@ default ignore = false`,
 							ValueFrom: &corev1.EnvVarSource{
 								ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 									LocalObjectReference: corev1.LocalObjectReference{
-										Name: "trivy-operator-trivy-config",
+										Name: "tunnel-operator-trivy-config",
 									},
 									Key:      "trivy.skipFiles",
 									Optional: ptr.To[bool](true),
@@ -6366,7 +6366,7 @@ default ignore = false`,
 							ValueFrom: &corev1.EnvVarSource{
 								ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 									LocalObjectReference: corev1.LocalObjectReference{
-										Name: "trivy-operator-trivy-config",
+										Name: "tunnel-operator-trivy-config",
 									},
 									Key:      "trivy.skipDirs",
 									Optional: ptr.To[bool](true),
@@ -6378,7 +6378,7 @@ default ignore = false`,
 							ValueFrom: &corev1.EnvVarSource{
 								ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 									LocalObjectReference: corev1.LocalObjectReference{
-										Name: "trivy-operator-trivy-config",
+										Name: "tunnel-operator-trivy-config",
 									},
 									Key:      "trivy.httpProxy",
 									Optional: ptr.To[bool](true),
@@ -6390,7 +6390,7 @@ default ignore = false`,
 							ValueFrom: &corev1.EnvVarSource{
 								ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 									LocalObjectReference: corev1.LocalObjectReference{
-										Name: "trivy-operator-trivy-config",
+										Name: "tunnel-operator-trivy-config",
 									},
 									Key:      "trivy.timeout",
 									Optional: ptr.To[bool](true),
@@ -6402,7 +6402,7 @@ default ignore = false`,
 							ValueFrom: &corev1.EnvVarSource{
 								ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 									LocalObjectReference: corev1.LocalObjectReference{
-										Name: "trivy-operator-trivy-config",
+										Name: "tunnel-operator-trivy-config",
 									},
 									Key:      "trivy.httpsProxy",
 									Optional: ptr.To[bool](true),
@@ -6414,7 +6414,7 @@ default ignore = false`,
 							ValueFrom: &corev1.EnvVarSource{
 								ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 									LocalObjectReference: corev1.LocalObjectReference{
-										Name: "trivy-operator-trivy-config",
+										Name: "tunnel-operator-trivy-config",
 									},
 									Key:      "trivy.noProxy",
 									Optional: ptr.To[bool](true),
@@ -6426,7 +6426,7 @@ default ignore = false`,
 							ValueFrom: &corev1.EnvVarSource{
 								ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 									LocalObjectReference: corev1.LocalObjectReference{
-										Name: "trivy-operator-trivy-config",
+										Name: "tunnel-operator-trivy-config",
 									},
 									Key:      "trivy.javaDbRepository",
 									Optional: ptr.To[bool](true),
@@ -6493,7 +6493,7 @@ default ignore = false`,
 			fakeclient := fake.NewClientBuilder().WithObjects(
 				&corev1.ConfigMap{
 					ObjectMeta: metav1.ObjectMeta{
-						Name:      "trivy-operator-trivy-config",
+						Name:      "tunnel-operator-trivy-config",
 						Namespace: "trivyoperator-ns",
 					},
 					Data: tc.config,
@@ -6692,7 +6692,7 @@ var (
 func TestPlugin_ParseReportData(t *testing.T) {
 	config := &corev1.ConfigMap{
 		ObjectMeta: metav1.ObjectMeta{
-			Name:      "trivy-operator-trivy-config",
+			Name:      "tunnel-operator-trivy-config",
 			Namespace: "trivyoperator-ns",
 		},
 		Data: map[string]string{
@@ -7007,7 +7007,7 @@ func TestGetContainers(t *testing.T) {
 			fakeclient := fake.NewClientBuilder().WithObjects(
 				&corev1.ConfigMap{
 					ObjectMeta: metav1.ObjectMeta{
-						Name:      "trivy-operator-trivy-config",
+						Name:      "tunnel-operator-trivy-config",
 						Namespace: "trivyoperator-ns",
 					},
 					Data: tc.configData,
@@ -7134,7 +7134,7 @@ func TestSkipDirFileEnvVars(t *testing.T) {
 	}{
 		{
 			name:       "read skip file from annotation",
-			configName: "trivy-operator-trivy-config",
+			configName: "tunnel-operator-trivy-config",
 			skipType:   trivy.SkipFilesAnnotation,
 			envKey:     "TRIVY_SKIP_FILES",
 			configKey:  "trivy.skipFiles",
@@ -7166,7 +7166,7 @@ func TestSkipDirFileEnvVars(t *testing.T) {
 		},
 		{
 			name:       "read skip file from config",
-			configName: "trivy-operator-trivy-config",
+			configName: "tunnel-operator-trivy-config",
 			skipType:   trivy.SkipFilesAnnotation,
 			envKey:     "TRIVY_SKIP_FILES",
 			configKey:  "trivy.skipFiles",
@@ -7193,7 +7193,7 @@ func TestSkipDirFileEnvVars(t *testing.T) {
 				ValueFrom: &corev1.EnvVarSource{
 					ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 						LocalObjectReference: corev1.LocalObjectReference{
-							Name: "trivy-operator-trivy-config",
+							Name: "tunnel-operator-trivy-config",
 						},
 						Key:      "trivy.skipFiles",
 						Optional: ptr.To[bool](true),
@@ -7203,7 +7203,7 @@ func TestSkipDirFileEnvVars(t *testing.T) {
 		},
 		{
 			name:       "read skip dir from annotation",
-			configName: "trivy-operator-trivy-config",
+			configName: "tunnel-operator-trivy-config",
 			skipType:   trivy.SkipDirsAnnotation,
 			envKey:     "TRIVY_SKIP_DIRS",
 			configKey:  "trivy.skipDirs",
@@ -7235,7 +7235,7 @@ func TestSkipDirFileEnvVars(t *testing.T) {
 		},
 		{
 			name:       "read skip dir from config",
-			configName: "trivy-operator-trivy-config",
+			configName: "tunnel-operator-trivy-config",
 			skipType:   trivy.SkipDirsAnnotation,
 			envKey:     "TRIVY_SKIP_DIRS",
 			configKey:  "trivy.skipDirs",
@@ -7262,7 +7262,7 @@ func TestSkipDirFileEnvVars(t *testing.T) {
 				ValueFrom: &corev1.EnvVarSource{
 					ConfigMapKeyRef: &corev1.ConfigMapKeySelector{
 						LocalObjectReference: corev1.LocalObjectReference{
-							Name: "trivy-operator-trivy-config",
+							Name: "tunnel-operator-trivy-config",
 						},
 						Key:      "trivy.skipDirs",
 						Optional: ptr.To[bool](true),

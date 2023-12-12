@@ -6,9 +6,9 @@ metadata:
   labels:
     plugin-config-hash: <HASH>
     resource-spec-hash: <HASH>
-    trivy-operator.resource.kind: ReplicaSet
-    trivy-operator.resource.name: wordpress-84bbf6f4dd
-    trivy-operator.resource.namespace: default
+    tunnel-operator.resource.kind: ReplicaSet
+    tunnel-operator.resource.name: wordpress-84bbf6f4dd
+    tunnel-operator.resource.namespace: default
   name: replicaset-wordpress-84bbf6f4dd
   namespace: default
   ownerReferences:

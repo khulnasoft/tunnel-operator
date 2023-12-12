@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-helm uninstall trivy-operator  -n trivy-system
+helm uninstall tunnel-operator  -n trivy-system
 kubectl delete crd vulnerabilityreports.khulnasoft.github.io
 kubectl delete crd configauditreports.khulnasoft.github.io
 kubectl delete crd clusterconfigauditreports.khulnasoft.github.io

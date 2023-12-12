@@ -26,7 +26,7 @@ configure it to watch the `default` namespaces:
    apiVersion: operators.coreos.com/v1
    kind: OperatorGroup
    metadata:
-     name: trivy-operator-group
+     name: tunnel-operator-group
      namespace: trivy-system
    EOF
    ```
@@ -36,11 +36,11 @@ configure it to watch the `default` namespaces:
    apiVersion: operators.coreos.com/v1alpha1
    kind: Subscription
    metadata:
-     name: trivy-operator-subscription
+     name: tunnel-operator-subscription
      namespace: trivy-system
    spec:
      channel: alpha
-     name: trivy-operator
+     name: tunnel-operator
      source: operatorhubio-catalog
      sourceNamespace: olm
      installPlanApproval: Automatic
@@ -57,18 +57,18 @@ configure it to watch the `default` namespaces:
    ```console
    $ kubectl get clusterserviceversions -n trivy-system
    NAME                        DISPLAY              VERSION   REPLACES                     PHASE
-   trivy-operator.{{ git.tag }}  Trivy Operator   {{ git.tag[1:] }}    trivy-operator.{{ var.prev_git_tag }}   Succeeded
+   tunnel-operator.{{ git.tag }}  Trivy Operator   {{ git.tag[1:] }}    tunnel-operator.{{ var.prev_git_tag }}   Succeeded
    ```
    If the above command succeeds and the ClusterServiceVersion has transitioned from `Installing` to `Succeeded` phase
    you will also find the operator's Deployment in the same namespace where the Subscription is:
    ```console
    $ kubectl get deployments -n trivy-system
    NAME                 READY   UP-TO-DATE   AVAILABLE   AGE
-   trivy-operator   1/1     1            1           11m
+   tunnel-operator   1/1     1            1           11m
    ```
    If for some reason it's not ready yet, check the logs of the Deployment for errors:
    ```
-   kubectl logs deployment/trivy-operator -n trivy-system
+   kubectl logs deployment/tunnel-operator -n trivy-system
    ```
 
 ## Uninstall
@@ -76,9 +76,9 @@ configure it to watch the `default` namespaces:
 To uninstall the operator delete the Subscription, the ClusterServiceVersion, and the OperatorGroup:
 
 ```
-kubectl delete subscription trivy-operator-subscription -n trivy-system
-kubectl delete clusterserviceversion trivy-operator.{{ git.tag }} -n trivy-system
-kubectl delete operatorgroup trivy-operator-group -n trivy-system
+kubectl delete subscription tunnel-operator-subscription -n trivy-system
+kubectl delete clusterserviceversion tunnel-operator.{{ git.tag }} -n trivy-system
+kubectl delete operatorgroup tunnel-operator-group -n trivy-system
 kubectl delete ns trivy-system
 ```
 
@@ -95,5 +95,5 @@ You have to manually delete custom resource definitions created by the OLM opera
     ```
 
 [olm]: https://github.com/operator-framework/operator-lifecycle-manager/
-[OperatorHub.io]: https://operatorhub.io/operator/trivy-operator/
+[OperatorHub.io]: https://operatorhub.io/operator/tunnel-operator/
 [ArtifactHUB]: https://artifacthub.io/

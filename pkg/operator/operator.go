@@ -76,14 +76,14 @@ func Start(ctx context.Context, buildInfo trivyoperator.BuildInfo, operatorConfi
 
 	switch installMode {
 	case etc.OwnNamespace:
-		// Add support for OwnNamespace set in OPERATOR_NAMESPACE (e.g. `trivy-operator`)
-		// and OPERATOR_TARGET_NAMESPACES (e.g. `trivy-operator`).
+		// Add support for OwnNamespace set in OPERATOR_NAMESPACE (e.g. `tunnel-operator`)
+		// and OPERATOR_TARGET_NAMESPACES (e.g. `tunnel-operator`).
 		setupLog.Info("Constructing client cache", "namespace", operatorNamespace)
 		options.Cache.DefaultNamespaces = map[string]cache.Config{operatorNamespace: {}}
 	case etc.SingleNamespace, etc.MultiNamespace:
-		// Add support for SingleNamespace set in OPERATOR_NAMESPACE (e.g. `trivy-operator`)
+		// Add support for SingleNamespace set in OPERATOR_NAMESPACE (e.g. `tunnel-operator`)
 		// and OPERATOR_TARGET_NAMESPACES (e.g. `default`).
-		// Add support for MultiNamespace set in OPERATOR_NAMESPACE (e.g. `trivy-operator`)
+		// Add support for MultiNamespace set in OPERATOR_NAMESPACE (e.g. `tunnel-operator`)
 		// and OPERATOR_TARGET_NAMESPACES (e.g. `default,kube-system`).
 		// Note that you may face performance issues when using this mode with a high number of namespaces.
 		// More: https://godoc.org/github.com/kubernetes-sigs/controller-runtime/pkg/cache#MultiNamespacedCacheBuilder

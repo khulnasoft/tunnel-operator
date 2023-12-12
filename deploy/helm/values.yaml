@@ -1,4 +1,4 @@
-# Default values for the trivy-operator Helm chart, these are used to render
+# Default values for the tunnel-operator Helm chart, these are used to render
 # the templates into valid k8s Resources.
 
 # -- global values provide a centralized configuration for 'image.registry', reducing the potential for errors.
@@ -10,7 +10,7 @@ global:
 # -- managedBy is similar to .Release.Service but allows to overwrite the value
 managedBy: Helm
 
-# -- targetNamespace defines where you want trivy-operator to operate. By
+# -- targetNamespace defines where you want tunnel-operator to operate. By
 # default, it's a blank string to select all namespaces, but you can specify
 # another namespace, or a comma separated list of namespaces.
 targetNamespaces: ""
@@ -162,7 +162,7 @@ image:
   pullSecrets: []
 
 # -- service only expose a metrics endpoint for prometheus to scrape,
-# trivy-operator does not have a user interface.
+# tunnel-operator does not have a user interface.
 service:
   headless: true
   metricsPort: 80
@@ -255,7 +255,7 @@ trivyOperator:
   # -- reportRecordFailedChecksOnly flag is to record only failed checks on misconfiguration reports (config-audit and rbac assessment)
   reportRecordFailedChecksOnly: true
 
-  # -- skipResourceByLabels comma-separated labels keys which trivy-operator will skip scanning on resources with matching labels
+  # -- skipResourceByLabels comma-separated labels keys which tunnel-operator will skip scanning on resources with matching labels
   skipResourceByLabels: ""
 
   # -- metricsResourceLabelsPrefix Prefix that will be prepended to the labels names indicated in `reportResourceLabels`
@@ -281,7 +281,7 @@ trivy:
     # -- tag version of the Trivy image
     tag: 0.47.0
     # -- imagePullSecret is the secret name to be used when pulling trivy image from private registries example : reg-secret
-    # It is the user responsibility to create the secret for the private registry in `trivy-operator` namespace
+    # It is the user responsibility to create the secret for the private registry in `tunnel-operator` namespace
     imagePullSecret: ~
 
     # -- pullPolicy is the imge pull policy used for trivy image , valid values are (Always, Never, IfNotPresent)
@@ -414,7 +414,7 @@ trivy:
   # -- existingSecret if a secret containing gitHubToken, serverToken or serverCustomHeaders has been created outside the chart (e.g external-secrets, sops, etc...).
   # Keys must be at least one of the following: trivy.githubToken, trivy.serverToken, trivy.serverCustomHeaders
   # Overrides trivy.gitHubToken, trivy.serverToken, trivy.serverCustomHeaders values.
-  # Note: The secret has to be named "trivy-operator-trivy-config".
+  # Note: The secret has to be named "tunnel-operator-trivy-config".
   # existingSecret: true
 
   # -- serverTokenHeader is the name of the HTTP header used to send the authentication
@@ -569,7 +569,7 @@ nodeCollector:
   # -- tag version of the node-collector image
   tag: 0.0.9
   # -- imagePullSecret is the secret name to be used when pulling node-collector image from private registries example : reg-secret
-  # It is the user responsibility to create the secret for the private registry in `trivy-operator` namespace
+  # It is the user responsibility to create the secret for the private registry in `tunnel-operator` namespace
   imagePullSecret: ~
   # -- excludeNodes comma-separated node labels that the node-collector job should exclude from scanning (example kubernetes.io/arch=arm64,team=dev)
   excludeNodes:

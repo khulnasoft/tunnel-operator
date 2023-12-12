@@ -1,6 +1,6 @@
 # Contributing
 
-These guidelines will help you get started with the Trivy-operator project.
+These guidelines will help you get started with the Tunnel-operator project.
 
 ## Table of Contents
 
@@ -20,7 +20,7 @@ These guidelines will help you get started with the Trivy-operator project.
     - [Code Coverage](#code-coverage)
   - [Custom Resource Definitions](#custom-resource-definitions)
     - [Generating code and manifests](#generating-code-and-manifests)
-  - [Test Trivy Operator](#test-trivy-operator)
+  - [Test Trivy Operator](#test-tunnel-operator)
     - [In cluster](#in-cluster)
     - [Out of cluster](#out-of-cluster)
   - [Update Static YAML Manifests](#update-static-yaml-manifests)
@@ -39,7 +39,7 @@ These guidelines will help you get started with the Trivy-operator project.
 - Please spend a minimal amount of time giving due diligence to existing issues or discussions. Your topic might be a duplicate. If it is, please add your comment to the existing one.
 - Please give your issue or discussion a meaningful title that will be clear for future users.
 - The issue should clearly explain the reason for opening, the proposal if you have any, and any relevant technical information.
-- For technical questions, please explain in detail what you were trying to do, provide an error message if applicable, and your versions of Trivy-Operator and your environment.
+- For technical questions, please explain in detail what you were trying to do, provide an error message if applicable, and your versions of Tunnel-Operator and your environment.
 
 ### Pull Requests
 
@@ -49,7 +49,7 @@ These guidelines will help you get started with the Trivy-operator project.
 - There's no need to add or tag reviewers, if your PR is left unattended for too long, you can add a comment to bring it up to attention, optionally "@" mention one of the maintainers that was involved with the issue.
 - If a reviewer commented on your code or asked for changes, please remember to mark the discussion as resolved after you address it and re-request a review.
 - When addressing comments, try to fix each suggestion in a separate commit.
-- Tests are not required at this point as Trivy-Operator is evolving fast, but if you can include tests that will be appreciated.
+- Tests are not required at this point as Tunnel-Operator is evolving fast, but if you can include tests that will be appreciated.
 
 #### Conventional Commits
 
@@ -66,7 +66,7 @@ Each commit message doesn't have to follow conventions as long as it is clear an
 
    ```
    git clone git@github.com:khulnasoft/tunnel-operator.git
-   cd trivy-operator
+   cd tunnel-operator
    ```
 
 3. Access to a Kubernetes cluster. We assume that you're using a [KIND][kind] cluster. To create a single-node KIND
@@ -90,9 +90,9 @@ have to
 
 | Binary               | Image                                          | Description                                                   |
 |----------------------|------------------------------------------------|---------------------------------------------------------------|
-| `trivy-operator`     | `ghcr.io/khulnasoft/tunnel-operator:dev`         | Trivy Operator                                                |
+| `tunnel-operator`     | `ghcr.io/khulnasoft/tunnel-operator:dev`         | Trivy Operator                                                |
 
-To build all Trivy-operator binary, run:
+To build all Tunnel-operator binary, run:
 
 ```
 mage build:all
@@ -100,7 +100,7 @@ mage build:all
 
 This uses the `go build` command and builds binaries in the `./bin` directory.
 
-To build all Trivy-operator binary into Docker images, run:
+To build all Tunnel-operator binary into Docker images, run:
 
 ```
 mage build:docker
@@ -115,7 +115,7 @@ mage build:kindloadimages
 ## Testing
 
 We generally require tests to be added for all, but the most trivial of changes. However, unit tests alone don't
-provide guarantees about the behaviour of Trivy-operator. To verify that each Go module correctly interacts with its
+provide guarantees about the behaviour of Tunnel-operator. To verify that each Go module correctly interacts with its
 collaborators, more coarse grained integration tests might be required.
 
 ### Run unit Tests
@@ -155,7 +155,7 @@ To open the test coverage report in your web browser, run:
 go tool cover -html=itest/tunnel-operator/coverage.txt
 ```
 
-To run the integration tests for Trivy-operator Operator and view the coverage report, first do the
+To run the integration tests for Tunnel-operator Operator and view the coverage report, first do the
 [pre-requisite steps](#set-up-your-development-environment), and then run:
 
 ```
@@ -219,8 +219,8 @@ This project uses [`controller-gen`](https://book.kubebuilder.io/reference/contr
 to generate code and Kubernetes manifests from source-code and code markers.
 We currently generate:
 
-- Custom Resource Definitions (CRD) for CRDs defined in trivy-operator
-- ClusterRole that must be bound to the trivy-operator serviceaccount to allow it to function
+- Custom Resource Definitions (CRD) for CRDs defined in tunnel-operator
+- ClusterRole that must be bound to the tunnel-operator serviceaccount to allow it to function
 - Mandatory DeepCopy functions for a Go struct representing a CRD
 
 This means that you should not try to modify any of these files directly, but instead change
@@ -258,7 +258,7 @@ basic development workflow. For other install modes see [Operator Multitenancy w
    mage build:docker && kind load docker-image khulnasoft/tunnel-operator:dev
    ```
 
-2. Create the `trivy-operator` Deployment in the `trivy-system` namespace to run the operator's container:
+2. Create the `tunnel-operator` Deployment in the `trivy-system` namespace to run the operator's container:
 
    ```
    kubectl create -k deploy/static
@@ -281,7 +281,7 @@ kubectl delete -k deploy/static
 2. Scale the operator down to zero replicas:
 
    ```
-   kubectl scale deployment trivy-operator \
+   kubectl scale deployment tunnel-operator \
      -n trivy-system \
      --replicas 0
    ```
@@ -317,7 +317,7 @@ kubectl delete -f deploy/static/tunnel-operator.yaml
 
 ## Update Static YAML Manifests
 
-We consider the Helm chart to be the master for deploying trivy-operator.
+We consider the Helm chart to be the master for deploying tunnel-operator.
 Since some prefer to not use Helm, we also provide static resources to
 install the operator.
 
@@ -330,7 +330,7 @@ resources are up-to-date.
 
 ## Update helm docs
 
-We consider the Helm chart to be the master for deploying trivy-operator.
+We consider the Helm chart to be the master for deploying tunnel-operator.
 Since some prefer to not use Helm, we also provide helm config documentation to
 install the operator.
 
@@ -369,10 +369,10 @@ cd community-operators
 Build the catalog image for OLM containing just Trivy Operator with a Dockerfile like this:
 
 ```
-cat << EOF > trivy-operator.Dockerfile
+cat << EOF > tunnel-operator.Dockerfile
 FROM quay.io/operator-framework/upstream-registry-builder as builder
 
-COPY operators/trivy-operator manifests
+COPY operators/tunnel-operator manifests
 RUN /bin/initializer -o ./bundles.db
 
 FROM scratch
@@ -386,12 +386,12 @@ CMD ["--database", "bundles.db"]
 EOF
 ```
 
-Place the `trivy-operator.Dockerfile` in the top-level directory of your cloned copy of the [community-operators] repository,
+Place the `tunnel-operator.Dockerfile` in the top-level directory of your cloned copy of the [community-operators] repository,
 build it and push to a registry from where you can download it to your Kubernetes cluster:
 
 ```
-docker image build -f trivy-operator.Dockerfile -t docker.io/<your account>/trivy-operator-catalog:dev .
-docker image push docker.io/<your account>/trivy-operator-catalog:dev
+docker image build -f tunnel-operator.Dockerfile -t docker.io/<your account>/tunnel-operator-catalog:dev .
+docker image push docker.io/<your account>/tunnel-operator-catalog:dev
 ```
 
 ### Register the Catalog Image
@@ -404,13 +404,13 @@ cat << EOF | kubectl apply -f -
 apiVersion: operators.coreos.com/v1alpha1
 kind: CatalogSource
 metadata:
-  name: trivy-operator-catalog
+  name: tunnel-operator-catalog
   namespace: olm
 spec:
-  publisher: trivy-operator Maintainers
-  displayName: trivy-operator Catalog
+  publisher: tunnel-operator Maintainers
+  displayName: tunnel-operator Catalog
   sourceType: grpc
-  image: docker.io/<your account>/trivy-operator-catalog:dev
+  image: docker.io/<your account>/tunnel-operator-catalog:dev
 EOF
 ```
 
@@ -425,12 +425,12 @@ Inspect the list of loaded package manifests on the system with the following co
 ```console
 $ kubectl get packagemanifests
 NAME                 CATALOG             AGE
-trivy-operator   trivy-operator Catalog   97s
+tunnel-operator   tunnel-operator Catalog   97s
 ```
 
 If the Trivy Operator appears in this list, the catalog was successfully parsed and it is now available to install.
-Follow the installation instructions for [OLM][trivy-operator-install-olm]. Make sure that the Subscription's `spec.source`
-property refers to the `trivy-operator-catalog` source instead of `operatorhubio-catalog`.
+Follow the installation instructions for [OLM][tunnel-operator-install-olm]. Make sure that the Subscription's `spec.source`
+property refers to the `tunnel-operator-catalog` source instead of `operatorhubio-catalog`.
 
 You can find more details about testing Operators with Operator Framework [here][olm-testing-operators].
 
@@ -442,5 +442,5 @@ You can find more details about testing Operators with Operator Framework [here]
 [Operator Lifecycle Manager]: https://github.com/operator-framework/operator-lifecycle-manager
 [community-operators]: https://github.com/k8s-operatorhub/community-operators
 [olm-operator-groups]: https://github.com/operator-framework/operator-lifecycle-manager/blob/master/doc/design/operatorgroups.md
-[trivy-operator-install-olm]: https://khulnasoft.github.io/trivy-operator/latest/operator/installation/olm
+[tunnel-operator-install-olm]: https://khulnasoft.github.io/tunnel-operator/latest/operator/installation/olm
 [olm-testing-operators]: https://github.com/operator-framework/community-operators/blob/master/docs/testing-operators.md

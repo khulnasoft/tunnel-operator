@@ -786,7 +786,7 @@ func TestObjectRefFromObjectMeta(t *testing.T) {
 					trivyoperator.LabelResourceNamespace: "default",
 				},
 			},
-			expectedError: "required label does not exist: trivy-operator.resource.kind",
+			expectedError: "required label does not exist: tunnel-operator.resource.kind",
 		},
 	}
 

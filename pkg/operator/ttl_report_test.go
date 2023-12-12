@@ -98,7 +98,7 @@ func TestRegenerateReportIfExpired(t *testing.T) {
 				vulnReport.Name = ""
 			}
 			vulnReport.Annotations = map[string]string{
-				"trivy-operator.khulnasoft.github.io/report-ttl": tt.ttlStr,
+				"tunnel-operator.khulnasoft.github.io/report-ttl": tt.ttlStr,
 			}
 			vulnReport.CreationTimestamp.Time = clock.Now().Add(tt.reportUpdateTimestamp)
 

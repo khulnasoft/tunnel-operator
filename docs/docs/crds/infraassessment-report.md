@@ -18,15 +18,15 @@ apiVersion: khulnasoft.github.io/v1alpha1
 kind: InfraAssessmentReport
 metadata:
   annotations:
-    trivy-operator.khulnasoft.github.io/report-ttl: 24h0m0s
+    tunnel-operator.khulnasoft.github.io/report-ttl: 24h0m0s
   creationTimestamp: "2022-11-08T16:27:08Z"
   generation: 1
   labels:
     plugin-config-hash: 659b7b9c46
     resource-spec-hash: 56fd79dd67
-    trivy-operator.resource.kind: Pod
-    trivy-operator.resource.name: kube-apiserver-minikube
-    trivy-operator.resource.namespace: kube-system
+    tunnel-operator.resource.kind: Pod
+    tunnel-operator.resource.name: kube-apiserver-minikube
+    tunnel-operator.resource.namespace: kube-system
   name: pod-kube-apiserver-minikube
   namespace: kube-system
   ownerReferences:

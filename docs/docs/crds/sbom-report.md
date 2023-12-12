@@ -2,7 +2,7 @@
 
 An instance of the SbomReport represents the latest sbom (software bill of metarials) found in a container image of a given
 Kubernetes workload. It consists of a list of OS package and application bil of metarial with a summary of
-components and dependencies. For a multi-container workload trivy-operator creates multiple instances
+components and dependencies. For a multi-container workload tunnel-operator creates multiple instances
 of SbomReports in the workload's namespace with the owner reference set to that workload.
 Each report follows the naming convention `<workload kind>-<workload name>-<container-name>`.
 
@@ -17,10 +17,10 @@ metadata:
   generation: 1
   labels:
     resource-spec-hash: 796669cd5d
-    trivy-operator.container.name: kube-apiserver
-    trivy-operator.resource.kind: Pod
-    trivy-operator.resource.name: kube-apiserver-kind-control-plane
-    trivy-operator.resource.namespace: kube-system
+    tunnel-operator.container.name: kube-apiserver
+    tunnel-operator.resource.kind: Pod
+    tunnel-operator.resource.name: kube-apiserver-kind-control-plane
+    tunnel-operator.resource.namespace: kube-system
   name: pod-kube-apiserver-kind-control-plane-kube-apiserver
   namespace: kube-system
   ownerReferences:

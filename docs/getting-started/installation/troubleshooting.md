@@ -31,7 +31,7 @@ This is how it will look if it is running okay:
 
 ```
 NAMESPACE            NAME                                         READY   STATUS    RESTARTS      AGE
-trivy-system     trivy-operator-6c9bd97d58-hsz4g          1/1     Running   5 (19m ago)   30h
+trivy-system     tunnel-operator-6c9bd97d58-hsz4g          1/1     Running   5 (19m ago)   30h
 ```
 
 If the pod is in `Failed`, `Pending`, or `Unknown` check the events and the logs of the pod.
@@ -44,7 +44,7 @@ kubectl describe pod <POD-NAME> -n trivy-system
 
 To check the logs, use the following command:
 ```
-kubectl logs deployment/trivy-operator -n trivy-system
+kubectl logs deployment/tunnel-operator -n trivy-system
 ```
 
 If your pod is not running, try to look for errors as they can give an indication on the problem.
@@ -71,7 +71,7 @@ It could happen that the pod appears to be running normally but does not reconci
 
 Check the logs for Reconciliation errors:
 ```
-kubectl logs deployment/trivy-operator -n trivy-system
+kubectl logs deployment/tunnel-operator -n trivy-system
 ```
 
 If this is the case, the Trivy Operator likely does not have the right configurations to access your resource.
@@ -83,7 +83,7 @@ VulnerabilityReports are owned and controlled by the immediate Kubernetes worklo
 An easy way to check this is by looking for the `ClusterRoleBinding` for the Trivy Operator:
 
 ```
-kubectl get ClusterRoleBinding | grep "trivy-operator"
+kubectl get ClusterRoleBinding | grep "tunnel-operator"
 ```
 
 Alternatively, you could use the `kubectl-who-can` [plugin by Aqua](https://github.com/aquasecurity/kubectl-who-can):
@@ -94,7 +94,7 @@ No subjects found with permissions to list vulnerabilityreports assigned through
 
 CLUSTERROLEBINDING                           SUBJECT                         TYPE            SA-NAMESPACE
 cluster-admin                                system:masters                  Group
-trivy-operator                           trivy-operator              ServiceAccount  trivy-system
+tunnel-operator                           tunnel-operator              ServiceAccount  trivy-system
 system:controller:generic-garbage-collector  generic-garbage-collector       ServiceAccount  kube-system
 system:controller:namespace-controller       namespace-controller            ServiceAccount  kube-system
 system:controller:resourcequota-controller   resourcequota-controller        ServiceAccount  kube-system

@@ -1,5 +1,5 @@
 ---
-# This workflow is triggered whenever we release a new version of trivy-operator
+# This workflow is triggered whenever we release a new version of tunnel-operator
 # by creating an annotated Git tag and pushing it to the upstream Git repository.
 #
 #    git tag -a v0.0.1 -m 'Release v0.0.1'
@@ -32,7 +32,7 @@ jobs:
           aqua_version: v1.25.0
       - name: Run unit tests
         run: mage test:unit
-  itest-trivy-operator:
+  itest-tunnel-operator:
     name: Run integration tests / Trivy Operator
     needs:
       - tests
@@ -70,7 +70,7 @@ jobs:
   release:
     name: Release
     needs:
-      - itest-trivy-operator
+      - itest-tunnel-operator
     runs-on: ubuntu-latest
     env:
       DOCKER_CLI_EXPERIMENTAL: "enabled"

@@ -2,9 +2,9 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: trivy-operator
-  namespace: {{ include "trivy-operator.namespace" . }}
-  labels: {{- include "trivy-operator.labels" . | nindent 4 }}
+  name: tunnel-operator
+  namespace: {{ include "tunnel-operator.namespace" . }}
+  labels: {{- include "tunnel-operator.labels" . | nindent 4 }}
 data:
   {{- with .Values.trivyOperator.scanJobTolerations }}
   scanJob.tolerations: {{ . | toJson | quote }}
@@ -68,7 +68,7 @@ data:
   skipResourceByLabels: {{ . | quote }}
   {{- end }}
   {{- if .Values.operator.builtInTrivyServer }}
-  trivy.serverURL: {{ printf "http://%s.%s:%s" .Values.trivy.serverServiceName (include "trivy-operator.namespace" .) "4954"  | quote }}
+  trivy.serverURL: {{ printf "http://%s.%s:%s" .Values.trivy.serverServiceName (include "tunnel-operator.namespace" .) "4954"  | quote }}
   {{- end }}
   node.collector.imageRef: "{{ include "global.imageRegistry" . | default .Values.nodeCollector.registry }}/{{ .Values.nodeCollector.repository }}:{{ .Values.nodeCollector.tag }}"
   {{- with .Values.nodeCollector.imagePullSecret }}

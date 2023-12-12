@@ -23,9 +23,9 @@ got a ttl outweighs the "issue" of generating a new annotation.
 
 ### Example
 
-Below you can see a shortened version of the yaml. Notice the `metadata.annotations.trivy-operator.khulnasoft.github.io/report-ttl` which is new.
-The operator would automatically apply the `trivy-operator.khulnasoft.github.io/report-ttl` annotation to all new reports that it generates assuming that the environment variable is set.
-In theory users could also extend the TTL manually for a specific report by changing the trivy-operator.khulnasoft.github.io/report-ttl annotation per VulnerabilityReport.
+Below you can see a shortened version of the yaml. Notice the `metadata.annotations.tunnel-operator.khulnasoft.github.io/report-ttl` which is new.
+The operator would automatically apply the `tunnel-operator.khulnasoft.github.io/report-ttl` annotation to all new reports that it generates assuming that the environment variable is set.
+In theory users could also extend the TTL manually for a specific report by changing the tunnel-operator.khulnasoft.github.io/report-ttl annotation per VulnerabilityReport.
 
 ```vulnerabilityReport.yaml
 apiVersion: khulnasoft.github.io/v1alpha1
@@ -33,13 +33,13 @@ kind: VulnerabilityReport
 metadata:
   creationTimestamp: "2021-12-08T12:03:48Z"
   annotations:
-    trivy-operator.khulnasoft.github.io/report-ttl: 24h
+    tunnel-operator.khulnasoft.github.io/report-ttl: 24h
   labels:
     resource-spec-hash: 86b58dcb99
-    trivy-operator.container.name: manager
-    trivy-operator.resource.kind: ReplicaSet
-    trivy-operator.resource.name: source-controller-b5d5cfdf4
-    trivy-operator.resource.namespace: flux-system
+    tunnel-operator.container.name: manager
+    tunnel-operator.resource.kind: ReplicaSet
+    tunnel-operator.resource.name: source-controller-b5d5cfdf4
+    tunnel-operator.resource.namespace: flux-system
   name: replicaset-source-controller-b5d5cfdf4-manager
 report:
   artifact:
@@ -71,4 +71,4 @@ The bad thing hear is that we would have to manage yet another cronjob/job. We w
 It would also trigger removal of multiple reports at the same time, compared to the event driven solution that would be much more precise per report
 and thus spreading out the new reports more.
 
-But the good thing is that everyone knows how jobs/cronjobs works especially since it's already well used within the trivy-operator operator.
+But the good thing is that everyone knows how jobs/cronjobs works especially since it's already well used within the tunnel-operator operator.

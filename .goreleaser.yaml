@@ -8,7 +8,7 @@ before:
   hooks:
     - go mod download
 builds:
-  - id: trivy-operator
+  - id: tunnel-operator
     main: ./cmd/tunnel-operator/main.go
     binary: tunnel-operator
     goos:
@@ -24,7 +24,7 @@ builds:
 archives:
   - name_template: "{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}"
     builds:
-      - trivy-operator
+      - tunnel-operator
     replacements:
       amd64: x86_64
       arm: ARM
@@ -71,16 +71,16 @@ dockers:
     dockerfile: build/tunnel-operator/Dockerfile
     goarch: amd64
     ids:
-      - trivy-operator
+      - tunnel-operator
     build_flag_templates:
-      - "--label=org.opencontainers.image.title=trivy-operator"
-      - "--label=org.opencontainers.image.description=Keeps trivy-operator resources updated"
+      - "--label=org.opencontainers.image.title=tunnel-operator"
+      - "--label=org.opencontainers.image.description=Keeps tunnel-operator resources updated"
       - "--label=org.opencontainers.image.vendor=Aqua Security"
       - "--label=org.opencontainers.image.version={{ .Version }}"
       - "--label=org.opencontainers.image.created={{ .Date }}"
       - "--label=org.opencontainers.image.source=https://github.com/khulnasoft/tunnel-operator"
       - "--label=org.opencontainers.image.revision={{ .FullCommit }}"
-      - "--label=org.opencontainers.image.documentation=https://khulnasoft.github.io/trivy-operator/v{{ .Version }}/"
+      - "--label=org.opencontainers.image.documentation=https://khulnasoft.github.io/tunnel-operator/v{{ .Version }}/"
       - "--platform=linux/amd64"
   - image_templates:
       - "docker.io/khulnasoft/tunnel-operator:{{ .Version }}-ubi8-amd64"
@@ -91,16 +91,16 @@ dockers:
     dockerfile: build/tunnel-operator/Dockerfile.ubi8
     goarch: amd64
     ids:
-      - trivy-operator
+      - tunnel-operator
     build_flag_templates:
-      - "--label=org.opencontainers.image.title=trivy-operator"
-      - "--label=org.opencontainers.image.description=Keeps trivy-operator resources updated"
+      - "--label=org.opencontainers.image.title=tunnel-operator"
+      - "--label=org.opencontainers.image.description=Keeps tunnel-operator resources updated"
       - "--label=org.opencontainers.image.vendor=Aqua Security"
       - "--label=org.opencontainers.image.version={{ .Version }}"
       - "--label=org.opencontainers.image.created={{ .Date }}"
       - "--label=org.opencontainers.image.source=https://github.com/khulnasoft/tunnel-operator"
       - "--label=org.opencontainers.image.revision={{ .FullCommit }}"
-      - "--label=org.opencontainers.image.documentation=https://khulnasoft.github.io/trivy-operator/v{{ .Version }}/"
+      - "--label=org.opencontainers.image.documentation=https://khulnasoft.github.io/tunnel-operator/v{{ .Version }}/"
       - "--platform=linux/amd64"
   - image_templates:
       - "docker.io/khulnasoft/tunnel-operator:{{ .Version }}-arm64"
@@ -111,16 +111,16 @@ dockers:
     dockerfile: build/tunnel-operator/Dockerfile
     goarch: arm64
     ids:
-      - trivy-operator
+      - tunnel-operator
     build_flag_templates:
-      - "--label=org.opencontainers.image.title=trivy-operator"
-      - "--label=org.opencontainers.image.description=Keeps trivy-operator resources updated"
+      - "--label=org.opencontainers.image.title=tunnel-operator"
+      - "--label=org.opencontainers.image.description=Keeps tunnel-operator resources updated"
       - "--label=org.opencontainers.image.vendor=Aqua Security"
       - "--label=org.opencontainers.image.version={{ .Version }}"
       - "--label=org.opencontainers.image.created={{ .Date }}"
       - "--label=org.opencontainers.image.source=https://github.com/khulnasoft/tunnel-operator"
       - "--label=org.opencontainers.image.revision={{ .FullCommit }}"
-      - "--label=org.opencontainers.image.documentation=https://khulnasoft.github.io/trivy-operator/v{{ .Version }}/"
+      - "--label=org.opencontainers.image.documentation=https://khulnasoft.github.io/tunnel-operator/v{{ .Version }}/"
       - "--platform=linux/arm64"
   - image_templates:
       - "docker.io/khulnasoft/tunnel-operator:{{ .Version }}-ubi8-arm64"
@@ -131,16 +131,16 @@ dockers:
     dockerfile: build/tunnel-operator/Dockerfile.ubi8
     goarch: arm64
     ids:
-      - trivy-operator
+      - tunnel-operator
     build_flag_templates:
-      - "--label=org.opencontainers.image.title=trivy-operator"
-      - "--label=org.opencontainers.image.description=Keeps trivy-operator resources updated"
+      - "--label=org.opencontainers.image.title=tunnel-operator"
+      - "--label=org.opencontainers.image.description=Keeps tunnel-operator resources updated"
       - "--label=org.opencontainers.image.vendor=Aqua Security"
       - "--label=org.opencontainers.image.version={{ .Version }}"
       - "--label=org.opencontainers.image.created={{ .Date }}"
       - "--label=org.opencontainers.image.source=https://github.com/khulnasoft/tunnel-operator"
       - "--label=org.opencontainers.image.revision={{ .FullCommit }}"
-      - "--label=org.opencontainers.image.documentation=https://khulnasoft.github.io/trivy-operator/v{{ .Version }}/"
+      - "--label=org.opencontainers.image.documentation=https://khulnasoft.github.io/tunnel-operator/v{{ .Version }}/"
       - "--platform=linux/arm64"
   - image_templates:
       - "docker.io/khulnasoft/tunnel-operator:{{ .Version }}-s390x"
@@ -151,16 +151,16 @@ dockers:
     dockerfile: build/tunnel-operator/Dockerfile
     goarch: s390x
     ids:
-      - trivy-operator
+      - tunnel-operator
     build_flag_templates:
-      - "--label=org.opencontainers.image.title=trivy-operator"
-      - "--label=org.opencontainers.image.description=Keeps trivy-operator resources updated"
+      - "--label=org.opencontainers.image.title=tunnel-operator"
+      - "--label=org.opencontainers.image.description=Keeps tunnel-operator resources updated"
       - "--label=org.opencontainers.image.vendor=Aqua Security"
       - "--label=org.opencontainers.image.version={{ .Version }}"
       - "--label=org.opencontainers.image.created={{ .Date }}"
       - "--label=org.opencontainers.image.source=https://github.com/khulnasoft/tunnel-operator"
       - "--label=org.opencontainers.image.revision={{ .FullCommit }}"
-      - "--label=org.opencontainers.image.documentation=https://khulnasoft.github.io/trivy-operator/v{{ .Version }}/"
+      - "--label=org.opencontainers.image.documentation=https://khulnasoft.github.io/tunnel-operator/v{{ .Version }}/"
       - "--platform=linux/s390x"
   - image_templates:
       - "docker.io/khulnasoft/tunnel-operator:{{ .Version }}-ppc64le"
@@ -171,16 +171,16 @@ dockers:
     dockerfile: build/tunnel-operator/Dockerfile
     goarch: ppc64le
     ids:
-      - trivy-operator
+      - tunnel-operator
     build_flag_templates:
-      - "--label=org.opencontainers.image.title=trivy-operator"
-      - "--label=org.opencontainers.image.description=Keeps trivy-operator resources updated"
+      - "--label=org.opencontainers.image.title=tunnel-operator"
+      - "--label=org.opencontainers.image.description=Keeps tunnel-operator resources updated"
       - "--label=org.opencontainers.image.vendor=Aqua Security"
       - "--label=org.opencontainers.image.version={{ .Version }}"
       - "--label=org.opencontainers.image.created={{ .Date }}"
       - "--label=org.opencontainers.image.source=https://github.com/khulnasoft/tunnel-operator"
       - "--label=org.opencontainers.image.revision={{ .FullCommit }}"
-      - "--label=org.opencontainers.image.documentation=https://khulnasoft.github.io/trivy-operator/v{{ .Version }}/"
+      - "--label=org.opencontainers.image.documentation=https://khulnasoft.github.io/tunnel-operator/v{{ .Version }}/"
       - "--platform=linux/ppc64le"
   - image_templates:
       - "docker.io/khulnasoft/tunnel-operator:{{ .Version }}-ubi8-s390x"
@@ -191,16 +191,16 @@ dockers:
     dockerfile: build/tunnel-operator/Dockerfile.ubi8
     goarch: s390x
     ids:
-      - trivy-operator
+      - tunnel-operator
     build_flag_templates:
-      - "--label=org.opencontainers.image.title=trivy-operator"
-      - "--label=org.opencontainers.image.description=Keeps trivy-operator resources updated"
+      - "--label=org.opencontainers.image.title=tunnel-operator"
+      - "--label=org.opencontainers.image.description=Keeps tunnel-operator resources updated"
       - "--label=org.opencontainers.image.vendor=Aqua Security"
       - "--label=org.opencontainers.image.version={{ .Version }}"
       - "--label=org.opencontainers.image.created={{ .Date }}"
       - "--label=org.opencontainers.image.source=https://github.com/khulnasoft/tunnel-operator"
       - "--label=org.opencontainers.image.revision={{ .FullCommit }}"
-      - "--label=org.opencontainers.image.documentation=https://khulnasoft.github.io/trivy-operator/v{{ .Version }}/"
+      - "--label=org.opencontainers.image.documentation=https://khulnasoft.github.io/tunnel-operator/v{{ .Version }}/"
       - "--platform=linux/s390x"
   - image_templates:
       - "docker.io/khulnasoft/tunnel-operator:{{ .Version }}-ubi8-ppc64le"
@@ -211,16 +211,16 @@ dockers:
     dockerfile: build/tunnel-operator/Dockerfile.ubi8
     goarch: ppc64le
     ids:
-      - trivy-operator
+      - tunnel-operator
     build_flag_templates:
-      - "--label=org.opencontainers.image.title=trivy-operator"
-      - "--label=org.opencontainers.image.description=Keeps trivy-operator resources updated"
+      - "--label=org.opencontainers.image.title=tunnel-operator"
+      - "--label=org.opencontainers.image.description=Keeps tunnel-operator resources updated"
       - "--label=org.opencontainers.image.vendor=Aqua Security"
       - "--label=org.opencontainers.image.version={{ .Version }}"
       - "--label=org.opencontainers.image.created={{ .Date }}"
       - "--label=org.opencontainers.image.source=https://github.com/khulnasoft/tunnel-operator"
       - "--label=org.opencontainers.image.revision={{ .FullCommit }}"
-      - "--label=org.opencontainers.image.documentation=https://khulnasoft.github.io/trivy-operator/v{{ .Version }}/"
+      - "--label=org.opencontainers.image.documentation=https://khulnasoft.github.io/tunnel-operator/v{{ .Version }}/"
       - "--platform=linux/ppc64le"
 docker_manifests:
   - name_template: "khulnasoft/tunnel-operator:{{ .Version }}"

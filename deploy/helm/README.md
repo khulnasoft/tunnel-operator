@@ -1,4 +1,4 @@
-# trivy-operator
+# tunnel-operator
 
 ![Version: 0.19.0](https://img.shields.io/badge/Version-0.19.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.17.0](https://img.shields.io/badge/AppVersion-0.17.0-informational?style=flat-square)
 
@@ -28,7 +28,7 @@ Keeps security report resources updated
 | managedBy | string | `"Helm"` | managedBy is similar to .Release.Service but allows to overwrite the value |
 | nameOverride | string | `""` | nameOverride override operator name |
 | nodeCollector.excludeNodes | string | `nil` | excludeNodes comma-separated node labels that the node-collector job should exclude from scanning (example kubernetes.io/arch=arm64,team=dev) |
-| nodeCollector.imagePullSecret | string | `nil` | imagePullSecret is the secret name to be used when pulling node-collector image from private registries example : reg-secret It is the user responsibility to create the secret for the private registry in `trivy-operator` namespace |
+| nodeCollector.imagePullSecret | string | `nil` | imagePullSecret is the secret name to be used when pulling node-collector image from private registries example : reg-secret It is the user responsibility to create the secret for the private registry in `tunnel-operator` namespace |
 | nodeCollector.registry | string | `"ghcr.io"` | registry of the node-collector image |
 | nodeCollector.repository | string | `"aquasecurity/node-collector"` | repository of the node-collector image |
 | nodeCollector.tag | string | `"0.0.9"` | tag version of the node-collector image |
@@ -82,7 +82,7 @@ Keeps security report resources updated
 | rbac.create | bool | `true` |  |
 | resources | object | `{}` |  |
 | securityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"privileged":false,"readOnlyRootFilesystem":true}` | securityContext security context |
-| service | object | `{"annotations":{},"headless":true,"metricsPort":80}` | service only expose a metrics endpoint for prometheus to scrape, trivy-operator does not have a user interface. |
+| service | object | `{"annotations":{},"headless":true,"metricsPort":80}` | service only expose a metrics endpoint for prometheus to scrape, tunnel-operator does not have a user interface. |
 | service.annotations | object | `{}` | annotations added to the operator's service |
 | serviceAccount.annotations | object | `{}` |  |
 | serviceAccount.create | bool | `true` | Specifies whether a service account should be created. |
@@ -94,7 +94,7 @@ Keeps security report resources updated
 | serviceMonitor.interval | string | `nil` | Interval at which metrics should be scraped. If not specified Prometheus’ global scrape interval is used. |
 | serviceMonitor.labels | object | `{}` | Additional labels for the serviceMonitor |
 | serviceMonitor.namespace | string | `nil` | The namespace where Prometheus expects to find service monitors |
-| targetNamespaces | string | `""` | targetNamespace defines where you want trivy-operator to operate. By default, it's a blank string to select all namespaces, but you can specify another namespace, or a comma separated list of namespaces. |
+| targetNamespaces | string | `""` | targetNamespace defines where you want tunnel-operator to operate. By default, it's a blank string to select all namespaces, but you can specify another namespace, or a comma separated list of namespaces. |
 | targetWorkloads | string | `"pod,replicaset,replicationcontroller,statefulset,daemonset,cronjob,job"` | targetWorkloads is a comma seperated list of Kubernetes workload resources to be included in the vulnerability and config-audit scans if left blank, all workload resources will be scanned |
 | tolerations | list | `[]` | tolerations set the operator tolerations |
 | trivy.additionalVulnerabilityReportFields | string | `""` | additionalVulnerabilityReportFields is a comma separated list of additional fields which can be added to the VulnerabilityReport. Supported parameters: Description, Links, CVSS, Target, Class, PackagePath and PackageType |
@@ -111,7 +111,7 @@ Keeps security report resources updated
 | trivy.httpsProxy | string | `nil` | httpsProxy is the HTTPS proxy used by Trivy to download the vulnerabilities database from GitHub. |
 | trivy.ignoreFile | string | `nil` | ignoreFile can be used to tell Trivy to ignore vulnerabilities by ID (one per line) |
 | trivy.ignoreUnfixed | bool | `false` | ignoreUnfixed is the flag to show only fixed vulnerabilities in vulnerabilities reported by Trivy. Set to true to enable it.  |
-| trivy.image.imagePullSecret | string | `nil` | imagePullSecret is the secret name to be used when pulling trivy image from private registries example : reg-secret It is the user responsibility to create the secret for the private registry in `trivy-operator` namespace |
+| trivy.image.imagePullSecret | string | `nil` | imagePullSecret is the secret name to be used when pulling trivy image from private registries example : reg-secret It is the user responsibility to create the secret for the private registry in `tunnel-operator` namespace |
 | trivy.image.pullPolicy | string | `"IfNotPresent"` | pullPolicy is the imge pull policy used for trivy image , valid values are (Always, Never, IfNotPresent) |
 | trivy.image.registry | string | `"ghcr.io"` | registry of the Trivy image |
 | trivy.image.repository | string | `"aquasecurity/trivy"` | repository of the Trivy image |
@@ -167,7 +167,7 @@ Keeps security report resources updated
 | trivyOperator.scanJobPodTemplatePodSecurityContext | object | `{}` | scanJobPodTemplatePodSecurityContext podSecurityContext the user wants the scanner and node collector pods to be amended with. Example:   RunAsUser: 10000   RunAsGroup: 10000   RunAsNonRoot: true |
 | trivyOperator.scanJobTolerations | list | `[]` | scanJobTolerations tolerations to be applied to the scanner pods and node-collector so that they can run on nodes with matching taints |
 | trivyOperator.skipInitContainers | bool | `false` | skipInitContainers when this flag is set to true, the initContainers will be skipped for the scanner and node collector pods |
-| trivyOperator.skipResourceByLabels | string | `""` | skipResourceByLabels comma-separated labels keys which trivy-operator will skip scanning on resources with matching labels |
+| trivyOperator.skipResourceByLabels | string | `""` | skipResourceByLabels comma-separated labels keys which tunnel-operator will skip scanning on resources with matching labels |
 | trivyOperator.vulnerabilityReportsPlugin | string | `"Trivy"` | vulnerabilityReportsPlugin the name of the plugin that generates vulnerability reports `Trivy` |
 | volumeMounts | list | `[]` |  |
 | volumes | list | `[]` |  |

@@ -5,8 +5,8 @@ metadata:
   annotations: null
   generation: 1
   labels:
-    trivy-operator.resource.name: proxy
-    trivy-operator.resource.kind: Role
+    tunnel-operator.resource.name: proxy
+    tunnel-operator.resource.kind: Role
   name: role-proxy
   namespace: default
   ownerReferences:

@@ -2073,7 +2073,7 @@
       "boundElementIds": [],
       "fontSize": 20,
       "fontFamily": 1,
-      "text": "Namespace: trivy-operator",
+      "text": "Namespace: tunnel-operator",
       "baseline": 18,
       "textAlign": "left",
       "verticalAlign": "top"
@@ -2177,7 +2177,7 @@
       "boundElementIds": [],
       "fontSize": 20,
       "fontFamily": 1,
-      "text": "Deployment: trivy-operator",
+      "text": "Deployment: tunnel-operator",
       "baseline": 18,
       "textAlign": "left",
       "verticalAlign": "top"

@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: trivy-server
-  namespace: {{ include "trivy-operator.namespace" . }}
+  namespace: {{ include "tunnel-operator.namespace" . }}
   labels:
     app.kubernetes.io/name: trivy-server
     app.kubernetes.io/instance: trivy-server
@@ -43,7 +43,7 @@ spec:
       {{- with .Values.trivy.priorityClassName }}
       priorityClassName: {{ . }}
       {{- end }}
-      serviceAccountName: {{ include "trivy-operator.serviceAccountName" . }}
+      serviceAccountName: {{ include "tunnel-operator.serviceAccountName" . }}
       automountServiceAccountToken: false
       {{- with .Values.trivy.server.podSecurityContext }}
       securityContext: {{- toYaml . | nindent 8 }}
@@ -78,9 +78,9 @@ spec:
           {{- end }}
           envFrom:
             - configMapRef:
-                name: trivy-operator-trivy-config
+                name: tunnel-operator-trivy-config
             - secretRef:
-                name: trivy-operator-trivy-config
+                name: tunnel-operator-trivy-config
           ports:
             - name: trivy-http
               containerPort: 4954

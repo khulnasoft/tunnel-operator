@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	TTLReportAnnotation = "trivy-operator.khulnasoft.github.io/report-ttl"
+	TTLReportAnnotation = "tunnel-operator.khulnasoft.github.io/report-ttl"
 )
 
 // Severity level of a vulnerability or a configuration audit check.

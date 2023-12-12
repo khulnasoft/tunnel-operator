@@ -10,24 +10,24 @@ This will install the operator in the `trivy-system` namespace and configure it 
 kubectl apply -f https://raw.githubusercontent.com/khulnasoft/tunnel-operator/{{ git.tag }}/deploy/static/tunnel-operator.yaml
 ```
 
-To confirm that the Operator is running, check that the `trivy-operator` Deployment in the `trivy-system`
+To confirm that the Operator is running, check that the `tunnel-operator` Deployment in the `trivy-system`
 namespace is available and all its containers are ready:
 
 ```bash
 $ kubectl get deployment -n trivy-system
 NAME                 READY   UP-TO-DATE   AVAILABLE   AGE
-trivy-operator   1/1     1            1           11m
+tunnel-operator   1/1     1            1           11m
 ```
 
-If for some reason it's not ready yet, check the logs of the `trivy-operator` Deployment for errors:
+If for some reason it's not ready yet, check the logs of the `tunnel-operator` Deployment for errors:
 
 ```bash
-kubectl logs deployment/trivy-operator -n trivy-system
+kubectl logs deployment/tunnel-operator -n trivy-system
 ```
 
 ## Advanced Configuration
 
-You can configure Trivy-Operator to control it's behavior and adapt it to your needs. Aspects of the operator machinery are configured using environment variables on the operator Pod, while aspects of the scanning behavior are controlled by ConfigMaps and Secrets.
+You can configure Tunnel-Operator to control it's behavior and adapt it to your needs. Aspects of the operator machinery are configured using environment variables on the operator Pod, while aspects of the scanning behavior are controlled by ConfigMaps and Secrets.
 To learn more, please refer to the [Configuration](configuration) documentation.
 
 ## Uninstall

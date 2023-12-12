@@ -84,7 +84,7 @@ const (
 	KeyAdditionalReportLabels              = "report.additionalLabels"
 )
 
-// ConfigData holds Trivy-operator configuration settings as a set of key-value
+// ConfigData holds Tunnel-operator configuration settings as a set of key-value
 // pairs.
 type ConfigData map[string]string
 
@@ -433,7 +433,7 @@ func (c *configManager) EnsureDefault(ctx context.Context) error {
 				Namespace: c.namespace,
 				Name:      ConfigMapName,
 				Labels: labels.Set{
-					LabelK8SAppManagedBy: "trivy-operator",
+					LabelK8SAppManagedBy: "tunnel-operator",
 				},
 			},
 			Data: GetDefaultConfig(),
@@ -456,7 +456,7 @@ func (c *configManager) EnsureDefault(ctx context.Context) error {
 			Namespace: c.namespace,
 			Name:      SecretName,
 			Labels: labels.Set{
-				LabelK8SAppManagedBy: "trivy-operator",
+				LabelK8SAppManagedBy: "tunnel-operator",
 			},
 		},
 	}

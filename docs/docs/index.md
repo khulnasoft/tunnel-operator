@@ -12,7 +12,7 @@ This section details the different types of Kubernetes workload scanning provide
 Once the Trivy Operator is installed to a Kubernetes cluster, it will start monitoring the cluster resources. Whenever the Operator detects new or changed resources, it will generate a security scan on those resources.
 
 <figure>
-  <img src="../images/operator/trivy-operator-workloads.png" />
+  <img src="../images/operator/tunnel-operator-workloads.png" />
   <figcaption>Workload reconcilers discover K8s controllers, manage scan jobs, and create VulnerabilityReport and ConfigAuditReport objects.</figcaption>
 </figure>
 
@@ -29,7 +29,7 @@ If hashes are not equal then affected ConfigAuditReport objects are deleted, whi
 with new plugin's configuration.
 
 <figure>
-  <img src="../images/operator/trivy-operator-config.png" />
+  <img src="../images/operator/tunnel-operator-config.png" />
   <figurecaption>Plugin configuration reconciler deletes ConfigAuditReports whenever the configuration changes.</figurecaption>
 </figure>
 

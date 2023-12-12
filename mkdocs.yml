@@ -1,5 +1,5 @@
 site_name: Trivy Operator
-site_url: https://khulnasoft.github.io/trivy-operator/
+site_url: https://khulnasoft.github.io/tunnel-operator/
 site_description: Kubernetes-native security toolkit
 docs_dir: docs/
 repo_name: GitHub

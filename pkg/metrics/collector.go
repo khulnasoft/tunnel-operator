@@ -122,7 +122,7 @@ type metricDescriptors struct {
 }
 
 // ResourcesMetricsCollector is a custom Prometheus collector that produces
-// metrics on-demand from the trivy-operator custom resources. Since these
+// metrics on-demand from the tunnel-operator custom resources. Since these
 // resources are already cached by the Kubernetes API client shared with the
 // operator, metrics scrapes should never actually hit the API server.
 // All resource reads are served from cache, reducing API server load without

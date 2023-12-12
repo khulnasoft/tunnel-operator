@@ -1,6 +1,6 @@
-![Trivy-operator logo](docs/images/trivy-operator-logo.png)
+![Tunnel-operator logo](docs/images/tunnel-operator-logo.png)
 
-> Kubernetes-native security toolkit. ([Documentation](https://khulnasoft.github.io/trivy-operator/latest))
+> Kubernetes-native security toolkit. ([Documentation](https://khulnasoft.github.io/tunnel-operator/latest))
 
 [![GitHub Release][release-img]][release]
 [![Build Action][action-build-img]][action-build]
@@ -8,11 +8,11 @@
 [![Go Report Card][report-card-img]][report-card]
 [![License][license-img]][license]
 [![GitHub All Releases][github-all-releases-img]][release]
-![Docker Pulls Trivy-operator][docker-pulls-trivy-operator]
+![Docker Pulls Tunnel-operator][docker-pulls-tunnel-operator]
 <a href="https://slack.aquasec.com/?_ga=2.51428586.2119512742.1655808394-1739877964.1641199050">
 <img src="https://img.shields.io/static/v1?label=Slack&message=Join+our+Community&color=4a154b&logo=slack">
 </a>
-[![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/trivy-operator)](https://artifacthub.io/packages/helm/trivy-operator/trivy-operator)
+[![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/tunnel-operator)](https://artifacthub.io/packages/helm/tunnel-operator/tunnel-operator)
 
 # Introduction
 
@@ -37,21 +37,21 @@ The Trivy Operator automatically generates and updates security reports. These r
 - SBOM (Software Bill of Materials genertations) for Kubernetes workloads.
 
 <p align="center">
-<img src="docs/images/trivy-operator-overview.png" alt="Trivy-operator Overview"/>
+<img src="docs/images/tunnel-operator-overview.png" alt="Tunnel-operator Overview"/>
 </p>
 
-_Please [star ⭐](https://github.com/khulnasoft/tunnel-operator/stargazers) the repo if you want us to continue developing and improving trivy-operator! 😀_
+_Please [star ⭐](https://github.com/khulnasoft/tunnel-operator/stargazers) the repo if you want us to continue developing and improving tunnel-operator! 😀_
 
 ## Usage
 
 The official [Documentation] provides detailed installation, configuration, troubleshooting, and quick start guides.
 
-You can install the Trivy-operator Operator with [Static YAML Manifests] and follow the [Getting Started][getting-started-operator]
+You can install the Tunnel-operator Operator with [Static YAML Manifests] and follow the [Getting Started][getting-started-operator]
 guide to see how vulnerability and configuration audit reports are generated automatically.
 
 ### Quick Start
 
-The Trivy Operator can be installed easily through the [Helm Chart](https://khulnasoft.github.io/trivy-operator/latest/getting-started/installation/helm/):
+The Trivy Operator can be installed easily through the [Helm Chart](https://khulnasoft.github.io/tunnel-operator/latest/getting-started/installation/helm/):
 
 Add the Aqua chart repository:
 
@@ -63,7 +63,7 @@ Add the Aqua chart repository:
 Install the Helm Chart:
 
 ```sh
-   helm install trivy-operator aqua/trivy-operator \
+   helm install tunnel-operator aqua/tunnel-operator \
      --namespace trivy-system \
      --create-namespace \
      --version 0.18.4
@@ -78,7 +78,7 @@ and some APIs and [Custom Resource Definitions] may change.
 
 ## Contributing
 
-At this early stage we would love your feedback on the overall concept of Trivy-Operator. Over time, we'd love to see
+At this early stage we would love your feedback on the overall concept of Tunnel-Operator. Over time, we'd love to see
 contributions integrating different security tools so that users can access security information in standard,
 Kubernetes-native ways.
 
@@ -87,7 +87,7 @@ Kubernetes-native ways.
 * Please ensure that you are following our [Code Of Conduct](https://github.com/aquasecurity/community/blob/main/CODE_OF_CONDUCT.md) during any interaction with the Aqua projects and their community.
 
 ---
-Trivy-Operator is an [Aqua Security](https://aquasec.com) open source project.  
+Tunnel-Operator is an [Aqua Security](https://aquasec.com) open source project.  
 Learn about our [Open Source Work and Portfolio].  
 Join the community, and talk to us about any matter in [GitHub Discussions] or [Slack].
 
@@ -104,18 +104,18 @@ Join the community, and talk to us about any matter in [GitHub Discussions] or [
 [license-img]: https://img.shields.io/github/license/khulnasoft/tunnel-operator.svg
 [license]: https://github.com/khulnasoft/tunnel-operator/blob/main/LICENSE
 [github-all-releases-img]: https://img.shields.io/github/downloads/khulnasoft/tunnel-operator/total?logo=github
-[docker-pulls-trivy-operator]: https://img.shields.io/docker/pulls/khulnasoft/tunnel-operator?logo=docker&label=docker%20pulls%20%2F%20trivy%20operator
+[docker-pulls-tunnel-operator]: https://img.shields.io/docker/pulls/khulnasoft/tunnel-operator?logo=docker&label=docker%20pulls%20%2F%20trivy%20operator
 [Contributing]: CONTRIBUTING.md
 [GitHub Discussions]: https://github.com/khulnasoft/tunnel-operator/discussions
 [Slack]: https://slack.aquasec.com/
 [Open Source Work and Portfolio]: https://www.aquasec.com/products/open-source-projects/
 
-[Custom Resource Definitions]: https://khulnasoft.github.io/trivy-operator/latest/docs/crds/
+[Custom Resource Definitions]: https://khulnasoft.github.io/tunnel-operator/latest/docs/crds/
 [Go module]: https://pkg.go.dev/github.com/khulnasoft/tunnel-operator/pkg
-[Documentation]: https://khulnasoft.github.io/trivy-operator/latest
-[Static YAML Manifests]: https://khulnasoft.github.io/trivy-operator/latest/getting-started/installation/kubectl/
-[getting-started-operator]: https://khulnasoft.github.io/trivy-operator/latest/
-[Kubernetes operator]: https://khulnasoft.github.io/trivy-operator/latest
+[Documentation]: https://khulnasoft.github.io/tunnel-operator/latest
+[Static YAML Manifests]: https://khulnasoft.github.io/tunnel-operator/latest/getting-started/installation/kubectl/
+[getting-started-operator]: https://khulnasoft.github.io/tunnel-operator/latest/
+[Kubernetes operator]: https://khulnasoft.github.io/tunnel-operator/latest
 
 [Lens Extension]: https://github.com/khulnasoft/tunnel-operator-lens-extension
 [kubectl]: https://kubernetes.io/docs/reference/kubectl

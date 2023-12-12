@@ -711,7 +711,7 @@ func TestPlugin_Init(t *testing.T) {
 		var cm corev1.ConfigMap
 		err = testClient.Get(context.Background(), types.NamespacedName{
 			Namespace: "trivyoperator-ns",
-			Name:      "trivy-operator-trivy-config",
+			Name:      "tunnel-operator-trivy-config",
 		}, &cm)
 		require.NoError(t, err)
 		assert.Equal(t, corev1.ConfigMap{
@@ -720,7 +720,7 @@ func TestPlugin_Init(t *testing.T) {
 				Kind:       "ConfigMap",
 			},
 			ObjectMeta: metav1.ObjectMeta{
-				Name:      "trivy-operator-trivy-config",
+				Name:      "tunnel-operator-trivy-config",
 				Namespace: "trivyoperator-ns",
 				Labels: map[string]string{
 					"app.kubernetes.io/managed-by": "trivyoperator",
@@ -754,7 +754,7 @@ func TestPlugin_Init(t *testing.T) {
 					Kind:       "ConfigMap",
 				},
 				ObjectMeta: metav1.ObjectMeta{
-					Name:            "trivy-operator-trivy-config",
+					Name:            "tunnel-operator-trivy-config",
 					Namespace:       "trivyoperator-ns",
 					ResourceVersion: "1",
 				},
@@ -780,7 +780,7 @@ func TestPlugin_Init(t *testing.T) {
 		var cm corev1.ConfigMap
 		err = testClient.Get(context.Background(), types.NamespacedName{
 			Namespace: "trivyoperator-ns",
-			Name:      "trivy-operator-trivy-config",
+			Name:      "tunnel-operator-trivy-config",
 		}, &cm)
 		require.NoError(t, err)
 		assert.Equal(t, corev1.ConfigMap{
@@ -789,7 +789,7 @@ func TestPlugin_Init(t *testing.T) {
 				Kind:       "ConfigMap",
 			},
 			ObjectMeta: metav1.ObjectMeta{
-				Name:            "trivy-operator-trivy-config",
+				Name:            "tunnel-operator-trivy-config",
 				Namespace:       "trivyoperator-ns",
 				ResourceVersion: "1",
 			},

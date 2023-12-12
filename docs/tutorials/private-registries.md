@@ -14,7 +14,7 @@ Note that we will be using a local Kubernetes KinD cluster and a private contain
 
 ## First Option: Filesystem Scanning
 
-For this tutorial, we will use the [Operator Helm Chart.](https://khulnasoft.github.io/trivy-operator/latest/operator/installation/helm/)
+For this tutorial, we will use the [Operator Helm Chart.](https://khulnasoft.github.io/tunnel-operator/latest/operator/installation/helm/)
 
 The configuration options for the Helm Chart can be found in the [values.yaml](https://github.com/khulnasoft/tunnel-operator/blob/main/deploy/helm/values.yaml) manifest.
 Navigate to the section `Trivy.command`. The default will be:
@@ -44,7 +44,7 @@ trivyOperator:
 Lastly, we can deploy the operator inside our cluster with referencing our new `values.yaml` manifest to override the default values:
 
 ```sh
-helm upgrade --install trivy-operator aqua/trivy-operator \
+helm upgrade --install tunnel-operator aqua/tunnel-operator \
   --namespace trivy-system \
   --create-namespace \
   --version {{ var.chart_version }}
@@ -54,7 +54,7 @@ helm upgrade --install trivy-operator aqua/trivy-operator \
 Alternatively, it is possible to set the values directly through Helm instead of referencing an additional `values.yaml` file:
 
 ```sh
-helm upgrade --install trivy-operator aqua/trivy-operator \
+helm upgrade --install tunnel-operator aqua/tunnel-operator \
   --namespace trivy-system \
   --create-namespace \
   --version {{ var.chart_version }}
@@ -71,7 +71,7 @@ Once installed, make sure that
 ❯ kubectl get deployment -n trivy-system
 
 NAME             READY   UP-TO-DATE   AVAILABLE   AGE
-trivy-operator   1/1     1            1           99s
+tunnel-operator   1/1     1            1           99s
 ```
 
 ## Second Option: Using an ImagePullSecret to access containers from the Private Registry
@@ -173,9 +173,9 @@ spec:
     serviceAccountName: cns-website
 ```
 
-## Fourth Option: Define Secrets through Trivy-Operator configuration
+## Fourth Option: Define Secrets through Tunnel-Operator configuration
 
-If there are no ImagePullSecret on pod or Service Account level (for example, valid credentials are placed in container runtime configuration) you can add them in Trivy-Operator configuration.
+If there are no ImagePullSecret on pod or Service Account level (for example, valid credentials are placed in container runtime configuration) you can add them in Tunnel-Operator configuration.
 
 It's very similar to `Second Option`. First of all you need to create a secret. To do it, we first need an access token to our private registry. For GitHub private registries, you can create a new access token under the [following link.](https://github.com/settings/tokens/new) In comparison, the official Kubernetes documentation shows how to create the [ImagePullSecret for the DockerHub.](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/)
 
@@ -227,7 +227,7 @@ If you want you can add additional namespaces and secret names to `privateRegist
 Lastly, we can deploy the operator inside our cluster with referencing our new `values.yaml` manifest to override the default values:
 
 ```sh
-helm upgrade --install trivy-operator aqua/trivy-operator \
+helm upgrade --install tunnel-operator aqua/tunnel-operator \
   --namespace trivy-system \
   --create-namespace \
   --version {{ var.chart_version }}
@@ -237,7 +237,7 @@ helm upgrade --install trivy-operator aqua/trivy-operator \
 Alternatively, it is possible to set the values directly through Helm instead of referencing an additional `values.yaml` file:
 
 ```sh
-helm upgrade --install trivy-operator aqua/trivy-operator \
+helm upgrade --install tunnel-operator aqua/tunnel-operator \
   --namespace trivy-system \
   --create-namespace \
   --version {{ var.chart_version }}
@@ -255,7 +255,7 @@ Once installed, make sure that
 ❯ kubectl get deployment -n trivy-system
 
 NAME             READY   UP-TO-DATE   AVAILABLE   AGE
-trivy-operator   1/1     1            1           99s
+tunnel-operator   1/1     1            1           99s
 ```
 
 ## Fifth Option: configure gcr service account json
@@ -303,4 +303,4 @@ data:
 
 The last way that you could give the Trivy operator access to your private container registry is through managed registries. In this case, the container registry and your Kubernetes cluster would have to be on the same cloud provider; then you can define access to your container namespace as part of the IAM account. Once defined, trivy will already have the permissions for the registry.
 
-For additional information, please refer to the [documentation on managed registries.](https://khulnasoft.github.io/trivy-operator/v0.17.0/docs/vulnerability-scanning/managed-registries/)
+For additional information, please refer to the [documentation on managed registries.](https://khulnasoft.github.io/tunnel-operator/v0.17.0/docs/vulnerability-scanning/managed-registries/)

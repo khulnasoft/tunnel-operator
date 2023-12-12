@@ -4,8 +4,8 @@
 
    ```console
    $ git remote -v
-   origin     git@github.com:<your account>/trivy-operator.git (fetch)
-   origin     git@github.com:<your account>/trivy-operator.git (push)
+   origin     git@github.com:<your account>/tunnel-operator.git (fetch)
+   origin     git@github.com:<your account>/tunnel-operator.git (push)
    upstream   git@github.com:khulnasoft/tunnel-operator.git (fetch)
    upstream   git@github.com:khulnasoft/tunnel-operator.git (push)
    ```
@@ -51,14 +51,14 @@
    ```
 
 6. Verify that the `release` workflow has built and published the following artifacts
-   1. Trivy-operator container images published to DockerHub
+   1. Tunnel-operator container images published to DockerHub
        `docker.io/khulnasoft/tunnel-operator:0.17.0`
-   2. Trivy-operator container images published to Amazon ECR Public Gallery
+   2. Tunnel-operator container images published to Amazon ECR Public Gallery
        `public.ecr.aws/khulnasoft/tunnel-operator:0.17.0`
-   3. Trivy-operator container images published to GitHub Container Registry
+   3. Tunnel-operator container images published to GitHub Container Registry
        `ghcr.io/khulnasoft/tunnel-operator:0.17.0`
 
-7. Submit trivy-operator Operator to OperatorHub and ArtifactHUB by opening the PR to the <https://github.com/k8s-operatorhub/community-operators> repository.
+7. Submit tunnel-operator Operator to OperatorHub and ArtifactHUB by opening the PR to the <https://github.com/k8s-operatorhub/community-operators> repository.
 
 [`deploy/helm/Chart.yaml`]: ./deploy/helm/Chart.yaml
 [`deploy/static/namespace.yaml`]: ./deploy/static/namespace.yaml

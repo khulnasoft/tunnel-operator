@@ -2158,7 +2158,7 @@
       "boundElementIds": [],
       "fontSize": 20,
       "fontFamily": 1,
-      "text": "Deployment: Trivy-Operator Worker",
+      "text": "Deployment: Tunnel-Operator Worker",
       "baseline": 18,
       "textAlign": "center",
       "verticalAlign": "top"

@@ -3,14 +3,14 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   annotations:
-    trivy-operator.container-images: '{"nginx":"k8s.gcr.io/nginx-slim:0.8"}'
+    tunnel-operator.container-images: '{"nginx":"k8s.gcr.io/nginx-slim:0.8"}'
   generation: 1
   labels:
-    app.kubernetes.io/managed-by: trivy-operator
+    app.kubernetes.io/managed-by: tunnel-operator
     resource-spec-hash: <HASH>
-    trivy-operator.resource.kind: StatefulSet
-    trivy-operator.resource.name: web
-    trivy-operator.resource.namespace: default
+    tunnel-operator.resource.kind: StatefulSet
+    tunnel-operator.resource.name: web
+    tunnel-operator.resource.namespace: default
     vulnerabilityReport.scanner: Trivy
   name: scan-vulnerabilityreport-85bdb4586d
 spec:
@@ -25,13 +25,13 @@ spec:
   template:
     metadata:
       labels:
-        app.kubernetes.io/managed-by: trivy-operator
+        app.kubernetes.io/managed-by: tunnel-operator
         controller-uid: <CONTROLLER-UID>
         job-name: scan-vulnerabilityreport-85bdb4586d
         resource-spec-hash: <HASH>
-        trivy-operator.resource.kind: StatefulSet
-        trivy-operator.resource.name: web
-        trivy-operator.resource.namespace: default
+        tunnel-operator.resource.kind: StatefulSet
+        tunnel-operator.resource.name: web
+        tunnel-operator.resource.namespace: default
         vulnerabilityReport.scanner: Trivy
     spec:
       affinity:
@@ -55,61 +55,61 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   key: trivy.severity
-                  name: trivy-operator-trivy-config
+                  name: tunnel-operator-trivy-config
                   optional: true
             - name: TRIVY_IGNORE_UNFIXED
               valueFrom:
                 configMapKeyRef:
                   key: trivy.ignoreUnfixed
-                  name: trivy-operator-trivy-config
+                  name: tunnel-operator-trivy-config
                   optional: true
             - name: TRIVY_OFFLINE_SCAN
               valueFrom:
                 configMapKeyRef:
                   key: trivy.offlineScan
-                  name: trivy-operator-trivy-config
+                  name: tunnel-operator-trivy-config
                   optional: true
             - name: TRIVY_JAVA_DB_REPOSITORY
               valueFrom:
                 configMapKeyRef:
                   key: trivy.javaDbRepository
-                  name: trivy-operator-trivy-config
+                  name: tunnel-operator-trivy-config
                   optional: true
             - name: TRIVY_TIMEOUT
               valueFrom:
                 configMapKeyRef:
                   key: trivy.timeout
-                  name: trivy-operator-trivy-config
+                  name: tunnel-operator-trivy-config
                   optional: true
             - name: TRIVY_SKIP_FILES
               valueFrom:
                 configMapKeyRef:
                   key: trivy.skipFiles
-                  name: trivy-operator-trivy-config
+                  name: tunnel-operator-trivy-config
                   optional: true
             - name: TRIVY_SKIP_DIRS
               valueFrom:
                 configMapKeyRef:
                   key: trivy.skipDirs
-                  name: trivy-operator-trivy-config
+                  name: tunnel-operator-trivy-config
                   optional: true
             - name: HTTP_PROXY
               valueFrom:
                 configMapKeyRef:
                   key: trivy.httpProxy
-                  name: trivy-operator-trivy-config
+                  name: tunnel-operator-trivy-config
                   optional: true
             - name: HTTPS_PROXY
               valueFrom:
                 configMapKeyRef:
                   key: trivy.httpsProxy
-                  name: trivy-operator-trivy-config
+                  name: tunnel-operator-trivy-config
                   optional: true
             - name: NO_PROXY
               valueFrom:
                 configMapKeyRef:
                   key: trivy.noProxy
-                  name: trivy-operator-trivy-config
+                  name: tunnel-operator-trivy-config
                   optional: true
           image: ghcr.io/aquasecurity/trivy:0.35.0
           imagePullPolicy: IfNotPresent
@@ -139,25 +139,25 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   key: trivy.httpProxy
-                  name: trivy-operator-trivy-config
+                  name: tunnel-operator-trivy-config
                   optional: true
             - name: HTTPS_PROXY
               valueFrom:
                 configMapKeyRef:
                   key: trivy.httpsProxy
-                  name: trivy-operator-trivy-config
+                  name: tunnel-operator-trivy-config
                   optional: true
             - name: NO_PROXY
               valueFrom:
                 configMapKeyRef:
                   key: trivy.noProxy
-                  name: trivy-operator-trivy-config
+                  name: tunnel-operator-trivy-config
                   optional: true
             - name: GITHUB_TOKEN
               valueFrom:
                 secretKeyRef:
                   key: trivy.githubToken
-                  name: trivy-operator-trivy-config
+                  name: tunnel-operator-trivy-config
                   optional: true
           image: "ghcr.io/aquasecurity/trivy:0.35.0"
           imagePullPolicy: IfNotPresent

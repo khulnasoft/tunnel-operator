@@ -17,7 +17,7 @@ import (
 var _ = Describe("LimitChecker", func() {
 
 	config := etc.Config{
-		Namespace:                    "trivy-operator",
+		Namespace:                    "tunnel-operator",
 		ConcurrentScanJobsLimit:      2,
 		ConcurrentNodeCollectorLimit: 1,
 	}
@@ -30,11 +30,11 @@ var _ = Describe("LimitChecker", func() {
 			client := fake.NewClientBuilder().WithScheme(trivyoperator.NewScheme()).WithObjects(
 				&batchv1.Job{ObjectMeta: metav1.ObjectMeta{
 					Name:      "logs-exporter",
-					Namespace: "trivy-operator",
+					Namespace: "tunnel-operator",
 				}},
 				&batchv1.Job{ObjectMeta: metav1.ObjectMeta{
 					Name:      "scan-vulnerabilityreport-hash1",
-					Namespace: "trivy-operator",
+					Namespace: "tunnel-operator",
 					Labels: map[string]string{
 						trivyoperator.LabelK8SAppManagedBy:            trivyoperator.AppTrivyOperator,
 						trivyoperator.LabelVulnerabilityReportScanner: "Trivy",
@@ -42,7 +42,7 @@ var _ = Describe("LimitChecker", func() {
 				}},
 				&batchv1.Job{ObjectMeta: metav1.ObjectMeta{
 					Name:      "scan-vulnerabilityreport-hash2",
-					Namespace: "trivy-operator",
+					Namespace: "tunnel-operator",
 					Labels: map[string]string{
 						trivyoperator.LabelK8SAppManagedBy:            trivyoperator.AppTrivyOperator,
 						trivyoperator.LabelVulnerabilityReportScanner: "Trivy",
@@ -50,7 +50,7 @@ var _ = Describe("LimitChecker", func() {
 				}},
 				&batchv1.Job{ObjectMeta: metav1.ObjectMeta{
 					Name:      "scan-configauditreport-hash2",
-					Namespace: "trivy-operator",
+					Namespace: "tunnel-operator",
 					Labels: map[string]string{
 						trivyoperator.LabelK8SAppManagedBy:            trivyoperator.AppTrivyOperator,
 						trivyoperator.LabelVulnerabilityReportScanner: "Trivy",
@@ -73,11 +73,11 @@ var _ = Describe("LimitChecker", func() {
 			client := fake.NewClientBuilder().WithScheme(trivyoperator.NewScheme()).WithObjects(
 				&batchv1.Job{ObjectMeta: metav1.ObjectMeta{
 					Name:      "logs-exporter",
-					Namespace: "trivy-operator",
+					Namespace: "tunnel-operator",
 				}},
 				&batchv1.Job{ObjectMeta: metav1.ObjectMeta{
 					Name:      "scan-vulnerabilityreport-hash1",
-					Namespace: "trivy-operator",
+					Namespace: "tunnel-operator",
 					Labels: map[string]string{
 						trivyoperator.LabelK8SAppManagedBy:            trivyoperator.AppTrivyOperator,
 						trivyoperator.LabelVulnerabilityReportScanner: "Trivy",
@@ -100,7 +100,7 @@ var _ = Describe("LimitChecker", func() {
 			client := fake.NewClientBuilder().WithScheme(trivyoperator.NewScheme()).WithObjects(
 				&batchv1.Job{ObjectMeta: metav1.ObjectMeta{
 					Name:      "logs-exporter",
-					Namespace: "trivy-operator",
+					Namespace: "tunnel-operator",
 				}},
 				&batchv1.Job{ObjectMeta: metav1.ObjectMeta{
 					Name:      "scan-vulnerabilityreport-hash1",
@@ -145,11 +145,11 @@ var _ = Describe("LimitChecker", func() {
 			client := fake.NewClientBuilder().WithScheme(trivyoperator.NewScheme()).WithObjects(
 				&batchv1.Job{ObjectMeta: metav1.ObjectMeta{
 					Name:      "logs-exporter",
-					Namespace: "trivy-operator",
+					Namespace: "tunnel-operator",
 				}},
 				&batchv1.Job{ObjectMeta: metav1.ObjectMeta{
 					Name:      "node-collector-hash1",
-					Namespace: "trivy-operator",
+					Namespace: "tunnel-operator",
 					Labels: map[string]string{
 						trivyoperator.LabelK8SAppManagedBy:   trivyoperator.AppTrivyOperator,
 						trivyoperator.LabelNodeInfoCollector: "Trivy",
@@ -157,7 +157,7 @@ var _ = Describe("LimitChecker", func() {
 				}},
 				&batchv1.Job{ObjectMeta: metav1.ObjectMeta{
 					Name:      "node-collector-hash2",
-					Namespace: "trivy-operator",
+					Namespace: "tunnel-operator",
 					Labels: map[string]string{
 						trivyoperator.LabelK8SAppManagedBy:   trivyoperator.AppTrivyOperator,
 						trivyoperator.LabelNodeInfoCollector: "Trivy",
@@ -165,7 +165,7 @@ var _ = Describe("LimitChecker", func() {
 				}},
 				&batchv1.Job{ObjectMeta: metav1.ObjectMeta{
 					Name:      "node-collector-hash3",
-					Namespace: "trivy-operator",
+					Namespace: "tunnel-operator",
 					Labels: map[string]string{
 						trivyoperator.LabelK8SAppManagedBy:   trivyoperator.AppTrivyOperator,
 						trivyoperator.LabelNodeInfoCollector: "Trivy",

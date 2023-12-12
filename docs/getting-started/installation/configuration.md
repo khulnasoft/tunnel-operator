@@ -1,6 +1,6 @@
 # Configuration
 
-You can configure Trivy-Operator to control it's behavior and adapt it to your needs. Aspects of the operator machinery are configured using environment variables on the operator Pod, while aspects of the scanning behavior are controlled by ConfigMaps and Secrets.
+You can configure Tunnel-Operator to control it's behavior and adapt it to your needs. Aspects of the operator machinery are configured using environment variables on the operator Pod, while aspects of the scanning behavior are controlled by ConfigMaps and Secrets.
 
 # Operator Configuration
 
@@ -10,7 +10,7 @@ You can configure Trivy-Operator to control it's behavior and adapt it to your n
 | `OPERATOR_TARGET_NAMESPACES`                                 | N/A                    | See [Install modes](#install-modes)                                                                                                                                                                                                      |
 | `OPERATOR_EXCLUDE_NAMESPACES`                                | N/A                    | A comma separated list of namespaces (or glob patterns) to be excluded from scanning in all namespaces [Install mode](#install-modes).                                                                                                   |
  | `OPERATOR_TARGET_WORKLOADS`                                  | All workload resources | A comma separated list of Kubernetes workloads to be included in the vulnerability and config-audit scans                                                                                                                                |
-| `OPERATOR_SERVICE_ACCOUNT`                                   | `trivy-operator`       | The name of the service account assigned to the operator's pod                                                                                                                                                                           |
+| `OPERATOR_SERVICE_ACCOUNT`                                   | `tunnel-operator`       | The name of the service account assigned to the operator's pod                                                                                                                                                                           |
 | `OPERATOR_LOG_DEV_MODE`                                      | `false`                | The flag to use (or not use) development mode (more human-readable output, extra stack traces and logging information, etc).                                                                                                             |
 | `OPERATOR_SCAN_JOB_TTL`                                      | `""`                   | The set automatic cleanup time after the job is completed                                                                                                                                                                                |
 | `OPERATOR_SCAN_JOB_TIMEOUT`                                  | `5m`                   | The length of time to wait before giving up on a scan job                                                                                                                                                                                |
@@ -32,7 +32,7 @@ You can configure Trivy-Operator to control it's behavior and adapt it to your n
 | `OPERATOR_ACCESS_GLOBAL_SECRETS_SERVICE_ACCOUNTS`            | `true`                 | The flag to enable access to global secrets/service accounts to allow `vulnerability scan job` to pull images from private registries                                                                                                    |
 | `OPERATOR_SCANNER_REPORT_TTL`                                | `"24h"`                | The flag to set how long a report should exist. When a old report is deleted a new one will be created by the controller. It can be set to `""` to disabled the TTL for vulnerability scanner.                                           |
 | `OPERATOR_LEADER_ELECTION_ENABLED`                           | `false`                | The flag to enable operator replica leader election                                                                                                                                                                                      |
-| `OPERATOR_LEADER_ELECTION_ID`                                | `trivy-operator-lock`  | The name of the resource lock for leader election                                                                                                                                                                                        |
+| `OPERATOR_LEADER_ELECTION_ID`                                | `tunnel-operator-lock`  | The name of the resource lock for leader election                                                                                                                                                                                        |
 | `OPERATOR_EXPOSED_SECRET_SCANNER_ENABLED`                    | `true`                 | The flag to enable exposed secret scanner                                                                                                                                                                                                |
 | `OPERATOR_WEBHOOK_BROADCAST_URL`                             | `""`                   | The flag to enable operator reports to be sent to a webhook endpoint. "" means that this feature is disabled                                                                                                                             |
 | `OPERATOR_BUILT_IN_TRIVY_SERVER`                             | `false`                | The flag enable the usage of built-in trivy server in cluster ,its also overwrite the following trivy params with built-in values trivy.mode = ClientServer and serverURL = http://[server Service Name].[trivy Operator Namespace]:4975 |
@@ -52,7 +52,7 @@ The values of the `OPERATOR_NAMESPACE` and `OPERATOR_TARGET_NAMESPACES` determin
 
 ## Example - configure namespaces to scan
 
-To change the target namespace from all namespaces to the `default` namespace edit the `trivy-operator` Deployment and change the value of the `OPERATOR_TARGET_NAMESPACES` environment variable from the blank string (`""`) to the `default` value.
+To change the target namespace from all namespaces to the `default` namespace edit the `tunnel-operator` Deployment and change the value of the `OPERATOR_TARGET_NAMESPACES` environment variable from the blank string (`""`) to the `default` value.
 
 # Scanning configuration
 
@@ -74,17 +74,17 @@ To change the target namespace from all namespaces to the `default` namespace ed
 | `report.resourceLabels`| N/A| One-line comma-separated representation of the scanned resource labels which the user wants to include in the Prometheus metrics report. Example: `owner,app,tier`|
 | `metrics.resourceLabelsPrefix`| `k8s_label`| Prefix that will be prepended to the labels names indicated in `report.ResourceLabels` when including them in the Prometheus metrics|
 |`report.recordFailedChecksOnly`| `"true"`| this flag is to record only failed checks on misconfiguration reports (config-audit and rbac assessment)
-| `skipResourceByLabels`| N/A| One-line comma-separated labels keys which trivy-operator will skip scanning on resources with matching labels. Example: `test,transient`|
+| `skipResourceByLabels`| N/A| One-line comma-separated labels keys which tunnel-operator will skip scanning on resources with matching labels. Example: `test,transient`|
 | `node.collector.imageRef`             | ghcr.io/aquasecurity/node-collector:0.0.6                | The imageRef use for node-collector job .                                                                                                                                                                                                                                                                                                               |
 | `node.collector.imagePullSecret`             | N/A                | imagePullSecret is the secret name to be used when pulling node-collector image from private registries .                                                                                                                                                                                                                                                                 |
 | `nodeCollector.excludeNodes`                        | `""`                      | excludeNodes comma-separated node labels that the node-collector job should exclude from scanning (example kubernetes.io/arch=arm64,team=dev)                                                                                                                                                                                                                                      |
 
 ## Example - patch ConfigMap
 
-By default Trivy displays vulnerabilities with all severity levels (`UNKNOWN`, `LOW`, `MEDIUM`, `HIGH`, `CRITICAL`). To display only `HIGH` and `CRITICAL` vulnerabilities by patching the `trivy.severity` value in the `trivy-operator-trivy-config` ConfigMap:
+By default Trivy displays vulnerabilities with all severity levels (`UNKNOWN`, `LOW`, `MEDIUM`, `HIGH`, `CRITICAL`). To display only `HIGH` and `CRITICAL` vulnerabilities by patching the `trivy.severity` value in the `tunnel-operator-trivy-config` ConfigMap:
 
 ```bash
-kubectl patch cm trivy-operator-trivy-config -n trivy-system \
+kubectl patch cm tunnel-operator-trivy-config -n trivy-system \
   --type merge \
   -p "$(cat <<EOF
 {
@@ -98,10 +98,10 @@ EOF
 
 ## Example - patch Secret
 
-To set the GitHub token used by Trivy scanner add the `trivy.githubToken` value to the `trivy-operator-trivy-config` Secret:
+To set the GitHub token used by Trivy scanner add the `trivy.githubToken` value to the `tunnel-operator-trivy-config` Secret:
 
 ```bash
-kubectl patch secret trivy-operator-trivy-config -n trivy-system \
+kubectl patch secret tunnel-operator-trivy-config -n trivy-system \
   --type merge \
   -p "$(cat <<EOF
 {
@@ -118,7 +118,7 @@ EOF
 The following `kubectl patch` command deletes the `trivy.httpProxy` key:
 
 ```bash
-kubectl patch cm trivy-operator-trivy-config -n trivy-system \
+kubectl patch cm tunnel-operator-trivy-config -n trivy-system \
   --type json \
   -p '[{"op": "remove", "path": "/data/trivy.httpProxy"}]'
 ```

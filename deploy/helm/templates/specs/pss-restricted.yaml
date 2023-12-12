@@ -3,8 +3,8 @@ kind: ClusterComplianceReport
 metadata:
   name: pss-restricted
   labels:
-    app.kubernetes.io/name: trivy-operator
-    app.kubernetes.io/instance: trivy-operator
+    app.kubernetes.io/name: tunnel-operator
+    app.kubernetes.io/instance: tunnel-operator
     app.kubernetes.io/version: 0.17.0
     app.kubernetes.io/managed-by: kubectl
 spec:

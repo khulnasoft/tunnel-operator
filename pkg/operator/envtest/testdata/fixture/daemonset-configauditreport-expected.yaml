@@ -6,9 +6,9 @@ metadata:
   labels:
     plugin-config-hash: <HASH>
     resource-spec-hash: <HASH>
-    trivy-operator.resource.kind: DaemonSet
-    trivy-operator.resource.name: fluentd-elasticsearch
-    trivy-operator.resource.namespace: default
+    tunnel-operator.resource.kind: DaemonSet
+    tunnel-operator.resource.name: fluentd-elasticsearch
+    tunnel-operator.resource.namespace: default
   name: daemonset-fluentd-elasticsearch
   namespace: default
   ownerReferences:

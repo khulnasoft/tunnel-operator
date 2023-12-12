@@ -1,6 +1,6 @@
 # Metrics
 
-`trivy-operator` exposed a `/metrics` endpoint by default  with metrics for vulnerabilities, exposed secrets,rbacassessment and configaudits.
+`tunnel-operator` exposed a `/metrics` endpoint by default  with metrics for vulnerabilities, exposed secrets,rbacassessment and configaudits.
 
 ## Report Summary
 

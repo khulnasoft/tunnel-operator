@@ -3,7 +3,7 @@
 !!! warning "EXPERIMENTAL"
     This feature might change without preserving backwards compatibility.
 
-Trivy-operator compliance crds allow you create a specific set of checks into a report. There are hundreds of different checks for many different components and configurations, but sometimes you already know which specific checks you are interested in. Often this would be an industry accepted set of checks such as CIS, or some vendor specific guideline, or your own organization policy that you want to comply with. These are all possible using the flexible compliance infrastructure that's built into Trivy-operator. Compliance reports are defined as simple YAML documents that select checks to include in the report.
+Tunnel-operator compliance crds allow you create a specific set of checks into a report. There are hundreds of different checks for many different components and configurations, but sometimes you already know which specific checks you are interested in. Often this would be an industry accepted set of checks such as CIS, or some vendor specific guideline, or your own organization policy that you want to comply with. These are all possible using the flexible compliance infrastructure that's built into Tunnel-operator. Compliance reports are defined as simple YAML documents that select checks to include in the report.
 
 The compliance report will be generated every six hours by default.
 
@@ -36,9 +36,9 @@ kind: ClusterComplianceReport
 metadata:
   creationTimestamp: "2022-12-04T18:25:27Z"
   labels:
-    app.kubernetes.io/instance: trivy-operator
+    app.kubernetes.io/instance: tunnel-operator
     app.kubernetes.io/managed-by: kubectl
-    app.kubernetes.io/name: trivy-operator
+    app.kubernetes.io/name: tunnel-operator
     app.kubernetes.io/version: 0.8.0
   name: nsa # report unique identifier. this should not container spaces.
 spec:

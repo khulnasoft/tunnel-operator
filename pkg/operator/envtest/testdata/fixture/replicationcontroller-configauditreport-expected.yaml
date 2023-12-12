@@ -6,9 +6,9 @@ metadata:
   labels:
     plugin-config-hash: <HASH>
     resource-spec-hash: <HASH>
-    trivy-operator.resource.kind: ReplicationController
-    trivy-operator.resource.name: nginx
-    trivy-operator.resource.namespace: default
+    tunnel-operator.resource.kind: ReplicationController
+    tunnel-operator.resource.name: nginx
+    tunnel-operator.resource.namespace: default
   name: replicationcontroller-nginx
   namespace: default
   ownerReferences:

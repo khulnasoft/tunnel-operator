@@ -13,15 +13,15 @@ apiVersion: khulnasoft.github.io/v1alpha1
 kind: RbacAssessmentReport
 metadata:
   annotations:
-    trivy-operator.resource.name: system:controller:token-cleaner
+    tunnel-operator.resource.name: system:controller:token-cleaner
   creationTimestamp: "2022-07-04T07:23:07Z"
   generation: 1
   labels:
     plugin-config-hash: 659b7b9c46
     resource-spec-hash: 59b6bf95c6
-    trivy-operator.resource.kind: Role
-    trivy-operator.resource.name-hash: 868458b9d6
-    trivy-operator.resource.namespace: default
+    tunnel-operator.resource.kind: Role
+    tunnel-operator.resource.name-hash: 868458b9d6
+    tunnel-operator.resource.namespace: default
   name: role-868458b9d6
   namespace: kube-system
   ownerReferences:

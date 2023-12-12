@@ -46,7 +46,7 @@ func TestGetSbomFSScanningArgs(t *testing.T) {
 				WithScheme(trivyoperator.NewScheme()).
 				WithObjects(&corev1.ConfigMap{
 					ObjectMeta: metav1.ObjectMeta{
-						Name:      "trivy-operator-trivy-config",
+						Name:      "tunnel-operator-trivy-config",
 						Namespace: "trivyoperator-ns",
 					},
 					Data: map[string]string{

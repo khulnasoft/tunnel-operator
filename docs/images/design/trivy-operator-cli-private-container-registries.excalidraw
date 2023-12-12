@@ -27,7 +27,7 @@
       "boundElementIds": [],
       "fontSize": 36,
       "fontFamily": 1,
-      "text": "Trivy-Operator and Private Container Registries",
+      "text": "Tunnel-Operator and Private Container Registries",
       "baseline": 32,
       "textAlign": "left",
       "verticalAlign": "top"
@@ -959,7 +959,7 @@
       "boundElementIds": [],
       "fontSize": 28,
       "fontFamily": 1,
-      "text": "Trivy-Operator",
+      "text": "Tunnel-Operator",
       "baseline": 60,
       "textAlign": "left",
       "verticalAlign": "top"

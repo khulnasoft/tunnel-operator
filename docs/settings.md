@@ -1,13 +1,13 @@
 # Settings
 
 Trivy Operator read configuration settings from ConfigMaps, as well as Secrets that holds
-confidential settings (such as a GitHub token). Trivy-Operator plugins read configuration and secret data from ConfigMaps
+confidential settings (such as a GitHub token). Tunnel-Operator plugins read configuration and secret data from ConfigMaps
 and Secrets named after the plugin. For example, Trivy configuration is stored in the ConfigMap and Secret named
-`trivy-operator-trivy-config`.
+`tunnel-operator-trivy-config`.
 
 You can change the default settings with `kubectl patch` or `kubectl edit` commands. For example, by default Trivy
 displays vulnerabilities with all severity levels (`UNKNOWN`, `LOW`, `MEDIUM`, `HIGH`, `CRITICAL`). However, you can
-display only `HIGH` and `CRITICAL` vulnerabilities by patching the `trivy.severity` value in the `trivy-operator-trivy-config`
+display only `HIGH` and `CRITICAL` vulnerabilities by patching the `trivy.severity` value in the `tunnel-operator-trivy-config`
 ConfigMap:
 
 ```
@@ -15,7 +15,7 @@ TRIVY_OPERATOR_NAMESPACE=<your trivy operator namespace>
 ```
 
 ```
-kubectl patch cm trivy-operator-trivy-config -n $TRIVY_OPERATOR_NAMESPACE \
+kubectl patch cm tunnel-operator-trivy-config -n $TRIVY_OPERATOR_NAMESPACE \
   --type merge \
   -p "$(cat <<EOF
 {
@@ -27,7 +27,7 @@ EOF
 )"
 ```
 
-To set the GitHub token used by Trivy add the `trivy.githubToken` value to the `trivy-operator-trivy-config` Secret:
+To set the GitHub token used by Trivy add the `trivy.githubToken` value to the `tunnel-operator-trivy-config` Secret:
 
 ```
 TRIVY_OPERATOR_NAMESPACE=<your trivy opersator namespace>
@@ -35,7 +35,7 @@ GITHUB_TOKEN=<your token>
 ```
 
 ```
-kubectl patch secret trivy-operator-trivy-config -n $TRIVY_OPERATOR_NAMESPACE \
+kubectl patch secret tunnel-operator-trivy-config -n $TRIVY_OPERATOR_NAMESPACE \
   --type merge \
   -p "$(cat <<EOF
 {
@@ -76,7 +76,7 @@ configuration settings for common use cases. For example, switch Trivy from [Sta
     TRIVY_OPERATOR_NAMESPACE=<your trivy operator namespace>
     ```
     ```
-    kubectl patch cm trivy-operator-trivy-config -n $TRIVY_OPERATOR_NAMESPACE \
+    kubectl patch cm tunnel-operator-trivy-config -n $TRIVY_OPERATOR_NAMESPACE \
       --type json \
       -p '[{"op": "remove", "path": "/data/trivy.httpProxy"}]'
     ```

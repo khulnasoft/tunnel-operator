@@ -8,7 +8,7 @@ method to provide access to registry, then trivy operator has challenges to scan
 - Consider an example of ECR registry, there is one option available in which that user can associate IAM role to service account,
  then workloads which are associated with this service account will get authorised to run with the image from that registry.
  If user wants to get these images scanned using Trivy operator then currently we have only one way to do that.
- User has to associate IAM role to trivy-operator service account, so with when scan job run with `trivy-operator`service
+ User has to associate IAM role to tunnel-operator service account, so with when scan job run with `tunnel-operator`service
  account, then Trivy will get appropriate permission to pull the image. To know more on how this mechanism works, please
  refer to the documents [ECR registry configuration], [IAM role to service account], but, trivy cannot use permission
  set on service account of workload.  
@@ -78,7 +78,7 @@ spec:
 > When a pod(`nginx-65b78bbbd4-nb5kl`) comes into running state from above deployment then pod will
 > have these env var to get access to ECR registry: `AWS_REGION`, `AWS_ROLE_ARN`, `AWS_WEB_IDENTITY_TOKEN_FILE`
 
-To scan the `nginx` deployment, trivy-operator create following scan job in `poc-ns` namespace. And trivy-operator
+To scan the `nginx` deployment, tunnel-operator create following scan job in `poc-ns` namespace. And tunnel-operator
 will monitor this job, and it will parse the result based on completion state of job. This job will run with same
 service account(`poc-sa`) of workload.
 
@@ -144,7 +144,7 @@ spec:
           image: example.registry.com/nginx:1.16
 ```
 
-To scan the `demo-nginx` deployment, trivy-operator create following scan job in `poc-ns` namespace. And trivy-operator
+To scan the `demo-nginx` deployment, tunnel-operator create following scan job in `poc-ns` namespace. And tunnel-operator
 will monitor job, and it will parse the result based on completion state of job.
 
 ```yaml
@@ -172,20 +172,20 @@ spec:
             - cp
             - -v
             - /usr/local/bin/trivy
-            - /var/trivy-operator/trivy
+            - /var/tunnel-operator/trivy
           volumeMounts:
             - name: scan-volume
-              mountPath: /var/trivy-operator
+              mountPath: /var/tunnel-operator
         - name: trivy-download-db
           image: aquasec/trivy:0.19.2
           command:
-            - /var/trivy-operator/trivy
+            - /var/tunnel-operator/trivy
             - --download-db-only
             - --cache-dir
-            - /var/trivy-operator/trivy-db
+            - /var/tunnel-operator/trivy-db
           volumeMounts:
             - name: scan-volume
-              mountPath: /var/trivy-operator
+              mountPath: /var/tunnel-operator
       containers:
         - name: nginx
           image: example.registry.com/nginx:1.16
@@ -194,16 +194,16 @@ spec:
             # Trivy must run as root, so we set UID here.
             runAsUser: 0
           command:
-            - /var/trivy-operator/trivy
+            - /var/tunnel-operator/trivy
             - --cache-dir
-            - /var/trivy-operator/trivy-db
+            - /var/tunnel-operator/trivy-db
             - fs
             - --format
             - json
             - /
           volumeMounts:
             - name: scan-volume
-              mountPath: /var/trivy-operator
+              mountPath: /var/tunnel-operator
 ```
 
 If you observe in the job spec, this scan job will run in `poc-ns` namespace and it is running with image
@@ -214,11 +214,11 @@ With this approach trivy operator will not have to worry about managing(create/d
 
 1. There are some points to consider before using this option
     - Scan jobs will run in different namespaces. This will create some activity in each namespace available in the cluster.
-    If we dont use this option then all scan jobs will only run in `trivy-operator` namespace, and user can see all
-    activity confined to single namespace i.e `trivy-operator`.
+    If we dont use this option then all scan jobs will only run in `tunnel-operator` namespace, and user can see all
+    activity confined to single namespace i.e `tunnel-operator`.
     - As we will run scan job with service account of workload and if there are some very strict PSP defined in the cluster
     then scan job will be blocked due to the PSP.
   
-[ECR registry configuration]: https://khulnasoft.github.io/trivy-operator/v0.17.0/integrations/managed-registries/#amazon-elastic-container-registry-ecr
+[ECR registry configuration]: https://khulnasoft.github.io/tunnel-operator/v0.17.0/integrations/managed-registries/#amazon-elastic-container-registry-ecr
 [IAM role to service account]: https://docs.aws.amazon.com/eks/latest/userguide/specify-service-account-role.html
 [Trivy fs command]: https://github.com/khulnasoft/tunnel-operator/blob/main/docs/design/design_trivy_file_system_scanner.md

@@ -48,7 +48,7 @@ var (
 	TRIVY_OPERATOR_IMAGE      = "khulnasoft/tunnel-operator:" + IMAGE_TAG
 	TRIVY_OPERATOR_IMAGE_UBI8 = "khulnasoft/tunnel-operator:" + IMAGE_TAG + "-ubi8"
 
-	MKDOCS_IMAGE = "aquasec/mkdocs-material:trivy-operator"
+	MKDOCS_IMAGE = "aquasec/mkdocs-material:tunnel-operator"
 	MKDOCS_PORT  = 8000
 
 	// ENVTEST_K8S_VERSION refers to the version of kubebuilder assets to be downloaded by envtest binary.
@@ -79,9 +79,9 @@ func getWorkingDir() string {
 
 type Build mg.Namespace
 
-// Target for building trivy-operator binary.
+// Target for building tunnel-operator binary.
 func (b Build) Binary() error {
-	fmt.Println("Building trivy-operator binary...")
+	fmt.Println("Building tunnel-operator binary...")
 	return sh.RunWithV(LINUX_ENV, "go", "build", "-o", "./bin/tunnel-operator", "./cmd/tunnel-operator/main.go")
 }
 
@@ -150,15 +150,15 @@ func (b Build) DockerAll() {
 	b.DockerUbi8()
 }
 
-// Target for building Docker image for trivy-operator
+// Target for building Docker image for tunnel-operator
 func (b Build) Docker() error {
-	fmt.Println("Building Docker image for trivy-operator...")
+	fmt.Println("Building Docker image for tunnel-operator...")
 	return sh.RunV("docker", "build", "--no-cache", "-t", TRIVY_OPERATOR_IMAGE, "-f", "build/tunnel-operator/Dockerfile", "bin")
 }
 
-// Target for building Docker image for trivy-operator ubi8
+// Target for building Docker image for tunnel-operator ubi8
 func (b Build) DockerUbi8() error {
-	fmt.Println("Building Docker image for trivy-operator ubi8...")
+	fmt.Println("Building Docker image for tunnel-operator ubi8...")
 	return sh.RunV("docker", "build", "--no-cache", "-f", "build/tunnel-operator/Dockerfile.ubi8", "-t", TRIVY_OPERATOR_IMAGE_UBI8, "bin")
 }
 
@@ -224,7 +224,7 @@ func (g Generate) verifyFilesDiff() error {
 func (g Generate) Code() error {
 	fmt.Println("Generating code and manifests...")
 	mg.Deps(controllerGen)
-	return sh.RunV(CONTROLLER_GEN, "object:headerFile=hack/boilerplate.go.txt", "paths=./pkg/...", "+rbac:roleName=trivy-operator", "output:rbac:artifacts:config=deploy/helm/generated")
+	return sh.RunV(CONTROLLER_GEN, "object:headerFile=hack/boilerplate.go.txt", "paths=./pkg/...", "+rbac:roleName=tunnel-operator", "output:rbac:artifacts:config=deploy/helm/generated")
 }
 
 // Target for generating CRDs and updating static YAML

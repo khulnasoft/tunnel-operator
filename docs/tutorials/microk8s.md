@@ -18,7 +18,7 @@ A list of addons is provided below.
     openebs              # (community) OpenEBS is the open-source storage solution for Kubernetes
     osm-edge             # (community) osm-edge is a lightweight SMI compatible service mesh for the edge-computing.
     portainer            # (community) Portainer UI for your Kubernetes cluster
-    trivy-operator       # (community) Kubernetes-native security toolkit
+    tunnel-operator       # (community) Kubernetes-native security toolkit
     traefik              # (community) traefik Ingress controller for external access
     dns                  # (core) CoreDNS
     ha-cluster           # (core) Configure high availability on the current node
@@ -63,8 +63,8 @@ Infer repository core for addon dns
 Addon core/dns is already enabled
 Installing Trivy
 "aqua" already exists with the same configuration, skipping
-Release "trivy-operator" does not exist. Installing it now.
-NAME: trivy-operator
+Release "tunnel-operator" does not exist. Installing it now.
+NAME: tunnel-operator
 LAST DEPLOYED: Sat Oct  8 16:39:59 2022
 NAMESPACE: trivy-system
 STATUS: deployed
@@ -83,9 +83,9 @@ Inspect created ConfigAuditReports by:
 
     kubectl get configauditreports --all-namespaces -o wide
 
-Inspect the work log of trivy-operator by:
+Inspect the work log of tunnel-operator by:
 
-    kubectl logs -n trivy-system deployment/trivy-operator
+    kubectl logs -n trivy-system deployment/tunnel-operator
 Trivy is installed
 ```
 
@@ -93,17 +93,17 @@ You should now see the Trivy Operator pod running inside of the `trivy-system` n
 ```
 kubectl get all -n trivy-system
 NAME                                            READY   STATUS    RESTARTS   AGE
-pod/trivy-operator-57c44575c4-ml2hw             1/1     Running   0          29s
+pod/tunnel-operator-57c44575c4-ml2hw             1/1     Running   0          29s
 pod/scan-vulnerabilityreport-5d55f55cd7-7l6kn   1/1     Running   0          27s
 
 NAME                     TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
-service/trivy-operator   ClusterIP   None         <none>        80/TCP    29s
+service/tunnel-operator   ClusterIP   None         <none>        80/TCP    29s
 
 NAME                             READY   UP-TO-DATE   AVAILABLE   AGE
-deployment.apps/trivy-operator   1/1     1            1           29s
+deployment.apps/tunnel-operator   1/1     1            1           29s
 
 NAME                                        DESIRED   CURRENT   READY   AGE
-replicaset.apps/trivy-operator-57c44575c4   1         1         1       29s
+replicaset.apps/tunnel-operator-57c44575c4   1         1         1       29s
 
 NAME                                            COMPLETIONS   DURATION   AGE
 job.batch/scan-vulnerabilityreport-5d55f55cd7   0/1           27s        27s
@@ -122,7 +122,7 @@ You should see an output similar to the following:
 ```
 Infer repository core for addon trivy
 Disabling Trivy
-release "trivy-operator" uninstalled
+release "tunnel-operator" uninstalled
 Trivy disabled
 ```
 

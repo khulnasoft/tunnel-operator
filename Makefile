@@ -19,7 +19,7 @@ IMAGE_TAG := dev
 TRIVY_OPERATOR_IMAGE := khulnasoft/tunnel-operator:$(IMAGE_TAG)
 TRIVY_OPERATOR_IMAGE_UBI8 := khulnasoft/tunnel-operator:$(IMAGE_TAG)-ubi8
 
-MKDOCS_IMAGE := aquasec/mkdocs-material:trivy-operator
+MKDOCS_IMAGE := aquasec/mkdocs-material:tunnel-operator
 MKDOCS_PORT := 8000
 
 # ENVTEST_K8S_VERSION refers to the version of kubebuilder assets to be downloaded by envtest binary.
@@ -29,10 +29,10 @@ ENVTEST_K8S_VERSION = 1.24.2
 all: build
 
 .PHONY: build
-build: build-trivy-operator
+build: build-tunnel-operator
 
-## Builds the trivy-operator binary
-build-trivy-operator: $(SOURCES)
+## Builds the tunnel-operator binary
+build-tunnel-operator: $(SOURCES)
 	CGO_ENABLED=0 GOOS=linux go build -o ./bin/tunnel-operator ./cmd/tunnel-operator/main.go
 
 .PHONY: get-ginkgo
@@ -59,9 +59,9 @@ envtest: $(SOURCES) generate-all envtest ## Run tests.
 	KUBEBUILDER_ASSETS="$(shell $(ENVTEST) use $(ENVTEST_K8S_VERSION) -p path)" \
 	go test -v -timeout 60s -coverprofile=coverage.txt ./pkg/operator/envtest/...
 
-.PHONY: itests-trivy-operator
+.PHONY: itests-tunnel-operator
 ## Runs integration tests for Trivy Operator with code coverage enabled
-itests-trivy-operator: check-kubeconfig get-ginkgo
+itests-tunnel-operator: check-kubeconfig get-ginkgo
 	@$(GINKGO) \
 	-coverprofile=coverage.txt \
 	-coverpkg=github.com/khulnasoft/tunnel-operator/pkg/operator,\
@@ -88,20 +88,20 @@ clean:
 
 ## Builds Docker images for all binaries
 docker-build: \
-	docker-build-trivy-operator \
-	docker-build-trivy-operator-ubi8
+	docker-build-tunnel-operator \
+	docker-build-tunnel-operator-ubi8
 
-## Builds Docker image for trivy-operator
-docker-build-trivy-operator: build-trivy-operator
+## Builds Docker image for tunnel-operator
+docker-build-tunnel-operator: build-tunnel-operator
 	$(DOCKER) build --no-cache -t $(TRIVY_OPERATOR_IMAGE) -f build/tunnel-operator/Dockerfile bin
 	
-## Builds Docker image for trivy-operator ubi8
-docker-build-trivy-operator-ubi8: build-trivy-operator
+## Builds Docker image for tunnel-operator ubi8
+docker-build-tunnel-operator-ubi8: build-tunnel-operator
 	$(DOCKER) build --no-cache -f build/tunnel-operator/Dockerfile.ubi8 -t $(TRIVY_OPERATOR_IMAGE_UBI8) bin
 
 kind-load-images: \
-	docker-build-trivy-operator \
-	docker-build-trivy-operator-ubi8
+	docker-build-tunnel-operator \
+	docker-build-tunnel-operator-ubi8
 	$(KIND) load docker-image \
 		$(TRIVY_OPERATOR_IMAGE) \
 		$(TRIVY_OPERATOR_IMAGE_UBI8)
@@ -147,7 +147,7 @@ verify-generated: generate-all
 
 .PHONY: generate
 generate: controller-gen
-	$(CONTROLLER_GEN) object:headerFile="hack/boilerplate.go.txt" paths="./pkg/..." +rbac:roleName=trivy-operator output:rbac:artifacts:config=deploy/helm/generated
+	$(CONTROLLER_GEN) object:headerFile="hack/boilerplate.go.txt" paths="./pkg/..." +rbac:roleName=tunnel-operator output:rbac:artifacts:config=deploy/helm/generated
 
 .PHONY: manifests
 manifests: controller-gen
@@ -170,7 +170,7 @@ verify-generated-helm-docs: generate-helm-docs
 .PHONY: \
 	clean \
 	docker-build \
-	docker-build-trivy-operator \
-	docker-build-trivy-operator-ubi8 \
+	docker-build-tunnel-operator \
+	docker-build-tunnel-operator-ubi8 \
 	kind-load-images \
 	mkdocs-serve

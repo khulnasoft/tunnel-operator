@@ -15,10 +15,10 @@ metadata:
   generation: 2
   labels:
     resource-spec-hash: 8495697ff5
-    trivy-operator.container.name: app
-    trivy-operator.resource.kind: ReplicaSet
-    trivy-operator.resource.name: app-67b77f5965
-    trivy-operator.resource.namespace: default
+    tunnel-operator.container.name: app
+    tunnel-operator.resource.kind: ReplicaSet
+    tunnel-operator.resource.name: app-67b77f5965
+    tunnel-operator.resource.namespace: default
   name: replicaset-app-67b77f5965-app
   namespace: default
   ownerReferences:

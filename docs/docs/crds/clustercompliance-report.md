@@ -18,7 +18,7 @@ CIS Benchmark for Kubernetes v1.23 | `cis` | [Link](https://www.cisecurity.org/b
 - `spec:` represents the compliance control checks specification, check details, and the mapping to the security scanner
   (this part is defined by the user)
 - `status:` represents the compliance control checks (as defined by spec mapping) results extracted from the security
-  scanners reports (this part is output by trivy-operator)
+  scanners reports (this part is output by tunnel-operator)
 
 The following shows a sample ClusterComplianceReport NSA specification associated with the `cluster` in summary format:
 
@@ -33,9 +33,9 @@ metadata:
   creationTimestamp: "2022-12-04T18:25:27Z"
   generation: 3
   labels:
-    app.kubernetes.io/instance: trivy-operator
+    app.kubernetes.io/instance: tunnel-operator
     app.kubernetes.io/managed-by: kubectl
-    app.kubernetes.io/name: trivy-operator
+    app.kubernetes.io/name: tunnel-operator
     app.kubernetes.io/version: 0.8.0
   name: nsa
   resourceVersion: "69736"
@@ -343,9 +343,9 @@ metadata:
   creationTimestamp: "2022-12-04T18:25:27Z"
   generation: 2
   labels:
-    app.kubernetes.io/instance: trivy-operator
+    app.kubernetes.io/instance: tunnel-operator
     app.kubernetes.io/managed-by: kubectl
-    app.kubernetes.io/name: trivy-operator
+    app.kubernetes.io/name: tunnel-operator
     app.kubernetes.io/version: 0.8.0
   name: nsa
   resourceVersion: "50896"
@@ -1343,9 +1343,9 @@ status:
         "creationTimestamp": "2023-01-01T10:27:01Z",
         "generation": 1,
         "labels": {
-            "app.kubernetes.io/instance": "trivy-operator",
+            "app.kubernetes.io/instance": "tunnel-operator",
             "app.kubernetes.io/managed-by": "kubectl",
-            "app.kubernetes.io/name": "trivy-operator",
+            "app.kubernetes.io/name": "tunnel-operator",
             "app.kubernetes.io/version": "0.17.0"
         },
         "name": "cis",
