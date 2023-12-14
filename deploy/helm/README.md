@@ -38,7 +38,7 @@ Keeps security report resources updated
 | operator.accessGlobalSecretsAndServiceAccount | bool | `true` | accessGlobalSecretsAndServiceAccount The flag to enable access to global secrets/service accounts to allow `vulnerability scan job` to pull images from private registries |
 | operator.batchDeleteDelay | string | `"10s"` | batchDeleteDelay the duration to wait before deleting another batch of config audit reports. |
 | operator.batchDeleteLimit | int | `10` | batchDeleteLimit the maximum number of config audit reports deleted by the operator when the plugin's config has changed. |
-| operator.builtInTrivyServer | bool | `false` | builtInTrivyServer The flag enable the usage of built-in trivy server in cluster ,its also override the following trivy params with built-in values trivy.mode = ClientServer and serverURL = http://<serverServiceName>.<trivy operator namespace>:4975 |
+| operator.builtInTrivyServer | bool | `false` | builtInTrivyServer The flag enable the usage of built-in trivy server in cluster ,its also override the following trivy params with built-in values trivy.mode = ClientServer and serverURL = http://<serverServiceName>.<tunnel operator namespace>:4975 |
 | operator.cacheReportTTL | string | `"120h"` | cacheReportTTL the flag to set how long a cluster sbom report should exist. "" means that the cacheReportTTL feature is disabled |
 | operator.clusterComplianceEnabled | bool | `true` | clusterComplianceEnabled the flag to enable cluster compliance scanner |
 | operator.configAuditScannerEnabled | bool | `true` | configAuditScannerEnabled the flag to enable configuration audit scanner |
@@ -161,7 +161,7 @@ Keeps security report resources updated
 | trivyOperator.scanJobAutomountServiceAccountToken | bool | `false` | scanJobAutomountServiceAccountToken the flag to enable automount for service account token on scan job |
 | trivyOperator.scanJobCompressLogs | bool | `true` | scanJobCompressLogs control whether scanjob output should be compressed or plain |
 | trivyOperator.scanJobNodeSelector | object | `{}` | scanJobNodeSelector nodeSelector to be applied to the scanner pods so that they can run on nodes with matching labels |
-| trivyOperator.scanJobPodPriorityClassName | string | `""` | scanJobPodPriorityClassName Priority class name to be set on the pods created by trivy operator jobs. This accepts a string value |
+| trivyOperator.scanJobPodPriorityClassName | string | `""` | scanJobPodPriorityClassName Priority class name to be set on the pods created by tunnel operator jobs. This accepts a string value |
 | trivyOperator.scanJobPodTemplateContainerSecurityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"privileged":false,"readOnlyRootFilesystem":true}` | scanJobPodTemplateContainerSecurityContext SecurityContext the user wants the scanner and node collector containers (and their initContainers) to be amended with. |
 | trivyOperator.scanJobPodTemplateLabels | string | `""` | scanJobPodTemplateLabels comma-separated representation of the labels which the user wants the scanner pods to be labeled with. Example: `foo=bar,env=stage` will labeled the scanner pods with the labels `foo: bar` and `env: stage` |
 | trivyOperator.scanJobPodTemplatePodSecurityContext | object | `{}` | scanJobPodTemplatePodSecurityContext podSecurityContext the user wants the scanner and node collector pods to be amended with. Example:   RunAsUser: 10000   RunAsGroup: 10000   RunAsNonRoot: true |

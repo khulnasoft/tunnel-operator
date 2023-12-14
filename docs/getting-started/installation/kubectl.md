@@ -4,17 +4,17 @@ The Kubernetes Yaml Deployment files are available on GitHub in [https://github.
 
 ## Example - Deploy from GitHub
 
-This will install the operator in the `trivy-system` namespace and configure it to scan all namespaces, except `kube-system` and `trivy-system`:
+This will install the operator in the `tunnel-system` namespace and configure it to scan all namespaces, except `kube-system` and `tunnel-system`:
 
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/khulnasoft/tunnel-operator/{{ git.tag }}/deploy/static/tunnel-operator.yaml
 ```
 
-To confirm that the Operator is running, check that the `tunnel-operator` Deployment in the `trivy-system`
+To confirm that the Operator is running, check that the `tunnel-operator` Deployment in the `tunnel-system`
 namespace is available and all its containers are ready:
 
 ```bash
-$ kubectl get deployment -n trivy-system
+$ kubectl get deployment -n tunnel-system
 NAME                 READY   UP-TO-DATE   AVAILABLE   AGE
 tunnel-operator   1/1     1            1           11m
 ```
@@ -22,7 +22,7 @@ tunnel-operator   1/1     1            1           11m
 If for some reason it's not ready yet, check the logs of the `tunnel-operator` Deployment for errors:
 
 ```bash
-kubectl logs deployment/tunnel-operator -n trivy-system
+kubectl logs deployment/tunnel-operator -n tunnel-system
 ```
 
 ## Advanced Configuration

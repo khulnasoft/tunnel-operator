@@ -11,7 +11,7 @@ display only `HIGH` and `CRITICAL` vulnerabilities by patching the `trivy.severi
 ConfigMap:
 
 ```
-TUNNEL_OPERATOR_NAMESPACE=<your trivy operator namespace>
+TUNNEL_OPERATOR_NAMESPACE=<your tunnel operator namespace>
 ```
 
 ```
@@ -73,7 +73,7 @@ configuration settings for common use cases. For example, switch Trivy from [Sta
 !!! tip
     You can delete a configuration key.For example, the following `kubectl patch` command deletes the `trivy.httpProxy` key:
     ```
-    TUNNEL_OPERATOR_NAMESPACE=<your trivy operator namespace>
+    TUNNEL_OPERATOR_NAMESPACE=<your tunnel operator namespace>
     ```
     ```
     kubectl patch cm tunnel-operator-trivy-config -n $TUNNEL_OPERATOR_NAMESPACE \

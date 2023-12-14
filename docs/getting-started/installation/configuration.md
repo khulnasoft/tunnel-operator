@@ -35,7 +35,7 @@ You can configure Tunnel-Operator to control it's behavior and adapt it to your 
 | `OPERATOR_LEADER_ELECTION_ID`                                | `tunnel-operator-lock`  | The name of the resource lock for leader election                                                                                                                                                                                        |
 | `OPERATOR_EXPOSED_SECRET_SCANNER_ENABLED`                    | `true`                 | The flag to enable exposed secret scanner                                                                                                                                                                                                |
 | `OPERATOR_WEBHOOK_BROADCAST_URL`                             | `""`                   | The flag to enable operator reports to be sent to a webhook endpoint. "" means that this feature is disabled                                                                                                                             |
-| `OPERATOR_BUILT_IN_TRIVY_SERVER`                             | `false`                | The flag enable the usage of built-in trivy server in cluster ,its also overwrite the following trivy params with built-in values trivy.mode = ClientServer and serverURL = http://[server Service Name].[trivy Operator Namespace]:4975 |
+| `OPERATOR_BUILT_IN_TRIVY_SERVER`                             | `false`                | The flag enable the usage of built-in trivy server in cluster ,its also overwrite the following trivy params with built-in values trivy.mode = ClientServer and serverURL = http://[server Service Name].[tunnel operator Namespace]:4975 |
 | `OPERATOR_WEBHOOK_BROADCAST_TIMEOUT`                         | `30s`                  | The flag to set operator webhook timeouts, if webhook broadcast is enabled                                                                                                                                                               |
 | `OPERATOR_SEND_DELETED_REPORTS`                              | `false`                | The flag to enable sending deleted reports if webhookBroadcastURL is enabled                                                                                                                                                               |
 | `OPERATOR_PRIVATE_REGISTRY_SCAN_SECRETS_NAMES`               | `{}`                   | The flag is map of namespace:secrets, secrets are comma seperated which can be used to authenticate in private registries in case if there no imagePullSecrets provided example : {"mynamespace":"mySecrets,anotherSecret"}              |
@@ -84,7 +84,7 @@ To change the target namespace from all namespaces to the `default` namespace ed
 By default Trivy displays vulnerabilities with all severity levels (`UNKNOWN`, `LOW`, `MEDIUM`, `HIGH`, `CRITICAL`). To display only `HIGH` and `CRITICAL` vulnerabilities by patching the `trivy.severity` value in the `tunnel-operator-trivy-config` ConfigMap:
 
 ```bash
-kubectl patch cm tunnel-operator-trivy-config -n trivy-system \
+kubectl patch cm tunnel-operator-trivy-config -n tunnel-system \
   --type merge \
   -p "$(cat <<EOF
 {
@@ -101,7 +101,7 @@ EOF
 To set the GitHub token used by Trivy scanner add the `trivy.githubToken` value to the `tunnel-operator-trivy-config` Secret:
 
 ```bash
-kubectl patch secret tunnel-operator-trivy-config -n trivy-system \
+kubectl patch secret tunnel-operator-trivy-config -n tunnel-system \
   --type merge \
   -p "$(cat <<EOF
 {
@@ -118,7 +118,7 @@ EOF
 The following `kubectl patch` command deletes the `trivy.httpProxy` key:
 
 ```bash
-kubectl patch cm tunnel-operator-trivy-config -n trivy-system \
+kubectl patch cm tunnel-operator-trivy-config -n tunnel-system \
   --type json \
   -p '[{"op": "remove", "path": "/data/trivy.httpProxy"}]'
 ```

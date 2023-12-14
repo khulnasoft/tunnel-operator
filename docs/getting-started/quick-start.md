@@ -5,9 +5,9 @@
 You need to have a Kubernetes cluster, and the kubectl command-line tool must be configured to communicate with your
 cluster. If you do not already have a cluster, you can create one by installing [minikube], [kind] or [microk8s], or you can use the following [Kubernetes playground].
 
-You also need the Tunnel-Operator to be installed in the `trivy-system` namespace, e.g. with
+You also need the Tunnel-Operator to be installed in the `tunnel-system` namespace, e.g. with
 [kubectl](./installation/kubectl.md) or [Helm](./installation/helm.md). Let's also assume that the operator is
-configured to discover built-in Kubernetes resources in all namespaces, except `kube-system` and `trivy-system`.
+configured to discover built-in Kubernetes resources in all namespaces, except `kube-system` and `tunnel-system`.
 
 ## Workloads Scanning
 

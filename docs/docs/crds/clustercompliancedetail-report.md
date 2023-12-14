@@ -225,7 +225,7 @@ report:
             - msg: Container 'tunnel-operator' of ReplicaSet 'tunnel-operator-7cf866c47b'
                 should set 'securityContext.runAsNonRoot' to true
               name: replicaset-tunnel-operator-7cf866c47b
-              namespace: trivy-system
+              namespace: tunnel-system
               status: FAIL
             - msg: Container 'coredns' of ReplicaSet 'coredns-96cc4f57d' should set 'securityContext.runAsNonRoot'
                 to true
@@ -240,7 +240,7 @@ report:
             - msg: Container 'tunnel-operator' of ReplicaSet 'tunnel-operator-c94dd56d'
                 should set 'securityContext.runAsNonRoot' to true
               name: replicaset-tunnel-operator-c94dd56d
-              namespace: trivy-system
+              namespace: tunnel-system
               status: FAIL
             - msg: Container 'local-path-provisioner' of ReplicaSet 'local-path-provisioner-84bb864455'
                 should set 'securityContext.runAsNonRoot' to true

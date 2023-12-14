@@ -92,7 +92,7 @@ spec:
 ``` 
 
 To scan the `nginx` container of the `nginx` Deployment, Tunnel-Operator will create the following scan Job in the
-`trivy-system` namespace and observe it until it's Completed or Failed.
+`tunnel-system` namespace and observe it until it's Completed or Failed.
 
 ```yaml
 ---
@@ -100,7 +100,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: scan-vulnerabilityreport-ab3134
-  namespace: trivy-system
+  namespace: tunnel-system
 spec:
   backoffLimit: 0
   template:

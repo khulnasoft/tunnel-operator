@@ -10,7 +10,7 @@ HELM_TMPDIR=$(mktemp -d)
 trap "rm -rf $HELM_TMPDIR" EXIT
 
 helm template tunnel-operator $HELM_DIR \
-  --namespace trivy-system \
+  --namespace tunnel-system \
   --set="managedBy=kubectl" \
   --output-dir=$HELM_TMPDIR
 

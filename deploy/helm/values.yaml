@@ -92,7 +92,7 @@ operator:
   # -- accessGlobalSecretsAndServiceAccount The flag to enable access to global secrets/service accounts to allow `vulnerability scan job` to pull images from private registries
   accessGlobalSecretsAndServiceAccount: true
   # -- builtInTrivyServer The flag enable the usage of built-in trivy server in cluster ,its also override the following trivy params with built-in values
-  # trivy.mode = ClientServer and serverURL = http://<serverServiceName>.<trivy operator namespace>:4975
+  # trivy.mode = ClientServer and serverURL = http://<serverServiceName>.<tunnel operator namespace>:4975
   builtInTrivyServer: false
   # -- controllerCacheSyncTimeout the duration to wait for controller resources cache sync (default: 5m).
   controllerCacheSyncTimeout: "5m"
@@ -169,7 +169,7 @@ service:
   # -- annotations added to the operator's service
   annotations: {}
 
-# -- Prometheus ServiceMonitor configuration -- to install the trivy operator with the ServiceMonitor
+# -- Prometheus ServiceMonitor configuration -- to install the tunnel operator with the ServiceMonitor
 # you must have Prometheus already installed and running. If you do not have Prometheus installed, enabling this will
 # have no effect.
 serviceMonitor:
@@ -245,7 +245,7 @@ trivyOperator:
     # -- For filesystem scanning, Trivy needs to run as the root user
     # runAsUser: 0
 
-  # -- scanJobPodPriorityClassName Priority class name to be set on the pods created by trivy operator jobs. This accepts a string value
+  # -- scanJobPodPriorityClassName Priority class name to be set on the pods created by tunnel operator jobs. This accepts a string value
   scanJobPodPriorityClassName: ""
 
   # -- reportResourceLabels comma-separated scanned resource labels which the user wants to include in the Prometheus

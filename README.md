@@ -64,12 +64,12 @@ Install the Helm Chart:
 
 ```sh
    helm install tunnel-operator aqua/tunnel-operator \
-     --namespace trivy-system \
+     --namespace tunnel-system \
      --create-namespace \
      --version 0.18.4
 ```
 
-This will install the Trivy Helm Chart into the `trivy-system` namespace and start triggering the scans.
+This will install the Trivy Helm Chart into the `tunnel-system` namespace and start triggering the scans.
 
 ## Status
 

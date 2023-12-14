@@ -3,7 +3,7 @@
 ## Overview
 
 When user runs a workload with private managed registry image(eg. image from ECR, ACR) and user is not using ImagePullSecret
-method to provide access to registry, then trivy operator has challenges to scan such workloads.
+method to provide access to registry, then tunnel operator has challenges to scan such workloads.
 
 - Consider an example of ECR registry, there is one option available in which that user can associate IAM role to service account,
  then workloads which are associated with this service account will get authorised to run with the image from that registry.
@@ -18,7 +18,7 @@ cached on a node. And to do that scan job is scheduled on same node where worklo
 cached image from a node. But, if we want to schedule these scan job on any node, then currently we dont have option to
 do that, coz image might not be available on that node. Also, trivy cannot attach imagePullSecret available on the
 workload pull the image. We also thought that when we have ImagePullSecret available on a workload, then we can use existing
-option of Trivy image scan with which we can scan workload. To do that, trivy operator creates another secret
+option of Trivy image scan with which we can scan workload. To do that, tunnel operator creates another secret
 from existing ImagePullSecret so that registry credentials are provided to Trivy as Env var. But again,
 we cannot reuse the same ImagePullSecret available on the workload.
 
@@ -32,7 +32,7 @@ accordingly to utilize the service account and ImagePullSecret available on the 
 
 ##### Example 1
 
-Consider trivy operator is running with Trivy image scan mode. And let's assume that there is an `nginx`
+Consider tunnel operator is running with Trivy image scan mode. And let's assume that there is an `nginx`
 deployment in `poc-ns` namespace. It is running with image `12344534.dkr.ecr.us-west-2.amazonaws.com/amazon/nginx:1.16`.
 This deployment is running with service account `poc-sa`, which is annotated with ARN: `arn:aws:iam::<ACCOUNT_ID>:role/IAM_ROLE_NAME`
 
@@ -208,7 +208,7 @@ spec:
 
 If you observe in the job spec, this scan job will run in `poc-ns` namespace and it is running with image
 `example.registry.com/nginx:1.16`. It is using ImagePullSecret `private-registry` which is available in same namespace.
-With this approach trivy operator will not have to worry about managing(create/delete) of secret required for scanning.
+With this approach tunnel operator will not have to worry about managing(create/delete) of secret required for scanning.
 
 ## Notes
 

@@ -135,7 +135,7 @@ jobs:
           mage test:integration
         env:
           KUBECONFIG: /home/runner/.kube/config
-          OPERATOR_NAMESPACE: trivy-system
+          OPERATOR_NAMESPACE: tunnel-system
           OPERATOR_TARGET_NAMESPACES: default
       - name: Upload code coverage
         uses: codecov/codecov-action@v3

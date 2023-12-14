@@ -66,12 +66,12 @@ Installing Trivy
 Release "tunnel-operator" does not exist. Installing it now.
 NAME: tunnel-operator
 LAST DEPLOYED: Sat Oct  8 16:39:59 2022
-NAMESPACE: trivy-system
+NAMESPACE: tunnel-system
 STATUS: deployed
 REVISION: 1
 TEST SUITE: None
 NOTES:
-You have installed Tunnel Operator in the trivy-system namespace.
+You have installed Tunnel Operator in the tunnel-system namespace.
 It is configured to discover Kubernetes workloads and resources in
 all namespace(s).
 
@@ -85,13 +85,13 @@ Inspect created ConfigAuditReports by:
 
 Inspect the work log of tunnel-operator by:
 
-    kubectl logs -n trivy-system deployment/tunnel-operator
+    kubectl logs -n tunnel-system deployment/tunnel-operator
 Trivy is installed
 ```
 
-You should now see the Tunnel Operator pod running inside of the `trivy-system` namespace:
+You should now see the Tunnel Operator pod running inside of the `tunnel-system` namespace:
 ```
-kubectl get all -n trivy-system
+kubectl get all -n tunnel-system
 NAME                                            READY   STATUS    RESTARTS   AGE
 pod/tunnel-operator-57c44575c4-ml2hw             1/1     Running   0          29s
 pod/scan-vulnerabilityreport-5d55f55cd7-7l6kn   1/1     Running   0          27s

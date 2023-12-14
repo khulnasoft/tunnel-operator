@@ -15,23 +15,23 @@ Make sure that the latest version of the Tunnel Operator is installed. For this,
 
 For instance, if your are using the Helm deployment, you need to check the Helm Chart version deployed to your cluster. You can check the Helm Chart version with the following command:
 ```
-helm list -n trivy-system
+helm list -n tunnel-system
 ```
 
 ## Operator Pod Not Running
 
-The Tunnel Operator will run a pod inside your cluster. If you have followed the installation guide, you will have installed the Operator to the `trivy-system`.
+The Tunnel Operator will run a pod inside your cluster. If you have followed the installation guide, you will have installed the Operator to the `tunnel-system`.
 
 Make sure that the pod is in the `Running` status:
 ```
-kubectl get pods -n trivy-system
+kubectl get pods -n tunnel-system
 ```
 
 This is how it will look if it is running okay:
 
 ```
 NAMESPACE            NAME                                         READY   STATUS    RESTARTS      AGE
-trivy-system     tunnel-operator-6c9bd97d58-hsz4g          1/1     Running   5 (19m ago)   30h
+tunnel-system     tunnel-operator-6c9bd97d58-hsz4g          1/1     Running   5 (19m ago)   30h
 ```
 
 If the pod is in `Failed`, `Pending`, or `Unknown` check the events and the logs of the pod.
@@ -39,12 +39,12 @@ If the pod is in `Failed`, `Pending`, or `Unknown` check the events and the logs
 First, check the events, since they might be more descriptive of the problem. However, if the events do not give a clear reason why the pod cannot spin up, then you want to check the logs, which provide more detail.
 
 ```
-kubectl describe pod <POD-NAME> -n trivy-system
+kubectl describe pod <POD-NAME> -n tunnel-system
 ```
 
 To check the logs, use the following command:
 ```
-kubectl logs deployment/tunnel-operator -n trivy-system
+kubectl logs deployment/tunnel-operator -n tunnel-system
 ```
 
 If your pod is not running, try to look for errors as they can give an indication on the problem.
@@ -71,7 +71,7 @@ It could happen that the pod appears to be running normally but does not reconci
 
 Check the logs for Reconciliation errors:
 ```
-kubectl logs deployment/tunnel-operator -n trivy-system
+kubectl logs deployment/tunnel-operator -n tunnel-system
 ```
 
 If this is the case, the Tunnel Operator likely does not have the right configurations to access your resource.
@@ -94,14 +94,14 @@ No subjects found with permissions to list vulnerabilityreports assigned through
 
 CLUSTERROLEBINDING                           SUBJECT                         TYPE            SA-NAMESPACE
 cluster-admin                                system:masters                  Group
-tunnel-operator                           tunnel-operator              ServiceAccount  trivy-system
+tunnel-operator                           tunnel-operator              ServiceAccount  tunnel-system
 system:controller:generic-garbage-collector  generic-garbage-collector       ServiceAccount  kube-system
 system:controller:namespace-controller       namespace-controller            ServiceAccount  kube-system
 system:controller:resourcequota-controller   resourcequota-controller        ServiceAccount  kube-system
 system:kube-controller-manager               system:kube-controller-manager  User
 ```
 
-If the `ClusterRoleBinding` does not exist, Trivy currently cannot monitor any namespace outside of the `trivy-system` namespace.
+If the `ClusterRoleBinding` does not exist, Trivy currently cannot monitor any namespace outside of the `tunnel-system` namespace.
 
 For instance, if you are using the [Helm Chart](./helm.md), you want to make sure to set the `targetNamespace` to the namespace that you want the Operator to monitor.
 

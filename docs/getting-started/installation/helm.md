@@ -6,8 +6,8 @@ YAML manifests called Helm [charts].
 To address shortcomings of [static YAML manifests](./kubectl.md) we provide the Helm chart to deploy the Tunnel-Operator.
 The Helm chart supports all [Install Modes](./configuration.md#install-modes).
 
-As an example, let's install the operator in the `trivy-system` namespace and configure it to select all namespaces,
-except `kube-system` and `trivy-system`:
+As an example, let's install the operator in the `tunnel-system` namespace and configure it to select all namespaces,
+except `kube-system` and `tunnel-system`:
 
 1. Clone the chart directory:
 
@@ -28,7 +28,7 @@ except `kube-system` and `trivy-system`:
 ```sh
 
    helm install tunnel-operator ./deploy/helm \
-     --namespace trivy-system \
+     --namespace tunnel-system \
      --create-namespace 
 ```
 
@@ -36,7 +36,7 @@ except `kube-system` and `trivy-system`:
 
 ```sh
    helm install tunnel-operator aqua/tunnel-operator \
-     --namespace trivy-system \
+     --namespace tunnel-system \
      --create-namespace \
      --version {{ var.chart_version }}
 ```
@@ -45,27 +45,27 @@ except `kube-system` and `trivy-system`:
 
 ```sh
       helm install tunnel-operator ./deploy/helm \
-     --namespace trivy-system \
+     --namespace tunnel-system \
      --create-namespace \
      --set="trivy.ignoreUnfixed=true"
 ```
 
    There are many [values] in the chart that can be set to configure Tunnel-Operator. See the [Customisin[customising] section for more details.
 
-4. Check that the `tunnel-operator` Helm release is created in the `trivy-system` namespace, and it has status
+4. Check that the `tunnel-operator` Helm release is created in the `tunnel-system` namespace, and it has status
    `deployed`:
 
 ```sh
-   $ helm list -n trivy-system
+   $ helm list -n tunnel-system
    NAME              	NAMESPACE         	REVISION	UPDATED                             	STATUS  	CHART                   	APP VERSION
-   tunnel-operator	trivy-system	1       	2021-01-27 20:09:53.158961 +0100 CET	deployed	tunnel-operator-{{ var.chart_version }}	{{ git.tag[1:] }}
+   tunnel-operator	tunnel-system	1       	2021-01-27 20:09:53.158961 +0100 CET	deployed	tunnel-operator-{{ var.chart_version }}	{{ git.tag[1:] }}
 ```
 
-   To confirm that the operator is running, check that the `tunnel-operator` Deployment in the `trivy-system`
+   To confirm that the operator is running, check that the `tunnel-operator` Deployment in the `tunnel-system`
    namespace is available and all its containers are ready:
 
 ```sh
-   $ kubectl get deployment -n trivy-system
+   $ kubectl get deployment -n tunnel-system
    NAME                 READY   UP-TO-DATE   AVAILABLE   AGE
    tunnel-operator   1/1     1            1           11m
 ```
@@ -73,7 +73,7 @@ except `kube-system` and `trivy-system`:
    If for some reason it's not ready yet, check the logs of the Deployment for errors:
   
 ```sh
-   kubectl logs deployment/tunnel-operator -n trivy-system
+   kubectl logs deployment/tunnel-operator -n tunnel-system
 ```
 
 ## Install as Helm dependency
@@ -87,7 +87,7 @@ In this case, It maybe not suitable to install the Tunnel Operator in the same n
 You can uninstall the operator with the following command:
 
 ```
-helm uninstall tunnel-operator -n trivy-system
+helm uninstall tunnel-operator -n tunnel-system
 ```
 
 You have to manually delete custom resource definitions created by the `helm install` command:
@@ -130,7 +130,7 @@ There are two ways to overwrite values in a Helm chart upon installation:
 
    ```yaml
    helm install tunnel-operator aqua/tunnel-operator \
-      --namespace trivy-system \
+      --namespace tunnel-system \
       --create-namespace \
       --values values.yaml
    ```
@@ -141,7 +141,7 @@ There are two ways to overwrite values in a Helm chart upon installation:
 
    ```yaml
    helm install tunnel-operator aqua/tunnel-operator \
-      --namespace trivy-system \
+      --namespace tunnel-system \
       --create-namespace \
       --set="trivy.ignoreUnfixed=true" \
    ```
