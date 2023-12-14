@@ -169,6 +169,7 @@ require (
 	github.com/tchap/go-patricia/v2 v2.3.1 // indirect
 	github.com/tetratelabs/wazero v1.2.1 // indirect
 	github.com/ulikunitz/xz v0.5.10 // indirect
+	github.com/valyala/quicktemplate v1.7.0 // indirect
 	github.com/vbatts/tar-split v0.11.3 // indirect
 	github.com/xeipuuv/gojsonschema v1.2.0 // indirect
 	github.com/xlab/treeprint v1.2.0 // indirect

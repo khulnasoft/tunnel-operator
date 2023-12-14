@@ -1,4 +1,4 @@
-package trivy_operator
+package tunnel_operator
 
 import (
 	. "github.com/khulnasoft/tunnel-operator/itest/tunnel-operator/behavior"

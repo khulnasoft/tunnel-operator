@@ -11,11 +11,11 @@ display only `HIGH` and `CRITICAL` vulnerabilities by patching the `trivy.severi
 ConfigMap:
 
 ```
-TRIVY_OPERATOR_NAMESPACE=<your tunnel operator namespace>
+TUNNEL_OPERATOR_NAMESPACE=<your tunnel operator namespace>
 ```
 
 ```
-kubectl patch cm tunnel-operator-trivy-config -n $TRIVY_OPERATOR_NAMESPACE \
+kubectl patch cm tunnel-operator-trivy-config -n $TUNNEL_OPERATOR_NAMESPACE \
   --type merge \
   -p "$(cat <<EOF
 {
@@ -30,12 +30,12 @@ EOF
 To set the GitHub token used by Trivy add the `trivy.githubToken` value to the `tunnel-operator-trivy-config` Secret:
 
 ```
-TRIVY_OPERATOR_NAMESPACE=<your trivy opersator namespace>
+TUNNEL_OPERATOR_NAMESPACE=<your trivy opersator namespace>
 GITHUB_TOKEN=<your token>
 ```
 
 ```
-kubectl patch secret tunnel-operator-trivy-config -n $TRIVY_OPERATOR_NAMESPACE \
+kubectl patch secret tunnel-operator-trivy-config -n $TUNNEL_OPERATOR_NAMESPACE \
   --type merge \
   -p "$(cat <<EOF
 {
@@ -73,10 +73,10 @@ configuration settings for common use cases. For example, switch Trivy from [Sta
 !!! tip
     You can delete a configuration key.For example, the following `kubectl patch` command deletes the `trivy.httpProxy` key:
     ```
-    TRIVY_OPERATOR_NAMESPACE=<your tunnel operator namespace>
+    TUNNEL_OPERATOR_NAMESPACE=<your tunnel operator namespace>
     ```
     ```
-    kubectl patch cm tunnel-operator-trivy-config -n $TRIVY_OPERATOR_NAMESPACE \
+    kubectl patch cm tunnel-operator-trivy-config -n $TUNNEL_OPERATOR_NAMESPACE \
       --type json \
       -p '[{"op": "remove", "path": "/data/trivy.httpProxy"}]'
     ```

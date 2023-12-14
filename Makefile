@@ -16,8 +16,8 @@ GINKGO=$(GOBIN)/ginkgo
 SOURCES := $(shell find . -name '*.go')
 
 IMAGE_TAG := dev
-TRIVY_OPERATOR_IMAGE := khulnasoft/tunnel-operator:$(IMAGE_TAG)
-TRIVY_OPERATOR_IMAGE_UBI8 := khulnasoft/tunnel-operator:$(IMAGE_TAG)-ubi8
+TUNNEL_OPERATOR_IMAGE := khulnasoft/tunnel-operator:$(IMAGE_TAG)
+TUNNEL_OPERATOR_IMAGE_UBI8 := khulnasoft/tunnel-operator:$(IMAGE_TAG)-ubi8
 
 MKDOCS_IMAGE := khulnasoft/mkdocs-material:tunnel-operator
 MKDOCS_PORT := 8000
@@ -93,18 +93,18 @@ docker-build: \
 
 ## Builds Docker image for tunnel-operator
 docker-build-tunnel-operator: build-tunnel-operator
-	$(DOCKER) build --no-cache -t $(TRIVY_OPERATOR_IMAGE) -f build/tunnel-operator/Dockerfile bin
+	$(DOCKER) build --no-cache -t $(TUNNEL_OPERATOR_IMAGE) -f build/tunnel-operator/Dockerfile bin
 	
 ## Builds Docker image for tunnel-operator ubi8
 docker-build-tunnel-operator-ubi8: build-tunnel-operator
-	$(DOCKER) build --no-cache -f build/tunnel-operator/Dockerfile.ubi8 -t $(TRIVY_OPERATOR_IMAGE_UBI8) bin
+	$(DOCKER) build --no-cache -f build/tunnel-operator/Dockerfile.ubi8 -t $(TUNNEL_OPERATOR_IMAGE_UBI8) bin
 
 kind-load-images: \
 	docker-build-tunnel-operator \
 	docker-build-tunnel-operator-ubi8
 	$(KIND) load docker-image \
-		$(TRIVY_OPERATOR_IMAGE) \
-		$(TRIVY_OPERATOR_IMAGE_UBI8)
+		$(TUNNEL_OPERATOR_IMAGE) \
+		$(TUNNEL_OPERATOR_IMAGE_UBI8)
 
 ## Runs MkDocs development server to preview the documentation page
 mkdocs-serve:

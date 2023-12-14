@@ -5,11 +5,11 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/caarlos0/env/v6"
 	"github.com/khulnasoft/tunnel-operator/pkg/apis/khulnasoft/v1alpha1"
 	"github.com/khulnasoft/tunnel-operator/pkg/docker"
 	"github.com/khulnasoft/tunnel-operator/pkg/kube"
 	"github.com/khulnasoft/tunnel-operator/pkg/tunneloperator"
-	"github.com/caarlos0/env/v6"
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
@@ -25,10 +25,10 @@ import (
 )
 
 type PrivateRegistryConfig struct {
-	Server   string `env:"TRIVY_OPERATOR_TEST_REGISTRY_SERVER"`
-	Username string `env:"TRIVY_OPERATOR_TEST_REGISTRY_USERNAME"`
-	Password string `env:"TRIVY_OPERATOR_TEST_REGISTRY_PASSWORD"`
-	ImageRef string `env:"TRIVY_OPERATOR_TEST_REGISTRY_PRIVATE_IMAGE_REF"`
+	Server   string `env:"TUNNEL_OPERATOR_TEST_REGISTRY_SERVER"`
+	Username string `env:"TUNNEL_OPERATOR_TEST_REGISTRY_USERNAME"`
+	Password string `env:"TUNNEL_OPERATOR_TEST_REGISTRY_PASSWORD"`
+	ImageRef string `env:"TUNNEL_OPERATOR_TEST_REGISTRY_PRIVATE_IMAGE_REF"`
 }
 
 func (c *PrivateRegistryConfig) Parse() error {
