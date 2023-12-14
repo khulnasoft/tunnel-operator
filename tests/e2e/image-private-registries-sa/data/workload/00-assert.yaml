@@ -8,7 +8,7 @@ metadata:
   namespace: private
 report:
   artifact:
-    repository: aquasec/private-test
+    repository: khulnasoft/private-test
     tag: 1.23.3
   registry:
     server: index.docker.io

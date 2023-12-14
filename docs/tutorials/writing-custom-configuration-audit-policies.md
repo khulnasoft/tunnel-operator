@@ -101,7 +101,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: tunnel-operator-policies-config
-  namespace: trivy-system
+  namespace: tunnel-system
   labels:
     app.kubernetes.io/name: tunnel-operator
     app.kubernetes.io/instance: tunnel-operator

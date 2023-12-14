@@ -216,15 +216,15 @@ func TestGetServerFromImageRef(t *testing.T) {
 			expectedServer: "index.docker.io",
 		},
 		{
-			imageRef:       "aquasec/trivy:0.10.0",
+			imageRef:       "khulnasoft/trivy:0.10.0",
 			expectedServer: "index.docker.io",
 		},
 		{
-			imageRef:       "docker.io/aquasec/harbor-scanner-trivy:0.10.0",
+			imageRef:       "docker.io/khulnasoft/harbor-scanner-trivy:0.10.0",
 			expectedServer: "index.docker.io",
 		},
 		{
-			imageRef:       "index.docker.io/aquasec/harbor-scanner-trivy:0.10.0",
+			imageRef:       "index.docker.io/khulnasoft/harbor-scanner-trivy:0.10.0",
 			expectedServer: "index.docker.io",
 		},
 		{

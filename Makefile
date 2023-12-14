@@ -19,7 +19,7 @@ IMAGE_TAG := dev
 TRIVY_OPERATOR_IMAGE := khulnasoft/tunnel-operator:$(IMAGE_TAG)
 TRIVY_OPERATOR_IMAGE_UBI8 := khulnasoft/tunnel-operator:$(IMAGE_TAG)-ubi8
 
-MKDOCS_IMAGE := aquasec/mkdocs-material:tunnel-operator
+MKDOCS_IMAGE := khulnasoft/mkdocs-material:tunnel-operator
 MKDOCS_PORT := 8000
 
 # ENVTEST_K8S_VERSION refers to the version of kubebuilder assets to be downloaded by envtest binary.

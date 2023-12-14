@@ -152,7 +152,7 @@ To run the integration tests for Tunnel-operator Operator and view the coverage 
 [pre-requisite steps](#set-up-your-development-environment), and then run:
 
 ```
-OPERATOR_NAMESPACE=trivy-system \
+OPERATOR_NAMESPACE=tunnel-system \
   OPERATOR_TARGET_NAMESPACES=default \
   OPERATOR_LOG_DEV_MODE=true \
   make itests-tunnel-operator
@@ -239,7 +239,7 @@ will be deduplicated by controller-gen.
 
 ## Test Tunnel Operator
 
-You can deploy the operator in the `trivy-system` namespace and configure it to watch the `default` namespace.
+You can deploy the operator in the `tunnel-system` namespace and configure it to watch the `default` namespace.
 In OLM terms such install mode is called *SingleNamespace*. The *SingleNamespace* mode is good to get started with a
 basic development workflow. For other install modes see [Operator Multitenancy with OperatorGroups][olm-operator-groups].
 
@@ -251,7 +251,7 @@ basic development workflow. For other install modes see [Operator Multitenancy w
    make docker-build-tunnel-operator && kind load docker-image khulnasoft/tunnel-operator:dev
    ```
 
-2. Create the `tunnel-operator` Deployment in the `trivy-system` namespace to run the operator's container:
+2. Create the `tunnel-operator` Deployment in the `tunnel-system` namespace to run the operator's container:
 
    ```
    kubectl create -k deploy/static
@@ -275,20 +275,20 @@ kubectl delete -k deploy/static
 
    ```
    kubectl scale deployment tunnel-operator \
-     -n trivy-system \
+     -n tunnel-system \
      --replicas 0
    ```
 
 3. Delete pending scan jobs with:
 
    ```
-   kubectl delete jobs -n trivy-system --all
+   kubectl delete jobs -n tunnel-system --all
    ```
 
 4. Run the main method of the operator program:
 
    ```
-   OPERATOR_NAMESPACE=trivy-system \
+   OPERATOR_NAMESPACE=tunnel-system \
      OPERATOR_TARGET_NAMESPACES=default \
      OPERATOR_LOG_DEV_MODE=true \
      OPERATOR_VULNERABILITY_SCANNER_ENABLED=true \

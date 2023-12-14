@@ -90,7 +90,7 @@ Next, we can install the operator with the following command:
 
 ```
 helm install tunnel-operator aqua/tunnel-operator \
-  --namespace trivy-system \
+  --namespace tunnel-system \
   --create-namespace \
   --version 0.16.0-rc \
   --values trivy-values.yaml
@@ -101,12 +101,12 @@ Ensure that you can see the following success message:
 ```
 NAME: tunnel-operator
 LAST DEPLOYED: Fri Nov 25 12:46:35 2022
-NAMESPACE: trivy-system
+NAMESPACE: tunnel-system
 STATUS: deployed
 REVISION: 1
 TEST SUITE: None
 NOTES:
-You have installed Tunnel Operator in the trivy-system namespace.
+You have installed Tunnel Operator in the tunnel-system namespace.
 It is configured to discover Kubernetes workloads and resources in
 all namespace(s).
 ```
@@ -134,13 +134,13 @@ Note that this operation is optional and just used to demonstrate where you can 
 Run the following command to remove the headless setting  `clusterIP: None` by editing `tunnel-operator` service:
 
 ```
-kubectl edit service tunnel-operator -n trivy-system
+kubectl edit service tunnel-operator -n tunnel-system
 ```
 
 Run the following command to port-forward the Tunnel Operator Service:
 
 ```
-kubectl port-forward service/tunnel-operator -n trivy-system 5000:80
+kubectl port-forward service/tunnel-operator -n tunnel-system 5000:80
 ```
 
 Once you open the '<http://localhost:5000/metrics>' you should see all the metrics gathered from the operator. However, this is obviously not the prettiest way of looking at them. Thus, the next sections will show you how to query metrics through Prometheus and visualise them in Grafana.

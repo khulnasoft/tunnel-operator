@@ -69,7 +69,7 @@ jobs:
           make itests-tunnel-operator
         env:
           KUBECONFIG: /home/runner/.kube/config
-          OPERATOR_NAMESPACE: trivy-system
+          OPERATOR_NAMESPACE: tunnel-system
           OPERATOR_TARGET_NAMESPACES: default
   release:
     name: Release

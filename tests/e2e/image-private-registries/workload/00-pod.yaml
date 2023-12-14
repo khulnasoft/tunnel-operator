@@ -12,6 +12,6 @@ spec:
   imagePullSecrets:
     - name: artcred
   containers:
-    - image: aquasec/private-test:1.16.1
+    - image: khulnasoft/private-test:1.16.1
       name: app
       imagePullPolicy: Always

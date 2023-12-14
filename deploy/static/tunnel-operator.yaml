@@ -2100,7 +2100,7 @@ spec:
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: trivy-system
+  name: tunnel-system
   labels:
     app.kubernetes.io/name: tunnel-operator
     app.kubernetes.io/instance: tunnel-operator
@@ -2112,7 +2112,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: tunnel-operator
-  namespace: trivy-system
+  namespace: tunnel-system
   labels:
     app.kubernetes.io/name: tunnel-operator
     app.kubernetes.io/instance: tunnel-operator
@@ -2124,7 +2124,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: tunnel-operator-trivy-config
-  namespace: trivy-system
+  namespace: tunnel-system
   labels:
     app.kubernetes.io/name: tunnel-operator
     app.kubernetes.io/instance: tunnel-operator
@@ -2137,7 +2137,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: tunnel-operator
-  namespace: trivy-system
+  namespace: tunnel-system
   labels:
     app.kubernetes.io/name: tunnel-operator
     app.kubernetes.io/instance: tunnel-operator
@@ -2159,7 +2159,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: tunnel-operator-trivy-config
-  namespace: trivy-system
+  namespace: tunnel-system
   labels:
     app.kubernetes.io/name: tunnel-operator
     app.kubernetes.io/instance: tunnel-operator
@@ -2190,7 +2190,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: tunnel-operator
-  namespace: trivy-system
+  namespace: tunnel-system
   labels:
     app.kubernetes.io/name: tunnel-operator
     app.kubernetes.io/instance: tunnel-operator
@@ -2218,7 +2218,7 @@ spec:
           imagePullPolicy: IfNotPresent
           env:
             - name: OPERATOR_NAMESPACE
-              value: trivy-system
+              value: tunnel-system
             - name: OPERATOR_TARGET_NAMESPACES
               value: ""
             - name: OPERATOR_EXCLUDE_NAMESPACES
@@ -2332,7 +2332,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: tunnel-operator-leader-election
-  namespace: trivy-system
+  namespace: tunnel-system
   labels:
     app.kubernetes.io/name: tunnel-operator
     app.kubernetes.io/instance: tunnel-operator
@@ -2359,7 +2359,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: tunnel-operator-leader-election
-  namespace: trivy-system
+  namespace: tunnel-system
   labels:
     app.kubernetes.io/name: tunnel-operator
     app.kubernetes.io/instance: tunnel-operator
@@ -2372,14 +2372,14 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: tunnel-operator
-    namespace: trivy-system
+    namespace: tunnel-system
 ---
 # Source: tunnel-operator/templates/policies.yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: tunnel-operator-policies-config
-  namespace: trivy-system
+  namespace: tunnel-system
   labels:
     app.kubernetes.io/name: tunnel-operator
     app.kubernetes.io/instance: tunnel-operator
@@ -2429,7 +2429,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: tunnel-operator
-  namespace: trivy-system
+  namespace: tunnel-system
   labels:
     app.kubernetes.io/name: tunnel-operator
     app.kubernetes.io/instance: tunnel-operator
@@ -2867,14 +2867,14 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: tunnel-operator
-    namespace: trivy-system
+    namespace: tunnel-system
 ---
 # Source: tunnel-operator/templates/rbac.yaml
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: tunnel-operator
-  namespace: trivy-system
+  namespace: tunnel-system
   labels:
     app.kubernetes.io/name: tunnel-operator
     app.kubernetes.io/instance: tunnel-operator
@@ -2904,7 +2904,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: tunnel-operator
-  namespace: trivy-system
+  namespace: tunnel-system
   labels:
     app.kubernetes.io/name: tunnel-operator
     app.kubernetes.io/instance: tunnel-operator
@@ -2917,14 +2917,14 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: tunnel-operator
-    namespace: trivy-system
+    namespace: tunnel-system
 ---
 # Source: tunnel-operator/templates/service.yaml
 apiVersion: v1
 kind: Service
 metadata:
   name: tunnel-operator
-  namespace: trivy-system
+  namespace: tunnel-system
   labels:
     app.kubernetes.io/name: tunnel-operator
     app.kubernetes.io/instance: tunnel-operator

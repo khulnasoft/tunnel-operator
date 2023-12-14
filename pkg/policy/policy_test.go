@@ -13,7 +13,7 @@ import (
 
 	"github.com/aquasecurity/defsec/pkg/scan"
 	"github.com/khulnasoft/tunnel-operator/pkg/apis/khulnasoft/v1alpha1"
-	"github.com/khulnasoft/tunnel-operator/pkg/plugins/trivy"
+	"github.com/khulnasoft/tunnel-operator/pkg/plugins/tunnel"
 	"github.com/khulnasoft/tunnel-operator/pkg/policy"
 	"github.com/khulnasoft/tunnel-operator/pkg/utils"
 	. "github.com/onsi/gomega"

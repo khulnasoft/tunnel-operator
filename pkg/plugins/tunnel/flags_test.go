@@ -3,7 +3,7 @@ package trivy_test
 import (
 	"testing"
 
-	"github.com/khulnasoft/tunnel-operator/pkg/plugins/trivy"
+	"github.com/khulnasoft/tunnel-operator/pkg/plugins/tunnel"
 	"github.com/khulnasoft/tunnel-operator/pkg/tunneloperator"
 	"github.com/stretchr/testify/assert"
 )

@@ -92,7 +92,7 @@ spec:
 ``` 
 
 To scan the `nginx` container of the `nginx` Deployment, Tunnel-Operator will create the following scan Job in the
-`trivy-system` namespace and observe it until it's Completed or Failed.
+`tunnel-system` namespace and observe it until it's Completed or Failed.
 
 ```yaml
 ---
@@ -100,7 +100,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: scan-vulnerabilityreport-ab3134
-  namespace: trivy-system
+  namespace: tunnel-system
 spec:
   backoffLimit: 0
   template:
@@ -116,10 +116,10 @@ spec:
           emptyDir: { }
       initContainers:
         # The trivy-get-binary init container is used to copy out the trivy executable
-        # binary from the upstream Trivy container image, i.e. aquasec/trivy:0.19.2,
+        # binary from the upstream Trivy container image, i.e. khulnasoft/trivy:0.19.2,
         # to a shared emptyDir volume.
         - name: trivy-get-binary
-          image: aquasec/trivy:0.19.2
+          image: khulnasoft/trivy:0.19.2
           command:
             - cp
             - -v
@@ -134,7 +134,7 @@ spec:
         # This won't be required once Trivy supports ClientServer mode
         # for the fs subcommand.
         - name: trivy-download-db
-          image: aquasec/trivy:0.19.2
+          image: khulnasoft/trivy:0.19.2
           command:
             - /var/tunnel-operator/trivy
             - --download-db-only

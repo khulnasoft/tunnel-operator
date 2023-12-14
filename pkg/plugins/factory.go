@@ -4,7 +4,7 @@ import (
 	"github.com/khulnasoft/tunnel-operator/pkg/configauditreport"
 	"github.com/khulnasoft/tunnel-operator/pkg/ext"
 	"github.com/khulnasoft/tunnel-operator/pkg/kube"
-	"github.com/khulnasoft/tunnel-operator/pkg/plugins/trivy"
+	"github.com/khulnasoft/tunnel-operator/pkg/plugins/tunnel"
 	"github.com/khulnasoft/tunnel-operator/pkg/tunneloperator"
 	"github.com/khulnasoft/tunnel-operator/pkg/vulnerabilityreport"
 	"sigs.k8s.io/controller-runtime/pkg/client"

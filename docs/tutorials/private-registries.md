@@ -45,7 +45,7 @@ Lastly, we can deploy the operator inside our cluster with referencing our new `
 
 ```
 helm upgrade --install tunnel-operator aqua/tunnel-operator \
-  --namespace trivy-system \
+  --namespace tunnel-system \
   --create-namespace \
   --version 0.16.0-rc
   --values ./values.yaml
@@ -55,7 +55,7 @@ Alternatively, it is possible to set the values directly through Helm instead of
 
 ```
 helm upgrade --install tunnel-operator aqua/tunnel-operator \
-  --namespace trivy-system \
+  --namespace tunnel-system \
   --create-namespace \
   --version 0.16.0-rc
   --set="trivy.command=fs"
@@ -68,7 +68,7 @@ Once installed, make sure that
 2. the operator has created a VulnerabilityReport for the container image from the private registry
 
 ```
-❯ kubectl get deployment -n trivy-system
+❯ kubectl get deployment -n tunnel-system
 
 NAME             READY   UP-TO-DATE   AVAILABLE   AGE
 tunnel-operator   1/1     1            1           99s
@@ -228,7 +228,7 @@ Lastly, we can deploy the operator inside our cluster with referencing our new `
 
 ```
 helm upgrade --install tunnel-operator aqua/tunnel-operator \
-  --namespace trivy-system \
+  --namespace tunnel-system \
   --create-namespace \
   --version 0.16.0-rc
   --values ./values.yaml
@@ -238,7 +238,7 @@ Alternatively, it is possible to set the values directly through Helm instead of
 
 ```
 helm upgrade --install tunnel-operator aqua/tunnel-operator \
-  --namespace trivy-system \
+  --namespace tunnel-system \
   --create-namespace \
   --version 0.16.0-rc
   --set-json='operator.privateRegistryScanSecretsNames={"app":"dockerconfigjson-github-com"}'
@@ -252,7 +252,7 @@ Once installed, make sure that
 2. the operator has created a VulnerabilitReport for the container image from the private registry
 
 ```
-❯ kubectl get deployment -n trivy-system
+❯ kubectl get deployment -n tunnel-system
 
 NAME             READY   UP-TO-DATE   AVAILABLE   AGE
 tunnel-operator   1/1     1            1           99s

@@ -84,7 +84,7 @@ To change the target namespace from all namespaces to the `default` namespace ed
 By default Trivy displays vulnerabilities with all severity levels (`UNKNOWN`, `LOW`, `MEDIUM`, `HIGH`, `CRITICAL`). To display only `HIGH` and `CRITICAL` vulnerabilities by patching the `trivy.severity` value in the `tunnel-operator-trivy-config` ConfigMap:
 
 ```bash
-kubectl patch cm tunnel-operator-trivy-config -n trivy-system \
+kubectl patch cm tunnel-operator-trivy-config -n tunnel-system \
   --type merge \
   -p "$(cat <<EOF
 {
@@ -101,7 +101,7 @@ EOF
 To set the GitHub token used by Trivy scanner add the `trivy.githubToken` value to the `tunnel-operator-trivy-config` Secret:
 
 ```bash
-kubectl patch secret tunnel-operator-trivy-config -n trivy-system \
+kubectl patch secret tunnel-operator-trivy-config -n tunnel-system \
   --type merge \
   -p "$(cat <<EOF
 {
@@ -118,7 +118,7 @@ EOF
 The following `kubectl patch` command deletes the `trivy.httpProxy` key:
 
 ```bash
-kubectl patch cm tunnel-operator-trivy-config -n trivy-system \
+kubectl patch cm tunnel-operator-trivy-config -n tunnel-system \
   --type json \
   -p '[{"op": "remove", "path": "/data/trivy.httpProxy"}]'
 ```

@@ -1,7 +1,7 @@
 # Built-in Configuration Audit Policies
 
 The following sections list built-in configuration audit policies installed with tunnel-operator. They are stored in the
-`tunnel-operator-policies-config` ConfigMap created in the installation namespace (e.g. `trivy-system`). You can modify
+`tunnel-operator-policies-config` ConfigMap created in the installation namespace (e.g. `tunnel-system`). You can modify
 them or add a new policy. For example, follow the [Writing Custom Configuration Audit Policies] tutorial to add a custom
 policy that checks for recommended Kubernetes labels on any resource kind.
 
