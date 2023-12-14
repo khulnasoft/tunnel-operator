@@ -28,7 +28,7 @@ func (c PluginConfig) GetRequiredData(key string) (string, error) {
 	return value, nil
 }
 
-// PluginContext is plugin's execution context within the Trivy-operator toolkit.
+// PluginContext is plugin's execution context within the Tunnel-operator toolkit.
 // The context is used to grant access to other methods so that this plugin
 // can interact with the toolkit.
 type PluginContext interface {
@@ -38,11 +38,11 @@ type PluginContext interface {
 	GetConfig() (PluginConfig, error)
 	// EnsureConfig ensures the PluginConfig, typically when a plugin is initialized.
 	EnsureConfig(config PluginConfig) error
-	// GetNamespace return the name of the K8s Namespace where Trivy-operator creates Jobs
+	// GetNamespace return the name of the K8s Namespace where Tunnel-operator creates Jobs
 	// and other helper objects.
 	GetNamespace() string
 	// GetServiceAccountName return the name of the K8s Service Account used to run workloads
-	// created by Trivy-operator.
+	// created by Tunnel-operator.
 	GetServiceAccountName() string
 	// GetTrivyOperatorConfig returns tunneloperator configuration.
 	GetTrivyOperatorConfig() ConfigData

@@ -1,15 +1,15 @@
 package tunneloperator
 
 const (
-	// NamespaceName the name of the namespace in which Trivy-operator stores its
+	// NamespaceName the name of the namespace in which Tunnel-operator stores its
 	// configuration and where it runs scan jobs.
 	NamespaceName = "tunnel-operator"
 
-	// ConfigMapName the name of the ConfigMap where Trivy-operator stores its
+	// ConfigMapName the name of the ConfigMap where Tunnel-operator stores its
 	// configuration.
 	ConfigMapName = "tunnel-operator"
 
-	// SecretName the name of the secret where Trivy-operator stores is sensitive
+	// SecretName the name of the secret where Tunnel-operator stores is sensitive
 	// configuration.
 	SecretName = "tunnel-operator"
 

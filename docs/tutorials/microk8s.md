@@ -1,4 +1,4 @@
-## Using the Trivy Operator through Microk8s 
+## Using the Tunnel Operator through Microk8s 
 
 [Microk8s](https://microk8s.io/) is a lightweight Kubernetes distribution that can be used on your personal machine, Raspberry Pi cluster, in data centres or edge devices; just to name a few use cases.
 
@@ -41,15 +41,15 @@ A list of addons is provided below.
     storage              # (core) Alias to hostpath-storage add-on, deprecated
 ```
 
-This tutorial will showcase how to install and then remove the Trivy Operator addon.
+This tutorial will showcase how to install and then remove the Tunnel Operator addon.
 
 ## Prerequisites
 
 You need to have microk8s installed. In our case, we have set up kubectl to use the microk8s cluster. You can find different guides, depending on your operating system, on the [microk8s website.](https://microk8s.io/tutorials)
 
-## Install the Trivy Operator 
+## Install the Tunnel Operator 
 
-To install the Trivy Operator, simply run the following command:
+To install the Tunnel Operator, simply run the following command:
 ```
 microk8s enable trivy
 ```
@@ -71,7 +71,7 @@ STATUS: deployed
 REVISION: 1
 TEST SUITE: None
 NOTES:
-You have installed Trivy Operator in the trivy-system namespace.
+You have installed Tunnel Operator in the trivy-system namespace.
 It is configured to discover Kubernetes workloads and resources in
 all namespace(s).
 
@@ -89,7 +89,7 @@ Inspect the work log of tunnel-operator by:
 Trivy is installed
 ```
 
-You should now see the Trivy Operator pod running inside of the `trivy-system` namespace:
+You should now see the Tunnel Operator pod running inside of the `trivy-system` namespace:
 ```
 kubectl get all -n trivy-system
 NAME                                            READY   STATUS    RESTARTS   AGE
@@ -113,7 +113,7 @@ If you have any container images running in your microk8s cluster, Trivy will st
 
 ## Cleaning up
 
-Removing the Trivy Operator from your cluster is as easy as installing it. Simply run:
+Removing the Tunnel Operator from your cluster is as easy as installing it. Simply run:
 ```
 microk8s disable trivy
 ```

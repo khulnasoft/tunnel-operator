@@ -1,6 +1,6 @@
 # Configuration
 
-You can configure Trivy-Operator to control it's behavior and adapt it to your needs. Aspects of the operator machinery are configured using environment variables on the operator Pod, while aspects of the scanning behavior are controlled by ConfigMaps and Secrets.
+You can configure Tunnel-Operator to control it's behavior and adapt it to your needs. Aspects of the operator machinery are configured using environment variables on the operator Pod, while aspects of the scanning behavior are controlled by ConfigMaps and Secrets.
 
 # Operator Configuration
 
@@ -35,7 +35,7 @@ You can configure Trivy-Operator to control it's behavior and adapt it to your n
 | `OPERATOR_LEADER_ELECTION_ID`                                | `tunnel-operator-lock`  | The name of the resource lock for leader election                                                                                                                                                                                        |
 | `OPERATOR_EXPOSED_SECRET_SCANNER_ENABLED`                    | `true`                 | The flag to enable exposed secret scanner                                                                                                                                                                                                |
 | `OPERATOR_WEBHOOK_BROADCAST_URL`                             | `""`                   | The flag to enable operator reports to be sent to a webhook endpoint. "" means that this feature is disabled                                                                                                                             |
-| `OPERATOR_BUILT_IN_TRIVY_SERVER`                             | `false`                | The flag enable the usage of built-in trivy server in cluster ,its also overwrite the following trivy params with built-in values trivy.mode = ClientServer and serverURL = http://[server Service Name].[trivy Operator Namespace]:4975 |
+| `OPERATOR_BUILT_IN_TRIVY_SERVER`                             | `false`                | The flag enable the usage of built-in trivy server in cluster ,its also overwrite the following trivy params with built-in values trivy.mode = ClientServer and serverURL = http://[server Service Name].[tunnel Operator Namespace]:4975 |
 | `OPERATOR_WEBHOOK_BROADCAST_TIMEOUT`                         | `30s`                  | The flag to set operator webhook timeouts, if webhook broadcast is enabled                                                                                                                                                               |
 | `OPERATOR_SEND_DELETED_REPORTS`                              | `false`                | The flag to enable sending deleted reports if webhookBroadcastURL is enabled                                                                                                                                                               |
 | `OPERATOR_PRIVATE_REGISTRY_SCAN_SECRETS_NAMES`               | `{}`                   | The flag is map of namespace:secrets, secrets are comma seperated which can be used to authenticate in private registries in case if there no imagePullSecrets provided example : {"mynamespace":"mySecrets,anotherSecret"}              |

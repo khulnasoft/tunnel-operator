@@ -1,2 +1,2 @@
-// Package plugins aggregates plugins for Trivy-Operator.
+// Package plugins aggregates plugins for Tunnel-Operator.
 package plugins

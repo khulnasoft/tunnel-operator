@@ -4,15 +4,15 @@ Authors: [Devendra Turkar], [Daniel Pacak]
 
 ## Overview
 
-Trivy-Operator currently uses Trivy in [Standalone] or [ClientServer] mode to scan and generate VulnerabilityReports for
-container images by pulling the images from remote registries. Trivy-Operator scans a specified K8s workload by running the
+Tunnel-Operator currently uses Trivy in [Standalone] or [ClientServer] mode to scan and generate VulnerabilityReports for
+container images by pulling the images from remote registries. Tunnel-Operator scans a specified K8s workload by running the
 Trivy executable as a K8s Job. This approach implies that Trivy does not have access to images cached by the container
-runtime on cluster nodes. Therefore, to scan images from private registries Trivy-Operator reads ImagePullSecrets specified
+runtime on cluster nodes. Therefore, to scan images from private registries Tunnel-Operator reads ImagePullSecrets specified
 on workloads or on service accounts used by the workloads, and passes them down to Trivy executable as `TRIVY_USERNAME`
 and `TRIVY_PASSWORD` environment variables.
 
 Since ImagePullSecrets are not the only way to provide registry credential, the following alternatives are not
-currently supported by Trivy-Operator:
+currently supported by Tunnel-Operator:
 1. Pre-pulled images
 2. [Configuring nodes to authenticate to a private registry]
 3. Vendor-specific or local extension. For example, methods described on [AWS ECR Private registry authentication].
@@ -33,7 +33,7 @@ in any other proprietary way).
 
 ### Deep Dive
 
-To scan a container image of a given K8s workload Trivy-Operator will create a corresponding container of a scan Job and
+To scan a container image of a given K8s workload Tunnel-Operator will create a corresponding container of a scan Job and
 override its entrypoint to invoke Trivy filesystem scanner.
 
 This approach requires Trivy executable to be downloaded and made available to the entrypoint. We'll do that by adding
@@ -50,7 +50,7 @@ how they share data via the emptyDir volume.)
 > filesystem scanner at the time of writing this proposal.
 
 We further restrict scan Jobs to run on the same node where scanned Pod is running and never pull images from remote
-registries by setting the `ImagePullPolicy` to `Never`. To determine the node for a scan Job Trivy-Operator will list active
+registries by setting the `ImagePullPolicy` to `Never`. To determine the node for a scan Job Tunnel-Operator will list active
 Pods controlled by the scanned workload. If the list is not empty it will take the node name from the first Pod,
 otherwise it will ignore the workload.
 
@@ -91,7 +91,7 @@ spec:
           image: example.registry.com/nginx:1.16
 ``` 
 
-To scan the `nginx` container of the `nginx` Deployment, Trivy-Operator will create the following scan Job in the
+To scan the `nginx` container of the `nginx` Deployment, Tunnel-Operator will create the following scan Job in the
 `trivy-system` namespace and observe it until it's Completed or Failed.
 
 ```yaml
@@ -184,12 +184,12 @@ Trivy must run as root so the scan Job defined the `securityContext` with the `r
    a multitenant cluster so that users can be assured that their private images can only be used by those who
    have the credentials to pull them. (Thanks [kfox1111] for pointing this out!)
 2. We cannot scan K8s workloads scaled down to 0 replicas because we cannot infer on which cluster node a scan Job should
-   run. (In general, a node name is only set on a running Pod.) But once a workload is scaled up, Trivy Operator
+   run. (In general, a node name is only set on a running Pod.) But once a workload is scaled up, Tunnel Operator
    will receive the update event and will have another chance to scan it.
 3. It's hard to identify Pods managed by the CronJob controller, therefore we'll skip them.
 4. Trivy filesystem command does not work in [ClientServer] mode. Therefore, this solution is subject to the limits of
    the [Standalone] mode. We plan to extend Trivy filesystem command to work in ClientServer mode and improve the
-   implementation of Trivy Operator once it's available.
+   implementation of Tunnel Operator once it's available.
 5. Trivy must run as root and this may be blocked by some Admission Controllers such as PodSecurityPolicy.
 
 [Devendra Turkar]: https://github.com/deven0t

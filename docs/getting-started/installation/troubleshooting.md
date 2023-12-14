@@ -1,17 +1,17 @@
-# Troubleshooting the Trivy Operator
+# Troubleshooting the Tunnel Operator
 
-The Trivy Operator installs several Kubernetes resources into your Kubernetes cluster.
+The Tunnel Operator installs several Kubernetes resources into your Kubernetes cluster.
 
 Here are the common steps to check whether the operator is running correctly and to troubleshoot common issues.
 
 So in addition to this section, you might want to check [issues](https://github.com/aquasecurity/trivy/issues), [discussion forum](https://github.com/aquasecurity/trivy/discussions), or [Slack](https://slack.aquasec.com) to see if someone from the community had similar problems before.
 
-Also note that Trivy Operator is based on existing Aqua OSS project - [Starboard], and shares some of the design, principles and code with it. Existing content that relates to Starboard Operator might also be relevant for Trivy Operator, and Starboard's [issues](https://github.com.khulnasoft/starboard/issues), [discussion forum](https://github.com.khulnasoft/starboard/discussions), or [Slack](https://slack.aquasec.com) might also be interesting to check.  
+Also note that Tunnel Operator is based on existing Aqua OSS project - [Starboard], and shares some of the design, principles and code with it. Existing content that relates to Starboard Operator might also be relevant for Tunnel Operator, and Starboard's [issues](https://github.com.khulnasoft/starboard/issues), [discussion forum](https://github.com.khulnasoft/starboard/discussions), or [Slack](https://slack.aquasec.com) might also be interesting to check.  
 In some cases you might want to refer to [Starboard's Design documents](https://khulnasoft.github.io/starboard/latest/design/)
 
 ## Installation
 
-Make sure that the latest version of the Trivy Operator is installed. For this, have a look at the installation [options.](./helm.md)
+Make sure that the latest version of the Tunnel Operator is installed. For this, have a look at the installation [options.](./helm.md)
 
 For instance, if your are using the Helm deployment, you need to check the Helm Chart version deployed to your cluster. You can check the Helm Chart version with the following command:
 ```
@@ -20,7 +20,7 @@ helm list -n trivy-system
 
 ## Operator Pod Not Running
 
-The Trivy Operator will run a pod inside your cluster. If you have followed the installation guide, you will have installed the Operator to the `trivy-system`.
+The Tunnel Operator will run a pod inside your cluster. If you have followed the installation guide, you will have installed the Operator to the `trivy-system`.
 
 Make sure that the pod is in the `Running` status:
 ```
@@ -53,12 +53,12 @@ If there are too many logs messages, try deleting the Trivy pod and observe its 
 
 ## ImagePullBackOff or ErrImagePull
 
-Check the status of the Trivy Operator pod running inside of your Kubernetes cluster. If the Status is ImagePullBackOff or ErrImagePull, it means that the Operator either
+Check the status of the Tunnel Operator pod running inside of your Kubernetes cluster. If the Status is ImagePullBackOff or ErrImagePull, it means that the Operator either
 
 * tries to access the wrong image
 * cannot pull the image from the registry
 
-Make sure that you are providing the right resources upon installing the Trivy Operator.
+Make sure that you are providing the right resources upon installing the Tunnel Operator.
 
 ## CrashLoopBackOff
 
@@ -74,13 +74,13 @@ Check the logs for Reconciliation errors:
 kubectl logs deployment/tunnel-operator -n trivy-system
 ```
 
-If this is the case, the Trivy Operator likely does not have the right configurations to access your resource.
+If this is the case, the Tunnel Operator likely does not have the right configurations to access your resource.
 
 ## Operator does not Create VulnerabilityReports
 
-VulnerabilityReports are owned and controlled by the immediate Kubernetes workload. Every VulnerabilityReport of a pod is thus, linked to a [ReplicaSet.](./index.md) In case the Trivy Operator does not create a VulnerabilityReport for your workloads, it could be that it is not monitoring the namespace that your workloads are running on.
+VulnerabilityReports are owned and controlled by the immediate Kubernetes workload. Every VulnerabilityReport of a pod is thus, linked to a [ReplicaSet.](./index.md) In case the Tunnel Operator does not create a VulnerabilityReport for your workloads, it could be that it is not monitoring the namespace that your workloads are running on.
 
-An easy way to check this is by looking for the `ClusterRoleBinding` for the Trivy Operator:
+An easy way to check this is by looking for the `ClusterRoleBinding` for the Tunnel Operator:
 
 ```
 kubectl get ClusterRoleBinding | grep "tunnel-operator"

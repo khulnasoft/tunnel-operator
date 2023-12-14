@@ -1047,7 +1047,7 @@
       "boundElementIds": [],
       "fontSize": 20,
       "fontFamily": 1,
-      "text": "*** REMARKS ***\n1. It's simple because the orchestrator takes on responsibility for\nthe reliable operation of each work item.\n2. We can scale Trivy Operator and Kubernetes Controller Manager\nhorizontally but this is just for redundancy.\n3. Scaling controllers vertically won't speed up scanning. It will\nspeed up filling in the Work Queue by creating more Jobs in parallel by Goroutines\n4. Subject to rate limit and big load on the API server / controller manager\\\n5. Not clear what are the boundaries between the business logic and queue API.\nNot possible to swap queue implementation\n6. Plugins are basically strategies to leverage containerised scanners to provide\ncommands that are run as Jobs / Pods\n7. There is one Job created for each work item / scan request\n8. Doesn't like bursty workloads, e.g. rescan all images in a given namespace or install the operator in empty cluster",
+      "text": "*** REMARKS ***\n1. It's simple because the orchestrator takes on responsibility for\nthe reliable operation of each work item.\n2. We can scale Tunnel Operator and Kubernetes Controller Manager\nhorizontally but this is just for redundancy.\n3. Scaling controllers vertically won't speed up scanning. It will\nspeed up filling in the Work Queue by creating more Jobs in parallel by Goroutines\n4. Subject to rate limit and big load on the API server / controller manager\\\n5. Not clear what are the boundaries between the business logic and queue API.\nNot possible to swap queue implementation\n6. Plugins are basically strategies to leverage containerised scanners to provide\ncommands that are run as Jobs / Pods\n7. There is one Job created for each work item / scan request\n8. Doesn't like bursty workloads, e.g. rescan all images in a given namespace or install the operator in empty cluster",
       "baseline": 343,
       "textAlign": "left",
       "verticalAlign": "top"
@@ -1176,7 +1176,7 @@
       "boundElementIds": [],
       "fontSize": 36,
       "fontFamily": 1,
-      "text": "Trivy Operator @ Scale\nThu 10 Jun 2021",
+      "text": "Tunnel Operator @ Scale\nThu 10 Jun 2021",
       "baseline": 77,
       "textAlign": "left",
       "verticalAlign": "top"
@@ -2158,7 +2158,7 @@
       "boundElementIds": [],
       "fontSize": 20,
       "fontFamily": 1,
-      "text": "Deployment: Trivy-Operator Worker",
+      "text": "Deployment: Tunnel-Operator Worker",
       "baseline": 18,
       "textAlign": "center",
       "verticalAlign": "top"
@@ -2885,7 +2885,7 @@
       "boundElementIds": [],
       "fontSize": 28,
       "fontFamily": 1,
-      "text": "5. Trivy Operator and Generic Work Queue Systems",
+      "text": "5. Tunnel Operator and Generic Work Queue Systems",
       "baseline": 25,
       "textAlign": "center",
       "verticalAlign": "top"
@@ -2914,7 +2914,7 @@
       "boundElementIds": [],
       "fontSize": 28,
       "fontFamily": 1,
-      "text": "1. Trivy Operator and its Kubernetes-native work queue",
+      "text": "1. Tunnel Operator and its Kubernetes-native work queue",
       "baseline": 25,
       "textAlign": "center",
       "verticalAlign": "top"
@@ -3522,7 +3522,7 @@
       "boundElementIds": [],
       "fontSize": 28,
       "fontFamily": 1,
-      "text": "4. Trivy Operator and Sharded Services",
+      "text": "4. Tunnel Operator and Sharded Services",
       "baseline": 25,
       "textAlign": "center",
       "verticalAlign": "top"
@@ -3551,7 +3551,7 @@
       "boundElementIds": [],
       "fontSize": 20,
       "fontFamily": 1,
-      "text": "Deploy more than one instance of Trivy Operator and specify non-intersecting sets of target namespaces",
+      "text": "Deploy more than one instance of Tunnel Operator and specify non-intersecting sets of target namespaces",
       "baseline": 18,
       "textAlign": "center",
       "verticalAlign": "top"
@@ -8707,7 +8707,7 @@
       "boundElementIds": [],
       "fontSize": 28,
       "fontFamily": 1,
-      "text": "Trivy Operator\nWorker #1",
+      "text": "Tunnel Operator\nWorker #1",
       "baseline": 60,
       "textAlign": "center",
       "verticalAlign": "top"
@@ -8764,7 +8764,7 @@
       "boundElementIds": [],
       "fontSize": 20,
       "fontFamily": 1,
-      "text": "Trivy Operator\nPlugin",
+      "text": "Tunnel Operator\nPlugin",
       "baseline": 43,
       "textAlign": "center",
       "verticalAlign": "top"
@@ -8820,7 +8820,7 @@
       ],
       "fontSize": 28,
       "fontFamily": 1,
-      "text": "Trivy Operator\nWorker #2",
+      "text": "Tunnel Operator\nWorker #2",
       "baseline": 60,
       "textAlign": "center",
       "verticalAlign": "top"
@@ -8877,7 +8877,7 @@
       "boundElementIds": [],
       "fontSize": 20,
       "fontFamily": 1,
-      "text": "Trivy Operator\nPlugin",
+      "text": "Tunnel Operator\nPlugin",
       "baseline": 43,
       "textAlign": "center",
       "verticalAlign": "top"
@@ -8937,7 +8937,7 @@
       ],
       "fontSize": 28,
       "fontFamily": 1,
-      "text": "Trivy Operator\nWorker #N",
+      "text": "Tunnel Operator\nWorker #N",
       "baseline": 60,
       "textAlign": "center",
       "verticalAlign": "top"
@@ -8994,7 +8994,7 @@
       "boundElementIds": [],
       "fontSize": 20,
       "fontFamily": 1,
-      "text": "Trivy Operator\nPlugin",
+      "text": "Tunnel Operator\nPlugin",
       "baseline": 43,
       "textAlign": "center",
       "verticalAlign": "top"
@@ -9155,7 +9155,7 @@
       "boundElementIds": [],
       "fontSize": 20,
       "fontFamily": 1,
-      "text": "Deployment: Trivy Operator Worker",
+      "text": "Deployment: Tunnel Operator Worker",
       "baseline": 18,
       "textAlign": "center",
       "verticalAlign": "top"
@@ -10183,7 +10183,7 @@
       "boundElementIds": [],
       "fontSize": 20,
       "fontFamily": 1,
-      "text": "*** REMARKS ***\n1. WorkItem may represent 1 or multiple scan requests\n2. WorkItem will have Spec and Status to implement state machine\n3. Leverage Optimistic Concurrency\n4. WorkQueuManager might assign WorkItems to a Trivy OperatorWorker\nbased on some metrics",
+      "text": "*** REMARKS ***\n1. WorkItem may represent 1 or multiple scan requests\n2. WorkItem will have Spec and Status to implement state machine\n3. Leverage Optimistic Concurrency\n4. WorkQueuManager might assign WorkItems to a Tunnel OperatorWorker\nbased on some metrics",
       "baseline": 143,
       "textAlign": "left",
       "verticalAlign": "top"
@@ -10235,7 +10235,7 @@
       "boundElementIds": [],
       "fontSize": 36,
       "fontFamily": 1,
-      "text": "Trivy Operator Operator @ Scale\nWed 16 Jun 2021",
+      "text": "Tunnel Operator Operator @ Scale\nWed 16 Jun 2021",
       "baseline": 77,
       "textAlign": "left",
       "verticalAlign": "top"
@@ -11729,7 +11729,7 @@
       "versionNonce": 1035535631,
       "isDeleted": false,
       "boundElementIds": null,
-      "text": "1. RabbitMQ, NATS, Redis, etc\n  Pros\n    - Relatively simple to implement with client libraries / utility frameworks\n  Cons\n    - Deploy and monitor messaging middleware even though most of them are K8s-friendly or built for cloud-native\n    - It's ** hard ** to check that a given task has already been added to a queue\n      - RabbitMQ has a plugin to handle duplicates based on message metadata / message hash\n    - Not every middleware provides metrics for messaging channels. For example, messages and consumers count to scale out\n    - Middleware is optimised for high throughput / reliability / persistence but for simple task queue we don't need all that\n2. ZeroMQ\n  Pros\n    - Lightweight messaging library without messaging middleware\n  Cons\n    - Learning path (choosing the right pattern and understanding Go bindings)\n    - Design communication pattern / handle failures and reconnects / load balancing / fair queueing\n    - Requires CGO so it will break cross platform kubectl Trivy Operator or trivyctl binaries",
+      "text": "1. RabbitMQ, NATS, Redis, etc\n  Pros\n    - Relatively simple to implement with client libraries / utility frameworks\n  Cons\n    - Deploy and monitor messaging middleware even though most of them are K8s-friendly or built for cloud-native\n    - It's ** hard ** to check that a given task has already been added to a queue\n      - RabbitMQ has a plugin to handle duplicates based on message metadata / message hash\n    - Not every middleware provides metrics for messaging channels. For example, messages and consumers count to scale out\n    - Middleware is optimised for high throughput / reliability / persistence but for simple task queue we don't need all that\n2. ZeroMQ\n  Pros\n    - Lightweight messaging library without messaging middleware\n  Cons\n    - Learning path (choosing the right pattern and understanding Go bindings)\n    - Design communication pattern / handle failures and reconnects / load balancing / fair queueing\n    - Requires CGO so it will break cross platform kubectl Tunnel Operator or trivyctl binaries",
       "fontSize": 28,
       "fontFamily": 1,
       "textAlign": "left",
@@ -11781,7 +11781,7 @@
       "versionNonce": 1156386881,
       "isDeleted": false,
       "boundElementIds": null,
-      "text": "8. Trivy Operator Plugins Revisited",
+      "text": "8. Tunnel Operator Plugins Revisited",
       "fontSize": 28,
       "fontFamily": 1,
       "textAlign": "left",
@@ -12464,7 +12464,7 @@
       "boundElementIds": [],
       "fontSize": 28,
       "fontFamily": 1,
-      "text": "9. Trivy Operator Worker",
+      "text": "9. Tunnel Operator Worker",
       "baseline": 25,
       "textAlign": "left",
       "verticalAlign": "top"
@@ -12730,7 +12730,7 @@
       "versionNonce": 271845231,
       "isDeleted": false,
       "boundElementIds": null,
-      "text": "Trivy Operator Worker # 1",
+      "text": "Tunnel Operator Worker # 1",
       "fontSize": 20,
       "fontFamily": 1,
       "textAlign": "left",
@@ -12784,7 +12784,7 @@
       "boundElementIds": [],
       "fontSize": 20,
       "fontFamily": 1,
-      "text": "Trivy Operator Worker # 1",
+      "text": "Tunnel Operator Worker # 1",
       "baseline": 18,
       "textAlign": "left",
       "verticalAlign": "top"

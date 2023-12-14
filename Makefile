@@ -60,7 +60,7 @@ envtest: $(SOURCES) generate-all envtest ## Run tests.
 	go test -v -timeout 60s -coverprofile=coverage.txt ./pkg/operator/envtest/...
 
 .PHONY: itests-tunnel-operator
-## Runs integration tests for Trivy Operator with code coverage enabled
+## Runs integration tests for Tunnel Operator with code coverage enabled
 itests-tunnel-operator: check-kubeconfig get-ginkgo
 	@$(GINKGO) \
 	-coverprofile=coverage.txt \

@@ -1,7 +1,7 @@
 # Settings
 
-Trivy Operator read configuration settings from ConfigMaps, as well as Secrets that holds
-confidential settings (such as a GitHub token). Trivy-Operator plugins read configuration and secret data from ConfigMaps
+Tunnel Operator read configuration settings from ConfigMaps, as well as Secrets that holds
+confidential settings (such as a GitHub token). Tunnel-Operator plugins read configuration and secret data from ConfigMaps
 and Secrets named after the plugin. For example, Trivy configuration is stored in the ConfigMap and Secret named
 `tunnel-operator-trivy-config`.
 

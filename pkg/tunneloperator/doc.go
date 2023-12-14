@@ -1,2 +1,2 @@
-// Package tunneloperator provides primitives for working with Trivy-operator toolkit.
+// Package tunneloperator provides primitives for working with Tunnel-operator toolkit.
 package tunneloperator

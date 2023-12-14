@@ -1,6 +1,6 @@
-## Accessing Trivy Operator Metrics through a Grafana Dashboard
+## Accessing Tunnel Operator Metrics through a Grafana Dashboard
 
-In this tutorial, we showcase how you can access the metrics from your Trivy Operator reports through Grafana.
+In this tutorial, we showcase how you can access the metrics from your Tunnel Operator reports through Grafana.
 
 ### Prerequisites
 
@@ -65,9 +65,9 @@ kube-prometheus-stack has been installed. Check its status by running:
 Visit https://github.com/prometheus-operator/kube-prometheus for instructions on how to create & configure Alertmanager and Prometheus instances using the Operator.
 ```
 
-### Installing the Trivy Operator Helm Chart
+### Installing the Tunnel Operator Helm Chart
 
-In this section, we will install the Trivy Operator Helm Chart. The commands are provided in the [documentation](https://khulnasoft.github.io/tunnel-operator/v0.7.1/operator/installation/helm/).
+In this section, we will install the Tunnel Operator Helm Chart. The commands are provided in the [documentation](https://khulnasoft.github.io/tunnel-operator/v0.7.1/operator/installation/helm/).
 
 ```
 helm repo add aqua https://khulnasoft.github.io/helm-charts/
@@ -84,7 +84,7 @@ trivy:
   ignoreUnfixed: true
 ```
 
-In the changes above, we tell the Trivy Helm Chart to first, enable the ServiceMonitor and then to ignore all vulnerabilities that do not have a fix available yet. The ServiceMonitor is required to allow Prometheus to discover the Trivy Operator Service and scrape its metrics.
+In the changes above, we tell the Trivy Helm Chart to first, enable the ServiceMonitor and then to ignore all vulnerabilities that do not have a fix available yet. The ServiceMonitor is required to allow Prometheus to discover the Tunnel Operator Service and scrape its metrics.
 
 Next, we can install the operator with the following command:
 
@@ -106,7 +106,7 @@ STATUS: deployed
 REVISION: 1
 TEST SUITE: None
 NOTES:
-You have installed Trivy Operator in the trivy-system namespace.
+You have installed Tunnel Operator in the trivy-system namespace.
 It is configured to discover Kubernetes workloads and resources in
 all namespace(s).
 ```
@@ -125,9 +125,9 @@ Next, open a new terminal and access the Grafana Dashboard:
 kubectl port-forward service/prom-grafana -n monitoring 3000:80
 ```
 
-### Access Trivy Operator Metrics
+### Access Tunnel Operator Metrics
 
-In a new terminal, we are going to port-forward to the Trivy Operator service to access the metrics provided by the operator.
+In a new terminal, we are going to port-forward to the Tunnel Operator service to access the metrics provided by the operator.
 
 Note that this operation is optional and just used to demonstrate where you can find the metrics to then query them in a better way through Prometheus and Grafana.
 
@@ -137,7 +137,7 @@ Run the following command to remove the headless setting  `clusterIP: None` by e
 kubectl edit service tunnel-operator -n trivy-system
 ```
 
-Run the following command to port-forward the Trivy Operator Service:
+Run the following command to port-forward the Tunnel Operator Service:
 
 ```
 kubectl port-forward service/tunnel-operator -n trivy-system 5000:80
@@ -145,13 +145,13 @@ kubectl port-forward service/tunnel-operator -n trivy-system 5000:80
 
 Once you open the '<http://localhost:5000/metrics>' you should see all the metrics gathered from the operator. However, this is obviously not the prettiest way of looking at them. Thus, the next sections will show you how to query metrics through Prometheus and visualise them in Grafana.
 
-### Query Trivy Operator Metrics in Prometheus
+### Query Tunnel Operator Metrics in Prometheus
 
 Open the Prometheus Dashboard at 'localhost:9090' through the port-forwarding done in the previous section of this tutorial.
 
 At this point, navigate to: `Status` < `Targets` -- and make sure that the Trivy endpoint is healthy and Prometheus can scrape its metrics.
 
-Next, head back to 'Graph' -- <http://localhost:9090/graph>. Here you can already query certain metrics from the Trivy Operator. The query language used is basic PromQL.
+Next, head back to 'Graph' -- <http://localhost:9090/graph>. Here you can already query certain metrics from the Tunnel Operator. The query language used is basic PromQL.
 There are lots of guides online that can give you inspiration. Try for instance the following queries:
 
 Total vulnerabilities found in your cluster:
@@ -166,13 +166,13 @@ Total misconfiguration identified in your cluster:
 sum(trivy_resource_configaudits)
 ```
 
-Exposed Secrets discovered by the Trivy Operator in your cluster:
+Exposed Secrets discovered by the Tunnel Operator in your cluster:
 
 ```
 sum(trivy_image_exposedsecrets)
 ```
 
-### Set up Grafana Dashboard for Trivy Operator Metrics
+### Set up Grafana Dashboard for Tunnel Operator Metrics
 
 Lastly, we want to visualise the security issues within our cluster in a Grafana Dashboard.
 
@@ -192,6 +192,6 @@ Here, we will paste the ID of the Aqua Trivy Dashboard:
 
 The link to the Dashboard in Grafana is [the following.](https://grafana.com/grafana/dashboards/17813)
 
-Once pasted, you should see the following Dashboard as part of your Dashboard list: `Trivy Operator Dashboard`
+Once pasted, you should see the following Dashboard as part of your Dashboard list: `Tunnel Operator Dashboard`
 
-![Trivy Operator Dashbaord in Grafana Screenshot](../images/trivy-grafana.png)
+![Tunnel Operator Dashbaord in Grafana Screenshot](../images/trivy-grafana.png)

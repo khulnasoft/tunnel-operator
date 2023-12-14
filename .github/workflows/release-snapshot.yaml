@@ -51,7 +51,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           COSIGN_EXPERIMENTAL: 1
-      - name: Scan Trivy Operator image for vulnerabilities
+      - name: Scan Tunnel Operator image for vulnerabilities
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: 'ghcr.io/khulnasoft/tunnel-operator:${{ github.sha }}-amd64'

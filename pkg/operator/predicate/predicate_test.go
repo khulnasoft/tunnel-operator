@@ -246,7 +246,7 @@ var _ = Describe("Predicate", func() {
 	Describe("When checking a ManagedByTrivyOperator predicate", func() {
 		instance := predicate.ManagedByTrivyOperator
 
-		Context("Where object is managed by Trivy-Operator operator", func() {
+		Context("Where object is managed by Tunnel-Operator operator", func() {
 			It("Should return true", func() {
 				obj := &corev1.Pod{
 					ObjectMeta: metav1.ObjectMeta{

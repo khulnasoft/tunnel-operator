@@ -51,11 +51,11 @@
    ```
 
 6. Verify that the `release` workflow has built and published the following artifacts
-   1. Trivy-operator container images published to DockerHub
+   1. Tunnel-operator container images published to DockerHub
        `docker.io/khulnasoft/tunnel-operator:0.16.0-rc`
-   2. Trivy-operator container images published to Amazon ECR Public Gallery
+   2. Tunnel-operator container images published to Amazon ECR Public Gallery
        `public.ecr.aws/khulnasoft/tunnel-operator:0.16.0-rc`
-   2. Trivy-operator container images published to GitHub Container Registry
+   2. Tunnel-operator container images published to GitHub Container Registry
        `ghcr.io/khulnasoft/tunnel-operator:0.16.0-rc`
 7. Publish docs on <https://khulnasoft.github.io/tunnel-operator/> by manually triggering the [`.github/workflows/publish-docs.yaml`] workflow
 8. Submit tunnel-operator Operator to OperatorHub and ArtifactHUB by opening the PR to the <https://github.com/k8s-operatorhub/community-operators> repository.

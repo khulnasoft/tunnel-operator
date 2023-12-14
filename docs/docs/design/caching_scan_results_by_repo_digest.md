@@ -2,14 +2,14 @@
 
 ## TL;DR
 
-To find vulnerabilities in container images Trivy-Operator creates asynchronous
+To find vulnerabilities in container images Tunnel-Operator creates asynchronous
 Kubernetes (K8s) Jobs. Even though running a vulnerability scanner as a K8s
-Job is expensive, Trivy-Operator does not reuse scan results in any way.
+Job is expensive, Tunnel-Operator does not reuse scan results in any way.
 For example, if a workload refers to the image that has already been scanned,
-Trivy-Operator will go ahead and create another (similar) K8s Job.
+Tunnel-Operator will go ahead and create another (similar) K8s Job.
 
 To some extent, the problem of wasteful and long-running K8s Jobs can be
-mitigated by using Trivy-Operator with Trivy in the [ClientServer] mode instead of
+mitigated by using Tunnel-Operator with Trivy in the [ClientServer] mode instead of
 the default [Standalone] mode. In this case a configured Trivy server will cache
 results of scanning image layers. However, there is still unnecessary overhead
 for managing K8s Jobs and communication between Trivy client and server.
@@ -24,19 +24,19 @@ in an AWS S3 bucket or a similar key-value store.
 
 ## Example
 
-With the proposed cluster-scoped (or global) cache, Trivy-Operator can check if the
+With the proposed cluster-scoped (or global) cache, Tunnel-Operator can check if the
 image with the specified reference has already been scanned. If yes, it will
 just read the corresponding ClusterVulnerabilityReport, copy its payload, and
 finally create an instance of a namespaced VulnerabilityReport.
 
 Let's consider two `nginx:1.16` Deployments in two different namespaces `foo`
-and `bar`. In the current implementation Trivy-Operator will spin up two K8s Jobs to
+and `bar`. In the current implementation Tunnel-Operator will spin up two K8s Jobs to
 run a scanner and eventually create two VulnerabilityReports in `foo` and `bar`
 namespaces respectively.
 
-In a cluster where Trivy-Operator is installed for the first time, when we scan the
+In a cluster where Tunnel-Operator is installed for the first time, when we scan the
 `nginx` Deployment in the `foo` namespace there's obviously no
-ClusterVulnerabilityReport for `nginx:1.16`. Therefore, Trivy-Operator will spin up
+ClusterVulnerabilityReport for `nginx:1.16`. Therefore, Tunnel-Operator will spin up
 a K8s Job and wait for its completion. On completion, it will create a
 cluster-scoped ClusterVulnerabilityReport named after the hash of `nginx:1.16`.
 It will also create a namespaced VulnerabilityReport named after the current
@@ -72,7 +72,7 @@ I1008 19:58:51.247297   62385 scanner.go:262] Getting logs for nginx container i
 I1008 19:58:51.674449   62385 scanner.go:123] Deleting scan job: tunnel-operator/scan-vulnerabilityreport-cbf8c9b99
 ```
 
-Now, if we scan the `nginx` Deployment in the `bar` namespace, Trivy-Operator will
+Now, if we scan the `nginx` Deployment in the `bar` namespace, Tunnel-Operator will
 see that there's already a ClusterVulnerabilityReport (`84bcb5cd46`) for the
 same image reference `nginx:1.16` and will skip creation of a K8s Job. It will
 just read and copy the report as VulnerabilityReport object to the `bar`
@@ -92,7 +92,7 @@ I1008 19:59:23.903058   62478 scanner.go:95] Cache hit
 I1008 19:59:23.903078   62478 scanner.go:97] Copying ClusterVulnerabilityReport to VulnerabilityReport
 ```
 
-As you can see, Trivy-Operator eventually created two VulnerabilityReports by spinning
+As you can see, Tunnel-Operator eventually created two VulnerabilityReports by spinning
 up only one K8s Job.
 
 ```console
@@ -127,7 +127,7 @@ We can't use something like ownerReference since it would delete all vulnerabili
 * This solution might be the first step towards more efficient vulnerability scanning.
 * It's backward compatible and can be implemented as an experimental feature behind
   a gate.
-* Both Trivy-Operator CLI and Trivy-Operator Operator can read and leverage ClusterVulnerabilityReports.
+* Both Tunnel-Operator CLI and Tunnel-Operator Operator can read and leverage ClusterVulnerabilityReports.
 
 [Standalone]: https://khulnasoft.github.io/tunnel-operator/v0.16.0-rc/integrations/vulnerability-scanners/trivy/#standalone
 [ClientServer]: https://khulnasoft.github.io/tunnel-operator/v0.16.0-rc/integrations/vulnerability-scanners/trivy/#clientserver

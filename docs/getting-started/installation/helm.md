@@ -3,7 +3,7 @@
 [Helm], which is de facto standard package manager for Kubernetes, allows installing applications from parameterized
 YAML manifests called Helm [charts].
 
-To address shortcomings of [static YAML manifests](./kubectl.md) we provide the Helm chart to deploy the Trivy-Operator.
+To address shortcomings of [static YAML manifests](./kubectl.md) we provide the Helm chart to deploy the Tunnel-Operator.
 The Helm chart supports all [Install Modes](./configuration.md#install-modes).
 
 As an example, let's install the operator in the `trivy-system` namespace and configure it to select all namespaces,
@@ -41,7 +41,7 @@ except `kube-system` and `trivy-system`:
      --set="trivy.ignoreUnfixed=true"
    ```
    
-   There are many [values] in the chart that can be set to configure Trivy-Operator. See the [Customising][customising] section for more details.
+   There are many [values] in the chart that can be set to configure Tunnel-Operator. See the [Customising][customising] section for more details.
 4. Check that the `tunnel-operator` Helm release is created in the `trivy-system` namespace, and it has status
    `deployed`:
    ```console
@@ -65,7 +65,7 @@ except `kube-system` and `trivy-system`:
 
 There are cases, when potential chart developers want to add the operator as dependency. An example would be the creation of an umbrella chart for an application, which depends on 3d-party charts.
 
-In this case, It maybe not suitable to install the Trivy Operator in the same namespace as the main application. Instead, we can use the Helm value `operator.namespace` to define a namespace where only the operator will be installed. The Operator chart will then either create a new namespace if not existing or use the existing one.
+In this case, It maybe not suitable to install the Tunnel Operator in the same namespace as the main application. Instead, we can use the Helm value `operator.namespace` to define a namespace where only the operator will be installed. The Operator chart will then either create a new namespace if not existing or use the existing one.
 
 ## Uninstall
 
@@ -96,7 +96,7 @@ You have to manually delete custom resource definitions created by the `helm ins
 
 ## Customising the Helm Chart
 
-The Trivy Operator Helm Chart can be customised in the same way as other Helm Charts, by overwriting values in the `values.yaml` files.
+The Tunnel Operator Helm Chart can be customised in the same way as other Helm Charts, by overwriting values in the `values.yaml` files.
 
 You can find all the values that can be customised in the README of [the Helm Chart on GitHub.][helm-dir]
 

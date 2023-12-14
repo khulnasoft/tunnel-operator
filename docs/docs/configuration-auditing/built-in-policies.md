@@ -7,9 +7,9 @@ policy that checks for recommended Kubernetes labels on any resource kind.
 
 ### Processing information
 
-The Trivy Operator pulls the information from the [defsec] respository.
+The Tunnel Operator pulls the information from the [defsec] respository.
 
-Once the Trivy Operator is installed inside the Kubernetes cluster, it will perform the following processes:
+Once the Tunnel Operator is installed inside the Kubernetes cluster, it will perform the following processes:
 
 1. The [node-collector] will collect infrastructure data from node filesystem and processes
 2. It then outputs the data as JSON output 

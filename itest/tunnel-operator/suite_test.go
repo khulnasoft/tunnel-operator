@@ -44,7 +44,7 @@ func TestTrivyOperator(t *testing.T) {
 		t.Skip("Skipping integration test")
 	}
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "Trivy Operator")
+	RunSpecs(t, "Tunnel Operator")
 }
 
 var _ = BeforeSuite(func() {
@@ -74,7 +74,7 @@ var _ = BeforeSuite(func() {
 
 	go func() {
 		defer GinkgoRecover()
-		By("Starting Trivy operator")
+		By("Starting Tunnel operator")
 		err = operator.Start(startCtx, buildInfo, operatorConfig)
 		Expect(err).ToNot(HaveOccurred())
 	}()
@@ -82,6 +82,6 @@ var _ = BeforeSuite(func() {
 })
 
 var _ = AfterSuite(func() {
-	By("Stopping Trivy operator")
+	By("Stopping Tunnel operator")
 	stopFunc()
 })

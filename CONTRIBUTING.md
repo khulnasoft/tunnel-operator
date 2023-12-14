@@ -1,6 +1,6 @@
 # Contributing
 
-These guidelines will help you get started with the Trivy-operator project.
+These guidelines will help you get started with the Tunnel-operator project.
 
 ## Table of Contents
 
@@ -15,7 +15,7 @@ These guidelines will help you get started with the Trivy-operator project.
   - [Cove Coverage](#code-coverage)
 - [Custom Resource Definitions](#custom-resource-definitions)
   - [Generating code and manifests](#generating-code-and-manifests)
-- [Test Trivy Operator](#test-tunnel-operator)
+- [Test Tunnel Operator](#test-tunnel-operator)
   - [In Cluster](#in-cluster)
   - [Out of Cluster](#out-of-cluster)
 - [Update Static YAML Manifests](#update-static-yaml-manifests)
@@ -33,7 +33,7 @@ These guidelines will help you get started with the Trivy-operator project.
 - Please spend a minimal amount of time giving due diligence to existing issues or discussions. Your topic might be a duplicate. If it is, please add your comment to the existing one.
 - Please give your issue or discussion a meaningful title that will be clear for future users.
 - The issue should clearly explain the reason for opening, the proposal if you have any, and any relevant technical information.
-- For technical questions, please explain in detail what you were trying to do, provide an error message if applicable, and your versions of Trivy-Operator and your environment.
+- For technical questions, please explain in detail what you were trying to do, provide an error message if applicable, and your versions of Tunnel-Operator and your environment.
 
 ### Pull Requests
 
@@ -43,7 +43,7 @@ These guidelines will help you get started with the Trivy-operator project.
 - There's no need to add or tag reviewers, if your PR is left unattended for too long, you can add a comment to bring it up to attention, optionally "@" mention one of the maintainers that was involved with the issue.
 - If a reviewer commented on your code or asked for changes, please remember to mark the discussion as resolved after you address it and re-request a review.
 - When addressing comments, try to fix each suggestion in a separate commit.
-- Tests are not required at this point as Trivy-Operator is evolving fast, but if you can include tests that will be appreciated.
+- Tests are not required at this point as Tunnel-Operator is evolving fast, but if you can include tests that will be appreciated.
 
 #### Conventional Commits
 
@@ -83,9 +83,9 @@ have to
 
 | Binary               | Image                                          | Description                                                   |
 |----------------------|------------------------------------------------|---------------------------------------------------------------|
-| `tunnel-operator`     | `ghcr.io/khulnasoft/tunnel-operator:dev`         | Trivy Operator                                                |
+| `tunnel-operator`     | `ghcr.io/khulnasoft/tunnel-operator:dev`         | Tunnel Operator                                                |
 
-To build all Trivy-operator binary, run:
+To build all Tunnel-operator binary, run:
 
 ```
 make
@@ -93,7 +93,7 @@ make
 
 This uses the `go build` command and builds binaries in the `./bin` directory.
 
-To build all Trivy-operator binary into Docker images, run:
+To build all Tunnel-operator binary into Docker images, run:
 
 ```
 make docker-build
@@ -108,7 +108,7 @@ kind load docker-image khulnasoft/tunnel-operator:dev
 ## Testing
 
 We generally require tests to be added for all, but the most trivial of changes. However, unit tests alone don't
-provide guarantees about the behaviour of Trivy-operator. To verify that each Go module correctly interacts with its
+provide guarantees about the behaviour of Tunnel-operator. To verify that each Go module correctly interacts with its
 collaborators, more coarse grained integration tests might be required.
 
 ### Run unit Tests
@@ -148,7 +148,7 @@ To open the test coverage report in your web browser, run:
 go tool cover -html=itest/tunnel-operator/coverage.txt
 ```
 
-To run the integration tests for Trivy-operator Operator and view the coverage report, first do the
+To run the integration tests for Tunnel-operator Operator and view the coverage report, first do the
 [pre-requisite steps](#set-up-your-development-environment), and then run:
 
 ```
@@ -237,7 +237,7 @@ or similar, RBAC markers multiple places in the code. This how we want it to be,
 allow us to track RBAC changes to code changes. Any permission granted multiple times by markers
 will be deduplicated by controller-gen.
 
-## Test Trivy Operator
+## Test Tunnel Operator
 
 You can deploy the operator in the `trivy-system` namespace and configure it to watch the `default` namespace.
 In OLM terms such install mode is called *SingleNamespace*. The *SingleNamespace* mode is good to get started with a
@@ -351,7 +351,7 @@ chmod +x install.sh
 
 ### Build the Catalog Image
 
-The Trivy Operator metadata is formatted in *packagemanifest* layout, so you need to place it in the directory
+The Tunnel Operator metadata is formatted in *packagemanifest* layout, so you need to place it in the directory
 structure of the [community-operators] repository.
 
 ```
@@ -359,7 +359,7 @@ git clone git@github.com:k8s-operatorhub/community-operators.git
 cd community-operators
 ```
 
-Build the catalog image for OLM containing just Trivy Operator with a Dockerfile like this:
+Build the catalog image for OLM containing just Tunnel Operator with a Dockerfile like this:
 
 ```
 cat << EOF > tunnel-operator.Dockerfile
@@ -390,7 +390,7 @@ docker image push docker.io/<your account>/tunnel-operator-catalog:dev
 ### Register the Catalog Image
 
 Create a CatalogSource instance in the `olm` namespace to reference in the Operator catalog image that contains the
-Trivy Operator:
+Tunnel Operator:
 
 ```
 cat << EOF | kubectl apply -f -
@@ -413,7 +413,7 @@ You can delete the default catalog that OLM ships with to avoid duplicate entrie
 kubectl delete catalogsource operatorhubio-catalog -n olm
 ```
 
-Inspect the list of loaded package manifests on the system with the following command to filter for the Trivy Operator:
+Inspect the list of loaded package manifests on the system with the following command to filter for the Tunnel Operator:
 
 ```console
 $ kubectl get packagemanifests
@@ -421,7 +421,7 @@ NAME                 CATALOG             AGE
 tunnel-operator   tunnel-operator Catalog   97s
 ```
 
-If the Trivy Operator appears in this list, the catalog was successfully parsed and it is now available to install.
+If the Tunnel Operator appears in this list, the catalog was successfully parsed and it is now available to install.
 Follow the installation instructions for [OLM][tunnel-operator-install-olm]. Make sure that the Subscription's `spec.source`
 property refers to the `tunnel-operator-catalog` source instead of `operatorhubio-catalog`.
 

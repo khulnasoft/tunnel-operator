@@ -3,7 +3,7 @@
 ## Why do you duplicate instances of VulnerabilityReports for the same image digest?
 
 Docker image reference is not a first class citizen in Kubernetes. It's a
-property of the container definition. Trivy-operator relies on label selectors to
+property of the container definition. Tunnel-operator relies on label selectors to
 associate VulnerabilityReports with corresponding Kubernetes workloads, not
 particular image references. For example, we can get all reports for the
 wordpress Deployment with the following command:
