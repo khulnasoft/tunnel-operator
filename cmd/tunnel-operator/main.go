@@ -30,7 +30,7 @@ var (
 	setupLog = log.Log.WithName("main")
 )
 
-// main is the entrypoint of the Tunnel Operator executable command.
+// main is the entrypoint of the Trivy Operator executable command.
 func main() {
 	if err := run(); err != nil {
 		fmt.Fprintf(os.Stderr, "unable to run tunnel operator: %v\n", err)

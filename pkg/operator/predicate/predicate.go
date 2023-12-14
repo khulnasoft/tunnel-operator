@@ -46,15 +46,17 @@ var InstallModePredicate = func(config etc.Config) (predicate.Predicate, error) 
 		if mode == etc.AllNamespaces && strings.TrimSpace(config.ExcludeNamespaces) != "" {
 			namespaces := strings.Split(config.ExcludeNamespaces, ",")
 			for _, namespace := range namespaces {
-				matched, err := filepath.Match(strings.TrimSpace(namespace), obj.GetNamespace())
+				matches, err := filepath.Match(strings.TrimSpace(namespace), obj.GetNamespace())
 				if err != nil {
+					// In case of error we'd assume the resource should be scanned
 					return true
 				}
-				if matched {
+				if matches {
 					return false
 				}
 			}
 		}
+
 		return true
 	}), nil
 }
@@ -75,14 +77,14 @@ var InNamespace = func(namespace string) predicate.Predicate {
 	})
 }
 
-// ManagedByTunnelOperator is a predicate.Predicate that returns true if the
-// specified client.Object is managed by Tunnel-Operator.
+// ManagedByTrivyOperator is a predicate.Predicate that returns true if the
+// specified client.Object is managed by Trivy-Operator.
 //
-// For example, pods controlled by jobs scheduled by Tunnel-Operator Operator are
+// For example, pods controlled by jobs scheduled by Trivy-Operator Operator are
 // labeled with `app.kubernetes.io/managed-by=tunneloperator`.
-var ManagedByTunnelOperator = predicate.NewPredicateFuncs(func(obj client.Object) bool {
+var ManagedByTrivyOperator = predicate.NewPredicateFuncs(func(obj client.Object) bool {
 	if managedBy, ok := obj.GetLabels()[tunneloperator.LabelK8SAppManagedBy]; ok {
-		return managedBy == tunneloperator.AppTunnelOperator
+		return managedBy == tunneloperator.AppTrivyOperator
 	}
 	return false
 })

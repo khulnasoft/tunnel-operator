@@ -1,20 +1,20 @@
 # kubectl
 
-The Kubernetes Yaml Deployment files are available on GitHub in [https://github.com/khulnasoft/tunnel-operator](https://github.com/khulnasoft/tunnel-operator) under `/deploy/static`.
+Kubernetes Yaml deployment files are available on GitHub in [https://github.com/khulnasoft/tunnel-operator](https://github.com/khulnasoft/tunnel-operator) under `/deploy/static`.
 
 ## Example - Deploy from GitHub
 
-This will install the operator in the `tunnel-system` namespace and configure it to scan all namespaces, except `kube-system` and `tunnel-system`:
+This will install the operator in the `trivy-system` namespace and configure it to scan all namespaces, except `kube-system` and `trivy-system`:
 
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/khulnasoft/tunnel-operator/{{ git.tag }}/deploy/static/tunnel-operator.yaml
 ```
 
-To confirm that the Operator is running, check that the `tunnel-operator` Deployment in the `tunnel-system`
+To confirm that the operator is running, check that the `tunnel-operator` Deployment in the `trivy-system`
 namespace is available and all its containers are ready:
 
 ```bash
-$ kubectl get deployment -n tunnel-system
+$ kubectl get deployment -n trivy-system
 NAME                 READY   UP-TO-DATE   AVAILABLE   AGE
 tunnel-operator   1/1     1            1           11m
 ```
@@ -22,13 +22,13 @@ tunnel-operator   1/1     1            1           11m
 If for some reason it's not ready yet, check the logs of the `tunnel-operator` Deployment for errors:
 
 ```bash
-kubectl logs deployment/tunnel-operator -n tunnel-system
+kubectl logs deployment/tunnel-operator -n trivy-system
 ```
 
 ## Advanced Configuration
 
-You can configure Tunnel-Operator to control it's behavior and adapt it to your needs. Aspects of the operator machinery are configured using environment variables on the operator Pod, while aspects of the scanning behavior are controlled by ConfigMaps and Secrets.
-To learn more, please refer to the [Configuration](configuration) documentation.
+You can configure Trivy-Operator to control it's behavior and adapt it to your needs. Aspects of the operator machinery are configured using environment variables on the operator Pod, while aspects of the scanning behavior are controlled by ConfigMaps and Secrets.
+To learn more, please refer to the [Configuration](config) documentation.
 
 ## Uninstall
 

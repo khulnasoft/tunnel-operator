@@ -98,7 +98,7 @@ func evaluate(ctx context.Context, policies *policy.Policies, resource client.Ob
 func scanner(bi tunneloperator.BuildInfo) v1alpha1.Scanner {
 	return v1alpha1.Scanner{
 		Name:    v1alpha1.ScannerNameTrivy,
-		Vendor:  "Khulnasoft Security",
+		Vendor:  "Aqua Security",
 		Version: bi.Version,
 	}
 }

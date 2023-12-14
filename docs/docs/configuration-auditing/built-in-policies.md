@@ -1,15 +1,15 @@
 # Built-in Configuration Audit Policies
 
 The following sections list built-in configuration audit policies installed with tunnel-operator. They are stored in the
-`tunnel-operator-policies-config` ConfigMap created in the installation namespace (e.g. `tunnel-system`). You can modify
+`tunnel-operator-policies-config` ConfigMap created in the installation namespace (e.g. `trivy-system`). You can modify
 them or add a new policy. For example, follow the [Writing Custom Configuration Audit Policies] tutorial to add a custom
 policy that checks for recommended Kubernetes labels on any resource kind.
 
 ### Processing information
 
-The Tunnel Operator pulls the information from the [defsec] respository.
+The Trivy Operator pulls the information from the [defsec] respository.
 
-Once the Tunnel Operator is installed inside the Kubernetes cluster, it will perform the following processes:
+Once the Trivy Operator is installed inside the Kubernetes cluster, it will perform the following processes:
 
 1. The [node-collector] will collect infrastructure data from node filesystem and processes
 2. It then outputs the data as JSON output 
@@ -98,7 +98,7 @@ Once the Tunnel Operator is installed inside the Kubernetes cluster, it will per
 
 
 [defsec]: https://github.com/aquasecurity/defsec/tree/master/rules/kubernetes/policies/cisbenchmarks
-[node-collector]: https://github.com/aquasecurity/k8s-node-collector
+[node-collector]: https://github.com.khulnasoft/k8s-node-collector
 
 [CPU not limited]: https://avd.aquasec.com/misconfig/kubernetes/ksv011/
 [CPU requests not specified]: https://avd.aquasec.com/misconfig/kubernetes/ksv015/

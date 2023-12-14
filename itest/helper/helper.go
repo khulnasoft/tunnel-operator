@@ -19,16 +19,16 @@ import (
 	"k8s.io/apimachinery/pkg/types"
 	"k8s.io/apimachinery/pkg/util/rand"
 	"k8s.io/apimachinery/pkg/util/wait"
-	"k8s.io/utils/ptr"
+	"k8s.io/utils/pointer"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
 )
 
 type PrivateRegistryConfig struct {
-	Server   string `env:"TUNNEL_OPERATOR_TEST_REGISTRY_SERVER"`
-	Username string `env:"TUNNEL_OPERATOR_TEST_REGISTRY_USERNAME"`
-	Password string `env:"TUNNEL_OPERATOR_TEST_REGISTRY_PASSWORD"`
-	ImageRef string `env:"TUNNEL_OPERATOR_TEST_REGISTRY_PRIVATE_IMAGE_REF"`
+	Server   string `env:"TRIVY_OPERATOR_TEST_REGISTRY_SERVER"`
+	Username string `env:"TRIVY_OPERATOR_TEST_REGISTRY_USERNAME"`
+	Password string `env:"TRIVY_OPERATOR_TEST_REGISTRY_PASSWORD"`
+	ImageRef string `env:"TRIVY_OPERATOR_TEST_REGISTRY_PRIVATE_IMAGE_REF"`
 }
 
 func (c *PrivateRegistryConfig) Parse() error {
@@ -212,7 +212,7 @@ func (b *DeploymentBuilder) Build() *appsv1.Deployment {
 			Namespace: b.namespace,
 		},
 		Spec: appsv1.DeploymentSpec{
-			Replicas: ptr.To[int32](1),
+			Replicas: pointer.Int32(1),
 			Selector: &metav1.LabelSelector{
 				MatchLabels: map[string]string{
 					"app": b.name,
@@ -235,8 +235,8 @@ func (b *DeploymentBuilder) Build() *appsv1.Deployment {
 var (
 	trivyScanner = v1alpha1.Scanner{
 		Name:    v1alpha1.ScannerNameTrivy,
-		Vendor:  "Khulnasoft Security",
-		Version: "0.17.0",
+		Vendor:  "Aqua Security",
+		Version: "0.16.0",
 	}
 )
 
@@ -288,10 +288,6 @@ func (b *VulnerabilityReportBuilder) Build() *v1alpha1.VulnerabilityReport {
 			Artifact: v1alpha1.Artifact{
 				Repository: "library/nginx",
 				Tag:        "1.16",
-			},
-			OS: v1alpha1.OS{
-				Family: "debian",
-				Name:   "10.3",
 			},
 			Summary: v1alpha1.VulnerabilitySummary{
 				MediumCount: 1,

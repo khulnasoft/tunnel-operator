@@ -27,13 +27,10 @@ import (
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/client-go/kubernetes"
 	ctrl "sigs.k8s.io/controller-runtime"
-	"sigs.k8s.io/controller-runtime/pkg/cache"
 	"sigs.k8s.io/controller-runtime/pkg/client"
-
 	"sigs.k8s.io/controller-runtime/pkg/healthz"
 	"sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/manager"
-	metricsserver "sigs.k8s.io/controller-runtime/pkg/metrics/server"
 )
 
 var (
@@ -56,15 +53,13 @@ func Start(ctx context.Context, buildInfo tunneloperator.BuildInfo, operatorConf
 	// Set the default manager options.
 	options := manager.Options{
 		Scheme:                 tunneloperator.NewScheme(),
-		Metrics:                metricsserver.Options{BindAddress: operatorConfig.MetricsBindAddress},
+		MetricsBindAddress:     operatorConfig.MetricsBindAddress,
 		HealthProbeBindAddress: operatorConfig.HealthProbeBindAddress,
-		Client: client.Options{
-			Cache: &client.CacheOptions{
-				DisableFor: []client.Object{
-					&corev1.Secret{},
-					&corev1.ServiceAccount{},
-				},
-			},
+		// Disable cache for resources used to look up image pull secrets to avoid
+		// spinning up informers and to tighten operator RBAC permissions
+		ClientDisableCacheFor: []client.Object{
+			&corev1.Secret{},
+			&corev1.ServiceAccount{},
 		},
 	}
 
@@ -78,21 +73,22 @@ func Start(ctx context.Context, buildInfo tunneloperator.BuildInfo, operatorConf
 	case etc.OwnNamespace:
 		// Add support for OwnNamespace set in OPERATOR_NAMESPACE (e.g. `tunnel-operator`)
 		// and OPERATOR_TARGET_NAMESPACES (e.g. `tunnel-operator`).
-		setupLog.Info("Constructing client cache", "namespace", operatorNamespace)
-		options.Cache.DefaultNamespaces = map[string]cache.Config{operatorNamespace: {}}
-	case etc.SingleNamespace, etc.MultiNamespace:
+		setupLog.Info("Constructing client cache", "namespace", targetNamespaces[0])
+		options.Cache.Namespaces = []string{targetNamespaces[0]}
+	case etc.SingleNamespace:
 		// Add support for SingleNamespace set in OPERATOR_NAMESPACE (e.g. `tunnel-operator`)
 		// and OPERATOR_TARGET_NAMESPACES (e.g. `default`).
+		cachedNamespaces := append(targetNamespaces, operatorNamespace)
+		setupLog.Info("Constructing client cache", "namespaces", cachedNamespaces)
+		options.Cache.Namespaces = cachedNamespaces
+	case etc.MultiNamespace:
 		// Add support for MultiNamespace set in OPERATOR_NAMESPACE (e.g. `tunnel-operator`)
 		// and OPERATOR_TARGET_NAMESPACES (e.g. `default,kube-system`).
 		// Note that you may face performance issues when using this mode with a high number of namespaces.
 		// More: https://godoc.org/github.com/kubernetes-sigs/controller-runtime/pkg/cache#MultiNamespacedCacheBuilder
-		namespaceCacheMap := make(map[string]cache.Config)
-		setupLog.Info("Constructing client cache", "namespaces", targetNamespaces)
-		for _, namespace := range append(targetNamespaces, operatorNamespace) {
-			namespaceCacheMap[namespace] = cache.Config{}
-		}
-		options.Cache.DefaultNamespaces = namespaceCacheMap
+		cachedNamespaces := append(targetNamespaces, operatorNamespace)
+		setupLog.Info("Constructing client cache", "namespaces", cachedNamespaces)
+		options.Cache.Namespaces = cachedNamespaces
 	case etc.AllNamespaces:
 		// Add support for AllNamespaces set in OPERATOR_NAMESPACE (e.g. `operators`)
 		// and OPERATOR_TARGET_NAMESPACES left blank.
@@ -164,10 +160,12 @@ func Start(ctx context.Context, buildInfo tunneloperator.BuildInfo, operatorConf
 		if err != nil {
 			return err
 		}
+
 		err = plugin.Init(pluginContext)
 		if err != nil {
-			return err
+			return fmt.Errorf("initializing %s plugin: %w", pluginContext.GetName(), err)
 		}
+
 		if err = (&vcontroller.WorkloadController{
 			Logger:           ctrl.Log.WithName("reconciler").WithName("vulnerabilityreport"),
 			Config:           operatorConfig,
@@ -237,10 +235,6 @@ func Start(ctx context.Context, buildInfo tunneloperator.BuildInfo, operatorConf
 			if err != nil {
 				return fmt.Errorf("initializing %s plugin: %w", pluginContext.GetName(), err)
 			}
-			err = plugin.Init(pluginContext)
-			if err != nil {
-				return err
-			}
 			ttlReconciler.PluginContext = pluginContextCofig
 			ttlReconciler.PluginInMemory = plugin
 		}
@@ -272,7 +266,7 @@ func Start(ctx context.Context, buildInfo tunneloperator.BuildInfo, operatorConf
 		}
 		err = plugin.Init(pluginContext)
 		if err != nil {
-			return err
+			return fmt.Errorf("initializing %s plugin: %w", pluginContext.GetName(), err)
 		}
 		var gitVersion string
 		if version, err := clientSet.ServerVersion(); err == nil {

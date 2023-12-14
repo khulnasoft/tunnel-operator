@@ -44,7 +44,7 @@ type NodeCollectorJobController struct {
 func (r *NodeCollectorJobController) SetupWithManager(mgr ctrl.Manager) error {
 	var predicates []predicate.Predicate
 
-	predicates = append(predicates, ManagedByTunnelOperator, IsNodeInfoCollector, JobHasAnyCondition)
+	predicates = append(predicates, ManagedByTrivyOperator, IsNodeInfoCollector, JobHasAnyCondition)
 	return ctrl.NewControllerManagedBy(mgr).
 		For(&batchv1.Job{}, builder.WithPredicates(predicates...)).
 		Complete(r.reconcileJobs())

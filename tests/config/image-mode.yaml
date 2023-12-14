@@ -2,7 +2,7 @@
 apiVersion: kuttl.dev/v1beta1
 kind: TestSuite
 commands:
-  - command: helm install tunnel-operator ./deploy/helm --namespace tunnel-system
+  - command: helm install tunnel-operator ./deploy/helm --namespace trivy-system
       --create-namespace --set="image.tag=e2e"
       --set="excludeNamespaces=kube-system"
       --set="trivyOperator.additionalReportLabels=myname=test"

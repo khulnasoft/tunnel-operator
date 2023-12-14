@@ -3,7 +3,7 @@
 !!! warning "EXPERIMENTAL"
     This feature might change without preserving backwards compatibility.
 
-Tunnel-operator compliance crds allow you create a specific set of checks into a report. There are hundreds of different checks for many different components and configurations, but sometimes you already know which specific checks you are interested in. Often this would be an industry accepted set of checks such as CIS, or some vendor specific guideline, or your own organization policy that you want to comply with. These are all possible using the flexible compliance infrastructure that's built into Tunnel-operator. Compliance reports are defined as simple YAML documents that select checks to include in the report.
+Trivy-operator compliance crds allow you create a specific set of checks into a report. There are hundreds of different checks for many different components and configurations, but sometimes you already know which specific checks you are interested in. Often this would be an industry accepted set of checks such as CIS, or some vendor specific guideline, or your own organization policy that you want to comply with. These are all possible using the flexible compliance infrastructure that's built into Trivy-operator. Compliance reports are defined as simple YAML documents that select checks to include in the report.
 
 The compliance report will be generated every six hours by default.
 

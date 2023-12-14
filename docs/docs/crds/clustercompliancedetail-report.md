@@ -1,9 +1,9 @@
 # ClusterComplianceDetailReport
 
 The ClusterComplianceDetailReport is a cluster-scoped resource, which represents the latest result of the Cluster Compliance Detail report.
-The report data provides granular information on control check failures that occur in `ClusterComplianceReport`. This can be used for further investigation.
+The report data provide granular information on control checks failures that occur in `ClusterComplianceReport` for further investigation.
 
-The compliance detail report provides granular information on control check failures:
+The compliance detail report provides granular information insight on control check failures:
 
 - Failing resource kind
 - Name of the failing resource
@@ -225,7 +225,7 @@ report:
             - msg: Container 'tunnel-operator' of ReplicaSet 'tunnel-operator-7cf866c47b'
                 should set 'securityContext.runAsNonRoot' to true
               name: replicaset-tunnel-operator-7cf866c47b
-              namespace: tunnel-system
+              namespace: trivy-system
               status: FAIL
             - msg: Container 'coredns' of ReplicaSet 'coredns-96cc4f57d' should set 'securityContext.runAsNonRoot'
                 to true
@@ -240,7 +240,7 @@ report:
             - msg: Container 'tunnel-operator' of ReplicaSet 'tunnel-operator-c94dd56d'
                 should set 'securityContext.runAsNonRoot' to true
               name: replicaset-tunnel-operator-c94dd56d
-              namespace: tunnel-system
+              namespace: trivy-system
               status: FAIL
             - msg: Container 'local-path-provisioner' of ReplicaSet 'local-path-provisioner-84bb864455'
                 should set 'securityContext.runAsNonRoot' to true

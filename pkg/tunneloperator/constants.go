@@ -1,15 +1,15 @@
 package tunneloperator
 
 const (
-	// NamespaceName the name of the namespace in which Tunnel-operator stores its
+	// NamespaceName the name of the namespace in which Trivy-operator stores its
 	// configuration and where it runs scan jobs.
 	NamespaceName = "tunnel-operator"
 
-	// ConfigMapName the name of the ConfigMap where Tunnel-operator stores its
+	// ConfigMapName the name of the ConfigMap where Trivy-operator stores its
 	// configuration.
 	ConfigMapName = "tunnel-operator"
 
-	// SecretName the name of the secret where Tunnel-operator stores is sensitive
+	// SecretName the name of the secret where Trivy-operator stores is sensitive
 	// configuration.
 	SecretName = "tunnel-operator"
 
@@ -26,14 +26,12 @@ const (
 	LabelContainerName     = "tunnel-operator.container.name"
 	LabelResourceSpecHash  = "resource-spec-hash"
 	LabelPluginConfigHash  = "plugin-config-hash"
-	LabelResourceImageID   = "resource-image-id"
-	LabelReusedReport      = "reused-report"
 
 	LabelVulnerabilityReportScanner = "vulnerabilityReport.scanner"
 	LabelNodeInfoCollector          = "node-info.collector"
 
 	LabelK8SAppManagedBy = "app.kubernetes.io/managed-by"
-	AppTunnelOperator     = "tunnel-operator"
+	AppTrivyOperator     = "tunnel-operator"
 )
 
 const (

@@ -128,7 +128,7 @@ func (r *ResourceController) SetupWithManager(mgr ctrl.Manager) error {
 			CacheSyncTimeout: r.CacheSyncTimeout,
 		}).
 			For(resource.ForObject, builder.WithPredicates(
-				predicate.Not(predicate.ManagedByTunnelOperator),
+				predicate.Not(predicate.ManagedByTrivyOperator),
 				predicate.Not(predicate.IsBeingTerminated),
 			)).
 			Owns(resource.OwnsObject).
@@ -146,7 +146,7 @@ func (r *ResourceController) buildControlMgr(mgr ctrl.Manager, configResource ku
 		CacheSyncTimeout: r.CacheSyncTimeout,
 	}).
 		For(configResource.ForObject, builder.WithPredicates(
-			predicate.Not(predicate.ManagedByTunnelOperator),
+			predicate.Not(predicate.ManagedByTrivyOperator),
 			predicate.Not(predicate.IsLeaderElectionResource),
 			predicate.Not(predicate.IsBeingTerminated),
 			installModePredicate,

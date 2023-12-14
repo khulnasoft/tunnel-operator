@@ -3,7 +3,7 @@ package utils
 import (
 	"github.com/khulnasoft/tunnel-operator/pkg/ext"
 	"github.com/gorhill/cronexpr"
-	"k8s.io/utils/ptr"
+	"k8s.io/utils/pointer"
 	"time"
 )
 
@@ -36,7 +36,7 @@ func IsTTLExpired(ttl time.Duration, creationTime time.Time, clock ext.Clock) (b
 
 func DurationSecondsPtr(d time.Duration) *int64 {
 	if d > 0 {
-		return ptr.To[int64](int64(d.Seconds()))
+		return pointer.Int64(int64(d.Seconds()))
 	}
 	return nil
 }

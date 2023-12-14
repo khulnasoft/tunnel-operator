@@ -23,7 +23,7 @@ import (
 	"github.com/khulnasoft/tunnel-operator/pkg/operator/etc"
 	"github.com/khulnasoft/tunnel-operator/pkg/operator/jobs"
 	"github.com/khulnasoft/tunnel-operator/pkg/plugins"
-	"github.com/khulnasoft/tunnel-operator/pkg/plugins/tunnel"
+	"github.com/khulnasoft/tunnel-operator/pkg/plugins/trivy"
 	"github.com/khulnasoft/tunnel-operator/pkg/rbacassessment"
 	"github.com/khulnasoft/tunnel-operator/pkg/tunneloperator"
 	"github.com/khulnasoft/tunnel-operator/pkg/vulnerabilityreport"
@@ -123,8 +123,7 @@ var _ = BeforeSuite(func() {
 		},
 	})
 	Expect(err).ToNot(HaveOccurred())
-	err = plugin.Init(pluginContext)
-	Expect(err).ToNot(HaveOccurred())
+
 	err = (&controller.WorkloadController{
 		Logger:                  ctrl.Log.WithName("reconciler").WithName("vulnerabilityreport"),
 		Config:                  config,

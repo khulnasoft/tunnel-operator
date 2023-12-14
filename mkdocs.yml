@@ -1,11 +1,11 @@
-site_name: Tunnel Operator
+site_name: Trivy Operator
 site_url: https://khulnasoft.github.io/tunnel-operator/
 site_description: Kubernetes-native security toolkit
 docs_dir: docs/
 repo_name: GitHub
 repo_url: https://github.com/khulnasoft/tunnel-operator
 edit_uri: ""
-copyright: Copyright 2019-2022 Khulnasoft Security Software Ltd.
+copyright: Copyright 2019-2022 Aqua Security Software Ltd.
 
 nav:
   - Getting Started:
@@ -24,16 +24,15 @@ nav:
   - Tutorials:
       - Writing Custom Configuration Audit Policies: tutorials/writing-custom-configuration-audit-policies.md
       - Manage Access to Security Reports: tutorials/manage_access_to_security_reports.md
-      - Using the Tunnel Operator addon in microk8s: tutorials/microk8s.md
+      - Using the Trivy Operator addon in microk8s: tutorials/microk8s.md
       - Operator Access to Private Registries: tutorials/private-registries.md
-      - Tunnel Operator Dashboard in Grafana: tutorials/grafana-dashboard.md
+      - Trivy Operator Dashboard in Grafana: tutorials/grafana-dashboard.md
       - Integrations:
           - Metrics: tutorials/integrations/metrics.md
           - Lens Extension: tutorials/integrations/lens.md
           - Webhook Integration: tutorials/integrations/webhook.md
           - Policy Reporter Integration: tutorials/integrations/policy-reporter.md
   - Docs:
-      - Overview: docs/index.md
       - Vulnerability Scanning:
           - Overview: docs/vulnerability-scanning/index.md
           - Trivy Scanner: docs/vulnerability-scanning/trivy.md
@@ -52,7 +51,6 @@ nav:
           - RbacAssessmentReport: docs/crds/rbacassessment-report.md
           - InfraAssessmentReport: docs/crds/infraassessment-report.md
           - ClusterComplianceReport: docs/crds/clustercompliance-report.md
-          - SbomReport: docs/crds/sbom-report.md
   - Frequently Asked Questions: faq.md
 
 theme:
@@ -88,8 +86,8 @@ extra:
     method: mike
     provider: mike
   var:
-    prev_git_tag: "v0.16.4"
-    chart_version: "0.19.0"
+    prev_git_tag: "v0.15.1"
+    chart_version: "0.18.0-rc"
 
 plugins:
   - search

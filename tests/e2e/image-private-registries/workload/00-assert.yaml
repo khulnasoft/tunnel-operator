@@ -14,4 +14,4 @@ report:
     server: index.docker.io
   scanner:
     name: Trivy
-    vendor: Khulnasoft Security
+    vendor: Aqua Security

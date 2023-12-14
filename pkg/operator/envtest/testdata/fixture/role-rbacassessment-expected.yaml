@@ -44,7 +44,7 @@ report:
       success: false
   scanner:
     name: Trivy
-    vendor: Khulnasoft Security
+    vendor: Aqua Security
     version: version
   summary:
     criticalCount: 0

@@ -1,8 +1,8 @@
 # Webhook Integration
 
-Tunnel Operator allows you to send reports externally to a webhook as they get produced. This is useful in cases where you would like to _"set-and-forget"_ the operator and monitor the reports elsewhere. It's also useful when you have to make decisions based on a report, e.g. prune a vulnerable image, remove a deployment with exposed secrets etc.
+Trivy Operator allows you to send reports externally to a webhook as they get produced. This is useful in cases where you would like to _"set-and-forget"_ the operator and monitor the reports elsewhere. It's also useful when you have to make decisions based on a report, e.g. prune a vulnerable image, remove a deployment with exposed secrets etc.
 
-The latter use case can be fulfilled by using a SOAR tool [Postee](https://github.com/aquasecurity/postee). Out of the box, Postee offers a variety of integrations with other third party services such as ServiceNow, Slack, AWS Security Hub and many more.  
+The latter use case can be fulfilled by using a SOAR tool [Postee](https://github.com.khulnasoft/postee). Out of the box, Postee offers a variety of integrations with other third party services such as ServiceNow, Slack, AWS Security Hub and many more.  
 
 ![img.png](../../images/webhook-integration.png)
 

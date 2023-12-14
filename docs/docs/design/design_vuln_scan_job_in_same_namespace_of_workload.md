@@ -7,7 +7,7 @@ method to provide access to registry, then tunnel operator has challenges to sca
 
 - Consider an example of ECR registry, there is one option available in which that user can associate IAM role to service account,
  then workloads which are associated with this service account will get authorised to run with the image from that registry.
- If user wants to get these images scanned using Tunnel operator then currently we have only one way to do that.
+ If user wants to get these images scanned using Trivy operator then currently we have only one way to do that.
  User has to associate IAM role to tunnel-operator service account, so with when scan job run with `tunnel-operator`service
  account, then Trivy will get appropriate permission to pull the image. To know more on how this mechanism works, please
  refer to the documents [ECR registry configuration], [IAM role to service account], but, trivy cannot use permission
@@ -219,6 +219,6 @@ With this approach tunnel operator will not have to worry about managing(create/
     - As we will run scan job with service account of workload and if there are some very strict PSP defined in the cluster
     then scan job will be blocked due to the PSP.
   
-[ECR registry configuration]: https://khulnasoft.github.io/tunnel-operator/v0.17.0/integrations/managed-registries/#amazon-elastic-container-registry-ecr
+[ECR registry configuration]: https://khulnasoft.github.io/tunnel-operator/v0.16.0-rc/integrations/managed-registries/#amazon-elastic-container-registry-ecr
 [IAM role to service account]: https://docs.aws.amazon.com/eks/latest/userguide/specify-service-account-role.html
 [Trivy fs command]: https://github.com/khulnasoft/tunnel-operator/blob/main/docs/design/design_trivy_file_system_scanner.md

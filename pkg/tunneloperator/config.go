@@ -84,7 +84,7 @@ const (
 	KeyAdditionalReportLabels              = "report.additionalLabels"
 )
 
-// ConfigData holds Tunnel-operator configuration settings as a set of key-value
+// ConfigData holds Trivy-operator configuration settings as a set of key-value
 // pairs.
 type ConfigData map[string]string
 

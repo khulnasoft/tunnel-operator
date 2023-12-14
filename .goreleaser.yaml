@@ -37,30 +37,12 @@ checksum:
 snapshot:
   name_template: "{{ .FullCommit }}"
 changelog:
+  sort: asc
   filters:
     exclude:
+      - '^docs'
       - '^test'
       - '^release'
-  sort: asc
-  use: github
-  groups:
-    - title: ✨ Notable Changes ✨
-      regexp: '^.*?feat(\([[:word:]]+\))??!?:.+$'
-      order: 100
-    - title: 🐛 Notable Fixes 🐛
-      regexp: '^.*?fix(\([[:word:]]+\))??!?:.+$'
-      order: 150
-    - title: 👮 Security updates👮
-      regexp: '^.*?sec(\([[:word:]]+\))??!?:.+$'
-      order: 200
-    - title: 📝 Documentation 📝
-      regexp: ^.*?docs(\([[:word:]]+\))??!?:.+$
-      order: 250
-    - title: 🔧 Miscellaneous 🔧
-      regexp: '^.*?chore(\([[:word:]]+\))??!?:.+$'
-      order: 300
-    - title: 👷 Other work 👷
-      order: 9999
 dockers:
   - image_templates:
       - "docker.io/khulnasoft/tunnel-operator:{{ .Version }}-amd64"
@@ -75,7 +57,7 @@ dockers:
     build_flag_templates:
       - "--label=org.opencontainers.image.title=tunnel-operator"
       - "--label=org.opencontainers.image.description=Keeps tunnel-operator resources updated"
-      - "--label=org.opencontainers.image.vendor=Khulnasoft Security"
+      - "--label=org.opencontainers.image.vendor=Aqua Security"
       - "--label=org.opencontainers.image.version={{ .Version }}"
       - "--label=org.opencontainers.image.created={{ .Date }}"
       - "--label=org.opencontainers.image.source=https://github.com/khulnasoft/tunnel-operator"
@@ -95,7 +77,7 @@ dockers:
     build_flag_templates:
       - "--label=org.opencontainers.image.title=tunnel-operator"
       - "--label=org.opencontainers.image.description=Keeps tunnel-operator resources updated"
-      - "--label=org.opencontainers.image.vendor=Khulnasoft Security"
+      - "--label=org.opencontainers.image.vendor=Aqua Security"
       - "--label=org.opencontainers.image.version={{ .Version }}"
       - "--label=org.opencontainers.image.created={{ .Date }}"
       - "--label=org.opencontainers.image.source=https://github.com/khulnasoft/tunnel-operator"
@@ -115,7 +97,7 @@ dockers:
     build_flag_templates:
       - "--label=org.opencontainers.image.title=tunnel-operator"
       - "--label=org.opencontainers.image.description=Keeps tunnel-operator resources updated"
-      - "--label=org.opencontainers.image.vendor=Khulnasoft Security"
+      - "--label=org.opencontainers.image.vendor=Aqua Security"
       - "--label=org.opencontainers.image.version={{ .Version }}"
       - "--label=org.opencontainers.image.created={{ .Date }}"
       - "--label=org.opencontainers.image.source=https://github.com/khulnasoft/tunnel-operator"
@@ -135,7 +117,7 @@ dockers:
     build_flag_templates:
       - "--label=org.opencontainers.image.title=tunnel-operator"
       - "--label=org.opencontainers.image.description=Keeps tunnel-operator resources updated"
-      - "--label=org.opencontainers.image.vendor=Khulnasoft Security"
+      - "--label=org.opencontainers.image.vendor=Aqua Security"
       - "--label=org.opencontainers.image.version={{ .Version }}"
       - "--label=org.opencontainers.image.created={{ .Date }}"
       - "--label=org.opencontainers.image.source=https://github.com/khulnasoft/tunnel-operator"
@@ -155,7 +137,7 @@ dockers:
     build_flag_templates:
       - "--label=org.opencontainers.image.title=tunnel-operator"
       - "--label=org.opencontainers.image.description=Keeps tunnel-operator resources updated"
-      - "--label=org.opencontainers.image.vendor=Khulnasoft Security"
+      - "--label=org.opencontainers.image.vendor=Aqua Security"
       - "--label=org.opencontainers.image.version={{ .Version }}"
       - "--label=org.opencontainers.image.created={{ .Date }}"
       - "--label=org.opencontainers.image.source=https://github.com/khulnasoft/tunnel-operator"
@@ -175,7 +157,7 @@ dockers:
     build_flag_templates:
       - "--label=org.opencontainers.image.title=tunnel-operator"
       - "--label=org.opencontainers.image.description=Keeps tunnel-operator resources updated"
-      - "--label=org.opencontainers.image.vendor=Khulnasoft Security"
+      - "--label=org.opencontainers.image.vendor=Aqua Security"
       - "--label=org.opencontainers.image.version={{ .Version }}"
       - "--label=org.opencontainers.image.created={{ .Date }}"
       - "--label=org.opencontainers.image.source=https://github.com/khulnasoft/tunnel-operator"
@@ -195,7 +177,7 @@ dockers:
     build_flag_templates:
       - "--label=org.opencontainers.image.title=tunnel-operator"
       - "--label=org.opencontainers.image.description=Keeps tunnel-operator resources updated"
-      - "--label=org.opencontainers.image.vendor=Khulnasoft Security"
+      - "--label=org.opencontainers.image.vendor=Aqua Security"
       - "--label=org.opencontainers.image.version={{ .Version }}"
       - "--label=org.opencontainers.image.created={{ .Date }}"
       - "--label=org.opencontainers.image.source=https://github.com/khulnasoft/tunnel-operator"
@@ -215,7 +197,7 @@ dockers:
     build_flag_templates:
       - "--label=org.opencontainers.image.title=tunnel-operator"
       - "--label=org.opencontainers.image.description=Keeps tunnel-operator resources updated"
-      - "--label=org.opencontainers.image.vendor=Khulnasoft Security"
+      - "--label=org.opencontainers.image.vendor=Aqua Security"
       - "--label=org.opencontainers.image.version={{ .Version }}"
       - "--label=org.opencontainers.image.created={{ .Date }}"
       - "--label=org.opencontainers.image.source=https://github.com/khulnasoft/tunnel-operator"

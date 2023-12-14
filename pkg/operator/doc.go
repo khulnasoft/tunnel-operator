@@ -1,2 +1,2 @@
-// Package operator provides primitives for implementing Tunnel-Operator Operator.
+// Package operator provides primitives for implementing Trivy-Operator Operator.
 package operator

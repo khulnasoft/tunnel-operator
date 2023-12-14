@@ -101,7 +101,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: tunnel-operator-policies-config
-  namespace: tunnel-system
+  namespace: trivy-system
   labels:
     app.kubernetes.io/name: tunnel-operator
     app.kubernetes.io/instance: tunnel-operator
@@ -189,7 +189,7 @@ metadata:
 report:
   scanner:
     name: tunnel-operator
-    vendor: Khulnasoft Security
+    vendor: Aqua Security
     version: {{ git.tag }}
   summary:
     criticalCount: 0

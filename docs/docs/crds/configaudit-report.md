@@ -1,7 +1,9 @@
 # ConfigAuditReport
 
-An instance of the ConfigAuditReport represents the checks performed by configuration auditing tools, such as [Trivy](https://github.com/aquasecurity/trivy),
-against the configuration of a Kubernetes object. Example of checks are that a given container image is configured to run as non-root user or that a container has resource requests and limits set. Checks might relate to Kubernetes workloads and other namespaced Kubernetes objects such as Services, ConfigMaps, Roles, and RoleBindings.
+An instance of the ConfigAuditReport represents checks performed by configuration auditing tools, such as [Trivy],
+against a Kubernetes object's configuration. For example, check that a given container image runs as
+non-root user or that a container has resource requests and limits set. Checks might relate to Kubernetes workloads
+and other namespaced Kubernetes objects such as Services, ConfigMaps, Roles, and RoleBindings.
 
 Each report is owned by the underlying Kubernetes object and is stored in the same namespace, following the
 `<workload-kind>-<workload-name>` naming convention.
@@ -33,8 +35,8 @@ report:
   updateTimestamp: '2021-05-20T12:38:10Z'
   scanner:
     name: Trivy 
-    vendor: Khulnasoft Security
-    version: '0.17.0'
+    vendor: Aqua Security
+    version: '0.16.0-rc'
   summary:
     criticalCount: 2
     highCount: 0

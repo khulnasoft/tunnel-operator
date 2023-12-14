@@ -21,7 +21,7 @@ var _ = Describe("LimitChecker", func() {
 		ConcurrentScanJobsLimit:      2,
 		ConcurrentNodeCollectorLimit: 1,
 	}
-	defaultTunnelOperatorConfig := tunneloperator.GetDefaultConfig()
+	defaultTrivyOperatorConfig := tunneloperator.GetDefaultConfig()
 
 	Context("When there are more jobs than limit", func() {
 
@@ -36,7 +36,7 @@ var _ = Describe("LimitChecker", func() {
 					Name:      "scan-vulnerabilityreport-hash1",
 					Namespace: "tunnel-operator",
 					Labels: map[string]string{
-						tunneloperator.LabelK8SAppManagedBy:            tunneloperator.AppTunnelOperator,
+						tunneloperator.LabelK8SAppManagedBy:            tunneloperator.AppTrivyOperator,
 						tunneloperator.LabelVulnerabilityReportScanner: "Trivy",
 					},
 				}},
@@ -44,7 +44,7 @@ var _ = Describe("LimitChecker", func() {
 					Name:      "scan-vulnerabilityreport-hash2",
 					Namespace: "tunnel-operator",
 					Labels: map[string]string{
-						tunneloperator.LabelK8SAppManagedBy:            tunneloperator.AppTunnelOperator,
+						tunneloperator.LabelK8SAppManagedBy:            tunneloperator.AppTrivyOperator,
 						tunneloperator.LabelVulnerabilityReportScanner: "Trivy",
 					},
 				}},
@@ -52,13 +52,13 @@ var _ = Describe("LimitChecker", func() {
 					Name:      "scan-configauditreport-hash2",
 					Namespace: "tunnel-operator",
 					Labels: map[string]string{
-						tunneloperator.LabelK8SAppManagedBy:            tunneloperator.AppTunnelOperator,
+						tunneloperator.LabelK8SAppManagedBy:            tunneloperator.AppTrivyOperator,
 						tunneloperator.LabelVulnerabilityReportScanner: "Trivy",
 					},
 				}},
 			).Build()
 
-			instance := jobs.NewLimitChecker(config, client, defaultTunnelOperatorConfig)
+			instance := jobs.NewLimitChecker(config, client, defaultTrivyOperatorConfig)
 			limitExceeded, jobsCount, err := instance.Check(context.TODO())
 			Expect(err).ToNot(HaveOccurred())
 			Expect(limitExceeded).To(BeTrue())
@@ -79,13 +79,13 @@ var _ = Describe("LimitChecker", func() {
 					Name:      "scan-vulnerabilityreport-hash1",
 					Namespace: "tunnel-operator",
 					Labels: map[string]string{
-						tunneloperator.LabelK8SAppManagedBy:            tunneloperator.AppTunnelOperator,
+						tunneloperator.LabelK8SAppManagedBy:            tunneloperator.AppTrivyOperator,
 						tunneloperator.LabelVulnerabilityReportScanner: "Trivy",
 					},
 				}},
 			).Build()
 
-			instance := jobs.NewLimitChecker(config, client, defaultTunnelOperatorConfig)
+			instance := jobs.NewLimitChecker(config, client, defaultTrivyOperatorConfig)
 			limitExceeded, jobsCount, err := instance.Check(context.TODO())
 			Expect(err).ToNot(HaveOccurred())
 			Expect(limitExceeded).To(BeFalse())
@@ -106,7 +106,7 @@ var _ = Describe("LimitChecker", func() {
 					Name:      "scan-vulnerabilityreport-hash1",
 					Namespace: "default",
 					Labels: map[string]string{
-						tunneloperator.LabelK8SAppManagedBy:            tunneloperator.AppTunnelOperator,
+						tunneloperator.LabelK8SAppManagedBy:            tunneloperator.AppTrivyOperator,
 						tunneloperator.LabelVulnerabilityReportScanner: "Trivy",
 					},
 				}},
@@ -114,7 +114,7 @@ var _ = Describe("LimitChecker", func() {
 					Name:      "scan-vulnerabilityreport-hash2",
 					Namespace: "prod",
 					Labels: map[string]string{
-						tunneloperator.LabelK8SAppManagedBy:            tunneloperator.AppTunnelOperator,
+						tunneloperator.LabelK8SAppManagedBy:            tunneloperator.AppTrivyOperator,
 						tunneloperator.LabelVulnerabilityReportScanner: "Trivy",
 					},
 				}},
@@ -122,12 +122,12 @@ var _ = Describe("LimitChecker", func() {
 					Name:      "scan-configauditreport-hash3",
 					Namespace: "stage",
 					Labels: map[string]string{
-						tunneloperator.LabelK8SAppManagedBy:            tunneloperator.AppTunnelOperator,
+						tunneloperator.LabelK8SAppManagedBy:            tunneloperator.AppTrivyOperator,
 						tunneloperator.LabelVulnerabilityReportScanner: "Trivy",
 					},
 				}},
 			).Build()
-			trivyOperatorConfig := defaultTunnelOperatorConfig
+			trivyOperatorConfig := defaultTrivyOperatorConfig
 			trivyOperatorConfig[tunneloperator.KeyVulnerabilityScansInSameNamespace] = "true"
 			instance := jobs.NewLimitChecker(config, client, trivyOperatorConfig)
 			limitExceeded, jobsCount, err := instance.Check(context.TODO())
@@ -151,7 +151,7 @@ var _ = Describe("LimitChecker", func() {
 					Name:      "node-collector-hash1",
 					Namespace: "tunnel-operator",
 					Labels: map[string]string{
-						tunneloperator.LabelK8SAppManagedBy:   tunneloperator.AppTunnelOperator,
+						tunneloperator.LabelK8SAppManagedBy:   tunneloperator.AppTrivyOperator,
 						tunneloperator.LabelNodeInfoCollector: "Trivy",
 					},
 				}},
@@ -159,7 +159,7 @@ var _ = Describe("LimitChecker", func() {
 					Name:      "node-collector-hash2",
 					Namespace: "tunnel-operator",
 					Labels: map[string]string{
-						tunneloperator.LabelK8SAppManagedBy:   tunneloperator.AppTunnelOperator,
+						tunneloperator.LabelK8SAppManagedBy:   tunneloperator.AppTrivyOperator,
 						tunneloperator.LabelNodeInfoCollector: "Trivy",
 					},
 				}},
@@ -167,13 +167,13 @@ var _ = Describe("LimitChecker", func() {
 					Name:      "node-collector-hash3",
 					Namespace: "tunnel-operator",
 					Labels: map[string]string{
-						tunneloperator.LabelK8SAppManagedBy:   tunneloperator.AppTunnelOperator,
+						tunneloperator.LabelK8SAppManagedBy:   tunneloperator.AppTrivyOperator,
 						tunneloperator.LabelNodeInfoCollector: "Trivy",
 					},
 				}},
 			).Build()
 
-			instance := jobs.NewLimitChecker(config, client, defaultTunnelOperatorConfig)
+			instance := jobs.NewLimitChecker(config, client, defaultTrivyOperatorConfig)
 			limitExceeded, jobsCount, err := instance.CheckNodes(context.TODO())
 			Expect(err).ToNot(HaveOccurred())
 			Expect(limitExceeded).To(BeTrue())
@@ -187,7 +187,7 @@ var _ = Describe("LimitChecker", func() {
 		It("Should return false", func() {
 			client := fake.NewClientBuilder().WithScheme(tunneloperator.NewScheme()).WithObjects().Build()
 
-			instance := jobs.NewLimitChecker(config, client, defaultTunnelOperatorConfig)
+			instance := jobs.NewLimitChecker(config, client, defaultTrivyOperatorConfig)
 			limitExceeded, jobsCount, err := instance.CheckNodes(context.TODO())
 			Expect(err).ToNot(HaveOccurred())
 			Expect(limitExceeded).To(BeFalse())

@@ -1,6 +1,6 @@
 # Manage Access to Security Reports
 
-In Tunnel-Operator security reports are stored as [CRD] instances (e.g. VulnerabilityReport and ConfigAuditReport objects).
+In Trivy-Operator security reports are stored as [CRD] instances (e.g. VulnerabilityReport and ConfigAuditReport objects).
 
 With Kubernetes [RBAC], a cluster administrator can choose the following levels of granularity to manage access to
 security reports:
@@ -205,4 +205,4 @@ system:controller:namespace-controller       namespace-controller       ServiceA
 
 [CRD]: ../docs/crds/index.md
 [RBAC]: https://kubernetes.io/docs/reference/access-authn-authz/rbac/
-[who-can]: https://github.com/aquasecurity/kubectl-who-can
+[who-can]: https://github.com.khulnasoft/kubectl-who-can

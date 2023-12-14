@@ -1,7 +1,8 @@
 # Configuration Auditing
 
+
 ## Setting
-The following flags can be set with the `tunnel-operator-trivy-config` ConfigMap in order to impact scanning
+the following flags can be set with the `tunnel-operator-trivy-cofnig` configmap in order to impact scanning
 
 | CONFIGMAP KEY                     | DEFAULT                                                                               | DESCRIPTION                                                                                                     |
 |-----------------------------------|---------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|
@@ -15,7 +16,7 @@ improperly creates a high-impact security and compliance risk. DevOps, and platf
 continuously assess build artifacts, workloads, and infrastructure against configuration hardening standards to
 remediate any violations.
 
-tunnel-operator configuration audit capabilities are purpose-built for Kubernetes environments. In particular, the Trivy
+tunnel-operator configuration audit capabilities are purpose-built for Kubernetes environments. In particular, trivy
 Operator continuously checks images, workloads, and Kubernetes infrastructure components against common configurations
 security standards and generates detailed assessment reports, which are then stored in the default Kubernetes database.
 

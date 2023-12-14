@@ -3,7 +3,6 @@ package sbomreport
 import (
 	"fmt"
 	"strings"
-	"time"
 
 	"github.com/khulnasoft/tunnel-operator/pkg/apis/khulnasoft/v1alpha1"
 	"github.com/khulnasoft/tunnel-operator/pkg/kube"
@@ -12,12 +11,9 @@ import (
 	"k8s.io/apimachinery/pkg/labels"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/util/validation"
-	"k8s.io/utils/ptr"
+	"k8s.io/utils/pointer"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
-
-	"github.com/aws/aws-sdk-go/aws/arn"
-	containerimage "github.com/google/go-containerregistry/pkg/name"
 )
 
 type ReportBuilder struct {
@@ -28,7 +24,6 @@ type ReportBuilder struct {
 	data                    v1alpha1.SbomReportData
 	resourceLabelsToInclude []string
 	additionalReportLabels  labels.Set
-	cacheTTL                *time.Duration
 }
 
 func NewReportBuilder(scheme *runtime.Scheme) *ReportBuilder {
@@ -67,11 +62,6 @@ func (b *ReportBuilder) AdditionalReportLabels(additionalReportLabels map[string
 	return b
 }
 
-func (b *ReportBuilder) CacheTTL(cacheTTL *time.Duration) *ReportBuilder {
-	b.cacheTTL = cacheTTL
-	return b
-}
-
 func (b *ReportBuilder) reportName() string {
 	kind := b.controller.GetObjectKind().GroupVersionKind().Kind
 	name := b.controller.GetName()
@@ -82,22 +72,8 @@ func (b *ReportBuilder) reportName() string {
 
 	return fmt.Sprintf("%s-%s", strings.ToLower(kind), kube.ComputeHash(name+"-"+b.container))
 }
-func ReportGlobalName(artifact string) string {
-	return kube.ComputeHash(artifact)
-}
 
-func ParseReference(ref string) (containerimage.Reference, error) {
-	if strings.HasPrefix(ref, "arn:aws:ecr") {
-		parsed, err := arn.Parse(ref)
-		if err != nil {
-			return nil, err
-		}
-		ref = parsed.Resource
-	}
-	return containerimage.ParseReference(ref)
-}
-
-func (b *ReportBuilder) NamespacedReport() (v1alpha1.SbomReport, error) {
+func (b *ReportBuilder) Get() (v1alpha1.SbomReport, error) {
 	reportLabels := map[string]string{
 		tunneloperator.LabelContainerName: b.container,
 	}
@@ -135,38 +111,6 @@ func (b *ReportBuilder) NamespacedReport() (v1alpha1.SbomReport, error) {
 	// additional RBAC permissions are not required when the OwnerReferencesPermissionsEnforcement
 	// is enabled.
 	// See https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/#ownerreferencespermissionenforcement
-	report.OwnerReferences[0].BlockOwnerDeletion = ptr.To[bool](false)
+	report.OwnerReferences[0].BlockOwnerDeletion = pointer.Bool(false)
 	return report, nil
-}
-
-func (b *ReportBuilder) Get() (v1alpha1.SbomReport, v1alpha1.ClusterSbomReport, error) {
-	report, err := b.NamespacedReport()
-	if err != nil {
-		return v1alpha1.SbomReport{}, v1alpha1.ClusterSbomReport{}, err
-	}
-	return report, b.clusterReport(), nil
-}
-
-func (b *ReportBuilder) clusterReport() v1alpha1.ClusterSbomReport {
-	artifactRef := ArtifactRef(b.data)
-	reportLabels := map[string]string{
-		tunneloperator.LabelResourceImageID: artifactRef,
-	}
-	clusterReport := v1alpha1.ClusterSbomReport{
-		ObjectMeta: metav1.ObjectMeta{
-			Name:   artifactRef,
-			Labels: reportLabels,
-		},
-		Report: b.data,
-	}
-	if b.cacheTTL != nil {
-		clusterReport.Annotations = map[string]string{
-			v1alpha1.TTLReportAnnotation: b.cacheTTL.String(),
-		}
-	}
-	return clusterReport
-}
-
-func ArtifactRef(data v1alpha1.SbomReportData) string {
-	return ReportGlobalName(fmt.Sprintf("%s/%s:%s", data.Registry.Server, strings.TrimPrefix(data.Artifact.Repository, "library/"), data.Artifact.Tag))
 }

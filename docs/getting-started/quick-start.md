@@ -5,9 +5,9 @@
 You need to have a Kubernetes cluster, and the kubectl command-line tool must be configured to communicate with your
 cluster. If you do not already have a cluster, you can create one by installing [minikube], [kind] or [microk8s], or you can use the following [Kubernetes playground].
 
-You also need the Tunnel-Operator to be installed in the `tunnel-system` namespace, e.g. with
+You also need the Trivy-Operator to be installed in the `trivy-system` namespace, e.g. with
 [kubectl](./installation/kubectl.md) or [Helm](./installation/helm.md). Let's also assume that the operator is
-configured to discover built-in Kubernetes resources in all namespaces, except `kube-system` and `tunnel-system`.
+configured to discover built-in Kubernetes resources in all namespaces, except `kube-system` and `trivy-system`.
 
 ## Workloads Scanning
 
@@ -179,7 +179,7 @@ Use `vuln` and `configaudit` as short names for `vulnerabilityreports` and `conf
 The validity period for VulnerabilityReports by setting the duration as the value of the
 `OPERATOR_SCANNER_REPORT_TTL` environment variable. The value is set to `24h` by default.
 
-The reports will be deleted after 24 hours. When a VulnerabilityReport gets deleted Tunnel-Operator will automatically rescan the resource.
+The reports will be deleted after 24 hours. When a VulnerabilityReport gets deleted Trivy-Operator will automatically rescan the resource.
 
 
 
@@ -187,7 +187,7 @@ The reports will be deleted after 24 hours. When a VulnerabilityReport gets dele
 
 - Find out how the operator scans workloads that use container images from [Private Registries].
 - By default, the operator uses Trivy as [Vulnerability Scanner] and Polaris as [Configuration Checker], but you can
-  choose other tools that are integrated with Tunnel-Operator or even implement you own plugin.
+  choose other tools that are integrated with Trivy-Operator or even implement you own plugin.
 
 [minikube]: https://minikube.sigs.k8s.io/docs/
 [kind]: https://kind.sigs.k8s.io/docs/

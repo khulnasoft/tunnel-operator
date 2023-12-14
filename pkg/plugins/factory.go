@@ -4,7 +4,7 @@ import (
 	"github.com/khulnasoft/tunnel-operator/pkg/configauditreport"
 	"github.com/khulnasoft/tunnel-operator/pkg/ext"
 	"github.com/khulnasoft/tunnel-operator/pkg/kube"
-	"github.com/khulnasoft/tunnel-operator/pkg/plugins/tunnel"
+	"github.com/khulnasoft/tunnel-operator/pkg/plugins/trivy"
 	"github.com/khulnasoft/tunnel-operator/pkg/tunneloperator"
 	"github.com/khulnasoft/tunnel-operator/pkg/vulnerabilityreport"
 	"sigs.k8s.io/controller-runtime/pkg/client"
@@ -54,7 +54,7 @@ func (r *Resolver) WithObjectResolver(objectResolver *kube.ObjectResolver) *Reso
 
 // GetVulnerabilityPlugin is a factory method that instantiates the vulnerabilityreport.Plugin.
 //
-// Tunnel-Operator currently supports Trivy scanner in Standalone and ClientServer
+// Trivy-Operator currently supports Trivy scanner in Standalone and ClientServer
 // mode.
 //
 // You could add your own scanner by implementing the vulnerabilityreport.Plugin interface.
@@ -69,7 +69,7 @@ func (r *Resolver) GetVulnerabilityPlugin() (vulnerabilityreport.Plugin, tunnelo
 		WithClient(r.client).
 		WithNamespace(r.namespace).
 		WithServiceAccountName(r.serviceAccountName).
-		WithTunnelOperatorConfig(r.config).
+		WithTrivyOperatorConfig(r.config).
 		Get()
 
 	return trivy.NewPlugin(ext.NewSystemClock(), ext.NewGoogleUUIDGenerator(), r.objectResolver), pluginContext, nil
@@ -87,7 +87,7 @@ func (r *Resolver) GetConfigAuditPlugin() (configauditreport.PluginInMemory, tun
 		WithClient(r.client).
 		WithNamespace(r.namespace).
 		WithServiceAccountName(r.serviceAccountName).
-		WithTunnelOperatorConfig(r.config).
+		WithTrivyOperatorConfig(r.config).
 		Get()
 
 	return trivy.NewTrivyConfigAuditPlugin(ext.NewSystemClock(), ext.NewGoogleUUIDGenerator(), r.objectResolver), pluginContext, nil

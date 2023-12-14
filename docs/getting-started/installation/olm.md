@@ -3,10 +3,10 @@
 The [Operator Lifecycle Manager (OLM)][olm] provides a declarative way to install and upgrade operators and their
 dependencies.
 
-You can install the Tunnel Operator from [OperatorHub.io] or [ArtifactHUB] by creating the OperatorGroup, which
-defines the Operator's multitenancy, and Subscription that links everything together to run the operator's pod.
+You can install the Trivy operator from [OperatorHub.io] or [ArtifactHUB] by creating the OperatorGroup, which
+defines the operator's multitenancy, and Subscription that links everything together to run the operator's pod.
 
-As an example, let's install the Operator from the OperatorHub catalog in the `tunnel-system` namespace and
+As an example, let's install the operator from the OperatorHub catalog in the `trivy-system` namespace and
 configure it to watch the `default` namespaces:
 
 1. Install the Operator Lifecycle Manager:
@@ -18,7 +18,7 @@ configure it to watch the `default` namespaces:
 
 2. Create the namespace to install the operator in:
    ```
-   kubectl create ns tunnel-system
+   kubectl create ns trivy-system
    ```
 3. Create the OperatorGroup to select all namespaces:
    ```
@@ -27,7 +27,7 @@ configure it to watch the `default` namespaces:
    kind: OperatorGroup
    metadata:
      name: tunnel-operator-group
-     namespace: tunnel-system
+     namespace: trivy-system
    EOF
    ```
 4. Install the operator by creating the Subscription:
@@ -37,7 +37,7 @@ configure it to watch the `default` namespaces:
    kind: Subscription
    metadata:
      name: tunnel-operator-subscription
-     namespace: tunnel-system
+     namespace: trivy-system
    spec:
      channel: alpha
      name: tunnel-operator
@@ -47,28 +47,28 @@ configure it to watch the `default` namespaces:
      config:
        env:
        - name: OPERATOR_EXCLUDE_NAMESPACES
-         value: "kube-system"
+        value: "kube-system"
    EOF
    ```
-   The operator will be installed in the `tunnel-system` namespace and will select all namespaces, except
-   `kube-system` and `tunnel-system`. 
+   The operator will be installed in the `trivy-system` namespace and will select all namespaces, except
+   `kube-system` and `trivy-system`. 
 
 5. After install, watch the operator come up using the following command:
    ```console
-   $ kubectl get clusterserviceversions -n tunnel-system
+   $ kubectl get clusterserviceversions -n trivy-system
    NAME                        DISPLAY              VERSION   REPLACES                     PHASE
-   tunnel-operator.{{ git.tag }}  Tunnel Operator   {{ git.tag[1:] }}    tunnel-operator.{{ var.prev_git_tag }}   Succeeded
+   tunnel-operator.{{ git.tag }}  Trivy Operator   {{ git.tag[1:] }}    tunnel-operator.{{ var.prev_git_tag }}   Succeeded
    ```
    If the above command succeeds and the ClusterServiceVersion has transitioned from `Installing` to `Succeeded` phase
    you will also find the operator's Deployment in the same namespace where the Subscription is:
    ```console
-   $ kubectl get deployments -n tunnel-system
+   $ kubectl get deployments -n trivy-system
    NAME                 READY   UP-TO-DATE   AVAILABLE   AGE
    tunnel-operator   1/1     1            1           11m
    ```
    If for some reason it's not ready yet, check the logs of the Deployment for errors:
    ```
-   kubectl logs deployment/tunnel-operator -n tunnel-system
+   kubectl logs deployment/tunnel-operator -n trivy-system
    ```
 
 ## Uninstall
@@ -76,10 +76,10 @@ configure it to watch the `default` namespaces:
 To uninstall the operator delete the Subscription, the ClusterServiceVersion, and the OperatorGroup:
 
 ```
-kubectl delete subscription tunnel-operator-subscription -n tunnel-system
-kubectl delete clusterserviceversion tunnel-operator.{{ git.tag }} -n tunnel-system
-kubectl delete operatorgroup tunnel-operator-group -n tunnel-system
-kubectl delete ns tunnel-system
+kubectl delete subscription tunnel-operator-subscription -n trivy-system
+kubectl delete clusterserviceversion tunnel-operator.{{ git.tag }} -n trivy-system
+kubectl delete operatorgroup tunnel-operator-group -n trivy-system
+kubectl delete ns trivy-system
 ```
 
 You have to manually delete custom resource definitions created by the OLM operator:

@@ -32,7 +32,7 @@ type checker struct {
 
 func (c *checker) Check(ctx context.Context) (bool, int, error) {
 	matchinglabels := client.MatchingLabels{
-		tunneloperator.LabelK8SAppManagedBy:            tunneloperator.AppTunnelOperator,
+		tunneloperator.LabelK8SAppManagedBy:            tunneloperator.AppTrivyOperator,
 		tunneloperator.LabelVulnerabilityReportScanner: ScannerName,
 	}
 	scanJobsCount, err := c.countJobs(ctx, matchinglabels)
@@ -45,7 +45,7 @@ func (c *checker) Check(ctx context.Context) (bool, int, error) {
 
 func (c *checker) CheckNodes(ctx context.Context) (bool, int, error) {
 	matchinglabels := client.MatchingLabels{
-		tunneloperator.LabelK8SAppManagedBy:   tunneloperator.AppTunnelOperator,
+		tunneloperator.LabelK8SAppManagedBy:   tunneloperator.AppTrivyOperator,
 		tunneloperator.LabelNodeInfoCollector: ScannerName,
 	}
 	scanJobsCount, err := c.countJobs(ctx, matchinglabels)

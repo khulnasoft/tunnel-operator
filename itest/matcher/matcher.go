@@ -12,7 +12,7 @@ import (
 	"github.com/onsi/gomega/types"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/utils/ptr"
+	"k8s.io/utils/pointer"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
 )
@@ -20,12 +20,12 @@ import (
 var (
 	trivyScanner = v1alpha1.Scanner{
 		Name:    v1alpha1.ScannerNameTrivy,
-		Vendor:  "Khulnasoft Security",
+		Vendor:  "Aqua Security",
 		Version: "0.36.0",
 	}
 	builtInScanner = v1alpha1.Scanner{
 		Name:    v1alpha1.ScannerNameTrivy,
-		Vendor:  "Khulnasoft Security",
+		Vendor:  "Aqua Security",
 		Version: "dev",
 	}
 )
@@ -75,8 +75,8 @@ func (m *vulnerabilityReportMatcher) Match(actual interface{}) (bool, error) {
 				Kind:               gvk.Kind,
 				Name:               m.owner.GetName(),
 				UID:                m.owner.GetUID(),
-				Controller:         ptr.To[bool](true),
-				BlockOwnerDeletion: ptr.To[bool](false),
+				Controller:         pointer.Bool(true),
+				BlockOwnerDeletion: pointer.Bool(false),
 			}),
 		}),
 		"Report": MatchFields(IgnoreExtras, Fields{
@@ -165,8 +165,8 @@ func (m *configAuditReportMatcher) Match(actual interface{}) (bool, error) {
 				Kind:               gvk.Kind,
 				Name:               m.owner.GetName(),
 				UID:                m.owner.GetUID(),
-				Controller:         ptr.To[bool](true),
-				BlockOwnerDeletion: ptr.To[bool](false),
+				Controller:         pointer.Bool(true),
+				BlockOwnerDeletion: pointer.Bool(false),
 			}),
 		}),
 		"Report": MatchFields(IgnoreExtras, Fields{

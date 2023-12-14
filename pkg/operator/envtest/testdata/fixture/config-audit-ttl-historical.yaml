@@ -36,7 +36,7 @@ report:
       title: The default namespace should not be used
   scanner:
     name: Trivy
-    vendor: Khulnasoft Security
+    vendor: Aqua Security
     version: dev
   summary:
     criticalCount: 0

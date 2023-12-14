@@ -1,9 +1,9 @@
 # Kubernetes InfraAssessmentReport
 
-An instance of the InfraAssessmentReport represents checks performed by [Trivy](https://github.com/aquasecurity/trivy), 
-against a Kubernetes infra core components (etcd, apiserver, scheduler, controller-manager and etc) setting and configuration.
+An instance of the InfraAssessmentReport represents checks performed by [Trivy], 
+against a Kubernetes infra core components (etcd,apiserver,scheduler,controller-manager and etc) setting and configuration.
 
-The performed checks are based on the K8s [CIS-Benchmarks](https://www.cisecurity.org/benchmark/kubernetes) controls and more.
+The performed checks are based on the k8s [cis-benchmarks](https://www.cisecurity.org/benchmark/kubernetes) controls and more.
 
 For example, check that api-server `Ensure that the --authorization-mode argument is not set to AlwaysAllow`.
 
@@ -403,7 +403,7 @@ report:
     title: Ensure that the --root-ca-file argument is set as appropriate
   scanner:
     name: Trivy
-    vendor: Khulnasoft Security
+    vendor: Aqua Security
     version: dev
   summary:
     criticalCount: 0

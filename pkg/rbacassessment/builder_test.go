@@ -12,7 +12,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/labels"
 	"k8s.io/client-go/kubernetes/scheme"
-	"k8s.io/utils/ptr"
+	"k8s.io/utils/pointer"
 )
 
 func TestReportBuilder(t *testing.T) {
@@ -74,8 +74,8 @@ func TestReportBuilder(t *testing.T) {
 						APIVersion:         "rbac.authorization.k8s.io/v1",
 						Kind:               "Role",
 						Name:               "some-Owner",
-						Controller:         ptr.To[bool](true),
-						BlockOwnerDeletion: ptr.To[bool](false),
+						Controller:         pointer.Bool(true),
+						BlockOwnerDeletion: pointer.Bool(false),
 					},
 				},
 				Labels: map[string]string{
@@ -121,8 +121,8 @@ func TestReportBuilder(t *testing.T) {
 						APIVersion:         "rbac.authorization.k8s.io/v1",
 						Kind:               "ClusterRole",
 						Name:               "system:controller:node-controller",
-						Controller:         ptr.To[bool](true),
-						BlockOwnerDeletion: ptr.To[bool](false),
+						Controller:         pointer.Bool(true),
+						BlockOwnerDeletion: pointer.Bool(false),
 					},
 				},
 				Labels: map[string]string{
@@ -152,8 +152,8 @@ func rbacReport() v1alpha1.RbacAssessmentReport {
 					APIVersion:         "rbac.authorization.k8s.io/v1",
 					Kind:               "Role",
 					Name:               "some-owner",
-					Controller:         ptr.To[bool](true),
-					BlockOwnerDeletion: ptr.To[bool](false),
+					Controller:         pointer.Bool(true),
+					BlockOwnerDeletion: pointer.Bool(false),
 				},
 			},
 			Labels: map[string]string{

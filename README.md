@@ -1,4 +1,4 @@
-![Tunnel-operator logo](docs/images/tunnel-operator-logo.png)
+![Trivy-operator logo](docs/images/tunnel-operator-logo.png)
 
 > Kubernetes-native security toolkit. ([Documentation](https://khulnasoft.github.io/tunnel-operator/latest))
 
@@ -8,7 +8,7 @@
 [![Go Report Card][report-card-img]][report-card]
 [![License][license-img]][license]
 [![GitHub All Releases][github-all-releases-img]][release]
-![Docker Pulls Tunnel-operator][docker-pulls-tunnel-operator]
+![Docker Pulls Trivy-operator][docker-pulls-tunnel-operator]
 <a href="https://slack.aquasec.com/?_ga=2.51428586.2119512742.1655808394-1739877964.1641199050">
 <img src="https://img.shields.io/static/v1?label=Slack&message=Join+our+Community&color=4a154b&logo=slack">
 </a>
@@ -16,12 +16,16 @@
 
 # Introduction
 
-The Tunnel Operator leverages [Trivy](https://github.com/aquasecurity/trivy) to continuously scan your Kubernetes cluster for security issues. The scans are summarised in security reports as Kubernetes [Custom Resource Definitions](crd), which become accessible through the Kubernetes API. The Operator does this by watching Kubernetes for state changes and automatically triggering security scans in response. For example, a vulnerability scan is initiated when a new Pod is created.
-This way, users can find and view the risks that relate to different resources in a `Kubernetes-native` way.
+There are lots of security tools in the cloud native world, created by Aqua and by others, for identifying and informing
+users about security issues in Kubernetes workloads and infrastructure components. However powerful and useful they
+might be, they tend to sit alongside Kubernetes, with each new product requiring users to learn a separate set of
+commands and installation steps in order to operate them and find critical security information.
 
-## In-cluster Security Scans 
+The Trivy-Operator leverages trivy security tools by incorporating their outputs into Kubernetes CRDs
+(Custom Resource Definitions) and from there, making security reports accessible through the Kubernetes API. This way
+users can find and view the risks that relate to different resources in what we call a Kubernetes-native way.
 
-The Tunnel Operator automatically generates and updates security reports. These reports are generated in response to new workload and other changes on a Kubernetes cluster, generating the following reports:
+The Trivy operator automatically updates security reports in response to workload and other changes on a Kubernetes cluster, generating the following reports:
 
 - Vulnerability Scans: Automated vulnerability scanning for Kubernetes workloads.
 - ConfigAudit Scans: Automated configuration audits for Kubernetes resources with predefined rules or custom Open Policy Agent (OPA) policies.
@@ -34,60 +38,39 @@ The Tunnel Operator automatically generates and updates security reports. These 
   - CIS Kubernetes Benchmark v1.23 cybersecurity technical report is produced.
   - Kubernetes pss-baseline, Pod Security Standards
   - Kubernetes pss-restricted, Pod Security Standards
-- SBOM (Software Bill of Materials genertations) for Kubernetes workloads.
+- SBOM (software bill of materials genertations) for Kubernetes workloads.
 
 <p align="center">
-<img src="docs/images/tunnel-operator-overview.png" alt="Tunnel-operator Overview"/>
+<img src="docs/images/tunnel-operator-overview.png" alt="Trivy-operator Overview"/>
 </p>
 
 _Please [star ⭐](https://github.com/khulnasoft/tunnel-operator/stargazers) the repo if you want us to continue developing and improving tunnel-operator! 😀_
 
-## Usage
 
-The official [Documentation] provides detailed installation, configuration, troubleshooting, and quick start guides.
-
-You can install the Tunnel-operator Operator with [Static YAML Manifests] and follow the [Getting Started][getting-started-operator]
-guide to see how vulnerability and configuration audit reports are generated automatically.
-
-### Quick Start
-
-The Tunnel Operator can be installed easily through the [Helm Chart](https://khulnasoft.github.io/tunnel-operator/latest/getting-started/installation/helm/):
-
-Add the Aqua chart repository:
-
-```sh
-   helm repo add aqua https://khulnasoft.github.io/helm-charts/
-   helm repo update
-```
-
-Install the Helm Chart:
-
-```sh
-   helm install tunnel-operator aqua/tunnel-operator \
-     --namespace tunnel-system \
-     --create-namespace \
-     --version 0.18.4
-```
-
-This will install the Trivy Helm Chart into the `tunnel-system` namespace and start triggering the scans.
-
-## Status
+# Status
 
 Although we are trying to keep new releases backward compatible with previous versions, this project is still incubating,
 and some APIs and [Custom Resource Definitions] may change.
 
-## Contributing
+# Usage
 
-At this early stage we would love your feedback on the overall concept of Tunnel-Operator. Over time, we'd love to see
+The official [Documentation] provides detailed installation, configuration, troubleshooting, and quick start guides.
+
+You can install the Trivy-operator Operator with [Static YAML Manifests] and follow the [Getting Started][getting-started-operator]
+guide to see how vulnerability and configuration audit reports are generated automatically.
+
+# Contributing
+
+At this early stage we would love your feedback on the overall concept of Trivy-Operator. Over time, we'd love to see
 contributions integrating different security tools so that users can access security information in standard,
 Kubernetes-native ways.
 
 * See [Contributing] for information about setting up your development environment, and the contribution workflow that
   we expect.
-* Please ensure that you are following our [Code Of Conduct](https://github.com/aquasecurity/community/blob/main/CODE_OF_CONDUCT.md) during any interaction with the Aqua projects and their community.
+* Please ensure that you are following our [Code Of Conduct](https://github.com.khulnasoft/community/blob/main/CODE_OF_CONDUCT.md) during any interaction with the Aqua projects and their community.
 
 ---
-Tunnel-Operator is an [Khulnasoft Security](https://khulnasoft.com) open source project.  
+Trivy-Operator is an [Aqua Security](https://aquasec.com) open source project.  
 Learn about our [Open Source Work and Portfolio].  
 Join the community, and talk to us about any matter in [GitHub Discussions] or [Slack].
 
