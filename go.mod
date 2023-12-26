@@ -75,7 +75,7 @@ require (
 	github.com/aquasecurity/trivy-java-db v0.0.0-20230209231723-7cddb1406728 // indirect
 	github.com/aquasecurity/trivy-policies v0.6.1-0.20231120231532-f6f2330bf842 // indirect
 	github.com/asaskevich/govalidator v0.0.0-20230301143203-a9d515a09cc2 // indirect
-	github.com/aws/aws-sdk-go v1.48.4 // indirect
+	github.com/aws/aws-sdk-go v1.49.3 // indirect
 	github.com/aws/aws-sdk-go-v2 v1.22.1 // indirect
 	github.com/aws/aws-sdk-go-v2/config v1.18.45 // indirect
 	github.com/aws/aws-sdk-go-v2/credentials v1.13.43 // indirect
