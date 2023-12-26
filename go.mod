@@ -3,7 +3,7 @@ module github.com/khulnasoft/tunnel-operator
 go 1.20
 
 require (
-	github.com/CycloneDX/cyclonedx-go v0.7.2
+	github.com/CycloneDX/cyclonedx-go v0.8.0
 	github.com/aquasecurity/defsec v0.93.2-0.20231120220217-6818261529c8
 	github.com/aquasecurity/trivy v0.48.0
 	github.com/aquasecurity/trivy-kubernetes v0.5.9-0.20231203080602-50a069120091
