@@ -1,0 +1,17 @@
+---
+apiVersion: khulnasoft.github.io/v1alpha1
+kind: ExposedSecretReport
+metadata:
+  labels:
+    team: rnd
+    myname: test
+  name: pod-my-pod-app
+report:
+  artifact:
+    repository: library/nginx
+    tag: 1.14.2
+  registry:
+    server: index.docker.io
+  scanner:
+    name: Tunnel
+    vendor: Khulnasoft Security

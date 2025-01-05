@@ -1,0 +1,11 @@
+{{- if .Values.tunnel.externalRegoPoliciesEnabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tunnel-operator-policies-config
+  namespace: {{ include "tunnel-operator.namespace" . }}
+  labels:
+    {{- include "tunnel-operator.labels" . | nindent 4 }}
+data:
+  {{- .Values.tunnelOperator.policiesConfig | nindent 2 }}
+{{- end }}

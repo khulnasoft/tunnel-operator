@@ -1,0 +1,16 @@
+---
+apiVersion: kuttl.dev/v1beta1
+commands:
+  - script: >
+      name="$(kubectl get clustervulnerabilityreports.khulnasoft.github.io clustersbomreport-6789697bc-k8s-cluster \
+        -o=jsonpath='{.metadata.name}')"
+      if [ $name = "clustersbomreport-6789697bc-k8s-cluster" ]
+
+      then
+        echo "Pass: ClusterVulnerabilityReport was created successfully"
+      else
+        echo "Fail: ClusterVulnerabilityReport name doesn't exist"
+        exit 1
+      fi
+kind: TestAssert
+timeout: 240
